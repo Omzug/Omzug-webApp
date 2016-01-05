@@ -4,7 +4,9 @@ import {increment} from 'redux/modules/counter';
 
 @connectMultireducer(
   state => ({count: state.count}),
-  {increment})
+  {increment}
+)
+
 export default class CounterButton extends Component {
   static propTypes = {
     count: PropTypes.number,

@@ -29,6 +29,7 @@ class _ApiClient {
           request.query(params);
         }
 
+        // pass along the session cookie to the API server to maintain session state.
         if (__SERVER__ && req.get('cookie')) {
           request.set('cookie', req.get('cookie'));
         }

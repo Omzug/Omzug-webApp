@@ -63,10 +63,13 @@ app.use((req, res) => {
     // hot module replacement is enabled in the development env
     webpackIsomorphicTools.refresh();
   }
+
+  // instantiate api client
   const client = new ApiClient(req);
 
   const store = createStore(reduxReactRouter, getRoutes, createHistory, client);
 
+  // render without component, disable server side rendering
   function hydrateOnClient() {
     res.send('<!doctype html>\n' +
       ReactDOM.renderToString(<Html assets={webpackIsomorphicTools.assets()} store={store}/>));
