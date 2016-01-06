@@ -2,11 +2,11 @@ import { combineReducers } from 'redux';
 import multireducer from 'multireducer';
 import { routerStateReducer } from 'redux-router';
 
-import auth from './auth';
-import counter from './counter';
+import auth from './modules/auth';
+import counter from './modules/counter';
 import {reducer as form} from 'redux-form';
-import info from './info';
-import widgets from './widgets';
+import info from './modules/info';
+import widgets from './modules/widgets';
 
 export default combineReducers({
   router: routerStateReducer,
