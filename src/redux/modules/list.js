@@ -17,13 +17,12 @@ const initState = {
 export default function reducer(state = initState, action = {}) {
   switch (action.type) {
     case GETLIST :
-      return {
+      return [
         ...state,
-        list: {
-          a: 'good',
-          b: 'bad'
+        {
+          a: 'good'
         }
-      };
+      ];
     default : return state;
   }
 }

@@ -8,7 +8,7 @@ import {bindActionCreators} from 'redux';
 
 @connect(
   state => ({ list: state.list}),
-  dispatch => bindActionCreators(getList, dispatch)
+  dispatch => bindActionCreators({getList}, dispatch)
 )
 export default class Entities extends Component {
   static propTypes = {
@@ -17,7 +17,7 @@ export default class Entities extends Component {
   };
 
   render() {
-    const { getList, list } = this.props; // eslint-disable-line no-shadow
+    const { list, getList } = this.props; // eslint-disable-line no-shadow
     return (
       <div>
         <h1>HauseList</h1>

@@ -5,8 +5,8 @@ import {load} from 'redux/modules/info';
 
 @connect(
     state => ({info: state.info.data}),
-    dispatch => bindActionCreators({load}, dispatch))
-
+    dispatch => bindActionCreators({load}, dispatch)
+)
 export default class InfoBar extends Component {
   static propTypes = {
     info: PropTypes.object,
