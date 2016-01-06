@@ -1,0 +1,8 @@
+{
+  "router" : "routerStateReducer",
+  "auth"   : {
+    "loaded"  : "Boolean",
+    "loading" : "Boolean",
+    "user"    : "Object"
+  }
+}
