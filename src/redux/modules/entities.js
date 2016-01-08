@@ -12,7 +12,6 @@ export function getList(number) {
 }
 
 const initState = {
-  entities:[],
   touched : "bad",
   number : 0
 };

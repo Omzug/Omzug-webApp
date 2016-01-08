@@ -5,11 +5,12 @@ import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {getList} from 'redux/modules/entities';
 import {bindActionCreators} from 'redux';
+import { LinkContainer } from 'react-router-bootstrap';
 
 @connect(
   state => ({
-    touched: state.list.touched,
-    number : state.list.number
+    touched: state.entities.touched,
+    number : state.entities.number
   }),
   dispatch => bindActionCreators({getList}, dispatch)
 )
@@ -20,23 +21,23 @@ export default class Entities extends Component {
     getList: PropTypes.func.isRequired
   };
 
+  addNumber = (event)=> {
+    event.preventDefault();
+    this.props.getList(1)
+  }
+
   render() {
     const { touched, number, getList } = this.props;
     return (
       <div>
         <h1>HauseList</h1>
-        <button className="" onClick={getList(1)}
-        >
+        <button className="" onClick={this.addNumber}>
           whether your button is touched is: { touched }, and click time is { number }
         </button>
         <div className="container">
-          <div>
-            {/* use Link to route around the app */}
-            {/* this.state.entities.map(entity => (
-             <Link to={`/user/${user.id}`}>{user.name}</Link>
-             )) */            }
-
-          </div>
+          <LinkContainer to={`/entities/${number}`}>
+            <button>link to entity with number {number}</button>
+          </LinkContainer>
         </div>
         <div className="detail">
         </div>
