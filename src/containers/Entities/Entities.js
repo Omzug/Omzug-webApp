@@ -3,26 +3,31 @@
  */
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
-import {getList} from 'redux/modules/list';
+import {getList} from 'redux/modules/entities';
 import {bindActionCreators} from 'redux';
 
 @connect(
-  state => ({ list: state.list}),
+  state => ({
+    touched: state.list.touched,
+    number : state.list.number
+  }),
   dispatch => bindActionCreators({getList}, dispatch)
 )
 export default class Entities extends Component {
   static propTypes = {
-    list: PropTypes.object,
+    touched: PropTypes.string,
+    number : PropTypes.number,
     getList: PropTypes.func.isRequired
   };
 
   render() {
-    const { list, getList } = this.props; // eslint-disable-line no-shadow
+    const { touched, number, getList } = this.props;
     return (
       <div>
         <h1>HauseList</h1>
-        <button className="" onClick={getList}>
-          You get list is {list}
+        <button className="" onClick={getList(1)}
+        >
+          whether your button is touched is: { touched }, and click time is { number }
         </button>
         <div className="container">
           <div>
