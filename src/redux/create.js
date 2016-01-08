@@ -3,8 +3,11 @@ import createMiddleware from './middleware/clientMiddleware';
 import transitionMiddleware from './middleware/transitionMiddleware';
 
 export default function createStore(reduxReactRouter, getRoutes, createHistory, client, data) {
+
+  // define middleware
   const middleware = [createMiddleware(client), transitionMiddleware];
 
+  // create with redux dev tools
   let finalCreateStore;
   if (__DEVELOPMENT__ && __CLIENT__ && __DEVTOOLS__) {
     const { persistState } = require('redux-devtools');

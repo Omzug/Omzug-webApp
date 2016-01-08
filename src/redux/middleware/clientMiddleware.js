@@ -22,6 +22,7 @@ export default function clientMiddleware(client) {
         return action(dispatch, getState);
       }
 
+      // then action is an array
       const { promise, types, ...rest } = action; // eslint-disable-line no-redeclare
       if (!promise) {
         return next(action);

@@ -2,7 +2,7 @@
   "env": {
     "browser": false,
     "node": false,
-    "mocha": true
+    "mocha": false
   },
   "rules": {
     "semi" : 0,
@@ -25,6 +25,8 @@
     "no-console": 0,
     "no-alert": 0,
     "no-unused-vars": 0,
+    "space-before-blocks" :0,
+    "spaced-comment":0
   },
   "plugins": [
     "react", "import"
