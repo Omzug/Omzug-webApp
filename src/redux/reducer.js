@@ -8,6 +8,7 @@ import {reducer as form} from 'redux-form';
 import info from './modules/info';
 import widgets from './modules/widgets';
 import entities from './modules/entities';
+import entity from './modules/entity'
 
 export default combineReducers({
   router: routerStateReducer,
@@ -20,5 +21,6 @@ export default combineReducers({
   }),
   info,
   widgets,
-  entities
+  entities,
+  entity
 });

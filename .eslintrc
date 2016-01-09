@@ -26,7 +26,8 @@
     "no-alert": 0,
     "no-unused-vars": 0,
     "space-before-blocks" :0,
-    "spaced-comment":0
+    "spaced-comment":0,
+    "eol-last" : 0
   },
   "plugins": [
     "react", "import"
