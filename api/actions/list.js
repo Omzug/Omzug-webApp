@@ -15,6 +15,7 @@ export default function listHause(req, params) {
     setTimeout(()=>{
       resolve({
         entities : result,
+        id : params[0],//which should be a string
         time: Date.now()
       });
     },1000)

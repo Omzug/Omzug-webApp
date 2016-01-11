@@ -1,6 +1,8 @@
 import React from 'react';
 import {IndexRoute, Route} from 'react-router';
+import {pushState} from 'redux-router'
 import { isLoaded as isAuthLoaded, load as loadAuth } from 'redux/modules/auth';
+import {clear as clearEntity} from 'redux/modules/entity';
 import {
     App,
     Chat,
@@ -33,6 +35,18 @@ export default (store) => {
     }
   };
 
+  const logNextState = (nextState, replaceState, cb) => {
+    const entityNow = store.getState().entity;
+    console.log('next state is', nextState.params, typeof nextState.params.entityId,
+      "\n loadedId :", entityNow.loadedId, typeof entityNow.loadedId)
+    //only clear cache if the id is not the same as before
+    if(entityNow.loaded && entityNow.loadedId !== nextState.params.entityId) {
+      console.log('should be cleared')
+      store.dispatch(clearEntity())
+    }
+    cb();
+  }
+
   /**
    * Please keep routes in alphabetical order
    */
@@ -50,7 +64,7 @@ export default (store) => {
       { /* Routes */ }
       <Route path="about" component={About}/>
       <Route path="entities" component={Entities}/>
-      <Route path="entities/:entityId" component={Entity}/>
+      <Route path="entities/:entityId" component={Entity} onEnter={logNextState}/>
       <Route path="login" component={Login}/>
       <Route path="survey" component={Survey}/>
       <Route path="widgets" component={Widgets}/>

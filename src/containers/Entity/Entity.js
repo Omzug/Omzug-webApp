@@ -6,18 +6,23 @@ import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {getList} from 'redux/modules/entities';
 import {bindActionCreators} from 'redux';
-import {isLoaded, load as loadEntity} from "redux/modules/entity"
+import {isLoaded, load as loadEntity, clear as clearEntity} from "redux/modules/entity"
 import * as entityActions from 'redux/modules/entity';
 import connectData from 'helpers/connectData';
 
 function fetchDataDeferred(getState, dispatch) {
   if (!isLoaded(getState())) {
-    console.log("state is", getState().router.params)
+    console.log("after load we get state:", getState().router)
     return dispatch(loadEntity(getState().router.params.entityId));
   }
 }
 
-@connectData(null, fetchDataDeferred)
+//get the params only after page loaded
+function checkState(getState, dispatch){
+  console.log('before load we get state: ', getState().router)
+}
+
+@connectData(checkState, fetchDataDeferred)
 @connect(
   state => ({
     entity: state.entity.data,
