@@ -11,6 +11,8 @@ import { pushState } from 'redux-router';
 import connectData from 'helpers/connectData';
 import config from '../../config';
 
+
+//load authentication data when loaded
 function fetchData(getState, dispatch) {
   const promises = [];
   if (!isInfoLoaded(getState())) {
@@ -73,32 +75,45 @@ export default class App extends Component {
 
           <Navbar.Collapse eventKey={0}>
             <Nav navbar>
-              {user && <LinkContainer to="/chat">
+              {!config.isDebug &&
+               user &&
+              <LinkContainer to="/chat">
                 <NavItem eventKey={1}>Chat</NavItem>
               </LinkContainer>}
-
+              {!config.isDebug &&
               <LinkContainer to="/widgets">
                 <NavItem eventKey={2}>Widgets</NavItem>
               </LinkContainer>
+              }
+              {!config.isDebug &&
               <LinkContainer to="/survey">
                 <NavItem eventKey={3}>Survey</NavItem>
               </LinkContainer>
+              }
+              {!config.isDebug &&
               <LinkContainer to="/about">
-                <NavItem eventKey={4}>About Us</NavItem>
+              <NavItem eventKey={4}>About Us</NavItem>
               </LinkContainer>
+              }
+
+              {!config.isDebug &&
               <LinkContainer to="/entities">
                 <NavItem eventKey={5}>Hauses</NavItem>
               </LinkContainer>
+              }
+
               {!user &&
-              <LinkContainer to="/login">
+                <LinkContainer to="/login">
                 <NavItem eventKey={6}>Login</NavItem>
-              </LinkContainer>}
+                </LinkContainer>}
               {user &&
-              <LinkContainer to="/logout">
+                <LinkContainer to="/logout">
                 <NavItem eventKey={7} className="logout-link" onClick={this.handleLogout}>
-                  Logout
+                Logout
                 </NavItem>
-              </LinkContainer>}
+                </LinkContainer>
+              }
+
             </Nav>
             {user &&
             <p className={styles.loggedInMessage + ' navbar-text'}>Logged in as <strong>{user.name}</strong>.</p>}
@@ -116,10 +131,8 @@ export default class App extends Component {
         <InfoBar/>
 
         <div className="well text-center">
-          Have questions? Ask for help <a
-          href="https://github.com/erikras/react-redux-universal-hot-example/issues"
-          target="_blank">on Github</a> or in the <a
-          href="https://discord.gg/0ZcbPKXt5bZZb1Ko" target="_blank">#react-redux-universal</a> Discord channel.
+          Have questions? Ask for help <a href="https://github.com/hanwencheng" target="_blank">
+          on Github</a>
         </div>
       </div>
     );
