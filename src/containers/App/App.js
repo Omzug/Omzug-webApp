@@ -97,7 +97,7 @@ export default class App extends Component {
               }
 
               {!config.isDebug &&
-              <LinkContainer to="/entities">
+              <LinkContainer to="/main">
                 <NavItem eventKey={5}>Hauses</NavItem>
               </LinkContainer>
               }

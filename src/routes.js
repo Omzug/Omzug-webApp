@@ -36,6 +36,23 @@ export default (store) => {
     }
   };
 
+  const checkUser = (nextState, replaceState, cb) => {
+    function checkAuth() {
+      const { auth: { user }} = store.getState();
+      if (!user) {
+        // oops, not logged in, so can't be here!
+        replaceState(null, '/main');
+      }
+      cb();
+    }
+
+    if (!isAuthLoaded(store.getState())) {
+      store.dispatch(loadAuth()).then(checkAuth);
+    } else {
+      checkAuth();
+    }
+  }
+
   const requireDev = (nextState, replaceState, cb) => {
     if(config.isDebug){
       cb()
@@ -62,7 +79,7 @@ export default (store) => {
   return (
     <Route path="/" component={App}>
       { /* Home (main) route */ }
-      <IndexRoute component={Home}/>
+      <IndexRoute component={Home} onEnter={checkUser}/>
 
 
       { /* Routes requiring login */ }
@@ -73,7 +90,7 @@ export default (store) => {
 
       { /* Routes */ }
       <Route path="about" component={About}/>
-      <Route path="entities" component={Entities}/>
+      <Route path="main" component={Entities}/>
       <Route path="entities/:entityId" component={Entity} onEnter={logNextState}/>
       <Route path="login" component={Login}/>
       <Route path="survey" component={Survey}/>
