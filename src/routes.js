@@ -3,6 +3,7 @@ import {IndexRoute, Route} from 'react-router';
 import {pushState} from 'redux-router'
 import { isLoaded as isAuthLoaded, load as loadAuth } from 'redux/modules/auth';
 import {clear as clearEntity} from 'redux/modules/entity';
+import config from './config.js'
 import {
     App,
     Chat,
@@ -35,8 +36,15 @@ export default (store) => {
     }
   };
 
+  const requireDev = (nextState, replaceState, cb) => {
+    if(config.isDebug){
+      cb()
+    }
+  }
+
   const logNextState = (nextState, replaceState, cb) => {
     const entityNow = store.getState().entity;
+    console.log('environment is', config.isDebug)
     console.log('next state is', nextState.params, typeof nextState.params.entityId,
       "\n loadedId :", entityNow.loadedId, typeof entityNow.loadedId)
     //only clear cache if the id is not the same as before
@@ -45,7 +53,8 @@ export default (store) => {
       store.dispatch(clearEntity())
     }
     cb();
-  }
+  };
+
 
   /**
    * Please keep routes in alphabetical order
@@ -54,6 +63,7 @@ export default (store) => {
     <Route path="/" component={App}>
       { /* Home (main) route */ }
       <IndexRoute component={Home}/>
+
 
       { /* Routes requiring login */ }
       <Route onEnter={requireLogin}>
