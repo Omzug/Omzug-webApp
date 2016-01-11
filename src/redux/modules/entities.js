@@ -2,28 +2,57 @@
  * Created by hanwencheng on 1/6/16.
  */
 
-export const GETLIST = 'Nevermind/entities/GETLIST';
+const LOAD = 'Nevermind/entityList/LOAD';
+const LOAD_SUCCESS = 'Nevermind/entityList/LOAD_SUCCESS';
+const LOAD_FAIL = 'Nevermind/entityList/LOAD_FAIL';
+const CLEAR = 'Nevermind/entityList/CLEAR'
 
-export function getList(number) {
+export function load(){
   return {
-    type: GETLIST,
-    number : number
+    types: [LOAD, LOAD_SUCCESS, LOAD_FAIL],
+    promise: (client) => {
+      let url = '/list'
+      return client.get(url)
+    } // params not used, just shown as demonstration
   };
 }
 
+export function isLoaded(globalState) {
+  return globalState.entity && globalState.entity.loaded;
+}
+
 const initState = {
-  touched : "bad",
-  number : 0
+  list :[]
 };
 
 export default function reducer(state = initState, action = {}) {
   switch (action.type) {
-    case GETLIST :
-      const number = state.number + action.number;
+    case LOAD:
       return {
-        touched : "good",
-        number : number
+        ...state,
+        loading: true
       };
+    case LOAD_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        loaded: true,
+        data: action.result,
+        error: null
+      };
+    case LOAD_FAIL:
+      return {
+        ...state,
+        loading: false,
+        loaded: false,
+        data: null,
+        error: action.error
+      };
+    case CLEAR:
+      return {
+        initState
+      }
     default : return state;
   }
 }
+

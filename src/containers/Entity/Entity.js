@@ -29,7 +29,7 @@ function checkState(getState, dispatch){
     error: state.entity.error,
     loading: state.entity.loading
   }),
-  {entityActions}
+  {entityActions, clearEntity}
 )
 export default class Entity extends Component {
   //componentDidMount() {
@@ -40,11 +40,12 @@ export default class Entity extends Component {
   static propTypes = {
     entity: PropTypes.object,
     error: PropTypes.string,
-    loading: PropTypes.bool
+    loading: PropTypes.bool,
+    clearEntity : PropTypes.func.isRequired
   }
 
   render(){
-    const {entity, error, loading} = this.props;
+    const {entity, error, loading, clearEntity} = this.props;
     let refreshClassName = 'fa fa-refresh';
     if (loading) {
       refreshClassName += ' fa-spin';
@@ -52,15 +53,15 @@ export default class Entity extends Component {
 
     return (
       <div>
-        <button className={refreshClassName}>click to refresh</button>
+        <button className={refreshClassName} onClick={clearEntity}>click to clear the history</button>
       { entity && entity.entities.length ?
         <div>
           entity is not empty
-          {entity.entities.map((hause, i) =>
+          {entity.entities.map((hause, index) =>
             hause.indexOf("2") >= 0  ?
-              <div key={i}>number 2 with hause: {hause}</div>
+              <div key={index}>number 2 with hause: {hause}</div>
               :
-              <div key={i}>this is not number2 with hause: {hause}</div>
+              <div key={index}>this is not number2 with hause: {hause}</div>
           )}
         </div>
         :

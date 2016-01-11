@@ -23,7 +23,9 @@
     "no-unused-vars": 0,
     "space-before-blocks" :0,
     "spaced-comment":0,
-    "eol-last" : 0
+    "eol-last" : 0,
+    "space-after-keywords" : 0,
+    "no-multi-spaces" : 0
   },
   "plugins": [
     "react", "import"

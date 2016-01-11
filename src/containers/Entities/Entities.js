@@ -3,37 +3,53 @@
  */
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
-import {getList} from 'redux/modules/entities';
+import {isLoaded, load as getList} from 'redux/modules/entities';
 import {bindActionCreators} from 'redux';
 import { LinkContainer } from 'react-router-bootstrap';
+import connectData from 'helpers/connectData';
+
+function fetchDataDeferred(getState, dispatch) {
+  if (!isLoaded(getState())) {
+    console.log("after load we get state:", getState().router)
+    return dispatch(getList());
+  }
+}
+
+@connectData(null, fetchDataDeferred)
 
 @connect(
   state => ({
-    touched: state.entities.touched,
-    number : state.entities.number
+    entities: state.entities.data.list,
+    number : state.entities.data.number
   }),
-  dispatch => bindActionCreators({getList}, dispatch)
+  {getList}
+  //dispatch => bindActionCreators({getList}, dispatch)
 )
 export default class Entities extends Component {
   static propTypes = {
-    touched: PropTypes.string,
+    entities: PropTypes.array,
     number : PropTypes.number,
     getList: PropTypes.func.isRequired
   };
 
   addNumber = (event)=> {
     event.preventDefault();
-    this.props.getList(1)
+    this.props.getList()
   }
 
   render() {
-    const { touched, number, getList } = this.props;
+    const { entities, number, getList } = this.props;
+    console.log('entities are', entities)
     return (
       <div>
         <h1>HauseList</h1>
-        <button className="" onClick={this.addNumber}>
-          whether your button is touched is: { touched }, and click time is { number }
+        <button className="" onClick={getList}>
         </button>
+        <div className="container">
+          {entities && entities.map((unit, index)=>
+          <p key={index}>element is {unit} </p>
+        )}
+        </div>
         <div className="container">
           <LinkContainer to={`/entities/${number}`}>
             <button>link to entity with number {number}</button>
