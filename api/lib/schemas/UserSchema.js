@@ -4,11 +4,35 @@
 //effect the computation time, the round of iteration
 const SALT_WORK_FACTOR = 10;
 var bcrypt = require('bcrypt');
+var validate = require('mongoose-validator');
+
+//refer to validator here : https://github.com/chriso/validator.js/#validators
+
+var nameValidator = [
+  validate({
+    validator: 'isLength',
+    arguments: [6, 50],
+    message: 'Name should be between {ARGS[0]} and {ARGS[1]} characters'
+  }),
+  validate({
+    validator: 'isAlphanumeric',
+    passIfEmpty: true,
+    message: 'Name should contain alpha-numeric characters only'
+  })
+]
+
+var passwordValidator =
+  validate({
+    validator: 'isAlphanumeric',
+    arguments: [6, 50],
+    message: 'Password should be between {ARGS[0]} and {ARGS[1]} characters, and only with numbers and alphabets'
+  })
+
 
 module.exports =  function(Schema, collectionName){
   var UserSchema = new Schema({
-    username: { type: String, required: true, index: { unique: true } },
-    password: { type: String, required: true }
+    username: { type: String, required: true, index: { unique: true } , validate: nameValidator},
+    password: { type: String, required: true, validate: nameValidator }
   },{ strict : true, collection : collectionName});
 
   UserSchema.pre('save', function(next) {

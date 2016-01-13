@@ -67,6 +67,12 @@ export default class Entity extends Component {
         :
         <div>entity is empty</div>
       }
+        {error &&
+        <div className="alert alert-danger" role="alert">
+          <span className="glyphicon glyphicon-exclamation-sign" aria-hidden="true">b</span>
+          {' '}
+          {error}
+        </div>}
       </div>
     )
   }

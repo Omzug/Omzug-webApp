@@ -82,10 +82,10 @@
     }
   },
   "dependencies": {
+    "async": "^1.5.2",
     "babel": "~5.8.29",
     "babel-plugin-typecheck": "^2.0.0",
     "bcrypt": "^0.8.5",
-    "bluebird": "^3.1.1",
     "body-parser": "^1.14.1",
     "compression": "^1.6.0",
     "express": "^4.13.3",
@@ -101,6 +101,7 @@
     "lru-memoize": "^1.0.0",
     "map-props": "^1.0.0",
     "mongoose": "^4.3.5",
+    "mongoose-validator": "^1.2.4",
     "multireducer": "^1.0.2",
     "piping": "^0.3.0",
     "pretty-error": "^1.2.0",

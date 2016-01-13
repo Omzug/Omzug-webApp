@@ -19,17 +19,19 @@ function fetchDataDeferred(getState, dispatch) {
 
 @connect(
   state => ({
-    entities: state.entities.data.list,
-    number : state.entities.data.number
+    entities: state.entities.data,
+    error: state.entities.error,
+    loading: state.entities.loading
   }),
   {getList}
   //dispatch => bindActionCreators({getList}, dispatch)
 )
 export default class Entities extends Component {
   static propTypes = {
-    entities: PropTypes.array,
-    number : PropTypes.number,
-    getList: PropTypes.func.isRequired
+    data : PropTypes.object,
+    getList: PropTypes.func.isRequired,
+    error: PropTypes.string,
+    loading: PropTypes.bool,
   };
 
   addNumber = (event)=> {
@@ -38,25 +40,32 @@ export default class Entities extends Component {
   }
 
   render() {
-    const { entities, number, getList } = this.props;
-    console.log('entities are', entities)
+    const { data, getList, error, loading } = this.props;
+    console.log('entities are', data)
     return (
       <div>
         <h1>HauseList</h1>
         <button className="" onClick={getList}>
         </button>
         <div className="container">
-          {entities && entities.map((unit, index)=>
+          {data && data.list && data.list.map((unit, index)=>
           <p key={index}>element is {unit} </p>
         )}
         </div>
         <div className="container">
-          <LinkContainer to={`/entities/${number}`}>
-            <button>link to entity with number {number}</button>
-          </LinkContainer>
+          {data && data.number &&
+          <LinkContainer to={`/entities/${data.number}`}>
+            <button>link to entity with number {data.number}</button>
+          </LinkContainer>}
         </div>
         <div className="detail">
         </div>
+        {error &&
+        <div className="alert alert-danger" role="alert">
+          <span className="glyphicon glyphicon-exclamation-sign" aria-hidden="true">sorry</span>
+          {' '}
+          {error}
+        </div>}
       </div>
     );
   }

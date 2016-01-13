@@ -5,8 +5,15 @@
 module.exports = {
   host : 'localhost:27017',
   databaseName: 'omzug',
-  houseCollectionName : 'house',
+  //please list the collection names one by one
   userCollectionName : 'user',
+  houseCollectionName : 'house',
+
+  errors : {
+    SchemaCannotFind : 'SchemaCannotFind: schema can not be find, please check again',
+    DataBaseFailed : 'DataBaseFailed: database meet error'
+  },
+
   logOptions : {
     "level": "info",
     "filename": "./logs/omzug",

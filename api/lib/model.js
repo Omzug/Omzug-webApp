@@ -2,8 +2,7 @@
  * Created by hanwencheng on 1/11/16.
  */
 
-var Promise = require('bluebird');
-var mongoose = Promise.promisifyAll(require('mongoose'));
+var mongoose = require('mongoose');
 var config = require('./config.js');
 var Schema = mongoose.Schema;
 

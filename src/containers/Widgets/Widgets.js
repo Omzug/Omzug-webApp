@@ -64,7 +64,7 @@ export default class Widgets extends Component {
         </p>
         {error &&
         <div className="alert alert-danger" role="alert">
-          <span className="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+          <span className="glyphicon glyphicon-exclamation-sign" aria-hidden="true">error</span>
           {' '}
           {error}
         </div>}
