@@ -15,7 +15,9 @@ import {
     Survey,
     NotFound,
     Entities,
-    Entity
+    Entity,
+    Register,
+    Submit
   } from 'containers';
 
 export default (store) => {
@@ -93,6 +95,8 @@ export default (store) => {
       <Route path="main" component={Entities}/>
       <Route path="entities/:entityId" component={Entity} onEnter={logNextState}/>
       <Route path="login" component={Login}/>
+      <Route path="register" component={Register}/>
+      <Route path="submit" component={Submit}/>
       <Route path="survey" component={Survey}/>
       <Route path="widgets" component={Widgets}/>
 

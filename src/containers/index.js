@@ -9,3 +9,5 @@ export Survey from './Survey/Survey';
 export NotFound from './NotFound/NotFound';
 export Entities from './Entities/Entities';
 export Entity from './Entity/Entity';
+export Submit from './Submit/Submit'
+export Register from './Register/Register'

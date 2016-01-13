@@ -85,30 +85,37 @@ export default class App extends Component {
                 <NavItem eventKey={2}>Widgets</NavItem>
               </LinkContainer>
               }
-              {!config.isDebug &&
               <LinkContainer to="/survey">
                 <NavItem eventKey={3}>Survey</NavItem>
               </LinkContainer>
-              }
+
+              <LinkContainer to="/register">
+                <NavItem eventKey={4}>Register</NavItem>
+              </LinkContainer>
+
+              <LinkContainer to="/submit">
+                <NavItem eventKey={9}>Submit</NavItem>
+              </LinkContainer>
+
               {!config.isDebug &&
               <LinkContainer to="/about">
-              <NavItem eventKey={4}>About Us</NavItem>
+              <NavItem eventKey={5}>About Us</NavItem>
               </LinkContainer>
               }
 
               {!config.isDebug &&
               <LinkContainer to="/main">
-                <NavItem eventKey={5}>Hauses</NavItem>
+                <NavItem eventKey={6}>Hauses</NavItem>
               </LinkContainer>
               }
 
               {!user &&
                 <LinkContainer to="/login">
-                <NavItem eventKey={6}>Login</NavItem>
+                <NavItem eventKey={7}>Login</NavItem>
                 </LinkContainer>}
               {user &&
                 <LinkContainer to="/logout">
-                <NavItem eventKey={7} className="logout-link" onClick={this.handleLogout}>
+                <NavItem eventKey={8} className="logout-link" onClick={this.handleLogout}>
                 Logout
                 </NavItem>
                 </LinkContainer>
