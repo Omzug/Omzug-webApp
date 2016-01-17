@@ -24,7 +24,7 @@ export default class Register extends Component{
 
   handleInitialize = () => {
     this.props.initialize('register', {
-      email: 'bobby@gmail.com'
+      email: 'heawen.cheng@gmail.com'
     });
   }
 

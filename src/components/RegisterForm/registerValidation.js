@@ -3,12 +3,12 @@
  */
 
 import memoize from 'lru-memoize';
-import {createValidator, required, maxLength, email, numberAndLetter, match} from 'utils/validation';
+import {createValidator, required, minLength, email, numberAndLetter} from 'utils/validation';
 
-const surveyValidation = createValidator({
-  name: [required, maxLength(10)],
+const registerValidation = createValidator({
+  username: [required, minLength(4)],
   email: [required, email],
-  password : [required, numberAndLetter],
-  passwordRepeat: [required] // single rules don't have to be in an array
+  password : [required, numberAndLetter, minLength(6)],
+  passwordRepeat: required // single rules don't have to be in an array
 });
-export default memoize(10)(surveyValidation);
+export default memoize(10)(registerValidation);

@@ -31,10 +31,8 @@ export function between(min, max){
 }
 
 export function numberAndLetter(value){
-  return value => {
-    if(/^[a-zA-Z0-9]+$/.test(value)){
-      return `Must only contain number and letters`
-    }
+  if(!/^[a-zA-Z0-9]+$/.test(value)){
+    return `Must only contain number and letters`
   }
 }
 
