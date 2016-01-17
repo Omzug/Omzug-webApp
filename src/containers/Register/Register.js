@@ -5,7 +5,7 @@ import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import Helmet from 'react-helmet';
 import {initialize} from 'redux-form';
-import {RegisterFrom} from 'components';
+import {RegisterForm} from 'components';
 
 @connect(
   () => ({}),
@@ -16,8 +16,16 @@ export default class Register extends Component{
     initialize: PropTypes.func.isRequired
   }
 
-  handleClick(){
-    return null;
+  handleClick = (data) => {
+    console.log('data is', data)
+    this.props.initialize('register', {})
+    //window.alert('Data submitted! ' + JSON.stringify(data));
+  }
+
+  handleInitialize = () => {
+    this.props.initialize('register', {
+      email: 'bobby@gmail.com'
+    });
   }
 
   render(){
@@ -27,7 +35,7 @@ export default class Register extends Component{
         <Helmet title="Register"/>
 
         <div style={{textAlign: 'center', margin: 15}}>
-          <button className="btn btn-primary" onClick={this.handleClick}>
+          <button className="btn btn-primary" onClick={this.handleInitialize}>
             <i className="fa fa-pencil"/> Initialize Form
           </button>
         </div>
