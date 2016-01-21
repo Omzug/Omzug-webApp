@@ -1,7 +1,49 @@
+@import "../../theme/myHover.css";
+
 .app {
+  .navbar{
+    $size:60px;
+    background-color: #fff;
+    height: $size;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    .left{
+      float: left;
+      li{
+        display: inline;
+      }
+      .logo{
+        padding:0 10px;
+        .headerschrift {
+          z-index: 10;
+          margin-left: 40px;
+          /*border:1px solid;*/
+          font-size: 36px;
+          font-weight: bold;
+        }
+        .nebenschrift {
+          z-index: 10;
+          font-size: 18px;
+          top: 33px;
+          left: 20px;
+        }
+      }
+    }
+    .right{
+      float: right;
+      margin-right: 30px;
+      text-align: right;
+      .links{
+        z-index: 8;
+        margin:  5px;
+        font-size: 12px;
+      }
+    }
+  }
   .brand {
     position: absolute;
-    $size: 40px;
+    $size: 20px;
     top: 5px;
     left: 5px;
     display: inline-block;
@@ -16,6 +58,14 @@
     font-size: 2em;
     line-height: 20px;
   }
+}
+
+li{
+  display: inline;
+}
+
+Navbar{
+  background-color: #eeeeee;
 }
 .appContent {
   margin: 50px 0; // for fixed navbar

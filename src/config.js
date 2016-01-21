@@ -17,11 +17,11 @@ module.exports = Object.assign({
   apiPort: process.env.APIPORT,
   app: {
     title: 'DeLocate',
-    description: 'Locate yourself in another lovely place.',
+    description: '找到心仪的家',
     head: {
       titleTemplate: 'DeLocate : %s',
       meta: [
-        {name: 'description', content: 'Locate yourself in another lovely place.'},
+        {name: 'description', content: '找到心仪的家'},
         {charset: 'utf-8'},
         {property: 'og:site_name', content: 'DeLocate'},
         {property: 'og:image', content: 'https://react-redux.herokuapp.com/logo.jpg'},
