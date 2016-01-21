@@ -58,7 +58,7 @@ export default class App extends Component {
   render() {
     const {user} = this.props;
     const styles = require('./App.scss');
-    const rightLi = styles.links + " " +  styles.hvrBuzzOut;
+    const rightLi = styles.links + " " + styles.hvrBuzzOut;
 
 
     return (
@@ -67,11 +67,11 @@ export default class App extends Component {
         <div className={styles.navbar}>
           <div className={styles.left}>
             <ul>
+              <LinkContainer to="/">
               <li className={styles.logo}>
-                <a href="/" target="_blank">
                   <span className={styles.headerschrift + " " + styles.hvrFloatShadow}>Delocate</span>
-                </a>
               </li>
+              </LinkContainer>
               <li>
                 <span className={styles.nebenschrift + " " + styles.hvrFloatShadow}>
                   {config.app.description}
@@ -87,23 +87,18 @@ export default class App extends Component {
                 <li eventKey={2}>Widgets</li>
               </LinkContainer>
               }
+              {!config.isDebug &&
               <LinkContainer to="/survey">
                 <li eventKey={3}>Survey</li>
-              </LinkContainer>
+              </LinkContainer>}
 
               <LinkContainer to="/register">
-                <li eventKey={4}>注册</li>
+                <li eventKey={4}>快速注册</li>
               </LinkContainer>
 
               <LinkContainer to="/submit">
                 <li eventKey={9}>提交房屋</li>
               </LinkContainer>
-
-              {!config.isDebug &&
-              <LinkContainer to="/about">
-                <li eventKey={5}>关于我们</li>
-              </LinkContainer>
-              }
 
               {!config.isDebug &&
               <LinkContainer to="/main">
@@ -133,7 +128,9 @@ export default class App extends Component {
               <li><span className={rightLi}><i className="fa fa-pencil fa-lg" /><a href="#">管理账号</a></span></li>}
               {user &&
               <li><span className={rightLi}><i className="fa fa-truck fa-lg" /><a href="rent/rent.html"> 我要出租</a></span></li>}
-              <li><span className={rightLi}><i className="fa fa-child fa-lg" />关于我们</span></li>
+              <LinkContainer to="/about">
+                <li><span className={rightLi}><i className="fa fa-child fa-lg" />关于我们</span></li>
+              </LinkContainer>
               <li><span className={rightLi}><i className="fa fa-github"/></span></li>
             </ul>
           </div>

@@ -18,11 +18,13 @@ export default class About extends Component {
         <h1>About Us</h1>
         <Helmet title="About Us"/>
 
-        <p>This project was originally created by Erik Rasmussen
-          (<a href="https://twitter.com/erikras" target="_blank">@erikras</a>), but has since seen many contributions
-          from the open source community. Thank you to <a
-            href="https://github.com/erikras/react-redux-universal-hot-example/graphs/contributors"
-            target="_blank">all the contributors</a>.
+        <p>
+          Delocate由来自斯图加特大学和柏林白湖艺术学院的学生程翰文和杨鑫玥于2016年在德国创立.
+          我们想为在德国留学的中国学生提供一个美观方便的租房平台.
+        </p>
+        <p>
+          Delocate is a website created in 2016 by Hanwen Cheng from Uni Stuttgart
+          and Xinyue Yang from Kunsthochschule Berlin-Weissensee. It aims to provide a renting platform for chinese students in Germany.
         </p>
 
         <h3>Mini Bar <span style={{color: '#aaa'}}>(not that kind)</span></h3>
