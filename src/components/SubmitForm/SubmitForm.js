@@ -33,7 +33,7 @@ const asyncValidate = (values /*, dispatch */) => {
   //asyncBlurFields: ['rooms'],
 })
 
-export default class RegisterForm extends Component{
+export default class SubmitForm extends Component{
   static propTypes = {
     asyncValidating: PropTypes.string.isRequired,
     fields: PropTypes.object.isRequired,
@@ -133,10 +133,10 @@ export default class RegisterForm extends Component{
         </div>
 
         <div>
-          <button disabled={issizeSame && submitting} onClick={handleSubmit(submitValidate)}>
+          <button disabled={canSubmit && submitting} onClick={handleSubmit(submitValidate)}>
             {submitting ? <i/> : <i/>} Submit
           </button>
-          <button disabled={issizeSame && submitting} onClick={resetForm}>
+          <button disabled={canSubmit && submitting} onClick={resetForm}>
             Clear Values
           </button>
         </div>
