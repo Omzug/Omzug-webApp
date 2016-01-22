@@ -81,7 +81,8 @@ export default class Widgets extends Component {
           </thead>
           <tbody>
           {
-            widgets.map((widget) => editing[widget.id] ?
+            widgets.map(
+              (widget) => editing[widget.id] ?
               <WidgetForm formKey={String(widget.id)} key={String(widget.id)} initialValues={widget}/> :
               <tr key={widget.id}>
                 <td className={styles.idCol}>{widget.id}</td>
@@ -93,7 +94,8 @@ export default class Widgets extends Component {
                     <i className="fa fa-pencil"/> Edit
                   </button>
                 </td>
-              </tr>)
+              </tr>
+            )
           }
           </tbody>
         </table>}

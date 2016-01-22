@@ -81,7 +81,7 @@ export default (store) => {
   return (
     <Route path="/" component={App}>
       { /* Home (main) route */ }
-      <IndexRoute component={Home} onEnter={checkUser}/>
+      <IndexRoute component={Home} /* onEnter={checkUser} *//>
 
 
       { /* Routes requiring login */ }

@@ -1,0 +1,25 @@
+.centerBox {
+  display: flex;
+  align-items: center;
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
+  //horizontal center
+  justify-content: center;
+  width: 100%;
+  //vertical center
+  align-items: center;
+}
+
+
+.noMargin {
+  margin: 0;
+}
+
+:global(html){
+}
+
+:global(body){
+}

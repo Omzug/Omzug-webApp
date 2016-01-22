@@ -28,12 +28,19 @@ var passwordValidator =
     message: 'Password should be between {ARGS[0]} and {ARGS[1]} characters, and only with numbers and alphabets'
   })
 
+var emailValidator = validate({
+  validator : 'isEmail',
+  arguments: {allow_utf8_local_part: false},//TODO check if it function well
+  message : "Email should following the standard email format"
+})
+
 
 module.exports =  function(Schema, collectionName){
   var UserSchema = new Schema({
+    email : {type:String, required:true, index : {unique: true}, validator : emailValidator},
     username: { type: String, required: true, index: { unique: true } , validate: nameValidator},
-    password: { type: String, required: true, validate: nameValidator }
-  },{ strict : true, collection : collectionName});
+    password: { type: String, required: true, validate: nameValidator },
+  },{ strict : true, collection : collectionName, timestamps: true});
 
   UserSchema.pre('save', function(next) {
     var user = this;

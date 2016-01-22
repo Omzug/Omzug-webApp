@@ -11,7 +11,7 @@ export function load(){
   return {
     types: [LOAD, LOAD_SUCCESS, LOAD_FAIL],
     promise: (client) => {
-      let url = '/list'
+      const url = '/list'
       return client.get(url)
     } // params not used, just shown as demonstration
   };
