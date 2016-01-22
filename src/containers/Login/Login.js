@@ -15,28 +15,36 @@ export default class Login extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-    const input = this.refs.username;
-    this.props.login(input.value);
-    input.value = '';
+    let username = this.refs.username.value
+    let password = this.refs.password.value
+    this.props.login(username, password);
+    username = "";
+    password = "";
   }
 
   render() {
     const {user, logout} = this.props;
     const styles = require('./Login.scss');
+    const loginForm = styles.login + " form-group"
     return (
       <div className={styles.loginPage + ' container'}>
         <Helmet title="Login"/>
         <h1>Login</h1>
         {!user &&
         <div>
-          <form className="login-form form-inline" onSubmit={this.handleSubmit}>
-            <div className="form-group">
-              <input type="text" ref="username" placeholder="Enter a username" className="form-control"/>
+          <form className="login-form" onSubmit={this.handleSubmit}>
+            <div className={styles.loginForm}>
+              <input type="text" ref="username" placeholder="用户名" className="form-control"/>
             </div>
-            <button className="btn btn-success" onClick={this.handleSubmit}><i className="fa fa-sign-in"/>{' '}Log In
+
+            <div className={styles.loginForm}>
+              <input type="password" ref="password" className="form-control" placeholder="这里输入密码"/>
+            </div>
+
+            <button className="btn btn-success" onClick={this.handleSubmit}><i className="fa fa-sign-in"/>
+              Los!
             </button>
           </form>
-          <p>This will "log you in" as this user, storing the username in the session of the API server.</p>
         </div>
         }
         {user &&

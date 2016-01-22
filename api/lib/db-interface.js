@@ -81,10 +81,9 @@ function test(){
   });
 
   DI.get('user', {username : 'numberTwo'}, function(result){
-    console.log('start get sucess ', result)
-    DI.delete('user', {username : 'numberTwo'},
+    DI.update('user', {username : 'numberTwo'}, {password: "000100"},
       function(result) {
-        console.log(' delete sucess ', result)
+        console.log(' update success ', result)
       },
       function(err){
         console.log('err ', err)
@@ -147,6 +146,9 @@ DI.get = function(type, query, resolve, reject){
       schema.findOne(query).exec(function(err, result){
         if(err){
           callback(Errors.DataBaseFailed + err )
+        }
+        if(result == null){
+          callback(Errors.DataBaseFailed + " item not existed" )
         }else {
           logSuccess(type, result)
           callback(null, result)
@@ -155,7 +157,8 @@ DI.get = function(type, query, resolve, reject){
     }
   ]
 
-  async.waterfall(steps,function(err, result){
+  async.waterfall(steps, function(err, result){
+    console.log('get result is', result)
     if(err){
       reject(LOGTITLE + err)
     }else {
@@ -163,6 +166,34 @@ DI.get = function(type, query, resolve, reject){
         status : true,
         data : result
       })
+    }
+  })
+}
+
+/**
+ * User login check
+ * @param username {String} username
+ * @param password {String} password
+ * @param resolve promise resolve with {status : true}
+ * @param reject promise error
+ */
+DI.userLogin =function(username, password, resolve, reject){
+  User.findOne({username : username}, function(err, user) {
+    if (err) {
+      reject(LOGTITLE + Errors.AuthFailed + err);
+    }else if (user == null) {
+      reject(LOGTITLE + Errors.AuthFailed + " user not find")
+    }else {
+      // test a matching password
+      user.comparePassword(password, function (err, isMatch) {
+        if (err) {
+          reject(LOGTITLE + Errors.AuthFailed + " error in verify the password" + err);
+        }else if(!isMatch){
+          reject(LOGTITLE + Errors.AuthFailed + " wrong password")
+        }else{
+          resolve({status : isMatch, message : "successful"})
+        }
+      });
     }
   })
 }
@@ -184,14 +215,16 @@ DI.delete = function(type, query, resolve, reject){
     }
   ]
 
+  //result is a big object with a lot of attributes
   async.waterfall(steps,function(err, result){
+    //console.log('err is ',err, " result is :", result)
     if(err){
       reject(LOGTITLE + err)
     }else {
       resolve({
-        status : result.ok,
+        status : result.result.ok,
         //result: { ok: 1, n: 1 }
-        number : result.n
+        number : result.result.n
       })
     }
   })
