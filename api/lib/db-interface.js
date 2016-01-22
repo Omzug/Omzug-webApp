@@ -11,7 +11,7 @@ const async = require('async')
 const houseCollectionName = config.houseCollectionName;
 const userCollectionName = config.userCollectionName;
 const Errors = config.errors;
-const LOGTITLE = '[DB] '
+const LOGTITLE = '[DB] ';
 
 const TYPES = [userCollectionName, houseCollectionName]
 const SCHEMAS = [User, House]
@@ -112,31 +112,39 @@ DI.save = function(type, data, resolve, reject){
     },
     function(schema, callback){
       var neu = new schema(data)
-      schema.save().exec(function(err, result){
-        if(err){
-          callback(Errors.DataBaseFailed + err )
-        }else {
-          logSuccess(type, result)
-          callback(null, result)
-        }
+      // NOTICE : Mongoose save does not has exec function, itself is a promise!
+      var promise = neu.save();
+      promise.then(function(result) {
+        logSuccess(type, result)
+        callback(null, result)
+      }).end();
+      promise.then(undefined, function(err){
+        callback({msg : LOGTITLE + Errors.DataBaseFailed + err })
       })
     }
   ]
 
   async.waterfall(steps,function(err, result){
     if(err){
-      reject(LOGTITLE + err)
+      reject(err)
     }else {
       resolve({
-        status : result,
-        data : data
+        status : true,
+        data : result
       })
     }
   })
 }
 
-
-//return updated data
+/**
+ * Error Code
+ * 0 : internal error
+ * 1 : not found error
+ * @param type
+ * @param query
+ * @param resolve
+ * @param reject
+ */
 DI.get = function(type, query, resolve, reject){
   let steps = [
     function(callback){
@@ -145,10 +153,10 @@ DI.get = function(type, query, resolve, reject){
     function(schema, callback){
       schema.findOne(query).exec(function(err, result){
         if(err){
-          callback(Errors.DataBaseFailed + err )
+          callback({type : 0, msg : LOGTITLE + Errors.DataBaseFailed + err })
         }
         if(result == null){
-          callback(Errors.DataBaseFailed + " item not existed" )
+          callback({type : 1 , msg : LOGTITLE + Errors.NotFound})
         }else {
           logSuccess(type, result)
           callback(null, result)
@@ -158,9 +166,8 @@ DI.get = function(type, query, resolve, reject){
   ]
 
   async.waterfall(steps, function(err, result){
-    console.log('get result is', result)
     if(err){
-      reject(LOGTITLE + err)
+      reject(err)
     }else {
       resolve({
         status : true,
@@ -179,19 +186,20 @@ DI.get = function(type, query, resolve, reject){
  */
 DI.userLogin =function(username, password, resolve, reject){
   User.findOne({username : username}, function(err, user) {
+
     if (err) {
-      reject(LOGTITLE + Errors.AuthFailed + err);
+      reject({msg : LOGTITLE + Errors.AuthFailed + err});
     }else if (user == null) {
-      reject(LOGTITLE + Errors.AuthFailed + " user not find")
+      reject({msg : LOGTITLE + Errors.AuthFailed + " user not find"})
     }else {
       // test a matching password
       user.comparePassword(password, function (err, isMatch) {
         if (err) {
-          reject(LOGTITLE + Errors.AuthFailed + " error in verify the password" + err);
+          reject({msg : LOGTITLE + Errors.AuthFailed + " error in verify the password" + err});
         }else if(!isMatch){
-          reject(LOGTITLE + Errors.AuthFailed + " wrong password")
+          reject({msg : LOGTITLE + Errors.AuthFailed + " wrong password"})
         }else{
-          resolve({status : isMatch, message : "successful"})
+          resolve({status : isMatch, data : user})
         }
       });
     }
@@ -206,7 +214,7 @@ DI.delete = function(type, query, resolve, reject){
     function(schema, callback){
       schema.remove(query).exec(function(err, result){
         if(err){
-          callback(Errors.DataBaseFailed + err )
+          callback({msg : LOGTITLE + Errors.DataBaseFailed + err })
         }else {
           logSuccess(type, result)
           callback(null, result)
@@ -219,12 +227,12 @@ DI.delete = function(type, query, resolve, reject){
   async.waterfall(steps,function(err, result){
     //console.log('err is ',err, " result is :", result)
     if(err){
-      reject(LOGTITLE + err)
+      reject(err)
     }else {
       resolve({
         status : result.result.ok,
-        //result: { ok: 1, n: 1 }
-        number : result.result.n
+        //result: { ok: 1, n: 1 } this data show the deleted number
+        data : result.result.n
       })
     }
   })
@@ -238,7 +246,7 @@ DI.update = function(type, query, update, resolve, reject){
     function(schema, callback){
       schema.findOneAndUpdate(query,update).exec(function(err, updated){
         if(err){
-          callback(Errors.DataBaseFailed + err )
+          callback({msg : LOGTITLE + Errors.DataBaseFailed + err })
         }else {
           logSuccess(type, updated)
           callback(null, updated)
@@ -249,7 +257,7 @@ DI.update = function(type, query, update, resolve, reject){
 
   async.waterfall(steps,function(err, result){
     if(err){
-      reject(LOGTITLE + err)
+      reject(err)
     }else {
       resolve({
         status : true,
@@ -270,10 +278,10 @@ function findSchema(type, callback){
   if(index >= 0 ){
     callback(null, SCHEMAS[index])
   }else{
-    callback(Errors.SchemaCannotFind)
+    callback({msg : Errors.SchemaCannotFind})
   }
 }
 
 function logSuccess(type, result){
-  logger.info(LOGTITLE + 'information ' + type + ' successfully saved into database' + result)
+  logger.info(LOGTITLE + 'information ' + type + ' successfully processed :' + result)
 }

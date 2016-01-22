@@ -12,7 +12,8 @@ module.exports = {
   errors : {
     SchemaCannotFind : 'SchemaCannotFind: schema can not be find, please check again',
     DataBaseFailed : 'DataBaseFailed: database meet error',
-    AuthFailed : 'Authentication Error'
+    AuthFailed : 'Authentication Error',
+    NotFound : 'the item not found in database',
   },
 
   logOptions : {

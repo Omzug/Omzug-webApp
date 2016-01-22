@@ -19,14 +19,17 @@ class LoginSuccess extends Component {
         <h1>Login Success</h1>
 
         <div>
-          <p>Hi, {user.name}. You have just successfully logged in, and were forwarded here
-            by <code>componentWillReceiveProps()</code> in <code>App.js</code>, which is listening to
-            the auth reducer via redux <code>@connect</code>. How exciting!
+          <p>Welcome, {user.username}. You have just successfully logged in, How exciting it is!
           </p>
 
-          <p>
-            The same function will forward you to <code>/</code> should you chose to log out. The choice is yours...
-          </p>
+          <p>you have the following information here: </p>
+          <ul>
+            { user._id &&
+            <li> id : {user._id}</li>}
+
+            { user.email &&
+            <li> email : {user.email}</li>}
+          </ul>
 
           <div>
             <button className="btn btn-danger" onClick={logout}><i className="fa fa-sign-out"/>{' '}Log Out</button>

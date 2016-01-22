@@ -8,6 +8,10 @@ const LOGOUT = 'delocate/auth/LOGOUT';
 const LOGOUT_SUCCESS = 'delocate/auth/LOGOUT_SUCCESS';
 const LOGOUT_FAIL = 'delocate/auth/LOGOUT_FAIL';
 
+const CHECK = 'delocate/auth/CHECK';
+const CHECK_SUCCESS = 'delocate/auth/CHECK_SUCCESS';
+const CHECK_FAIL = 'delocate/auth/CHECK_FAIL';
+
 const CLEAR_LOGIN_ERROR = 'delocate/auth/CLEAR_LOGIN_ERROR';
 
 const initialState = {
@@ -75,6 +79,23 @@ export default function reducer(state = initialState, action = {}) {
         ...state,
         loginError : null
       }
+    case CHECK:
+        return {
+          ...state,
+          check: "checking"
+        };
+    case CHECK_SUCCESS:
+          return {
+            ...state,
+            check : "success",
+            checkMessage : action.result
+          }
+    case CHECK_FAIL:
+          return {
+            ...state,
+            check : "fail",
+            checkError : action.error
+          }
     default:
       return state;
   }
@@ -91,6 +112,14 @@ export function load() {
   };
 }
 
+//email must be a string
+export function check(email){
+  return{
+    types: [CHECK, CHECK_SUCCESS, CHECK_FAIL],
+    promise : (client) => client.get('/check?email=' + email)
+  }
+}
+
 export function login(username, password) {
   return {
     types: [LOGIN, LOGIN_SUCCESS, LOGIN_FAIL],
@@ -102,6 +131,17 @@ export function login(username, password) {
     })
   };
 }
+
+//it also use the same action as log, because most thing is the same
+export function register(data){
+  return {
+    types: [LOGIN, LOGIN_SUCCESS, LOGIN_FAIL],
+    promise: (client) => client.post('./register',{
+      data : data
+    })
+  }
+}
+
 
 export function clearLoginError(){
   return {

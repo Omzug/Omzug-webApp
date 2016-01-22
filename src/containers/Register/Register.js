@@ -6,32 +6,44 @@ import {connect} from 'react-redux';
 import Helmet from 'react-helmet';
 import {initialize} from 'redux-form';
 import {RegisterForm} from 'components';
+import {register} from 'redux/modules/auth';
 
 @connect(
-  () => ({}),
-  {initialize})
+  state => ({
+    loginError : state.auth.loginError
+  }),
+  {initialize, register})
 
 export default class Register extends Component{
   static propTypes = {
-    initialize: PropTypes.func.isRequired
+    initialize: PropTypes.func.isRequired,
+    register: PropTypes.func.isRequired,
+    loginError: PropTypes.string,
   }
 
-  handleClick = (data) => {
+  handleSubmit = (data) => {
     console.log('data is', data)
-    this.props.initialize('register', {})
+    this.props.register(data)
+    //this.props.initialize('register', {})
     //window.alert('Data submitted! ' + JSON.stringify(data));
   }
 
   handleInitialize = () => {
     this.props.initialize('register', {
-      email: 'heawen.cheng@gmail.com'
+      email: 'heawen200@gmail.com',
+      username: "heawen200",
+      password: "123123",
+      passwordRepeat : "123123",
     });
   }
 
   render(){
+    const {loginError} = this.props;
+    const styles = require('./Register.scss')
+
     return (
       <div className="container">
-        <h1>Register</h1>
+        <h1>注册</h1>
         <Helmet title="Register"/>
 
         <div style={{textAlign: 'center', margin: 15}}>
@@ -40,7 +52,9 @@ export default class Register extends Component{
           </button>
         </div>
 
-        <RegisterForm onSubmit={this.handleClick}/>
+        {loginError && <p className={ "bg-danger " + styles.error}><strong>{loginError}</strong></p>}
+
+        <RegisterForm onSubmit={this.handleSubmit}/>
       </div>
     )
   }
