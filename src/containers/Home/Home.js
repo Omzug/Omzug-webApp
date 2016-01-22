@@ -17,9 +17,6 @@ export default class Home extends Component {
           <div className={styles.description}>
             <h4>{config.app.title}</h4>
             <h5>{config.app.description}</h5>
-            <p className={styles.humility}>
-              Created and maintained by <a href="https://github.com/hanwencheng" target="_blank">@hanwencheng</a>.
-            </p>
           </div>
 
           <div className={styles.foto}>

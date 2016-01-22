@@ -50,6 +50,11 @@ export default class Entity extends Component {
     editStart: PropTypes.func.isRequired
   }
 
+  handleSubmit = (data)=>{
+    //this.props.submit(data)
+  }
+
+
   render(){
     const {entity, error, loading, clearEntity, editing, load} = this.props;
     let refreshClassName = 'fa fa-refresh';
@@ -60,26 +65,12 @@ export default class Entity extends Component {
 
     return (
       <div>
-        <button className={refreshClassName} onClick={clearEntity}>click to clear the history</button>
-      { entity && entity.entities.length ?
-        <div>
-          entity is not empty
-          {entity.entities.map((hause, index) =>
-            hause.indexOf("2") >= 0  ?
-              <div key={index}>number 2 with hause: {hause}</div>
-              :
-              <div key={index}>this is not number2 with hause: {hause}</div>
-          )}
-        </div>
-        :
-        <div>entity is empty</div>
-      }
-        {error &&
-        <div className="alert alert-danger" role="alert">
-          <span className="glyphicon glyphicon-exclamation-sign" aria-hidden="true">b</span>
-          {' '}
-          {error}
-        </div>}
+        {editing ?
+            <SubmitForm onSubmit={this.handleSubmit} />
+           :
+          <SubmitTemplate />
+        }
+
       </div>
     )
   }
