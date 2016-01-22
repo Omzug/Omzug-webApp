@@ -3,6 +3,7 @@
  */
 
 import DB from '../lib/db-interface.js';
+const async = require('async')
 
 export default function register(req) {
   /**
@@ -15,33 +16,63 @@ export default function register(req) {
    * }
    */
   return new Promise((resolve, reject)=>{
+
+
     const email = req.body.email
     const username = req.body.username
-    DB.get("user", {
-      email : email,
-      username : username,
-    }, function(result){
-      if(result.data.email === email){
-        return reject("the email is already registered")
-      }else if(result.data.username === username){
-        return reject("the username is already registered")
-      }
-      else return reject("we meet database duplicate error")
-    }, function(err){
-      // if it is not in our database yet
-      if(err.type === 1){
+
+    const steps = [
+      //checking register email.
+      function(callback){
+        DB.get('user', {email : email},
+        function(result){
+          if(result.data.email === email){
+            callback("the email is already registered")
+          }else callback("we meet database duplicate error")
+        },
+        function(err){
+          if(err.type === 1){
+            callback()
+          }else{
+            callback(err.msg)
+          }
+        })
+      },
+      //checking register username
+      function(callback){
+        DB.get('user', {username : username},
+          function(result){
+            if(result.data.username === username){
+              callback("the username is already registered")
+            }else callback("we meet database duplicate error")
+          },
+          function(err){
+            if(err.type === 1){
+              callback()
+            }else{
+              callback(err.msg)
+            }
+          })
+      },
+      //finally save it into our database
+      function(callback){
         DB.save("user", req.body, function(data){
           req.session.user = {name : username}
-          return resolve(data.data)
+          console.log("data.data is", data.data)
+          callback(null, data.data)
         }, function(err){
-          return reject(err.msg)
+          return callback(err.msg)
         })
       }
-      //if error meet in get
-      else{
-        return reject(err.msg)
+    ]
+
+    //result is an array contain 3 element
+    async.series(steps,function(err, result){
+      if(err){
+        reject(err)
+      }else {
+        resolve(result[2])
       }
     })
-
   });
 }

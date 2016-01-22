@@ -27,7 +27,8 @@ function checkState(getState, dispatch){
   state => ({
     entity: state.entity.data,
     error: state.entity.error,
-    loading: state.entity.loading
+    loading: state.entity.loading,
+    editing: state.widgets.editing,
   }),
   {entityActions, clearEntity}
 )
@@ -41,15 +42,21 @@ export default class Entity extends Component {
     entity: PropTypes.object,
     error: PropTypes.string,
     loading: PropTypes.bool,
-    clearEntity : PropTypes.func.isRequired
+    clearEntity : PropTypes.func.isRequired,
+
+    initializeWithKey: PropTypes.func.isRequired,
+    editing: PropTypes.object.isRequired,
+    load: PropTypes.func.isRequired,
+    editStart: PropTypes.func.isRequired
   }
 
   render(){
-    const {entity, error, loading, clearEntity} = this.props;
+    const {entity, error, loading, clearEntity, editing, load} = this.props;
     let refreshClassName = 'fa fa-refresh';
     if (loading) {
       refreshClassName += ' fa-spin';
     }
+    const styles = require('./Entity.scss');
 
     return (
       <div>

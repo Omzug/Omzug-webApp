@@ -3,7 +3,9 @@ import {connect} from 'react-redux';
 import * as authActions from 'redux/modules/auth';
 
 @connect(
-    state => ({user: state.auth.user}),
+    state => ({
+      user: state.auth.user
+    }),
     authActions)
 export default
 class LoginSuccess extends Component {
@@ -27,12 +29,13 @@ class LoginSuccess extends Component {
             { user._id &&
             <li> id : {user._id}</li>}
 
-
+            {
+              user && console.log("in LoginSuccess we get user is: ", user)
+            }
             { user.email &&
             <li> email : {user.email}</li>}
-            /* this date is only the string object, cannot deploy Date's function, try specify in API*/
             <li> createdAt : {user.createdAt.toString()}</li>
-            <li> updatedAt : {user.createdAt.toString()}</li>
+            <li> updatedAt : {user.updatedAt.toString()}</li>
           </ul>
 
           <div>

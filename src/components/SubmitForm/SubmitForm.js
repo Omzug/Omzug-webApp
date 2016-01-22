@@ -1,29 +1,33 @@
 /**
  * Created by hanwencheng on 1/13/16.
  */
-
+import {bindActionCreators} from 'redux';
 import React, {Component, PropTypes} from 'react';
 import {reduxForm} from 'redux-form';
 import submitValidation from './submitValidation';
+import {connect} from 'react-redux';
+import * as submitActions from 'redux/modules/submit';
 
-const submitValidate = (data/*, dispatch */) => {
-  return new Promise((resolve, reject) => {
+const enableAsyncCheck = false;
+const asyncValidate = (value , dispatch) => {
+  if(enableAsyncCheck){
+    //return dispatch(checkEmail(value))
+    return new Promise((resolve, reject)=> {
+      reject('rejected by async validate')
+    })
+  }else{
+    return new Promise((resolve, reject) => {
+      resolve('sync validate value is disable now.')
+    })
 
-    // simulate server latency
-  });
+  }
 }
-
-const asyncValidate = (values /*, dispatch */) => {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      if (['john', 'paul', 'george', 'ringo'].includes(values.rooms)) {
-        reject({rooms: 'That rooms is taken'});
-      } else {
-        resolve();
-      }
-    }, 1000); // simulate server latency
-  });
-};
+@connect(
+  state => ({
+    saveError: state.widgets.saveError
+  }),
+  dispatch => bindActionCreators(submitActions, dispatch)
+)
 
 @reduxForm({
   form: 'register',
@@ -36,10 +40,18 @@ const asyncValidate = (values /*, dispatch */) => {
 export default class SubmitForm extends Component{
   static propTypes = {
     asyncValidating: PropTypes.string.isRequired,
-    fields: PropTypes.object.isRequired,
-    handleSubmit: PropTypes.func.isRequired,
     resetForm: PropTypes.func.isRequired,
-    submitting: PropTypes.bool.isRequired
+
+    fields: PropTypes.object.isRequired,
+    editStop: PropTypes.func.isRequired,
+    handleSubmit: PropTypes.func.isRequired,
+    invalid: PropTypes.bool.isRequired,
+    pristine: PropTypes.bool.isRequired, //TODO what the hell is this?
+    save: PropTypes.func.isRequired,
+    submitting: PropTypes.bool.isRequired,
+    saveError: PropTypes.object,
+    formKey: PropTypes.string.isRequired,
+    values: PropTypes.object.isRequired //TODO what is this?
   }
 
 
@@ -51,13 +63,21 @@ export default class SubmitForm extends Component{
       resetForm,
       handleSubmit,
       submitting,
-      asyncValidating
+      asyncValidating,
+
+      editStop,
+      formKey,
+      invalid,
+      pristine,
+      save,
+      saveError: { [formKey]: saveError },
+      values,
       } = this.props;
 
+    const styles = require('./SubmitForm.scss');
     var canSubmit = true;
-
     return (
-      <form onSubmit={handleSubmit(submitValidate)}>
+      <form onSubmit={handleSubmit()}>
 
         <div>
           <label>price</label>
@@ -133,7 +153,7 @@ export default class SubmitForm extends Component{
         </div>
 
         <div>
-          <button disabled={canSubmit && submitting} onClick={handleSubmit(submitValidate)}>
+          <button disabled={canSubmit && submitting} onClick={handleSubmit()}>
             {submitting ? <i/> : <i/>} Submit
           </button>
           <button disabled={canSubmit && submitting} onClick={resetForm}>

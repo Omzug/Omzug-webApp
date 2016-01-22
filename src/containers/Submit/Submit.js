@@ -9,7 +9,9 @@ import {initialize} from 'redux-form';
 import {SubmitForm} from 'components';
 
 @connect(
-  () => ({}),
+  state => ({
+
+  }),
   {initialize})
 
 export default class Submit extends Component{
@@ -17,8 +19,20 @@ export default class Submit extends Component{
     initialize: PropTypes.func.isRequired
   }
 
-  handleClick(){
-    return null;
+  handleSubmit = (data) => {
+    console.log('data is', data)
+    //this.props.register(data)
+    //this.props.initialize('register', {})
+    //window.alert('Data submitted! ' + JSON.stringify(data));
+  }
+
+  handleInitialize = () => {
+    this.props.initialize('register', {
+      email: 'heawen200@gmail.com',
+      username: "heawen200",
+      password: "123123",
+      passwordRepeat : "123123",
+    });
   }
 
   render(){
@@ -28,12 +42,12 @@ export default class Submit extends Component{
         <Helmet title="Submit"/>
 
         <div style={{textAlign: 'center', margin: 15}}>
-          <button className="btn btn-primary" onClick={this.handleClick}>
+          <button className="btn btn-primary" onClick={this.handleInitialize}>
             <i className="fa fa-pencil"/> Initialize Form
           </button>
         </div>
 
-        <SubmitForm onSubmit={this.handleClick}/>
+        <SubmitForm onSubmit={this.handleSubmit}/>
       </div>
     )
   }

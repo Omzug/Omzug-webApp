@@ -95,9 +95,10 @@ export default class App extends Component {
                 <li eventKey={3}>Survey</li>
               </LinkContainer>}
 
+              {!user &&
               <LinkContainer to="/register">
                 <li eventKey={4}>快速注册</li>
-              </LinkContainer>
+              </LinkContainer>}
 
               <LinkContainer to="/submit">
                 <li eventKey={9}>提交房屋</li>
@@ -108,6 +109,10 @@ export default class App extends Component {
                 <li eventKey={6}>房屋们</li>
               </LinkContainer>
               }
+
+              <LinkContainer to="/entities/3">
+                <li eventKey={5}>某房屋</li>
+              </LinkContainer>
 
               {!user &&
               <LinkContainer to="/login">
@@ -126,7 +131,7 @@ export default class App extends Component {
           <div className={styles.right}>
             <ul>
               {user &&
-              <li><span className={rightLi}><i className={styles.loggedInMessage}/>Logged in as <strong>{user.name}</strong></span></li>}
+              <li><span className={rightLi}><i className={styles.loggedInMessage}/>Logged in as <strong>{user.username}</strong></span></li>}
               {user &&
               <li><span className={rightLi}><i className="fa fa-pencil fa-lg" /><a href="#">管理账号</a></span></li>}
               {user &&

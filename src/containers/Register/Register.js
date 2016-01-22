@@ -10,6 +10,7 @@ import {register} from 'redux/modules/auth';
 
 @connect(
   state => ({
+    user: state.auth.user,
     loginError : state.auth.loginError
   }),
   {initialize, register})
@@ -22,7 +23,6 @@ export default class Register extends Component{
   }
 
   handleSubmit = (data) => {
-    console.log('data is', data)
     this.props.register(data)
     //this.props.initialize('register', {})
     //window.alert('Data submitted! ' + JSON.stringify(data));
