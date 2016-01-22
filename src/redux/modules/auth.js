@@ -1,12 +1,14 @@
-const LOAD = 'redux-example/auth/LOAD';
-const LOAD_SUCCESS = 'redux-example/auth/LOAD_SUCCESS';
-const LOAD_FAIL = 'redux-example/auth/LOAD_FAIL';
-const LOGIN = 'redux-example/auth/LOGIN';
-const LOGIN_SUCCESS = 'redux-example/auth/LOGIN_SUCCESS';
-const LOGIN_FAIL = 'redux-example/auth/LOGIN_FAIL';
-const LOGOUT = 'redux-example/auth/LOGOUT';
-const LOGOUT_SUCCESS = 'redux-example/auth/LOGOUT_SUCCESS';
-const LOGOUT_FAIL = 'redux-example/auth/LOGOUT_FAIL';
+const LOAD = 'delocate/auth/LOAD';
+const LOAD_SUCCESS = 'delocate/auth/LOAD_SUCCESS';
+const LOAD_FAIL = 'delocate/auth/LOAD_FAIL';
+const LOGIN = 'delocate/auth/LOGIN';
+const LOGIN_SUCCESS = 'delocate/auth/LOGIN_SUCCESS';
+const LOGIN_FAIL = 'delocate/auth/LOGIN_FAIL';
+const LOGOUT = 'delocate/auth/LOGOUT';
+const LOGOUT_SUCCESS = 'delocate/auth/LOGOUT_SUCCESS';
+const LOGOUT_FAIL = 'delocate/auth/LOGOUT_FAIL';
+
+const CLEAR_LOGIN_ERROR = 'delocate/auth/CLEAR_LOGIN_ERROR';
 
 const initialState = {
   loaded: false
@@ -68,6 +70,11 @@ export default function reducer(state = initialState, action = {}) {
         loggingOut: false,
         logoutError: action.error
       };
+    case CLEAR_LOGIN_ERROR:
+      return {
+        ...state,
+        loginError : null
+      }
     default:
       return state;
   }
@@ -94,6 +101,12 @@ export function login(username, password) {
       }
     })
   };
+}
+
+export function clearLoginError(){
+  return {
+    type : CLEAR_LOGIN_ERROR,
+  }
 }
 
 export function logout() {
