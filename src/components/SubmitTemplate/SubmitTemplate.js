@@ -11,7 +11,7 @@ export default class SubmitTemplate extends Component {
 
 
   render() {
-    const styles = require('./SubmiteTemplate.scss');
+    const styles = require('./SubmitTemplate.scss');
     return (
       <div>
 
