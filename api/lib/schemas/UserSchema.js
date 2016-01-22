@@ -39,8 +39,8 @@ module.exports =  function(Schema, collectionName){
   var UserSchema = new Schema({
     email : {type:String, required:true, index : {unique: true}, validator : emailValidator},
     username: { type: String, required: true, index: { unique: true } , validate: nameValidator},
-    password: { type: String, required: true, validate: nameValidator }
-  },{ strict : true, collection : collectionName});
+    password: { type: String, required: true, validate: nameValidator },
+  },{ strict : true, collection : collectionName, timestamps: true});
 
   UserSchema.pre('save', function(next) {
     var user = this;

@@ -32,7 +32,6 @@ export default function register(req) {
       if(err.type === 1){
         DB.save("user", req.body, function(data){
           req.session.user = {name : username}
-          console.log("data is ", data)
           return resolve(data.data)
         }, function(err){
           return reject(err.msg)

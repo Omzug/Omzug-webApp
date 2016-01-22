@@ -27,8 +27,12 @@ class LoginSuccess extends Component {
             { user._id &&
             <li> id : {user._id}</li>}
 
+
             { user.email &&
             <li> email : {user.email}</li>}
+            /* this date is only the string object, cannot deploy Date's function, try specify in API*/
+            <li> createdAt : {user.createdAt.toString()}</li>
+            <li> updatedAt : {user.createdAt.toString()}</li>
           </ul>
 
           <div>

@@ -21,5 +21,5 @@ module.exports = function(Schema, collectionName){
     state :  { type : String, required : true , validate : stringValidator},
     longTerm :  { type : Boolean, required : true },
 
-  }, { strict : true, collection : collectionName});
+  }, { strict : true, collection : collectionName, timestamps: true});
 }

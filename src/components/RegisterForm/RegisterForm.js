@@ -49,7 +49,7 @@ export default class RegisterForm extends Component{
       handleSubmit,
       submitting,
       asyncValidating} = this.props;
-    const isPasswordSame = password.value && passwordRepeat.value && passwordRepeat.value == password.value;
+    const isPasswordSame = password.value && passwordRepeat.value && passwordRepeat.value === password.value;
 
     return (
     <form className={styles.registerForm} onSubmit={handleSubmit}>
