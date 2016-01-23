@@ -9,6 +9,8 @@ import {bindActionCreators} from 'redux';
 import {isLoaded, load as loadEntity, clear as clearEntity} from "redux/modules/entity"
 import * as entityActions from 'redux/modules/entity';
 import connectData from 'helpers/connectData';
+import { SubmitForm } from 'components';
+import { SubmitTemplate } from 'components';
 
 function fetchDataDeferred(getState, dispatch) {
   if (!isLoaded(getState())) {
