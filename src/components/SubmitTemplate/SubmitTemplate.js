@@ -13,7 +13,7 @@ export default class SubmitTemplate extends Component {
   render() {
     const styles = require('./SubmitTemplate.scss');
     return (
-      <div>
+      <div className={styles.main}>
 
       </div>
     );

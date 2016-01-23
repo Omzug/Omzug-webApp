@@ -59,6 +59,7 @@ export default class Entity extends Component {
 
   render(){
     const {entity, error, loading, clearEntity, editing, load} = this.props;
+    const test = false;
     let refreshClassName = 'fa fa-refresh';
     if (loading) {
       refreshClassName += ' fa-spin';
@@ -67,7 +68,7 @@ export default class Entity extends Component {
 
     return (
       <div>
-        {editing ?
+        {test ?
             <SubmitForm onSubmit={this.handleSubmit} />
            :
           <SubmitTemplate />
