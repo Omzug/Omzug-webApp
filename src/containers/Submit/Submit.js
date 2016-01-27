@@ -7,6 +7,7 @@ import {connect} from 'react-redux';
 import Helmet from 'react-helmet';
 import {initialize} from 'redux-form';
 import {SubmitForm} from 'components';
+import {editStart, editStop } from 'redux/modules/submit'
 
 @connect(
   state => ({
@@ -35,11 +36,21 @@ export default class Submit extends Component{
     });
   }
 
+  handleEdit = (widget) => {
+    const {editStart} = this.props; // eslint-disable-line no-shadow
+    return () => editStart(widget.id);
+  };
+
   render(){
+
     return (
       <div className="container">
         <h1>Submit</h1>
         <Helmet title="Submit"/>
+
+        <button className="btn btn-primary" onClick={this.handleEdit(widget)}>
+          <i className="fa fa-pencil"/> Edit
+        </button>
 
         <div style={{textAlign: 'center', margin: 15}}>
           <button className="btn btn-primary" onClick={this.handleInitialize}>

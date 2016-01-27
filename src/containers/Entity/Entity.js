@@ -11,6 +11,7 @@ import * as entityActions from 'redux/modules/entity';
 import connectData from 'helpers/connectData';
 import { SubmitForm } from 'components';
 import { SubmitTemplate } from 'components';
+import { save } from 'redux/modules/submit';
 
 function fetchDataDeferred(getState, dispatch) {
   if (!isLoaded(getState())) {
@@ -52,9 +53,13 @@ export default class Entity extends Component {
     editStart: PropTypes.func.isRequired
   }
 
-  handleSubmit = (data)=>{
-    //this.props.submit(data)
-  }
+  handleSubmit = () => save(values)
+    .then(result => {
+      if (result && typeof result.error === 'object') {
+        return Promise.reject(result.error);
+      }
+    })
+
 
 
   render(){
@@ -68,11 +73,22 @@ export default class Entity extends Component {
 
     return (
       <div>
+        <button className="btn btn-primary" onClick={this.handleEdit()}>
+          <i className="fa fa-pencil"/> Edit
+        </button>
+
         {test ?
             <SubmitForm onSubmit={this.handleSubmit} />
            :
           <SubmitTemplate />
         }
+
+        <button className="btn btn-success"
+                onClick={handleSubmit()}
+                disabled={ invalid || submitting}>
+          <i className={'fa ' + (submitting ? 'fa-cog fa-spin' : 'fa-cloud')}/> Save
+        </button>
+
 
       </div>
     )
