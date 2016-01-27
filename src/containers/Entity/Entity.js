@@ -6,17 +6,20 @@ import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {getList} from 'redux/modules/entities';
 import {bindActionCreators} from 'redux';
-import {isLoaded, load as loadEntity, clear as clearEntity} from "redux/modules/entity"
-import * as entityActions from 'redux/modules/entity';
+import {isLoaded, load as onLoad, clear as onClear, changeLocation as onChangeLocation} from "redux/modules/entity"
 import connectData from 'helpers/connectData';
 import { SubmitForm } from 'components';
 import { SubmitTemplate } from 'components';
 import { save } from 'redux/modules/submit';
 
+import DropDownMenu from 'material-ui/lib/DropDownMenu';
+import MenuItem from 'material-ui/lib/menus/menu-item';
+import injectTapEventPlugin from 'react-tap-event-plugin';
+
 function fetchDataDeferred(getState, dispatch) {
   if (!isLoaded(getState())) {
     console.log("after load we get state:", getState().router)
-    return dispatch(loadEntity(getState().router.params.entityId));
+    return dispatch(load(getState().router.params.entityId));
   }
 }
 
@@ -32,8 +35,9 @@ function checkState(getState, dispatch){
     error: state.entity.error,
     loading: state.entity.loading,
     editing: state.widgets.editing,
+    locationId : state.entity.locationId
   }),
-  {entityActions, clearEntity}
+  {onLoad, onClear, onChangeLocation}
 )
 export default class Entity extends Component {
   //componentDidMount() {
@@ -45,26 +49,32 @@ export default class Entity extends Component {
     entity: PropTypes.object,
     error: PropTypes.string,
     loading: PropTypes.bool,
-    clearEntity : PropTypes.func.isRequired,
+    clear : PropTypes.func.isRequired,
+    locationId : PropTypes.integer,
 
-    initializeWithKey: PropTypes.func.isRequired,
     editing: PropTypes.object.isRequired,
+    initializeWithKey: PropTypes.func.isRequired,
     load: PropTypes.func.isRequired,
     editStart: PropTypes.func.isRequired
   }
 
-  handleSubmit = () => save(values)
-    .then(result => {
-      if (result && typeof result.error === 'object') {
-        return Promise.reject(result.error);
-      }
-    })
-
-
+  handleSubmit = () => console.log("submit now ")
+    //save(values)
+    //.then(result => {
+    //  if (result && typeof result.error === 'object') {
+    //    return Promise.reject(result.error);
+    //  }
+    //})
 
   render(){
-    const {entity, error, loading, clearEntity, editing, load} = this.props;
+    injectTapEventPlugin();
+    const {entity, error, loading, onClear, editing, onLoad, onChangeLocation, locationId} = this.props;
+
+    // for test case
     const test = false;
+    const invalid = true;
+    const submitting = false;
+
     let refreshClassName = 'fa fa-refresh';
     if (loading) {
       refreshClassName += ' fa-spin';
@@ -73,18 +83,27 @@ export default class Entity extends Component {
 
     return (
       <div>
-        <button className="btn btn-primary" onClick={this.handleEdit()}>
+
+        <DropDownMenu value={locationId} onChange={onChangeLocation}>
+          <MenuItem value={1} primaryText="Berlin"/>
+          <MenuItem value={2} primaryText="Stuttgart"/>
+          <MenuItem value={3} primaryText="Munich"/>
+          <MenuItem value={4} primaryText="Hamburg"/>
+          <MenuItem value={5} primaryText="NordWestfalen"/>
+        </DropDownMenu>
+
+        <button className="btn btn-primary" onClick={this.handleSubmit()}>
           <i className="fa fa-pencil"/> Edit
         </button>
 
         {test ?
-            <SubmitForm onSubmit={this.handleSubmit} />
+            <SubmitForm onSubmit={this.handleSubmit()} />
            :
           <SubmitTemplate />
         }
 
         <button className="btn btn-success"
-                onClick={handleSubmit()}
+                onClick={this.handleSubmit()}
                 disabled={ invalid || submitting}>
           <i className={'fa ' + (submitting ? 'fa-cog fa-spin' : 'fa-cloud')}/> Save
         </button>
