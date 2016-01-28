@@ -3,10 +3,14 @@
  */
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
-import {isLoaded, load as getList} from 'redux/modules/entities';
+import {isLoaded, load as getList, onLocationChange} from 'redux/modules/entities';
 import {bindActionCreators} from 'redux';
 import { LinkContainer } from 'react-router-bootstrap';
 import connectData from 'helpers/connectData';
+
+import DropDownMenu from 'material-ui/lib/DropDownMenu';
+import MenuItem from 'material-ui/lib/menus/menu-item';
+import injectTapEventPlugin from 'react-tap-event-plugin';
 
 function fetchDataDeferred(getState, dispatch) {
   if (!isLoaded(getState())) {
@@ -21,17 +25,21 @@ function fetchDataDeferred(getState, dispatch) {
   state => ({
     entities: state.entities.data,
     error: state.entities.error,
-    loading: state.entities.loading
+    loading: state.entities.loading,
+    locationId : state.entities.locationId
   }),
-  {getList}
+  {getList, onLocationChange}
   //dispatch => bindActionCreators({getList}, dispatch)
 )
 export default class Entities extends Component {
   static propTypes = {
     data : PropTypes.object,
-    getList: PropTypes.func.isRequired,
     error: PropTypes.string,
     loading: PropTypes.bool,
+    locationId : PropTypes.number,
+
+    getList: PropTypes.func.isRequired,
+    onLocationChange: PropTypes.func.isRequired,
   };
 
   addNumber = (event)=> {
@@ -40,11 +48,20 @@ export default class Entities extends Component {
   }
 
   render() {
-    const { data, getList, error, loading } = this.props;
+    const { data, getList, error, loading, locationId, onLocationChange } = this.props;
     console.log('entities are', data)
     return (
       <div>
         <h1>HauseList</h1>
+
+        <DropDownMenu value={locationId} onChange={onLocationChange}>
+          <MenuItem value={1} primaryText="Berlin"/>
+          <MenuItem value={2} primaryText="Stuttgart"/>
+          <MenuItem value={3} primaryText="Munich"/>
+          <MenuItem value={4} primaryText="Hamburg"/>
+          <MenuItem value={5} primaryText="NordWestfalen"/>
+        </DropDownMenu>
+
         <button className="" onClick={getList}>
         </button>
         <div className="container">

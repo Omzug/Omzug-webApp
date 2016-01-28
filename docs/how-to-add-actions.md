@@ -1,6 +1,6 @@
 Action
 
-1. register the action in Redux modules
+1. register the action in Redux modules (function , name string, reducer)
 
 2. import the action in Component
 

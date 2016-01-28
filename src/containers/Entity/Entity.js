@@ -12,10 +12,6 @@ import { SubmitForm } from 'components';
 import { SubmitTemplate } from 'components';
 import { save } from 'redux/modules/submit';
 
-import DropDownMenu from 'material-ui/lib/DropDownMenu';
-import MenuItem from 'material-ui/lib/menus/menu-item';
-import injectTapEventPlugin from 'react-tap-event-plugin';
-
 function fetchDataDeferred(getState, dispatch) {
   if (!isLoaded(getState())) {
     console.log("after load we get state:", getState().router)
@@ -35,9 +31,8 @@ function checkState(getState, dispatch){
     error: state.entity.error,
     loading: state.entity.loading,
     editing: state.widgets.editing,
-    locationId : state.entity.locationId
   }),
-  {onLoad, onClear, onChangeLocation}
+  {onLoad, onClear}
 )
 export default class Entity extends Component {
   //componentDidMount() {
@@ -50,7 +45,6 @@ export default class Entity extends Component {
     error: PropTypes.string,
     loading: PropTypes.bool,
     clear : PropTypes.func.isRequired,
-    locationId : PropTypes.integer,
 
     editing: PropTypes.object.isRequired,
     initializeWithKey: PropTypes.func.isRequired,
@@ -67,8 +61,7 @@ export default class Entity extends Component {
     //})
 
   render(){
-    injectTapEventPlugin();
-    const {entity, error, loading, onClear, editing, onLoad, onChangeLocation, locationId} = this.props;
+    const {entity, error, loading, onClear, editing, onLoad} = this.props;
 
     // for test case
     const test = false;
@@ -83,15 +76,6 @@ export default class Entity extends Component {
 
     return (
       <div>
-
-        <DropDownMenu value={locationId} onChange={onChangeLocation}>
-          <MenuItem value={1} primaryText="Berlin"/>
-          <MenuItem value={2} primaryText="Stuttgart"/>
-          <MenuItem value={3} primaryText="Munich"/>
-          <MenuItem value={4} primaryText="Hamburg"/>
-          <MenuItem value={5} primaryText="NordWestfalen"/>
-        </DropDownMenu>
-
         <button className="btn btn-primary" onClick={this.handleSubmit()}>
           <i className="fa fa-pencil"/> Edit
         </button>

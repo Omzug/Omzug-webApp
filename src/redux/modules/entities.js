@@ -6,6 +6,7 @@ const LOAD = 'Nevermind/entityList/LOAD';
 const LOAD_SUCCESS = 'Nevermind/entityList/LOAD_SUCCESS';
 const LOAD_FAIL = 'Nevermind/entityList/LOAD_FAIL';
 const CLEAR = 'Nevermind/entityList/CLEAR'
+const CHANGE_LOCATION = "Nevermind/entityList/CHANGE_LOCATION"
 
 export function load(){
   return {
@@ -21,8 +22,21 @@ export function isLoaded(globalState) {
   return globalState.entity && globalState.entity.loaded;
 }
 
+export function onLocationChange(event, index, value){
+  return {
+    type : CHANGE_LOCATION,
+    id : value,
+  }
+}
+
+// to be added when we change location
+function filterData(locationValue){
+
+}
+
 const initState = {
-  list :[]
+  list :[],
+  locationId : 1,
 };
 
 export default function reducer(state = initState, action = {}) {
@@ -51,6 +65,11 @@ export default function reducer(state = initState, action = {}) {
     case CLEAR:
       return {
         initState
+      }
+    case CHANGE_LOCATION:
+      return {
+        ...state,
+        locationId : action.id
       }
     default : return state;
   }

@@ -6,12 +6,10 @@ const LOAD = 'Nevermind/entity/LOAD';
 const LOAD_SUCCESS = 'Nevermind/entity/LOAD_SUCCESS';
 const LOAD_FAIL = 'Nevermind/entity/LOAD_FAIL';
 const CLEAR = 'Nevermind/entity/CLEAR'
-const CHANGE_LOCATION = "Nevermind/entity/CHANGE_LOCATION"
 
 const initState = {
   loaded: false,
   saveError: {},
-  locationId : 1
 };
 
 export default function reducer(state = initState, action){
@@ -42,11 +40,6 @@ export default function reducer(state = initState, action){
       return {
         initState
       }
-    case CHANGE_LOCATION:
-      return {
-        ...state,
-        locationId : action.id
-      }
     default :
       return state;
   }
@@ -59,13 +52,6 @@ export function isLoaded(globalState) {
 export function clear(){
   return {
     type: CLEAR
-  }
-}
-
-export function changeLocation(event, index, value){
-  return {
-    type : CHANGE_LOCATION,
-    id : value
   }
 }
 
