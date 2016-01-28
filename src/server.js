@@ -47,6 +47,15 @@ app.use('/ws', (req, res) => {
   proxy.web(req, res, {target: targetUrl + '/ws'});
 });
 
+//Material-UI expects the global navigator.userAgent to be defined for server-side rendering.
+// Set this property when receiving the request headers.
+app.use(function(req, res, next) {
+  GLOBAL.navigator = {
+    userAgent: req.headers['user-agent']
+  }
+  next();
+});
+
 server.on('upgrade', (req, socket, head) => {
   proxy.ws(req, socket, head);
 });
