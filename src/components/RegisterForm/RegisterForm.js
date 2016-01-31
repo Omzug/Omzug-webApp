@@ -8,19 +8,18 @@ import registerValidation from './registerValidation';
 import {check as checkEmail} from 'redux/modules/auth';
 
 const enableAsyncCheck = false;
-const asyncValidate = (value , dispatch) => {
+const asyncValidate = (value, dispatch) => {
   if(enableAsyncCheck){
     //return new Promise((resolve, reject) =>{
     //
     //})
     return dispatch(checkEmail(value))
-  }else{
-    return new Promise((resolve, reject) => {
-      console.log('sync validate value is disable now.')
-      resolve()
-    })
-
   }
+  
+  return new Promise((resolve, reject) => {
+    console.log('sync validate value is disable now.')
+    resolve()
+  })
 }
 
 
@@ -87,7 +86,7 @@ export default class RegisterForm extends Component{
         }
       </div>
       <div>
-        <button disabled={isPasswordSame? submitting : "true"} className="btn btn-primary" onClick={handleSubmit}>
+        <button disabled={isPasswordSame ? submitting : "true"} className="btn btn-primary" onClick={handleSubmit}>
           {submitting ? <i/> : <i/>} Submit
         </button>
         <button disabled={submitting} className="btn btn-warning" onClick={resetForm}>

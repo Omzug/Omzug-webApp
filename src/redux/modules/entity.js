@@ -59,7 +59,7 @@ export function load(number){
   return {
     types: [LOAD, LOAD_SUCCESS, LOAD_FAIL],
     promise: (client) => {
-      let url = '/list/' + number
+      const url = '/list/' + number
       return client.get(url)
     } // params not used, just shown as demonstration
   };

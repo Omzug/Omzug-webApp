@@ -48,7 +48,7 @@ export default class Submit extends Component{
         <h1>Submit</h1>
         <Helmet title="Submit"/>
 
-        <button className="btn btn-primary" onClick={this.handleEdit(widget)}>
+        <button className="btn btn-primary" onClick={this.handleEdit()}>
           <i className="fa fa-pencil"/> Edit
         </button>
 

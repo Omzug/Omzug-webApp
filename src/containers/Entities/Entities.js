@@ -15,7 +15,7 @@ import AppBar from 'material-ui/lib/app-bar';
 import RaisedButton from 'material-ui/lib/raised-button';
 
 
-import MyRawTheme from '../../theme/materialUI.theme';
+import myRawTheme from '../../theme/materialUI.theme';
 import ThemeManager from 'material-ui/lib/styles/theme-manager';
 import ThemeDecorator from 'material-ui/lib/styles/theme-decorator';
 
@@ -26,7 +26,7 @@ function fetchDataDeferred(getState, dispatch) {
   }
 }
 
-@ThemeDecorator(ThemeManager.getMuiTheme(MyRawTheme))
+@ThemeDecorator(ThemeManager.getMuiTheme(myRawTheme))
 
 @connectData(null, fetchDataDeferred)
 
@@ -71,7 +71,7 @@ export default class Entities extends Component {
           <MenuItem value={5} primaryText="NordWestfalen"/>
         </DropDownMenu>
 
-        <RaisedButton label="My Button" primary={true}
+        <RaisedButton label="My Button"
                       onClick={this.addNumber} />
 
         <button className="" onClick={getList}>
@@ -83,12 +83,12 @@ export default class Entities extends Component {
         </div>
         <div className="container">
           {data && data.number &&
-          <LinkContainer to={`/entities/${data.number}`}>
-            <button>link to entity with number {data.number}</button>
-          </LinkContainer>}
+            <LinkContainer to={`/entities/${data.number}`}>
+              <button>link to entity with number {data.number}</button>
+            </LinkContainer>
+          }
         </div>
-        <div className="detail">
-        </div>
+        <div className="detail"></div>
         {error &&
         <div className="alert alert-danger" role="alert">
           <span className="glyphicon glyphicon-exclamation-sign" aria-hidden="true">sorry</span>

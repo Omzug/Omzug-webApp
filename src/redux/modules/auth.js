@@ -114,7 +114,7 @@ export function load() {
 
 //email must be a string
 export function check(email){
-  return{
+  return {
     types: [CHECK, CHECK_SUCCESS, CHECK_FAIL],
     promise : (client) => client.get('/check?email=' + email)
   }
@@ -136,7 +136,7 @@ export function login(username, password) {
 export function register(data){
   return {
     types: [LOGIN, LOGIN_SUCCESS, LOGIN_FAIL],
-    promise: (client) => client.post('./register',{
+    promise: (client) => client.post('./register', {
       data : data
     })
   }

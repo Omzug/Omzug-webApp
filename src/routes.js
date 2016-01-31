@@ -62,16 +62,16 @@ export default (store) => {
   }
 
   const logNextState = (nextState, replaceState, cb) => {
-    const entityNow = store.getState().entity;
-    console.log('environment is', config.isDebug)
-    console.log('next state is', nextState.params, typeof nextState.params.entityId,
-      "\n loadedId :", entityNow.loadedId, typeof entityNow.loadedId)
-    //only clear cache if the id is not the same as before
-    if(entityNow.loaded && entityNow.loadedId !== nextState.params.entityId) {
-      console.log('should be cleared')
-      store.dispatch(clearEntity())
-    }
-    cb();
+    //const entityNow = store.getState().entity;
+    //console.log('environment is', config.isDebug)
+    //console.log('next state is', nextState.params, typeof nextState.params.entityId,
+    //  "\n loadedId :", entityNow.loadedId, typeof entityNow.loadedId)
+    ////only clear cache if the id is not the same as before
+    //if(entityNow.loaded && entityNow.loadedId !== nextState.params.entityId) {
+    //  console.log('should be cleared')
+    //  store.dispatch(clearEntity())
+    //}
+    //cb();
   };
 
 
