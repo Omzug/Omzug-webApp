@@ -26,8 +26,7 @@ function fetchDataDeferred(getState, dispatch) {
   }
 }
 
-@ThemeDecorator(ThemeManager.getMuiTheme(myRawTheme))
-
+//@ThemeDecorator(ThemeManager.getMuiTheme(myRawTheme))
 @connectData(null, fetchDataDeferred)
 
 @connect(

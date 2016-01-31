@@ -4,18 +4,19 @@
 
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
-import {getList} from 'redux/modules/entities';
 import {bindActionCreators} from 'redux';
 import {isLoaded, load as onLoad, clear as onClear, changeLocation as onChangeLocation} from "redux/modules/entity"
 import connectData from 'helpers/connectData';
 import { SubmitForm } from 'components';
 import { SubmitTemplate } from 'components';
-import { save } from 'redux/modules/submit';
+
+import FlatButton from 'material-ui/lib/flat-button';
+
 
 function fetchDataDeferred(getState, dispatch) {
   if (!isLoaded(getState())) {
-    console.log("after load we get state:", getState().router)
-    return dispatch(load(getState().router.params.entityId));
+    console.log("nothing load, after load we get state:", getState().router)
+    return dispatch(onLoad(getState().router.params.entityId));
   }
 }
 
@@ -24,17 +25,20 @@ function checkState(getState, dispatch){
   console.log('before load we get state: ', getState().router)
 }
 
-@connectData(checkState, fetchDataDeferred)
+@connectData(
+  checkState, fetchDataDeferred
+)
 @connect(
   state => ({
     entity: state.entity.data,
     error: state.entity.error,
     loading: state.entity.loading,
-    editing: state.widgets.editing,
+    editing: state.entity.editing,
   }),
   {onLoad, onClear}
 )
 export default class Entity extends Component {
+
   //componentDidMount() {
   //  this.setState({
   //    // route components are rendered with useful information, like URL params
@@ -44,15 +48,16 @@ export default class Entity extends Component {
     entity: PropTypes.object,
     error: PropTypes.string,
     loading: PropTypes.bool,
-    clear : PropTypes.func.isRequired,
+    editing: PropTypes.bool,
 
-    editing: PropTypes.object.isRequired,
-    initializeWithKey: PropTypes.func.isRequired,
-    load: PropTypes.func.isRequired,
-    editStart: PropTypes.func.isRequired
+    //editStart: PropTypes.func.isRequired,
+    onClear : PropTypes.func.isRequired,
+    onLoad: PropTypes.func.isRequired
   }
 
-  handleSubmit = () => console.log("submit now ")
+  handleSubmit = () => {
+    console.log("submit now ")
+  }
     //save(values)
     //.then(result => {
     //  if (result && typeof result.error === 'object') {
@@ -76,21 +81,14 @@ export default class Entity extends Component {
 
     return (
       <div>
-        <button className="btn btn-primary" onClick={this.handleSubmit()}>
-          <i className="fa fa-pencil"/> Edit
-        </button>
+        <button className="btn btn-primary" >
 
+        </button>
         {test ?
-            <SubmitForm onSubmit={this.handleSubmit()} />
+            <SubmitForm onSubmit={this.handleSubmit} />
            :
           <SubmitTemplate />
         }
-
-        <button className="btn btn-success"
-                onClick={this.handleSubmit()}
-                disabled={ invalid || submitting}>
-          <i className={'fa ' + (submitting ? 'fa-cog fa-spin' : 'fa-cloud')}/> Save
-        </button>
 
 
       </div>

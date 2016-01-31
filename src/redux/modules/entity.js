@@ -10,6 +10,7 @@ const CLEAR = 'Nevermind/entity/CLEAR'
 const initState = {
   loaded: false,
   saveError: {},
+  editing : false,
 };
 
 export default function reducer(state = initState, action){
@@ -60,6 +61,7 @@ export function load(number){
     types: [LOAD, LOAD_SUCCESS, LOAD_FAIL],
     promise: (client) => {
       const url = '/list/' + number
+      console.log('request url is', url)
       return client.get(url)
     } // params not used, just shown as demonstration
   };

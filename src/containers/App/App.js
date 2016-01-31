@@ -10,8 +10,9 @@ import { InfoBar } from 'components';
 import { pushState } from 'redux-router';
 import connectData from 'helpers/connectData';
 import config from '../../config';
-
 import injectTapEventPlugin from 'react-tap-event-plugin';
+
+injectTapEventPlugin();
 
 //load authentication data when loaded
 function fetchData(getState, dispatch) {
@@ -60,7 +61,6 @@ export default class App extends Component {
   }
 
   render() {
-    injectTapEventPlugin();
     const {user} = this.props;
     const styles = require('./App.scss');
     const rightLi = styles.links + " " + styles.hvrBuzzOut;
