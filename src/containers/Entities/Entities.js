@@ -10,7 +10,14 @@ import connectData from 'helpers/connectData';
 
 import DropDownMenu from 'material-ui/lib/DropDownMenu';
 import MenuItem from 'material-ui/lib/menus/menu-item';
-import injectTapEventPlugin from 'react-tap-event-plugin';
+
+import AppBar from 'material-ui/lib/app-bar';
+import RaisedButton from 'material-ui/lib/raised-button';
+
+
+import MyRawTheme from '../../theme/materialUI.theme';
+import ThemeManager from 'material-ui/lib/styles/theme-manager';
+import ThemeDecorator from 'material-ui/lib/styles/theme-decorator';
 
 function fetchDataDeferred(getState, dispatch) {
   if (!isLoaded(getState())) {
@@ -18,6 +25,8 @@ function fetchDataDeferred(getState, dispatch) {
     return dispatch(getList());
   }
 }
+
+@ThemeDecorator(ThemeManager.getMuiTheme(MyRawTheme))
 
 @connectData(null, fetchDataDeferred)
 
@@ -42,7 +51,7 @@ export default class Entities extends Component {
     onLocationChange: PropTypes.func.isRequired,
   };
 
-  addNumber = (event)=> {
+  addNumber = (event) => {
     event.preventDefault();
     this.props.getList()
   }
@@ -61,6 +70,9 @@ export default class Entities extends Component {
           <MenuItem value={4} primaryText="Hamburg"/>
           <MenuItem value={5} primaryText="NordWestfalen"/>
         </DropDownMenu>
+
+        <RaisedButton label="My Button" primary={true}
+                      onClick={this.addNumber} />
 
         <button className="" onClick={getList}>
         </button>
