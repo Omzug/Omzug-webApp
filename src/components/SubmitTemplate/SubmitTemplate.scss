@@ -1,19 +1,30 @@
+@import "../../theme/utils.scss";
 
 .main{
   width : 100px;
   height: 100px;
   background-color: green;
-  .button{
+}
 
-  }
-  .slider{
-    width : 60%;
-    padding :50px;
-  }
-  .arrow{
-    width:20px;
-    height:20px;
+.card{
+  width:60%;
+  min-width:500px;
+  flex-grow: 1;
+}
 
-  }
+.list{
+  padding:20px;
+  width:40%;
+  min-width:300px;
+  flex-grow: 1;
+}
+
+.arrow{
+  width:20px;
+  height:20px;
+}
+
+.datePicker{
+  display: inline;
 }
 
