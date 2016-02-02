@@ -89,8 +89,6 @@ export default class Entity extends Component {
            :
           <SubmitTemplate />
         }
-
-
       </div>
     )
   }

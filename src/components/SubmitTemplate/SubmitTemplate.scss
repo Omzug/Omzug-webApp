@@ -1,10 +1,19 @@
+
 .main{
   width : 100px;
   height: 100px;
   background-color: green;
-
   .button{
 
   }
+  .slider{
+    width : 60%;
+    padding :50px;
+  }
+  .arrow{
+    width:20px;
+    height:20px;
 
+  }
 }
+
