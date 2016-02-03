@@ -6,6 +6,9 @@ var update = require('react-addons-update');
 const LOAD = 'Nevermind/entity/LOAD';
 const LOAD_SUCCESS = 'Nevermind/entity/LOAD_SUCCESS';
 const LOAD_FAIL = 'Nevermind/entity/LOAD_FAIL';
+const SUBMIT = 'Nevermind/entity/SUBMIT';
+const SUBMIT_SUCCESS = 'Nevermind/entity/SUBMIT_SUCCESS';
+const SUBMIT_FAIL = 'Nevermind/entity/SUBMIT_FAIL';
 const CLEAR = 'Nevermind/entity/CLEAR'
 const OPEN_CONTACT = "Nevermind/entity/OPEN_CONTACT";
 const CLOSE_CONTACT = "Nevermind/entity/CLOSE_CONTACT";
@@ -61,6 +64,23 @@ export default function reducer(state = initState, action){
         data: null,
         error: action.error
       };
+    case SUBMIT:
+          return {
+            ...state,
+            submitting : true,
+          }
+    case SUBMIT_SUCCESS:
+          return {
+            ...state,
+            submitting : false,
+            data : action.data
+          }
+    case SUBMIT_FAIL:
+          return {
+            ...state,
+            submitting : false,
+            submitError : action.error
+          }
     case CLEAR:
       return initState;
     case CLOSE_CONTACT:
@@ -119,6 +139,15 @@ export function onStartEdit(){
 export  function onEndEdit(){
   return {
     type : END_EDIT
+  }
+}
+
+export function onSubmit(){
+  return {
+    types: [SUBMIT, SUBMIT_SUCCESS, SUBMIT_FAIL],
+    promise: (client) => client.post('./submit', {
+      data : data
+    })
   }
 }
 
