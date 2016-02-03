@@ -1,166 +1,144 @@
 /**
- * Created by hanwencheng on 1/13/16.
+ * Created by hanwencheng on 1/22/16.
  */
-import {bindActionCreators} from 'redux';
+
 import React, {Component, PropTypes} from 'react';
-import {reduxForm} from 'redux-form';
-import submitValidation from './submitValidation';
 import {connect} from 'react-redux';
-import * as submitActions from 'redux/modules/submit';
 
-const enableAsyncCheck = false;
-const asyncValidate = (value , dispatch) => {
-  if(enableAsyncCheck){
-    //return dispatch(checkEmail(value))
-    return new Promise((resolve, reject)=> {
-      reject('rejected by async validate')
-    })
-  }else{
-    return new Promise((resolve, reject) => {
-      resolve('sync validate value is disable now.')
-    })
+import FlatButton from 'material-ui/lib/flat-button';
+import Slider from 'nuka-carousel';
 
-  }
-}
+import FontIcon from 'material-ui/lib/font-icon';
+
+import Paper from 'material-ui/lib/paper';
+
+import Card from 'material-ui/lib/card/card';
+import CardActions from 'material-ui/lib/card/card-actions';
+import CardHeader from 'material-ui/lib/card/card-header';
+import CardMedia from 'material-ui/lib/card/card-media';
+import CardTitle from 'material-ui/lib/card/card-title';
+import CardText from 'material-ui/lib/card/card-text';
+
+import List from 'material-ui/lib/lists/list';
+import ListItem from 'material-ui/lib/lists/list-item';
+import Divider from 'material-ui/lib/divider';
+
+import DatePicker from 'material-ui/lib/date-picker/date-picker';
+
+
 @connect(
   state => ({
-    saveError: state.widgets.saveError
+    entity: state.entity.data,
   }),
-  dispatch => bindActionCreators(submitActions, dispatch)
+  {}
 )
-
-@reduxForm({
-  form: 'register',
-  fields : ['price', 'size', 'rooms', 'owner', 'startDate', 'endDate', 'type', 'city', 'street', 'note'],
-  validate : submitValidation,
-  asyncValidate,
-  //asyncBlurFields: ['rooms'],
-})
-
-export default class SubmitForm extends Component{
+export default class SubmitForm extends Component {
   static propTypes = {
-    asyncValidating: PropTypes.string.isRequired,
-    resetForm: PropTypes.func.isRequired,
-
-    fields: PropTypes.object.isRequired,
-    editStop: PropTypes.func.isRequired,
-    handleSubmit: PropTypes.func.isRequired,
-    invalid: PropTypes.bool.isRequired,
-    pristine: PropTypes.bool.isRequired, //TODO what the hell is this?
-    save: PropTypes.func.isRequired,
-    submitting: PropTypes.bool.isRequired,
-    saveError: PropTypes.object,
-    formKey: PropTypes.string.isRequired,
-    values: PropTypes.object.isRequired //TODO what is this?
+    entity: PropTypes.object,
   }
 
-
   render() {
-    const {
-      fields: {
-        price, rooms, size, owner, startDate, endDate, type, city, street, note
-        },
-      resetForm,
-      handleSubmit,
-      submitting,
-      asyncValidating,
-
-      editStop,
-      formKey,
-      invalid,
-      pristine,
-      save,
-      saveError: { [formKey]: saveError },
-      values,
-      } = this.props;
-
     const styles = require('./SubmitForm.scss');
-    var canSubmit = true;
+    const {entity} = this.props;
+
+    //custom arrows
+    var Decorators = [
+      {
+        component: React.createClass({
+          render() {
+            return (
+              <i onClick={this.props.previousSlide} className="fa fa-arrow-left"/>
+            )
+          }
+        }),
+        position: 'CenterLeft',
+        style: {
+          padding: 20
+        }
+      },
+      {
+        component: React.createClass({
+          render() {
+            return (
+              <i onClick={this.props.nextSlide} className="fa fa-arrow-right"/>
+            )
+          }
+        }),
+        position: 'CenterRight',
+        style: {
+          padding: 20
+        }
+      },
+
+    ];
+
+    const pickerStyle ={
+      display:'inline'
+    }
+
+
     return (
-      <form onSubmit={handleSubmit()}>
+      <div className={styles.container}>
+        <Card className={styles.card}>
+          {/*
+           <CardHeader
+           title="房子的标题"
+           subtitle="房子的副标题"
+           avatar="http://lorempixel.com/100/100/nature/"
+           />
+           */}
+          <CardMedia
+          >
+            <Slider className={styles.slider} decorators={Decorators} framePadding="50px" slidesToShow={1}>
+              <img/>
+              <img/>
+              <img/>
+            </Slider>
+          </CardMedia>
+          <CardTitle title="房屋标题" subtitle="房屋副标题" />
+          <CardText>
+            Lorem ipsum sit amet, consectetur adipiscing elit.
+            Donec mattis pretium massa. Aliquam erat volutpat. Nulla facilisi.
+            Donec vulputate interdum sollicitudin. Nunc lacinia auctor quam sed pellentesque.
+            Aliquam dui mauris, mattis quis lacus id, pellentesque lobortis odio.
+          </CardText>
+          <CardActions>
+            <FlatButton className={styles.button} onClick={this.handleSubmit}><span className="fa fa-envelope"/> 联系房主</FlatButton>
+            <FlatButton className={styles.button} onClick={this.handleSubmit}><span className="fa fa-share"/> 分享</FlatButton>
+          </CardActions>
+        </Card>
 
-        <div>
-          <label>price</label>
-          <div>
-            <input type="text" placeholder="Email" {...price}/>
-          </div>
-          {price.touched && price.error && <div>{price.error}</div>}
-        </div>
+        <List className={styles.list}>
+          <ListItem className="hint--top" data-hint="城市" primaryText={entity? entity.city : "城市"} leftIcon={<FontIcon className="fa fa-map-marker" />} />
+          <ListItem className="hint--top" data-hint="地址" primaryText={entity? entity.location : "地址"} leftIcon={<FontIcon className="fa fa-map" />} />
+          <ListItem className="hint--top" data-hint="房间数" primaryText={entity? entity.roomNumber: "房间数"} leftIcon={<FontIcon className="fa fa-codepen" />} />
+          <ListItem className="hint--top" data-hint="面积" primaryText={entity? entity.roomNumber: "房间数"}  leftIcon={<FontIcon className="fa fa-th" />}/>
+          <ListItem className="hint--top" data-hint="租金" primaryText={entity? entity.roomNumber: "房间数"}  leftIcon={<FontIcon className="fa fa-euro" />}/>
+          <ListItem className="hint--top" data-hint="押金" primaryText={entity? entity.roomNumber: "房间数"}  leftIcon={<FontIcon className="fa fa-money" />}/>
+          <ListItem className="hint--top" data-hint="最多人数" primaryText={entity.maximumPerson}  leftIcon={<FontIcon className="fa fa-child" />}/>
+          <ListItem className="hint--top" data-hint="开始结束日期" leftIcon={<FontIcon className="fa fa-calendar" />} children={
+          <span>
+          <DatePicker hintText="Landscape Dialog" mode="landscape" />
+          <DatePicker hintText="Landscape Dialog" mode="landscape" />
+          </span>
+          }>
 
-        <div>
-          <label>Rooms</label>
-          <div>
-            <input type="text" placeholder="Username" {...rooms}/>
-            {asyncValidating === 'rooms' && <i /* spinning cog *//>}
-          </div>
-          {rooms.touched && rooms.error && <div>{rooms.error}</div>}
-        </div>
+          </ListItem>
+          <Divider/>
+          <ListItem className={styles.note} zDepth={2} className="hint--top" data-hint="备注">
+            <p className={styles.note}>{entity.note}</p>>
+          </ListItem>
+          <ListItem className="hint--top" data-hint="邮箱" primaryText={entity.email} leftIcon={<FontIcon className="fa fa-envelope-o" />} />
+          <ListItem className="hint--top" data-hint="手机" primaryText={entity.phone} leftIcon={<FontIcon className="fa fa-mobile-phone" />} />
 
-        <div>
-          <label>size</label>
-          <div>
-            <input type="text" placeholder="size" {...size}/>
-          </div>
-          {size.touched && size.error && <div>{size.error}</div>}
-        </div>
 
-        <div>
-          <label>city</label>
-          <div>
-            <input type="text" placeholder="Repeat size" {...city}/>
-          </div>
-          { city.touched && <div>{city.error}</div>}
-        </div>
 
-        <div>
-          <label>street</label>
-          <div>
-            <input type="text" placeholder="Repeat size" {...street}/>
-          </div>
-          { street.touched && <div>{street.error}</div>}
-        </div>
 
-        <div>
-          <label>startDate</label>
-          <div>
-            <input type="text" placeholder="Repeat size" {...startDate}/>
-          </div>
-          { startDate.touched && <div>{startDate.error}</div>}
-        </div>
-
-        <div>
-          <label>endDate</label>
-          <div>
-            <input type="text" placeholder="Repeat size" {...endDate}/>
-          </div>
-          { endDate.touched && <div>{endDate.error}</div>}
-        </div>
-
-        <div>
-          <label>Note</label>
-          <div>
-            <input type="text" placeholder="Repeat size" {...note}/>
-          </div>
-          { note.touched && <div>{note.error}</div>}
-        </div>
-
-        <div>
-          <label>type</label>
-          <div>
-            <input type="text" placeholder="Repeat size" {...type}/>
-          </div>
-          { type.touched && <div>{type.error}</div>}
-        </div>
-
-        <div>
-          <button disabled={canSubmit && submitting} onClick={handleSubmit()}>
-            {submitting ? <i/> : <i/>} Submit
-          </button>
-          <button disabled={canSubmit && submitting} onClick={resetForm}>
-            Clear Values
-          </button>
-        </div>
-      </form>
+          <FlatButton className={styles.button} onClick={this.handleSubmit}><span className="fa fa-pencil"/> Edit</FlatButton>
+        </List>
+      </div>
     );
   }
 }
+
+

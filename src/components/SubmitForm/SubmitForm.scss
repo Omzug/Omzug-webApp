@@ -1,0 +1,31 @@
+@import "../../theme/utils.scss";
+
+.card{
+  width:60%;
+  min-width:300px;
+  flex-grow: 1;
+  .slider{
+
+  }
+}
+
+.list{
+  padding:50px;
+  width:40%;
+  min-width:300px;
+  flex-grow: 2;
+  .description{
+    margin:0 30px;
+    color:grey;
+  }
+}
+
+.arrow{
+  width:20px;
+  height:20px;
+}
+
+.datePicker{
+  display: inline;
+}
+

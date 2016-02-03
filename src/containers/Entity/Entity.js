@@ -15,14 +15,14 @@ import FlatButton from 'material-ui/lib/flat-button';
 
 function fetchDataDeferred(getState, dispatch) {
   if (!isLoaded(getState())) {
-    console.log("nothing load, after load we get state:", getState().router)
+    console.log("nothing load, after load we get state:")
     return dispatch(onLoad(getState().router.params.entityId));
   }
 }
 
 //get the params only after page loaded
 function checkState(getState, dispatch){
-  console.log('before load we get state: ', getState().router)
+  console.log('before load we get state: ')
 }
 
 @connectData(
@@ -84,7 +84,7 @@ export default class Entity extends Component {
         <button className="btn btn-primary" >
 
         </button>
-        {test ?
+        {editing ?
             <SubmitForm onSubmit={this.handleSubmit} />
            :
           <SubmitTemplate />

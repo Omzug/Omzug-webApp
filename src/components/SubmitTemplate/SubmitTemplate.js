@@ -3,6 +3,9 @@
  */
 
 import React, {Component, PropTypes} from 'react';
+import {connect} from 'react-redux';
+
+import {onContactOpen, onContactClose, onStartEdit} from "redux/modules/entity";
 
 import FlatButton from 'material-ui/lib/flat-button';
 import Slider from 'nuka-carousel';
@@ -10,6 +13,7 @@ import Slider from 'nuka-carousel';
 import FontIcon from 'material-ui/lib/font-icon';
 
 import Paper from 'material-ui/lib/paper';
+import Dialog from 'material-ui/lib/dialog';
 
 import Card from 'material-ui/lib/card/card';
 import CardActions from 'material-ui/lib/card/card-actions';
@@ -24,9 +28,25 @@ import Divider from 'material-ui/lib/divider';
 
 import DatePicker from 'material-ui/lib/date-picker/date-picker';
 
+
+@connect(
+  state => ({
+    entity: state.entity.data,
+    contactOpen : state.entity.contactOpen
+  }),
+  {onContactOpen, onContactClose, onStartEdit}
+)
 export default class SubmitTemplate extends Component {
   static propTypes = {
+    entity: PropTypes.object,
+    contactOpen : PropTypes.bool,
 
+    onContactOpen : PropTypes.func.isRequired,
+    onContactClose : PropTypes.func.isRequired,
+    onStartEdit : PropTypes.func.isRequired,
+
+    nextSlide :PropTypes.func,
+    previousSlide : PropTypes.func,
   }
 
   render() {
@@ -34,6 +54,7 @@ export default class SubmitTemplate extends Component {
     const image1 = require('./a1.jpg');
     const image2 = require('./b1.jpg');
     const image3 = require('./c1.jpg');
+    const {entity, contactOpen} = this.props;
 
     //custom arrows
     var Decorators = [
@@ -73,7 +94,7 @@ export default class SubmitTemplate extends Component {
 
     return (
       <div className={styles.container}>
-        <Card>
+        <Card className={styles.card}>
           {/*
           <CardHeader
             title="房子的标题"
@@ -89,54 +110,60 @@ export default class SubmitTemplate extends Component {
               <img src={image3}/>
             </Slider>
           </CardMedia>
-          <CardTitle title="房屋标题" subtitle="房屋副标题" />
+          <CardTitle title={entity.title} subtitle={entity.owner} />
           <CardText>
-            Lorem ipsum <span className="hint--bottom" data-hint="Finally!"> sit amet, consectetur adipiscing elit.
-            Donec mattis pretium massa. Aliquam erat volutpat. Nulla facilisi.
-            Donec vulputate interdum sollicitudin. Nunc lacinia auctor quam sed pellentesque.
-            Aliquam dui mauris, mattis quis lacus id, pellentesque lobortis odio.</span>
+            {entity.description}
           </CardText>
           <CardActions>
-            <FlatButton className={styles.button} onClick={this.handleSubmit}><span className="fa fa-envelope"/> 联系房主</FlatButton>
-            <FlatButton className={styles.button} onClick={this.handleSubmit}><span className="fa fa-share"/> 分享</FlatButton>
+            <FlatButton className={styles.button} onClick={this.props.onContactOpen}><span className="fa fa-envelope"/> 联系房主</FlatButton>
+            <Dialog
+              title={entity.owner + "的联系方式"}
+              actions={
+              <FlatButton onClick={this.props.onContactClose} className={styles.hvrBuzzOut}>
+              <span className="fa fa-child"/>
+                <span>  </span>OK
+              </FlatButton>}
+              modal={false}
+              open={contactOpen}
+              onRequestClose={this.props.onContactClose}
+            >
+              <List className={styles.dialog}>
+                <ListItem className="hint--top" data-hint="邮箱" primaryText={entity.email} leftIcon={<FontIcon className="fa fa-envelope-o" />} />
+                <ListItem className="hint--top" data-hint="手机" primaryText={entity.phone} leftIcon={<FontIcon className="fa fa-mobile-phone" />} />
+              </List>
+            </Dialog>
+            <FlatButton className={styles.button} onClick={this.props.onContactOpen}><span className="fa fa-share"/> 分享</FlatButton>
           </CardActions>
         </Card>
 
         <List className={styles.list}>
-          <ListItem primaryText="城市" leftIcon={<FontIcon className="fa fa-map-marker" />} />
-          <ListItem primaryText="地址" leftIcon={<FontIcon className="fa fa-map" />} />
-          <ListItem primaryText="房间数" leftIcon={<FontIcon className="fa fa-codepen" />} />
-          <ListItem primaryText="面积" leftIcon={<FontIcon className="fa fa-th" />}/>
-          <ListItem primaryText="租金" leftIcon={<FontIcon className="fa fa-euro" />}/>
-          <ListItem primaryText="押金" leftIcon={<FontIcon className="fa fa-money" />}/>
-          <ListItem leftIcon={<FontIcon className="fa fa-calendar" />} children={
-          <span>
-          开始: <DatePicker hintText="Landscape Dialog" mode="landscape" />
-          结束: <DatePicker hintText="Landscape Dialog" mode="landscape" />
-          </span>
+          <ListItem className="hint--top" data-hint="城市" primaryText={entity.city} leftIcon={<FontIcon className="fa fa-map-marker" />} />
+          <ListItem className="hint--top" data-hint="地址" primaryText={entity.location} leftIcon={<FontIcon className="fa fa-map" />} />
+          <ListItem className="hint--top" data-hint="房间数" primaryText={entity.roomNumber} leftIcon={<FontIcon className="fa fa-codepen" />} />
+          <ListItem className="hint--top" data-hint="面积" primaryText={entity.size}  leftIcon={<FontIcon className="fa fa-th" />}/>
+          <ListItem className="hint--top" data-hint="租金" primaryText={entity.price}  leftIcon={<FontIcon className="fa fa-euro" />}/>
+          <ListItem className="hint--top" data-hint="押金" primaryText={entity.caution}  leftIcon={<FontIcon className="fa fa-money" />}/>
+          <ListItem className="hint--top" data-hint="最多人数" primaryText={entity.maximumPerson}  leftIcon={<FontIcon className="fa fa-child" />}/>
+          <ListItem  leftIcon={<FontIcon className="fa fa-calendar" />} children={
+          <div>
+          <p className="hint--top" data-hint="开始日期">{entity.startDate}</p>
+          <p> -- </p>
+          <p className="hint--top" data-hint="结束日期">{entity.endDate? entity.endDate: "无限制"}</p>
+          </div>
           }>
-
           </ListItem>
-          <ListItem>
-            <FontIcon className={"fa fa-calendar " + styles.datePicker} />
-            <DatePicker hintText="Landscape Dialog" mode="landscape" className={styles.datePicker}/>
-          </ListItem>
-
-          <Paper zDepth={2}> Here is the paper </Paper>
-          <div className={styles.description}> Here is the description</div>
 
           <Divider/>
 
-          <FlatButton className={styles.button} onClick={this.handleSubmit}><span className="fa fa-pencil"/> Edit</FlatButton>
+          {entity.note &&
+            <ListItem className={styles.note} zDepth={2} className="hint--top" data-hint="备注">
+              <p className={styles.note}>{entity.note}</p>>
+            </ListItem>
+          }
+
+
+          <FlatButton className={styles.editButton} onClick={this.props.onStartEdit}><span className="fa fa-pencil"/> 编辑</FlatButton>
         </List>
-
-
-
-
-
-
-
-
       </div>
     );
   }
