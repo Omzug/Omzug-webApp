@@ -1,6 +1,7 @@
 /**
  * Created by hanwencheng on 1/9/16.
  */
+var update = require('react-addons-update');
 
 const LOAD = 'Nevermind/entity/LOAD';
 const LOAD_SUCCESS = 'Nevermind/entity/LOAD_SUCCESS';
@@ -14,7 +15,7 @@ const END_EDIT = "Nevermind/entity/END_EDIT";
 const initState = {
   loaded: false,
   saveError: {},
-  editing : false,
+  editing : true,
   contactOpen : false,
   data : {
     location: "地址",
@@ -49,7 +50,7 @@ export default function reducer(state = initState, action){
         loading: false,
         loaded: true,
         loadedId : action.result.id,
-        data: action.result,
+        data: update(state.data, {$merge : action.result}),
         error: null
       };
     case LOAD_FAIL:
@@ -61,9 +62,7 @@ export default function reducer(state = initState, action){
         error: action.error
       };
     case CLEAR:
-      return {
-        initState
-      }
+      return initState;
     case CLOSE_CONTACT:
       return {
         ...state,
@@ -82,7 +81,7 @@ export default function reducer(state = initState, action){
     case END_EDIT:
       return {
         ...state,
-        editing :true
+        editing :false
       }
     default :
       return state;

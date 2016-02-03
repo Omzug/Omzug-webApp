@@ -1,4 +1,5 @@
 @import "../../theme/utils.scss";
+@import "../../theme/myHover.scss";
 
 .card{
   width:60%;
@@ -10,14 +11,25 @@
 }
 
 .list{
+  align-self: flex-start;
   padding:50px;
   width:40%;
   min-width:300px;
   flex-grow: 2;
-  .description{
+  .note{
     margin:0 30px;
     color:grey;
   }
+}
+
+.editButton{
+  padding:20px;
+}
+
+
+
+.dialog{
+
 }
 
 .arrow{

@@ -12,7 +12,6 @@ import { SubmitTemplate } from 'components';
 
 import FlatButton from 'material-ui/lib/flat-button';
 
-
 function fetchDataDeferred(getState, dispatch) {
   if (!isLoaded(getState())) {
     console.log("nothing load, after load we get state:")
@@ -55,8 +54,10 @@ export default class Entity extends Component {
     onLoad: PropTypes.func.isRequired
   }
 
-  handleSubmit = () => {
-    console.log("submit now ")
+  handleSubmit = (data) => {
+
+
+    console.log("submit now with data:" , data)
   }
     //save(values)
     //.then(result => {
@@ -85,7 +86,7 @@ export default class Entity extends Component {
 
         </button>
         {editing ?
-            <SubmitForm onSubmit={this.handleSubmit} />
+          <SubmitForm onSubmit={this.handleSubmit} />
            :
           <SubmitTemplate />
         }

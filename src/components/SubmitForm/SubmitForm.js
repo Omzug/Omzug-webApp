@@ -4,10 +4,13 @@
 
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
+import {reduxForm} from 'redux-form';
 
+import {onEndEdit} from "redux/modules/entity";
 import FlatButton from 'material-ui/lib/flat-button';
 import Slider from 'nuka-carousel';
 
+import TextField from 'material-ui/lib/text-field';
 import FontIcon from 'material-ui/lib/font-icon';
 
 import Paper from 'material-ui/lib/paper';
@@ -29,17 +32,42 @@ import DatePicker from 'material-ui/lib/date-picker/date-picker';
 @connect(
   state => ({
     entity: state.entity.data,
+    initialValues : state.entity.data,
   }),
-  {}
+  {onEndEdit}
 )
+
+@reduxForm({
+  form: 'house',
+  fields : ['city','location','roomNumber','size','price','caution','startDate','endDate',
+    'description','title','owner','email','phone', 'type','note','maximumPerson'],
+  //validate : registerValidation,
+  //asyncValidate,
+  //asyncBlurFields: ["email", "name"],
+})
 export default class SubmitForm extends Component {
   static propTypes = {
     entity: PropTypes.object,
+    onEndEdit: PropTypes.func.isRequired,
+
+    fields: PropTypes.object.isRequired,
+    handleSubmit: PropTypes.func.isRequired,
+    submitting: PropTypes.bool.isRequired,
+    nextSlide :PropTypes.func,
+    previousSlide : PropTypes.func,
   }
 
   render() {
     const styles = require('./SubmitForm.scss');
-    const {entity} = this.props;
+    const {
+      fields: {location,city,roomNumber,size,price,caution,startDate,endDate,
+        description,title,owner,email,phone,type,note,maximumPerson},
+      entity,
+      //resetForm,
+      handleSubmit,
+      submitting,
+      //asyncValidating
+      } = this.props;
 
     //custom arrows
     var Decorators = [
@@ -76,17 +104,9 @@ export default class SubmitForm extends Component {
       display:'inline'
     }
 
-
     return (
-      <div className={styles.container}>
+      <form className={styles.container} onSubmit={handleSubmit}>
         <Card className={styles.card}>
-          {/*
-           <CardHeader
-           title="房子的标题"
-           subtitle="房子的副标题"
-           avatar="http://lorempixel.com/100/100/nature/"
-           />
-           */}
           <CardMedia
           >
             <Slider className={styles.slider} decorators={Decorators} framePadding="50px" slidesToShow={1}>
@@ -95,48 +115,58 @@ export default class SubmitForm extends Component {
               <img/>
             </Slider>
           </CardMedia>
-          <CardTitle title="房屋标题" subtitle="房屋副标题" />
+          <CardTitle title={entity.title} subtitle={entity.owner} />
           <CardText>
-            Lorem ipsum sit amet, consectetur adipiscing elit.
-            Donec mattis pretium massa. Aliquam erat volutpat. Nulla facilisi.
-            Donec vulputate interdum sollicitudin. Nunc lacinia auctor quam sed pellentesque.
-            Aliquam dui mauris, mattis quis lacus id, pellentesque lobortis odio.
+            <div>{entity.description}</div>>
           </CardText>
-          <CardActions>
-            <FlatButton className={styles.button} onClick={this.handleSubmit}><span className="fa fa-envelope"/> 联系房主</FlatButton>
-            <FlatButton className={styles.button} onClick={this.handleSubmit}><span className="fa fa-share"/> 分享</FlatButton>
-          </CardActions>
         </Card>
 
         <List className={styles.list}>
-          <ListItem className="hint--top" data-hint="城市" primaryText={entity? entity.city : "城市"} leftIcon={<FontIcon className="fa fa-map-marker" />} />
-          <ListItem className="hint--top" data-hint="地址" primaryText={entity? entity.location : "地址"} leftIcon={<FontIcon className="fa fa-map" />} />
-          <ListItem className="hint--top" data-hint="房间数" primaryText={entity? entity.roomNumber: "房间数"} leftIcon={<FontIcon className="fa fa-codepen" />} />
-          <ListItem className="hint--top" data-hint="面积" primaryText={entity? entity.roomNumber: "房间数"}  leftIcon={<FontIcon className="fa fa-th" />}/>
-          <ListItem className="hint--top" data-hint="租金" primaryText={entity? entity.roomNumber: "房间数"}  leftIcon={<FontIcon className="fa fa-euro" />}/>
-          <ListItem className="hint--top" data-hint="押金" primaryText={entity? entity.roomNumber: "房间数"}  leftIcon={<FontIcon className="fa fa-money" />}/>
-          <ListItem className="hint--top" data-hint="最多人数" primaryText={entity.maximumPerson}  leftIcon={<FontIcon className="fa fa-child" />}/>
-          <ListItem className="hint--top" data-hint="开始结束日期" leftIcon={<FontIcon className="fa fa-calendar" />} children={
-          <span>
-          <DatePicker hintText="Landscape Dialog" mode="landscape" />
-          <DatePicker hintText="Landscape Dialog" mode="landscape" />
-          </span>
+          <ListItem key={1} className="hint--top" data-hint="城市" leftIcon={<FontIcon className="fa fa-map-marker"/>} >
+            <TextField key={10} hintText="城市" {...city}/>
+          </ListItem>
+          <ListItem key={2} className="hint--top" data-hint="地址" leftIcon={<FontIcon className="fa fa-map" />}>
+            <TextField key={20} hintText="地址" {...location}/>
+          </ListItem>
+          <ListItem key={3} className="hint--top" data-hint="房间数" leftIcon={<FontIcon className="fa fa-codepen" />}>
+            <TextField key={30} hintText="city" {...roomNumber}/>
+          </ListItem>
+          <ListItem key={4} className="hint--top" data-hint="面积" leftIcon={<FontIcon className="fa fa-th" />}>
+            <TextField key={40} hintText="city" {...size}/>
+          </ListItem>
+          <ListItem key={5} className="hint--top" data-hint="租金" leftIcon={<FontIcon className="fa fa-euro" />}>
+            <TextField key={50} hintText="city" {...price}/>
+          </ListItem>
+          <ListItem key={6} className="hint--top" data-hint="押金" leftIcon={<FontIcon className="fa fa-money" />}>
+            <TextField key={60} hintText="city" {...caution}/>
+          </ListItem>
+          <ListItem key={7} className="hint--top" data-hint="最多人数" leftIcon={<FontIcon className="fa fa-child" />}>
+            <TextField key={70} hintText="city" {...maximumPerson}/>
+          </ListItem>
+          <ListItem key={8} className="hint--top" data-hint="开始结束日期" leftIcon={<FontIcon className="fa fa-calendar" />} children={
+            <div>
+              {console.log('start date is ' ,startDate)}
+              <DatePicker key={81} mode="landscape" autoOk={true} value={startDate.value} onChange={(event, newDate) => startDate.onChange(newDate)}/>
+              <DatePicker key={82} mode="landscape" autoOk={true} value={endDate.value} onChange={(event, newDate) => endDate.onChange(newDate)}/>
+            </div>
           }>
 
-          </ListItem>
+
+          </ListItem >
           <Divider/>
-          <ListItem className={styles.note} zDepth={2} className="hint--top" data-hint="备注">
-            <p className={styles.note}>{entity.note}</p>>
+          <ListItem key={9} className={styles.note} zDepth={2} className="hint--top" data-hint="备注">
+            <TextField key={90} hintText="city" {...note}/>
           </ListItem>
-          <ListItem className="hint--top" data-hint="邮箱" primaryText={entity.email} leftIcon={<FontIcon className="fa fa-envelope-o" />} />
-          <ListItem className="hint--top" data-hint="手机" primaryText={entity.phone} leftIcon={<FontIcon className="fa fa-mobile-phone" />} />
+          <ListItem key={11} className="hint--top" data-hint="邮箱" leftIcon={<FontIcon className="fa fa-envelope-o" />}>
+            <TextField key={110} hintText="city" {...email}/>
+          </ListItem>
+          <ListItem key={12} className="hint--top" data-hint="手机" leftIcon={<FontIcon className="fa fa-mobile-phone" />}>
+            <TextField key={120} hintText="city" {...phone}/>
+          </ListItem>
 
-
-
-
-          <FlatButton className={styles.button} onClick={this.handleSubmit}><span className="fa fa-pencil"/> Edit</FlatButton>
+          <FlatButton className={styles.editButton} onClick={handleSubmit}><span className="fa fa-pencil"/> 保存</FlatButton>
         </List>
-      </div>
+      </form>
     );
   }
 }

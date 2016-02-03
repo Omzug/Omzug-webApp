@@ -3,7 +3,7 @@
  */
 
 export default function listHause(req, params) {
-  console.log('in api list.js params are', params)
+  console.log('in api house.js params are', params)
 
   var houseId = parseInt(params[0])
   return new Promise((resolve, reject) => {
@@ -12,6 +12,7 @@ export default function listHause(req, params) {
 
     setTimeout(()=> {
       resolve({
+        id : params[0],
         location: "house object",
         city: params[0],//which should be a string
         roomNumber: Date.now(),
@@ -25,7 +26,6 @@ export default function listHause(req, params) {
         owner : "hanwenCheng",
         email : "heawen.cheng@gmail.com",
         phone : "017684443881",
-        type : "long",
         note : "some note here"
       });
     }, 100)

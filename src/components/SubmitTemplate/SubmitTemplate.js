@@ -26,9 +26,6 @@ import List from 'material-ui/lib/lists/list';
 import ListItem from 'material-ui/lib/lists/list-item';
 import Divider from 'material-ui/lib/divider';
 
-import DatePicker from 'material-ui/lib/date-picker/date-picker';
-
-
 @connect(
   state => ({
     entity: state.entity.data,
@@ -119,10 +116,14 @@ export default class SubmitTemplate extends Component {
             <Dialog
               title={entity.owner + "的联系方式"}
               actions={
-              <FlatButton onClick={this.props.onContactClose} className={styles.hvrBuzzOut}>
-              <span className="fa fa-child"/>
-                <span>  </span>OK
-              </FlatButton>}
+              <div>
+                <FlatButton onClick={this.props.onContactClose} className={styles.hvrBuzzOut}>
+                  <span className="fa fa-child"/>
+                  <span>  </span>OK
+                </FlatButton>
+              </div>
+              }
+
               modal={false}
               open={contactOpen}
               onRequestClose={this.props.onContactClose}
@@ -137,18 +138,18 @@ export default class SubmitTemplate extends Component {
         </Card>
 
         <List className={styles.list}>
-          <ListItem className="hint--top" data-hint="城市" primaryText={entity.city} leftIcon={<FontIcon className="fa fa-map-marker" />} />
-          <ListItem className="hint--top" data-hint="地址" primaryText={entity.location} leftIcon={<FontIcon className="fa fa-map" />} />
-          <ListItem className="hint--top" data-hint="房间数" primaryText={entity.roomNumber} leftIcon={<FontIcon className="fa fa-codepen" />} />
-          <ListItem className="hint--top" data-hint="面积" primaryText={entity.size}  leftIcon={<FontIcon className="fa fa-th" />}/>
-          <ListItem className="hint--top" data-hint="租金" primaryText={entity.price}  leftIcon={<FontIcon className="fa fa-euro" />}/>
-          <ListItem className="hint--top" data-hint="押金" primaryText={entity.caution}  leftIcon={<FontIcon className="fa fa-money" />}/>
-          <ListItem className="hint--top" data-hint="最多人数" primaryText={entity.maximumPerson}  leftIcon={<FontIcon className="fa fa-child" />}/>
-          <ListItem  leftIcon={<FontIcon className="fa fa-calendar" />} children={
+          <ListItem key={1} className="hint--top" data-hint="城市" primaryText={entity.city} leftIcon={<FontIcon className="fa fa-map-marker" />} />
+          <ListItem key={2} className="hint--top" data-hint="地址" primaryText={entity.location} leftIcon={<FontIcon className="fa fa-map" />} />
+          <ListItem key={3} className="hint--top" data-hint="房间数" primaryText={entity.roomNumber} leftIcon={<FontIcon className="fa fa-codepen" />} />
+          <ListItem key={4} className="hint--top" data-hint="面积" primaryText={entity.size}  leftIcon={<FontIcon className="fa fa-th" />}/>
+          <ListItem key={5} className="hint--top" data-hint="租金" primaryText={entity.price}  leftIcon={<FontIcon className="fa fa-euro" />}/>
+          <ListItem key={6} className="hint--top" data-hint="押金" primaryText={entity.caution}  leftIcon={<FontIcon className="fa fa-money" />}/>
+          <ListItem key={7} className="hint--top" data-hint="最多人数" primaryText={entity.maximumPerson}  leftIcon={<FontIcon className="fa fa-child" />}/>
+          <ListItem key={8} leftIcon={<FontIcon className="fa fa-calendar" />} children={
           <div>
-          <p className="hint--top" data-hint="开始日期">{entity.startDate}</p>
-          <p> -- </p>
-          <p className="hint--top" data-hint="结束日期">{entity.endDate? entity.endDate: "无限制"}</p>
+            <p className="hint--top" data-hint="开始日期">{entity.startDate}</p>
+            <p> -- </p><br/>
+            <p className="hint--top" data-hint="结束日期">{entity.endDate? entity.endDate: "无限制"}</p>
           </div>
           }>
           </ListItem>
@@ -156,8 +157,8 @@ export default class SubmitTemplate extends Component {
           <Divider/>
 
           {entity.note &&
-            <ListItem className={styles.note} zDepth={2} className="hint--top" data-hint="备注">
-              <p className={styles.note}>{entity.note}</p>>
+            <ListItem key={9} className={styles.note} zDepth={2} className="hint--top" data-hint="备注">
+              <p className={styles.note}>{entity.note}</p>
             </ListItem>
           }
 
