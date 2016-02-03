@@ -57,6 +57,13 @@ export default class SubmitForm extends Component {
     previousSlide : PropTypes.func,
   }
 
+  dateFormat = (date) => {
+    const m = date.getMonth() + 1;
+    const d = date.getDate();
+    const y = date.getFullYear();
+    return d + '/' + m + '/' + y;
+  }
+
   render() {
     const styles = require('./SubmitForm.scss');
     const {
@@ -144,16 +151,18 @@ export default class SubmitForm extends Component {
             <TextField key={70} hintText="city" {...maximumPerson}/>
           </ListItem>
           <ListItem key={8} className="hint--top" data-hint="开始结束日期" leftIcon={<FontIcon className="fa fa-calendar" />} children={
-            <div>
-              {console.log('start date is ' ,startDate)}
-              <DatePicker key={81} mode="landscape" autoOk={true} value={startDate.value} onChange={(event, newDate) => startDate.onChange(newDate)}/>
-              <DatePicker key={82} mode="landscape" autoOk={true} value={endDate.value} onChange={(event, newDate) => endDate.onChange(newDate)}/>
+            <div key={83}>
+            {/*every child should have a key, or react give a stupid warnning */}
+            {console.log("if value is a Date :",  startDate.value instanceof Date)}
+              <DatePicker key={81} autoOk={true} value={new Date(startDate.value)}
+              onChange={(event, newDate) => startDate.onChange(newDate)} formatDate={this.dateFormat}/>
+              <DatePicker key={82} autoOk={true} value={new Date(endDate.value)}
+              onChange={(event, newDate) => endDate.onChange(newDate)} formatDate={this.dateFormat}/>
             </div>
           }>
 
 
           </ListItem >
-          <Divider/>
           <ListItem key={9} className={styles.note} zDepth={2} className="hint--top" data-hint="备注">
             <TextField key={90} hintText="city" {...note}/>
           </ListItem>
@@ -164,7 +173,7 @@ export default class SubmitForm extends Component {
             <TextField key={120} hintText="city" {...phone}/>
           </ListItem>
 
-          <FlatButton className={styles.editButton} onClick={handleSubmit}><span className="fa fa-pencil"/> 保存</FlatButton>
+          <FlatButton key={13} className={styles.editButton} onClick={handleSubmit}><span className="fa fa-pencil"/> 保存</FlatButton>
         </List>
       </form>
     );
