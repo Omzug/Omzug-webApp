@@ -145,7 +145,8 @@ export default class SubmitTemplate extends Component {
           <ListItem key={5} className="hint--top" data-hint="租金" primaryText={entity.price}  leftIcon={<FontIcon className="fa fa-euro" />}/>
           <ListItem key={6} className="hint--top" data-hint="押金" primaryText={entity.caution}  leftIcon={<FontIcon className="fa fa-money" />}/>
           <ListItem key={7} className="hint--top" data-hint="最多人数" primaryText={entity.maximumPerson}  leftIcon={<FontIcon className="fa fa-child" />}/>
-          <ListItem key={8} leftIcon={<FontIcon className="fa fa-calendar" />} children={
+          <ListItem key={8} className="hint--top" data-hint="类型" primaryText={entity.type? "整套出租" : "单间"}  leftIcon={<FontIcon className="fa fa-home" />}/>
+          <ListItem key={9} leftIcon={<FontIcon className="fa fa-calendar" />} children={
           <div>
             <p className="hint--top" data-hint="开始日期">{entity.startDate}</p>
             <p> -- </p><br/>
@@ -154,16 +155,16 @@ export default class SubmitTemplate extends Component {
           }>
           </ListItem>
 
-          <Divider/>
+          <Divider key={10}/>
 
           {entity.note &&
-            <ListItem key={9} className={styles.note} zDepth={2} className="hint--top" data-hint="备注">
+            <ListItem key={11} className={styles.note} zDepth={2} className="hint--top" data-hint="备注">
               <p className={styles.note}>{entity.note}</p>
             </ListItem>
           }
 
 
-          <FlatButton className={styles.editButton} onClick={this.props.onStartEdit}><span className="fa fa-pencil"/> 编辑</FlatButton>
+          <FlatButton key={12} className={styles.editButton} onClick={this.props.onStartEdit}><span className="fa fa-pencil"/> 编辑</FlatButton>
         </List>
       </div>
     );

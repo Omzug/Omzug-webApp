@@ -25,6 +25,8 @@ import CardText from 'material-ui/lib/card/card-text';
 import List from 'material-ui/lib/lists/list';
 import ListItem from 'material-ui/lib/lists/list-item';
 import Divider from 'material-ui/lib/divider';
+import SelectField from 'material-ui/lib/select-field';
+import MenuItem from 'material-ui/lib/menus/menu-item';
 
 import DatePicker from 'material-ui/lib/date-picker/date-picker';
 
@@ -40,7 +42,7 @@ import DatePicker from 'material-ui/lib/date-picker/date-picker';
 @reduxForm({
   form: 'house',
   fields : ['city','location','roomNumber','size','price','caution','startDate','endDate',
-    'description','title','owner','email','phone', 'type','note','maximumPerson'],
+    'description','title','owner','email','phone', 'type','note','maximumPerson', 'picture'],
   //validate : registerValidation,
   //asyncValidate,
   //asyncBlurFields: ["email", "name"],
@@ -58,17 +60,17 @@ export default class SubmitForm extends Component {
   }
 
   dateFormat = (date) => {
-    const m = date.getMonth() + 1;
-    const d = date.getDate();
-    const y = date.getFullYear();
-    return d + '/' + m + '/' + y;
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+    const year = date.getFullYear();
+    return day + '/' + month + '/' + year;
   }
 
   render() {
     const styles = require('./SubmitForm.scss');
     const {
       fields: {location,city,roomNumber,size,price,caution,startDate,endDate,
-        description,title,owner,email,phone,type,note,maximumPerson},
+        description,title,owner,email,phone,type,note,maximumPerson, picture},
       entity,
       //resetForm,
       handleSubmit,
@@ -117,7 +119,13 @@ export default class SubmitForm extends Component {
           <CardMedia
           >
             <Slider className={styles.slider} decorators={Decorators} framePadding="50px" slidesToShow={1}>
-              <img/>
+              <div>
+                <img/>
+                <span className="fa fa-plus-circle fa-5x"/>
+                <div>
+                  <input type="file" {...picture} value={ null } />
+                </div>
+              </div>
               <img/>
               <img/>
             </Slider>
@@ -150,10 +158,19 @@ export default class SubmitForm extends Component {
           <ListItem key={7} className="hint--top" data-hint="最多人数" leftIcon={<FontIcon className="fa fa-child" />}>
             <TextField key={70} hintText="city" {...maximumPerson}/>
           </ListItem>
+          <ListItem key={14} className="hint--top" data-hint="整套出租" leftIcon={<FontIcon className="fa fa-home" />}>
+            <SelectField key={141} value={type.value} onChange={(event, value) => {
+            console.log('value is', value)
+            type.onChange(value);
+            }}>
+              <MenuItem value={0} primaryText="整套公寓"/>
+              <MenuItem value={1} primaryText="单间"/>
+            </SelectField>
+          </ListItem>
+
           <ListItem key={8} className="hint--top" data-hint="开始结束日期" leftIcon={<FontIcon className="fa fa-calendar" />} children={
             <div key={83}>
             {/*every child should have a key, or react give a stupid warnning */}
-            {console.log("if value is a Date :",  startDate.value instanceof Date)}
               <DatePicker key={81} autoOk={true} value={new Date(startDate.value)}
               onChange={(event, newDate) => startDate.onChange(newDate)} formatDate={this.dateFormat}/>
               <DatePicker key={82} autoOk={true} value={new Date(endDate.value)}

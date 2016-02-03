@@ -26,7 +26,8 @@ export default function listHause(req, params) {
         owner : "hanwenCheng",
         email : "heawen.cheng@gmail.com",
         phone : "017684443881",
-        note : "some note here"
+        note : "some note here",
+        type : 1,
       });
     }, 100)
 

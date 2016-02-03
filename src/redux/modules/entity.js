@@ -31,7 +31,7 @@ const initState = {
     owner : "所有人",
     email : "邮箱",
     phone : "请通过邮箱联系",
-    type : "类型:长期或者短期",
+    type : true,
     note : "一些备注",
     maximumPerson : 3,
   }
