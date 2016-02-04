@@ -130,9 +130,15 @@ export default class SubmitForm extends Component {
               <img/>
             </Slider>
           </CardMedia>
-          <CardTitle title={entity.title} subtitle={entity.owner} />
+          <CardTitle subtitle={entity.owner} >
+            <div className="hint--top" data-hint="标题">
+            <TextField key={201} hintText="标题" {...title}/>
+            </div>
+          </CardTitle>
           <CardText>
-            <div>{entity.description}</div>>
+            <div>
+              <TextField key={202} hintText="填写一些具体介绍吧" {...description}/>
+            </div>
           </CardText>
         </Card>
 
@@ -144,21 +150,21 @@ export default class SubmitForm extends Component {
             <TextField key={20} hintText="地址" {...location}/>
           </ListItem>
           <ListItem key={3} className="hint--top" data-hint="房间数" leftIcon={<FontIcon className="fa fa-codepen" />}>
-            <TextField key={30} hintText="city" {...roomNumber}/>
+            <TextField key={30} hintText="房间数" {...roomNumber}/>
           </ListItem>
           <ListItem key={4} className="hint--top" data-hint="面积" leftIcon={<FontIcon className="fa fa-th" />}>
-            <TextField key={40} hintText="city" {...size}/>
+            <TextField key={40} hintText="面积" {...size}/>
           </ListItem>
           <ListItem key={5} className="hint--top" data-hint="租金" leftIcon={<FontIcon className="fa fa-euro" />}>
-            <TextField key={50} hintText="city" {...price}/>
+            <TextField key={50} hintText="租金" {...price}/>
           </ListItem>
           <ListItem key={6} className="hint--top" data-hint="押金" leftIcon={<FontIcon className="fa fa-money" />}>
-            <TextField key={60} hintText="city" {...caution}/>
+            <TextField key={60} hintText="押金" {...caution}/>
           </ListItem>
           <ListItem key={7} className="hint--top" data-hint="最多人数" leftIcon={<FontIcon className="fa fa-child" />}>
-            <TextField key={70} hintText="city" {...maximumPerson}/>
+            <TextField key={70} hintText="最多人数" {...maximumPerson}/>
           </ListItem>
-          <ListItem key={14} className="hint--top" data-hint="整套出租" leftIcon={<FontIcon className="fa fa-home" />}>
+          <ListItem key={14} className="hint--top" data-hint="类型" leftIcon={<FontIcon className="fa fa-home" />}>
             <SelectField key={141} value={type.value} onChange={(event, value) => {
             console.log('value is', value)
             type.onChange(value);
@@ -181,13 +187,13 @@ export default class SubmitForm extends Component {
 
           </ListItem >
           <ListItem key={9} className={styles.note} zDepth={2} className="hint--top" data-hint="备注">
-            <TextField key={90} hintText="city" {...note}/>
+            <TextField key={90} hintText="备注" {...note}/>
           </ListItem>
           <ListItem key={11} className="hint--top" data-hint="邮箱" leftIcon={<FontIcon className="fa fa-envelope-o" />}>
-            <TextField key={110} hintText="city" {...email}/>
+            <TextField key={110} hintText="邮箱" {...email}/>
           </ListItem>
           <ListItem key={12} className="hint--top" data-hint="手机" leftIcon={<FontIcon className="fa fa-mobile-phone" />}>
-            <TextField key={120} hintText="city" {...phone}/>
+            <TextField key={120} hintText="手机" {...phone}/>
           </ListItem>
 
           <FlatButton key={13} className={styles.editButton} onClick={handleSubmit}><span className="fa fa-pencil"/> 保存</FlatButton>

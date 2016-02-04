@@ -56,13 +56,15 @@ export default class Entities extends Component {
   }
 
   render() {
+    const styles = require('./Entities.scss');
     const { data, getList, error, loading, locationId, onLocationChange } = this.props;
     console.log('entities are', data)
+
     return (
       <div>
         <h1>HauseList</h1>
 
-        <DropDownMenu value={locationId} onChange={onLocationChange}>
+        <DropDownMenu value={locationId} onChange={onLocationChange} className={styles.dropDown}>
           <MenuItem value={1} primaryText="Berlin"/>
           <MenuItem value={2} primaryText="Stuttgart"/>
           <MenuItem value={3} primaryText="Munich"/>
@@ -77,9 +79,10 @@ export default class Entities extends Component {
         </button>
         <div className="container">
           {data && data.list && data.list.map((unit, index)=>
-          <p key={index}>element is {unit} </p>
+          <Show key={index}>element is {unit} </Show>
         )}
         </div>
+
         <div className="container">
           {data && data.number &&
             <LinkContainer to={`/entities/${data.number}`}>

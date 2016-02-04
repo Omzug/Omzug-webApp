@@ -5,7 +5,7 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {isLoaded, load as onLoad, clear as onClear, changeLocation as onChangeLocation, onSubmit} from "redux/modules/entity"
+import {isLoaded, load as onLoad, clear as onClear, changeLocation as onChangeLocation, onSubmit, onCacheSubmit} from "redux/modules/entity"
 import connectData from 'helpers/connectData';
 import { SubmitForm } from 'components';
 import { SubmitTemplate } from 'components';
@@ -34,7 +34,7 @@ function checkState(getState, dispatch){
     loading: state.entity.loading,
     editing: state.entity.editing,
   }),
-  {onLoad, onClear, onSubmit}
+  {onLoad, onClear, onSubmit,onCacheSubmit}
 )
 export default class Entity extends Component {
 
@@ -52,11 +52,13 @@ export default class Entity extends Component {
     //editStart: PropTypes.func.isRequired,
     onClear : PropTypes.func.isRequired,
     onLoad: PropTypes.func.isRequired,
-    onSubmit: PropTypes.func.isRequired
+    onSubmit: PropTypes.func.isRequired,
+    onCacheSubmit : PropTypes.func.isRequired,
   }
 
   handleSubmit = (data) => {
-    this.props.onSubmit(data)
+    //test id property
+    this.props.onSubmit(data);
     console.log("submit now with data:" , data)
   }
     //save(values)
@@ -82,9 +84,6 @@ export default class Entity extends Component {
 
     return (
       <div>
-        <button className="btn btn-primary" >
-
-        </button>
         {editing ?
           <SubmitForm onSubmit={this.handleSubmit} />
            :

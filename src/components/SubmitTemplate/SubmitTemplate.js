@@ -99,9 +99,8 @@ export default class SubmitTemplate extends Component {
             avatar="http://lorempixel.com/100/100/nature/"
           />
           */}
-          <CardMedia
-          >
-            <Slider className={styles.slider} decorators={Decorators} framePadding="50px" slidesToShow={1}>
+          <CardMedia>
+            <Slider className={styles.slider} decorators={Decorators} framePadding="50px" width="100%" slidesToShow={1}>
               <img src={image1}/>
               <img src={image2}/>
               <img src={image3}/>

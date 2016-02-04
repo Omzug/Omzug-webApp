@@ -4,11 +4,22 @@
 
 export default function listHause(req, params) {
   console.log('in api list.js params are', params)
+
   if(params.length <= 0) {
     return new Promise((resolve, reject) => {
       resolve({
-        list: ['number1', 'number2', 'number3'],
-        number: 3
+        list: [{
+          city: "stuttgart",
+          owner: "hanwencheng",
+          title : "i got an idea",
+          price : 860
+        }, {
+          city: "berlin",
+          owner: "xinyue",
+          title : "anyway it is a bad idea",
+          price : 600
+        }, ],
+        number: 2
       });
       //reject("we don't have such endpoint")
     })

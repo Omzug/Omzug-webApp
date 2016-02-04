@@ -68,6 +68,10 @@ export function match(field) {
   };
 }
 
+export function isImage(value){
+  
+}
+
 export function createValidator(rules) {
   return (data = {}) => {
     const errors = {};

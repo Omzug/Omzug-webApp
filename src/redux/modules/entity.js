@@ -14,11 +14,12 @@ const OPEN_CONTACT = "Nevermind/entity/OPEN_CONTACT";
 const CLOSE_CONTACT = "Nevermind/entity/CLOSE_CONTACT";
 const START_EDIT = "Nevermind/entity/START_EDIT";
 const END_EDIT = "Nevermind/entity/END_EDIT";
+const CACHE_DATA = "Nevermind/entity/cache_data";
 
 const initState = {
   loaded: false,
   saveError: {},
-  editing : true,
+  editing : false,
   contactOpen : false,
   data : {
     location: "地址",
@@ -68,12 +69,16 @@ export default function reducer(state = initState, action){
           return {
             ...state,
             submitting : true,
+            cached : action.cached,
           }
     case SUBMIT_SUCCESS:
+          const cachedData = Object.assign({}, state.cached)
           return {
             ...state,
             submitting : false,
-            data : action.data
+            editing : false,
+            data : cachedData,
+            cached : null,
           }
     case SUBMIT_FAIL:
           return {
@@ -142,12 +147,20 @@ export  function onEndEdit(){
   }
 }
 
-export function onSubmit(){
+export function onSubmit(data){
   return {
+    cached : data,
     types: [SUBMIT, SUBMIT_SUCCESS, SUBMIT_FAIL],
     promise: (client) => client.post('./submit', {
       data : data
     })
+  }
+}
+
+export function onCacheSubmit(cachedData){
+  return {
+    type: CACHE_DATA,
+    cached : cachedData
   }
 }
 
