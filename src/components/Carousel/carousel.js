@@ -35,9 +35,7 @@ const removeEvent = function(elem, type, eventHandle) {
 
 const Carousel = React.createClass({
   displayName: 'Carousel',
-
   mixins: [tweenState.Mixin],
-
   propTypes: {
     afterSlide: React.PropTypes.func,
     beforeSlide: React.PropTypes.func,
@@ -78,7 +76,10 @@ const Carousel = React.createClass({
     ]),
     speed: React.PropTypes.number,
     vertical: React.PropTypes.bool,
-    width: React.PropTypes.string
+    width: React.PropTypes.string,
+
+    onChange :React.PropTypes.func,
+    currentSlide : React.PropTypes.number,
   },
 
   getDefaultProps() {
@@ -98,13 +99,13 @@ const Carousel = React.createClass({
       slideWidth: 1,
       speed: 500,
       vertical: false,
-      width: '100%'
+      width: '100%',
     }
   },
 
   getInitialState() {
     return {
-      currentSlide: 0,
+      currentSlide: this.props.currentSlide || 0,
       dragging: false,
       frameWidth: 0,
       left: 0,
@@ -139,11 +140,11 @@ const Carousel = React.createClass({
     return (
       <div className={['slider', this.props.className || ''].join(' ')} ref="slider" style={assign(this.getSliderStyles(), this.props.style || {})}>
         <div className="slider-frame"
-          ref="frame"
-          style={this.getFrameStyles()}
+             ref="frame"
+             style={this.getFrameStyles()}
           {...this.getTouchEvents()}
           {...this.getMouseEvents()}
-          onClick={this.handleClick}>
+             onClick={this.handleClick}>
           <ul className="slider-list" ref="list" style={this.getListStyles()}>
             {children}
           </ul>
@@ -169,7 +170,7 @@ const Carousel = React.createClass({
               </div>
             )
           })
-        : null}
+          : null}
         <style type="text/css" dangerouslySetInnerHTML={{__html: self.getStyleTagStyles()}}/>
       </div>
     )
@@ -236,8 +237,8 @@ const Carousel = React.createClass({
     return {
       onMouseDown(e) {
         self.touchObject = {
-            startX: e.clientX,
-            startY: e.clientY
+          startX: e.clientX,
+          startY: e.clientY
         };
 
         self.setState({
@@ -261,7 +262,7 @@ const Carousel = React.createClass({
         }
 
         var length = self.props.vertical ? Math.round(Math.sqrt(Math.pow(e.clientY - self.touchObject.startY, 2)))
-                                         : Math.round(Math.sqrt(Math.pow(e.clientX - self.touchObject.startX, 2)))
+          : Math.round(Math.sqrt(Math.pow(e.clientX - self.touchObject.startX, 2)))
 
         self.touchObject = {
           startX: self.touchObject.startX,
@@ -375,7 +376,7 @@ const Carousel = React.createClass({
     }
 
     this.props.beforeSlide(this.state.currentSlide, index);
-
+    console.log('set current state to, ' ,index )
     this.setState({
       currentSlide: index
     }, function() {
@@ -387,20 +388,16 @@ const Carousel = React.createClass({
 
   nextSlide() {
     var self = this;
-    if ((this.state.currentSlide + this.state.slidesToScroll) >= this.countChildren(this.props.children)) {
-      return;
-    }
-
-    this.goToSlide(this.state.currentSlide + this.state.slidesToScroll);
+    const dest = (this.state.currentSlide + this.state.slidesToScroll)% this.countChildren(this.props.children)
+    if(this.props.onChange) this.props.onChange(dest)
+    this.goToSlide(dest);
   },
 
   previousSlide() {
     var self = this;
-    if ((this.state.currentSlide - this.state.slidesToScroll) < 0) {
-      return;
-    }
-
-    this.goToSlide(this.state.currentSlide - this.state.slidesToScroll);
+    const dest = (this.countChildren(this.props.children) + this.state.currentSlide - this.state.slidesToScroll)% this.countChildren(this.props.children)
+    if(this.props.onChange) this.props.onChange(dest)
+    this.goToSlide(dest);
   },
 
   // Animation
@@ -581,7 +578,7 @@ const Carousel = React.createClass({
       top: this.getTweeningValue('top'),
       left: this.getTweeningValue('left'),
       margin: this.props.vertical ? (this.props.cellSpacing / 2) * -1 + 'px 0px'
-                                  : '0px ' + (this.props.cellSpacing / 2) * -1 + 'px',
+        : '0px ' + (this.props.cellSpacing / 2) * -1 + 'px',
       padding: 0,
       height: this.props.vertical ? listWidth + spacingOffset : 'auto',
       width: this.props.vertical ? 'auto' : listWidth + spacingOffset,
@@ -624,6 +621,7 @@ const Carousel = React.createClass({
     }
   },
 
+  //TODO
   getSliderStyles() {
     return {
       position: 'relative',
@@ -724,22 +722,6 @@ const Carousel = React.createClass({
       }
     }
   }
-
-})
-
-Carousel.ControllerMixin = {
-  getInitialState() {
-    return {
-      carousels: {}
-    }
-  },
-  setCarouselData(carousel) {
-    var data = this.state.carousels;
-    data[carousel] = this.refs[carousel];
-    this.setState({
-      carousels: data
-    });
-  }
-}
+});
 
 export default Carousel;
