@@ -6,7 +6,7 @@ import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {reduxForm} from 'redux-form';
 
-import {onEndEdit, onAddImage, onChangeSlide} from "redux/modules/entity";
+import {onEndEdit, onAddImage, onChangeSlide, onDeleteImage} from "redux/modules/entity";
 import FlatButton from 'material-ui/lib/flat-button';
 //import Slider from 'nuka-carousel';
 import {Carousel} from 'components';
@@ -40,7 +40,7 @@ import DropZone from 'react-dropzone'
     cachedImages : state.entity.cachedImages,
     currentSlide : state.entity.currentSlide,
   }),
-  {onEndEdit, onAddImage, onChangeSlide}
+  {onEndEdit, onAddImage, onChangeSlide, onDeleteImage}
 )
 
 @reduxForm({
@@ -57,6 +57,7 @@ export default class SubmitForm extends Component {
     entity: PropTypes.object,
     onEndEdit: PropTypes.func.isRequired,
     onAddImage : PropTypes.func.isRequired,
+    onDeleteImage : PropTypes.func.isRequired,
     onChangeSlide : PropTypes.func.isRequired,
     cachedImages: PropTypes.array,
     currentSlide : PropTypes.number,
@@ -80,12 +81,17 @@ export default class SubmitForm extends Component {
     this.props.onAddImage(file);
   }
 
+  onDeleteButton = () => {
+    this.props.onDeleteImage(this.props.currentSlide);
+  }
+
   render() {
     const styles = require('./SubmitForm.scss');
     const {
       fields: {location,city,roomNumber,size,price,caution,startDate,endDate,
         description,title,owner,email,phone,type,note,maximumPerson,images},
       entity,
+      currentSlide,
       //resetForm,
       cachedImages,
       handleSubmit,
@@ -129,6 +135,8 @@ export default class SubmitForm extends Component {
       display:'inline'
     }
 
+    const imagesNumber = entity.images.length + cachedImages.length;
+
     return (
       <form className={styles.container} onSubmit={handleSubmit}>
         <Card className={styles.card}>
@@ -138,7 +146,7 @@ export default class SubmitForm extends Component {
                         onChange={this.props.onChangeSlide}>
                 {entity.images && entity.images.length >= 1 && entity.images.map( address =><img src={address}/>)}
                 {cachedImages && cachedImages.length >= 1 && cachedImages.map(file => <img src={window.URL.createObjectURL(file)}/>)}
-                {(entity.images.length + cachedImages.length < 3) &&
+                {imagesNumber < 3 &&
                   <div className={styles.dropBox}>
                     <DropZone onDrop={this.onDrop}>
                       <div className={styles.inner}>
@@ -151,7 +159,8 @@ export default class SubmitForm extends Component {
               </Carousel>
             </div>
           </CardMedia>
-          <FlatButton>删除图片1</FlatButton> <FlatButton>删除图片2</FlatButton> <FlatButton>删除图片3</FlatButton>
+          { currentSlide <= imagesNumber - 1 &&
+          <FlatButton onClick={this.onDeleteButton}>删除图片</FlatButton>}
           <CardTitle subtitle={entity.owner} >
             <div className="hint--top" data-hint="标题">
             <TextField key={201} hintText="标题" {...title}/>

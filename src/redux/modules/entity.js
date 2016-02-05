@@ -130,8 +130,13 @@ export default function reducer(state = initState, action){
         cachedImages: image,
       }
     case DELETE_IMAGE:
-      return {
-        ...state
+      // notice action.id is start from 0
+      const lengthRemote = state.data.images.length;
+      const lengthCached = state.cachedImages.length;
+      if(action.id < lengthRemote){
+        return update(state, {data: {images: {$splice: [[action.id, 1]]}}});
+      }else if(action.id < lengthCached + lengthRemote){
+        return update(state, {cachedImages : {$splice : [[action.id - lengthRemote , 1]]}})
       }
     case CHANGE_SLIDE:
           return {
@@ -186,7 +191,8 @@ export function onAddImage(images){
 
 export function onDeleteImage(id){
   return {
-    type : DELETE_IMAGE
+    type : DELETE_IMAGE,
+    id : id,
   }
 }
 
@@ -218,6 +224,8 @@ export function onChangeSlide(page){
     page: page,
   }
 }
+
+
 
 export function load(number){
   return {
