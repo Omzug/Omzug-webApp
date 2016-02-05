@@ -6,9 +6,10 @@ import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {reduxForm} from 'redux-form';
 
-import {onEndEdit} from "redux/modules/entity";
+import {onEndEdit, onAddImage} from "redux/modules/entity";
 import FlatButton from 'material-ui/lib/flat-button';
-import Slider from 'nuka-carousel';
+//import Slider from 'nuka-carousel';
+import {Carousel} from 'components';
 
 import TextField from 'material-ui/lib/text-field';
 import FontIcon from 'material-ui/lib/font-icon';
@@ -29,20 +30,23 @@ import SelectField from 'material-ui/lib/select-field';
 import MenuItem from 'material-ui/lib/menus/menu-item';
 
 import DatePicker from 'material-ui/lib/date-picker/date-picker';
+import DropZone from 'react-dropzone'
 
 
 @connect(
   state => ({
     entity: state.entity.data,
     initialValues : state.entity.data,
+    cachedImages : state.entity.cachedImages,
   }),
-  {onEndEdit}
+  {onEndEdit, onAddImage}
 )
 
 @reduxForm({
   form: 'house',
+  //later should delete images in fields
   fields : ['city','location','roomNumber','size','price','caution','startDate','endDate',
-    'description','title','owner','email','phone', 'type','note','maximumPerson', 'picture'],
+    'description','title','owner','email','phone', 'type','note','maximumPerson', 'images'],
   //validate : registerValidation,
   //asyncValidate,
   //asyncBlurFields: ["email", "name"],
@@ -51,6 +55,8 @@ export default class SubmitForm extends Component {
   static propTypes = {
     entity: PropTypes.object,
     onEndEdit: PropTypes.func.isRequired,
+    onAddImage : PropTypes.func.isRequired,
+    cachedImages: PropTypes.array,
 
     fields: PropTypes.object.isRequired,
     handleSubmit: PropTypes.func.isRequired,
@@ -66,13 +72,19 @@ export default class SubmitForm extends Component {
     return day + '/' + month + '/' + year;
   }
 
+  onDrop = (file) => {
+    console.log('file is', file)
+    this.props.onAddImage(file);
+  }
+
   render() {
     const styles = require('./SubmitForm.scss');
     const {
       fields: {location,city,roomNumber,size,price,caution,startDate,endDate,
-        description,title,owner,email,phone,type,note,maximumPerson, picture},
+        description,title,owner,email,phone,type,note,maximumPerson,images},
       entity,
       //resetForm,
+      cachedImages,
       handleSubmit,
       submitting,
       //asyncValidating
@@ -116,19 +128,22 @@ export default class SubmitForm extends Component {
     return (
       <form className={styles.container} onSubmit={handleSubmit}>
         <Card className={styles.card}>
-          <CardMedia
-          >
-            <Slider className={styles.slider} decorators={Decorators} framePadding="50px" slidesToShow={1}>
-              <div>
-                <img/>
-                <span className="fa fa-plus-circle fa-5x"/>
-                <div>
-                  <input type="file" {...picture} value={ null } />
+          <CardMedia>
+            <div>
+              {console.log("carousel object is", Carousel)}
+              <Carousel key={211} className={styles.slider} decorators={Decorators} framePadding="50px" slidesToShow={1}>
+                {entity.images && entity.images.length >= 1 && entity.images.map( address => <img src={address}/>)}
+                {(cachedImages && cachedImages.length >= 1) ? cachedImages.map(file => <img src={window.URL.createObjectURL(file)}/>) : null}
+                <div className={styles.dropBox}>
+                  <DropZone onDrop={this.onDrop}>
+                    <div className={styles.inner}>
+                      <span className={styles.boxFont}>请点击选择图片或者将图片拖动到框中</span>
+                      <span className={styles.boxFont + " fa fa-plus-circle fa-5x"}/>
+                    </div>
+                  </DropZone>
                 </div>
-              </div>
-              <img/>
-              <img/>
-            </Slider>
+              </Carousel>
+            </div>
           </CardMedia>
           <CardTitle subtitle={entity.owner} >
             <div className="hint--top" data-hint="标题">
@@ -137,7 +152,7 @@ export default class SubmitForm extends Component {
           </CardTitle>
           <CardText>
             <div>
-              <TextField key={202} hintText="填写一些具体介绍吧" {...description}/>
+              <textarea key={202} className={"form-control " + styles.textArea} rows="6" placeholder="填写一些具体介绍吧" {...description}/>
             </div>
           </CardText>
         </Card>

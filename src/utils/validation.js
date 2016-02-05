@@ -69,7 +69,13 @@ export function match(field) {
 }
 
 export function isImage(value){
-  
+  var wrongSuffix = false;
+  value.forEach(function(file){
+    if (value.name.match(/\.(jpg|jpeg|png|gif)$/)){
+      wrongSuffix = true;
+    }
+  });
+  if(wrongSuffix) return "上传的不是图像文件"
 }
 
 export function createValidator(rules) {

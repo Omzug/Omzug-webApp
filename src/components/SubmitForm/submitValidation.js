@@ -23,5 +23,6 @@ const submitValidation = createValidator({
   phone : [minLength(11), maxLength(12)],
   note : [],
   maximumPerson : [integer],
+  images : [],
 });
 export default memoize(10)(submitValidation);

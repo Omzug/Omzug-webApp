@@ -8,6 +8,32 @@
   .slider{
 
   }
+  .dropBox{
+    display: flex;
+    flex-direction: row;
+    //horizontal center
+    justify-content: center;
+    width: 100%;
+    height:100%;
+    //vertical center
+    align-items: center;
+    .boxFont{
+      vertical-align: center;
+    }
+    .inner{
+      display: flex;
+      flex-direction: row;
+      //horizontal center
+      justify-content: center;
+      width: 100%;
+      height:100%;
+      //vertical center
+      align-items: center;
+    }
+  }
+  .textArea{
+
+  }
 }
 
 .list{

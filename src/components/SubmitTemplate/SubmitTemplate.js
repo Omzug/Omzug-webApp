@@ -8,7 +8,7 @@ import {connect} from 'react-redux';
 import {onContactOpen, onContactClose, onStartEdit} from "redux/modules/entity";
 
 import FlatButton from 'material-ui/lib/flat-button';
-import Slider from 'nuka-carousel';
+import {Carousel} from 'components';
 
 import FontIcon from 'material-ui/lib/font-icon';
 
@@ -29,7 +29,8 @@ import Divider from 'material-ui/lib/divider';
 @connect(
   state => ({
     entity: state.entity.data,
-    contactOpen : state.entity.contactOpen
+    contactOpen : state.entity.contactOpen,
+    cachedImages : state.entity.cachedImages,
   }),
   {onContactOpen, onContactClose, onStartEdit}
 )
@@ -37,6 +38,7 @@ export default class SubmitTemplate extends Component {
   static propTypes = {
     entity: PropTypes.object,
     contactOpen : PropTypes.bool,
+    cachedImages: PropTypes.array,
 
     onContactOpen : PropTypes.func.isRequired,
     onContactClose : PropTypes.func.isRequired,
@@ -51,7 +53,7 @@ export default class SubmitTemplate extends Component {
     const image1 = require('./a1.jpg');
     const image2 = require('./b1.jpg');
     const image3 = require('./c1.jpg');
-    const {entity, contactOpen} = this.props;
+    const {entity, contactOpen, cachedImages} = this.props;
 
     //custom arrows
     var Decorators = [
@@ -100,11 +102,12 @@ export default class SubmitTemplate extends Component {
           />
           */}
           <CardMedia>
-            <Slider className={styles.slider} decorators={Decorators} framePadding="50px" width="100%" slidesToShow={1}>
-              <img src={image1}/>
-              <img src={image2}/>
-              <img src={image3}/>
-            </Slider>
+            <div>
+              <Carousel className={styles.slider} decorators={Decorators} framePadding="50px" width="100%" slidesToShow={1}>
+                {entity.images && entity.images.length >= 1 && entity.images.map(address => (<img src={address}/>))}
+                {cachedImages && cachedImages.length >= 1 && cachedImages.map(file =><img src={window.URL.createObjectURL(file)}/>)}
+              </Carousel>
+            </div>
           </CardMedia>
           <CardTitle title={entity.title} subtitle={entity.owner} />
           <CardText>

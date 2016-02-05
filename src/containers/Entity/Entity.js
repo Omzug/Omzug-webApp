@@ -30,6 +30,7 @@ function checkState(getState, dispatch){
 @connect(
   state => ({
     entity: state.entity.data,
+    cachedImages : state.entity.cachedImages,
     error: state.entity.error,
     loading: state.entity.loading,
     editing: state.entity.editing,
@@ -48,6 +49,7 @@ export default class Entity extends Component {
     error: PropTypes.string,
     loading: PropTypes.bool,
     editing: PropTypes.bool,
+    cachedImages : PropTypes.array,
 
     //editStart: PropTypes.func.isRequired,
     onClear : PropTypes.func.isRequired,
@@ -58,8 +60,11 @@ export default class Entity extends Component {
 
   handleSubmit = (data) => {
     //test id property
-    this.props.onSubmit(data);
+    data.images = this.props.entity.images
+    const images = this.props.cachedImages
+    this.props.onSubmit(data, images);
     console.log("submit now with data:" , data)
+    console.log("submit now with images:", images )
   }
     //save(values)
     //.then(result => {

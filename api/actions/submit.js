@@ -7,7 +7,12 @@ export default function submit(req, params) {
   var submitHouse = req.body;
   console.log('get submit request body is', submitHouse)
   return new Promise((resolve, reject) => {
-    var result = []
+    var data  = submitHouse.data;
+    var images = submitHouse.images;
+
+    images.forEach(function(file){
+      console.log('file name and size are', file.name, file.size)
+    })
 
     setTimeout(()=> {
       resolve({
@@ -27,6 +32,7 @@ export default function submit(req, params) {
           type : true,
           note : "一些备注",
           maximumPerson : 3,
+          images:["http://ecx.images-amazon.com/images/I/518zSqpmd4L._SY300_.jpg"],
       });
     }, 100)
 

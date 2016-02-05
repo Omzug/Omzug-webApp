@@ -14,12 +14,14 @@ const OPEN_CONTACT = "Nevermind/entity/OPEN_CONTACT";
 const CLOSE_CONTACT = "Nevermind/entity/CLOSE_CONTACT";
 const START_EDIT = "Nevermind/entity/START_EDIT";
 const END_EDIT = "Nevermind/entity/END_EDIT";
-const CACHE_DATA = "Nevermind/entity/cache_data";
+const CACHE_DATA = "Nevermind/entity/CACHE_DATA";
+const ADD_IMAGE = "Nevermind/entity/ADD_IMAGE";
+const DELETE_IMAGE = "Nevermind/entity/DELETE_IMAGE";
 
 const initState = {
   loaded: false,
   saveError: {},
-  editing : false,
+  editing : true,
   contactOpen : false,
   data : {
     location: "地址",
@@ -38,7 +40,9 @@ const initState = {
     type : true,
     note : "一些备注",
     maximumPerson : 3,
-  }
+    images:["http://ecx.images-amazon.com/images/I/518zSqpmd4L._SY300_.jpg"],
+  },
+  cachedImages:[],
 };
 
 export default function reducer(state = initState, action){
@@ -73,6 +77,12 @@ export default function reducer(state = initState, action){
           }
     case SUBMIT_SUCCESS:
           const cachedData = Object.assign({}, state.cached)
+          //state.cachedImages.forEach(function(image){
+          //  if(!image.pushed) {
+          //    update(image, {$merge: {pushed : true}})
+          //    cachedData.images.push(window.URL.createObjectURL(image))
+          //  }
+          //})
           return {
             ...state,
             submitting : false,
@@ -107,6 +117,17 @@ export default function reducer(state = initState, action){
       return {
         ...state,
         editing :false
+      }
+    case ADD_IMAGE:
+      // once only one image as input
+      const image = update(state.cachedImages, {$push: [action.image]})
+      return {
+        ...state,
+        cachedImages: image,
+      }
+    case DELETE_IMAGE:
+      return {
+        ...state
       }
     default :
       return state;
@@ -147,12 +168,30 @@ export  function onEndEdit(){
   }
 }
 
-export function onSubmit(data){
+export function onAddImage(images){
+  return {
+    type : ADD_IMAGE,
+    image : images[0],
+  }
+}
+
+export function onDeleteImage(id){
+  return {
+    type : DELETE_IMAGE
+  }
+}
+
+export function onSubmit(data, images){
+  const submitData = {
+    data : data,
+    images : images,
+  }
+  console.log('submit object is', submitData )
   return {
     cached : data,
     types: [SUBMIT, SUBMIT_SUCCESS, SUBMIT_FAIL],
     promise: (client) => client.post('./submit', {
-      data : data
+      data : submitData
     })
   }
 }
