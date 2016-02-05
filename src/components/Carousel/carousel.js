@@ -376,7 +376,6 @@ const Carousel = React.createClass({
     }
 
     this.props.beforeSlide(this.state.currentSlide, index);
-    console.log('set current state to, ' ,index )
     this.setState({
       currentSlide: index
     }, function() {

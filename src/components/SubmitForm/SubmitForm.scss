@@ -5,8 +5,21 @@
   width:60%;
   min-width:300px;
   flex-grow: 1;
-  .slider{
-
+  .slideBox{
+    position:relative;
+    width:100%;
+    height: auto;
+    img{
+      width:100%;
+      height:auto;
+      z-index: 2;
+    }
+    .clearButton{
+      position: absolute;
+      right : 30px;
+      top : 30px;
+      z-index: 3;
+    }
   }
   .dropBox{
     display: flex;

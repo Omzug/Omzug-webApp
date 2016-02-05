@@ -17,6 +17,7 @@ const END_EDIT = "Nevermind/entity/END_EDIT";
 const CACHE_DATA = "Nevermind/entity/CACHE_DATA";
 const ADD_IMAGE = "Nevermind/entity/ADD_IMAGE";
 const DELETE_IMAGE = "Nevermind/entity/DELETE_IMAGE";
+const CHANGE_SLIDE = "Nevermind/entity/CHANGE_SLIDE";
 
 const initState = {
   loaded: false,
@@ -43,6 +44,7 @@ const initState = {
     images:["http://ecx.images-amazon.com/images/I/518zSqpmd4L._SY300_.jpg"],
   },
   cachedImages:[],
+  currentSlide: 0,
 };
 
 export default function reducer(state = initState, action){
@@ -74,6 +76,8 @@ export default function reducer(state = initState, action){
             ...state,
             submitting : true,
             cached : action.cached,
+            editing : false,
+            currentSlide : 0,
           }
     case SUBMIT_SUCCESS:
           const cachedData = Object.assign({}, state.cached)
@@ -86,7 +90,6 @@ export default function reducer(state = initState, action){
           return {
             ...state,
             submitting : false,
-            editing : false,
             data : cachedData,
             cached : null,
           }
@@ -94,7 +97,8 @@ export default function reducer(state = initState, action){
           return {
             ...state,
             submitting : false,
-            submitError : action.error
+            submitError : action.error,
+            cachedImages : [],
           }
     case CLEAR:
       return initState;
@@ -129,6 +133,11 @@ export default function reducer(state = initState, action){
       return {
         ...state
       }
+    case CHANGE_SLIDE:
+          return {
+            ...state,
+            currentSlide : action.page,
+          }
     default :
       return state;
   }
@@ -200,6 +209,13 @@ export function onCacheSubmit(cachedData){
   return {
     type: CACHE_DATA,
     cached : cachedData
+  }
+}
+
+export function onChangeSlide(page){
+  return {
+    type: CHANGE_SLIDE,
+    page: page,
   }
 }
 

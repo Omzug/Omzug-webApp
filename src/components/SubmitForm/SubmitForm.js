@@ -6,7 +6,7 @@ import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {reduxForm} from 'redux-form';
 
-import {onEndEdit, onAddImage} from "redux/modules/entity";
+import {onEndEdit, onAddImage, onChangeSlide} from "redux/modules/entity";
 import FlatButton from 'material-ui/lib/flat-button';
 //import Slider from 'nuka-carousel';
 import {Carousel} from 'components';
@@ -38,8 +38,9 @@ import DropZone from 'react-dropzone'
     entity: state.entity.data,
     initialValues : state.entity.data,
     cachedImages : state.entity.cachedImages,
+    currentSlide : state.entity.currentSlide,
   }),
-  {onEndEdit, onAddImage}
+  {onEndEdit, onAddImage, onChangeSlide}
 )
 
 @reduxForm({
@@ -56,7 +57,9 @@ export default class SubmitForm extends Component {
     entity: PropTypes.object,
     onEndEdit: PropTypes.func.isRequired,
     onAddImage : PropTypes.func.isRequired,
+    onChangeSlide : PropTypes.func.isRequired,
     cachedImages: PropTypes.array,
+    currentSlide : PropTypes.number,
 
     fields: PropTypes.object.isRequired,
     handleSubmit: PropTypes.func.isRequired,
@@ -90,13 +93,14 @@ export default class SubmitForm extends Component {
       //asyncValidating
       } = this.props;
 
+
     //custom arrows
     var Decorators = [
       {
         component: React.createClass({
           render() {
             return (
-              <i onClick={this.props.previousSlide} className="fa fa-arrow-left"/>
+              <i onClick={this.props.previousSlide} className="fa fa-arrow-left fa-lg"/>
             )
           }
         }),
@@ -109,7 +113,7 @@ export default class SubmitForm extends Component {
         component: React.createClass({
           render() {
             return (
-              <i onClick={this.props.nextSlide} className="fa fa-arrow-right"/>
+              <i onClick={this.props.nextSlide} className="fa fa-arrow-right fa-lg"/>
             )
           }
         }),
@@ -130,21 +134,24 @@ export default class SubmitForm extends Component {
         <Card className={styles.card}>
           <CardMedia>
             <div>
-              {console.log("carousel object is", Carousel)}
-              <Carousel key={211} className={styles.slider} decorators={Decorators} framePadding="50px" slidesToShow={1}>
-                {entity.images && entity.images.length >= 1 && entity.images.map( address => <img src={address}/>)}
-                {(cachedImages && cachedImages.length >= 1) ? cachedImages.map(file => <img src={window.URL.createObjectURL(file)}/>) : null}
-                <div className={styles.dropBox}>
-                  <DropZone onDrop={this.onDrop}>
-                    <div className={styles.inner}>
-                      <span className={styles.boxFont}>请点击选择图片或者将图片拖动到框中</span>
-                      <span className={styles.boxFont + " fa fa-plus-circle fa-5x"}/>
-                    </div>
-                  </DropZone>
-                </div>
+              <Carousel key={211} className={styles.slider} decorators={Decorators} framePadding="50px" width="100%" slidesToShow={1}
+                        onChange={this.props.onChangeSlide}>
+                {entity.images && entity.images.length >= 1 && entity.images.map( address =><img src={address}/>)}
+                {cachedImages && cachedImages.length >= 1 && cachedImages.map(file => <img src={window.URL.createObjectURL(file)}/>)}
+                {(entity.images.length + cachedImages.length < 3) &&
+                  <div className={styles.dropBox}>
+                    <DropZone onDrop={this.onDrop}>
+                      <div className={styles.inner}>
+                        <span className={styles.boxFont}>请点击选择图片或者将图片拖动到框中</span>
+                        <span className={styles.boxFont + " fa fa-plus-circle fa-5x"}/>
+                      </div>
+                    </DropZone>
+                  </div>
+                }
               </Carousel>
             </div>
           </CardMedia>
+          <FlatButton>删除图片1</FlatButton> <FlatButton>删除图片2</FlatButton> <FlatButton>删除图片3</FlatButton>
           <CardTitle subtitle={entity.owner} >
             <div className="hint--top" data-hint="标题">
             <TextField key={201} hintText="标题" {...title}/>
