@@ -14,10 +14,15 @@ import MenuItem from 'material-ui/lib/menus/menu-item';
 import AppBar from 'material-ui/lib/app-bar';
 import RaisedButton from 'material-ui/lib/raised-button';
 
+import GridList from 'material-ui/lib/grid-list/grid-list';
+import GridTile from 'material-ui/lib/grid-list/grid-tile';
+import IconButton from 'material-ui/lib/icon-button';
+import {Carousel} from 'components';
 
 import myRawTheme from '../../theme/materialUI.theme';
 import ThemeManager from 'material-ui/lib/styles/theme-manager';
 import ThemeDecorator from 'material-ui/lib/styles/theme-decorator';
+import StarBorder from 'material-ui/lib/svg-icons/toggle/star-border';
 
 function fetchDataDeferred(getState, dispatch) {
   if (!isLoaded(getState())) {
@@ -41,7 +46,7 @@ function fetchDataDeferred(getState, dispatch) {
 )
 export default class Entities extends Component {
   static propTypes = {
-    data : PropTypes.object,
+    entities : PropTypes.object,
     error: PropTypes.string,
     loading: PropTypes.bool,
     locationId : PropTypes.number,
@@ -57,40 +62,53 @@ export default class Entities extends Component {
 
   render() {
     const styles = require('./Entities.scss');
-    const { data, getList, error, loading, locationId, onLocationChange } = this.props;
-    console.log('entities are', data)
+    const { entities, getList, error, loading, locationId, onLocationChange } = this.props;
+    const houses = entities.list;
+    console.log('entities are', houses)
 
     return (
       <div>
-        <h1>HauseList</h1>
-
-        <DropDownMenu value={locationId} onChange={onLocationChange} className={styles.dropDown}>
-          <MenuItem value={1} primaryText="Berlin"/>
-          <MenuItem value={2} primaryText="Stuttgart"/>
-          <MenuItem value={3} primaryText="Munich"/>
-          <MenuItem value={4} primaryText="Hamburg"/>
-          <MenuItem value={5} primaryText="NordWestfalen"/>
-        </DropDownMenu>
+        <div className={styles.listNav}>
+          <DropDownMenu value={locationId} onChange={onLocationChange} className={styles.dropDown}>
+            <MenuItem value={1} primaryText="Berlin"/>
+            <MenuItem value={2} primaryText="Stuttgart"/>
+            <MenuItem value={3} primaryText="Munich"/>
+            <MenuItem value={4} primaryText="Hamburg"/>
+            <MenuItem value={5} primaryText="NordWestfalen"/>
+          </DropDownMenu>
+        </div>
 
         <RaisedButton label="My Button"
                       onClick={this.addNumber} />
 
-        <button className="" onClick={getList}>
-        </button>
-        <div className="container">
-          {data && data.list && data.list.map((unit, index)=>
-          <Show key={index}>element is {unit} </Show>
-        )}
+        <div className={styles.container}>
+          <GridList cellHeight={600} cellWidth={400} style={styles.gridList}>
+            {/* id, city, owner, title, price, images*/}
+          {houses.map((house, index) => (
+            <GridTile
+              key={index}
+              title={house.title}
+              subtitle={<span>by <b>{house.owner}</b> In <b>{house.city}</b></span>}
+              actionIcon={<IconButton><StarBorder color="white"/></IconButton>}
+            >
+              <Carousel className={styles.slider} framePadding="20px" slidesToShow={1}>
+                {house.images && house.images.length >= 1 && house.images.map(address => (<img src={address}/>))}
+              </Carousel>
+            </GridTile>
+          ))}
+          </GridList>
         </div>
 
         <div className="container">
-          {data && data.number &&
-            <LinkContainer to={`/entities/${data.number}`}>
-              <button>link to entity with number {data.number}</button>
+          {entities && entities.number &&
+            <LinkContainer to={`/entities/${entities.number}`}>
+              <button>link to entity with number {entities.number}</button>
             </LinkContainer>
           }
         </div>
+
         <div className="detail"></div>
+
         {error &&
         <div className="alert alert-danger" role="alert">
           <span className="glyphicon glyphicon-exclamation-sign" aria-hidden="true">sorry</span>
