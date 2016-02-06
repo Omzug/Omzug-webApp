@@ -1,17 +1,26 @@
 /**
  * Created by hanwencheng on 2/4/16.
  */
+var formidable = require('formidable');
 export default function submit(req, params) {
   console.log('in api house.js params are', params)
 
   var submitHouse = req.body;
-  console.log('get submit request body is', submitHouse)
+  var form = new formidable.IncomingForm();
   return new Promise((resolve, reject) => {
-    var data  = submitHouse.data;
-    var images = submitHouse.images;
+    //var data  = submitHouse.data;
+    //var images = submitHouse.images;
 
-    images.forEach(function(file){
-      console.log('file name and size are', file.name, file.size)
+    //images.forEach(function(file){
+    //  console.log('file name and size are', file.name, file.size)
+    //})
+
+    form.parse(req, function(err, fields, files){
+      //files.forEach(function(file){
+      //  console.log("file name is", file.name, file.size)
+      //})
+      console.log("files are ", files)
+      console.log("and field array is", fields )
     })
 
     setTimeout(()=> {

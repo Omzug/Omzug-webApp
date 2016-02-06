@@ -151,7 +151,7 @@ export default class SubmitTemplate extends Component {
           <ListItem key={9} leftIcon={<FontIcon className="fa fa-calendar" />} children={
           <div>
             <p className="hint--top" data-hint="开始日期">{entity.startDate}</p>
-            <p> -- </p><br/>
+            <br/>
             <p className="hint--top" data-hint="结束日期">{entity.endDate? entity.endDate: "无限制"}</p>
           </div>
           }>

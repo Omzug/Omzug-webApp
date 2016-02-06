@@ -22,22 +22,37 @@ function formatUrl(path) {
 class _ApiClient {
   constructor(req) {
     methods.forEach((method) =>
-      this[method] = (path, { params, data } = {}) => new Promise((resolve, reject) => {
+      this[method] = (path, { params, data, files } = {}) => new Promise((resolve, reject) => {
         const request = superagent[method](formatUrl(path));
 
-        if (params) {
-          request.query(params);
-        }
+        //add support for multipart request with attach file
+        if (method=='post' && files && files.length > 0){
+          files.forEach(file => request.attach(file.name, file))
 
-        // pass along the session cookie to the API server to maintain session state.
-        if (__SERVER__ && req.get('cookie')) {
-          request.set('cookie', req.get('cookie'));
-        }
+          if(params){
+            request.field('query', params)
+          }
 
-        if (data) {
-          request.send(data);
-        }
+          if (data) {
+            request.field('data', data);
+          }
 
+          // TODO pass along the session cookie to the API server to maintain session state.
+          //if (__SERVER__ && req.get('cookie')) {
+          //  request.set('cookie', req.get('cookie'));
+          //}
+        }else {
+          if (params) {
+            request.query(params);
+          }
+          // pass along the session cookie to the API server to maintain session state.
+          if (__SERVER__ && req.get('cookie')) {
+            request.set('cookie', req.get('cookie'));
+          }
+          if (data) {
+            request.send(data);
+          }
+        }
         request.end((err, { body } = {}) => err ? reject(body || err) : resolve(body));
       }));
   }

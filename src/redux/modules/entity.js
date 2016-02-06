@@ -197,6 +197,30 @@ export function onDeleteImage(id){
 }
 
 export function onSubmit(data, images){
+  //const fileReader = new FileReader();
+  //
+  //const totalNumber = images.length;
+  //var imageStrings = [];
+  //
+  //images.forEach(file => fileReader.readAsText(file));
+  //
+  //return new Promise(function (resolve, reject){
+  //  fileReader.onload = (event)=> {
+  //    imageStrings.push(event.target.result);
+  //    console.log("finished encoding image " + imageStrings.length)
+  //    if(imageStrings.length == totalNumber){
+  //      resolve({
+  //        cached: data,
+  //        types: [SUBMIT, SUBMIT_SUCCESS, SUBMIT_FAIL],
+  //        promise: (client) => client.post('./submit', {
+  //          data : submitData,
+  //          image : imageStrings,
+  //        })
+  //      })
+  //    }
+  //  }
+  //});
+
   const submitData = {
     data : data,
     images : images,
@@ -206,7 +230,8 @@ export function onSubmit(data, images){
     cached : data,
     types: [SUBMIT, SUBMIT_SUCCESS, SUBMIT_FAIL],
     promise: (client) => client.post('./submit', {
-      data : submitData
+      data : submitData,
+      files : images
     })
   }
 }

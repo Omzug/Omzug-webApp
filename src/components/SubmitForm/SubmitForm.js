@@ -28,6 +28,7 @@ import ListItem from 'material-ui/lib/lists/list-item';
 import Divider from 'material-ui/lib/divider';
 import SelectField from 'material-ui/lib/select-field';
 import MenuItem from 'material-ui/lib/menus/menu-item';
+import IconButton from 'material-ui/lib/icon-button';
 
 import DatePicker from 'material-ui/lib/date-picker/date-picker';
 import DropZone from 'react-dropzone'
@@ -140,6 +141,10 @@ export default class SubmitForm extends Component {
     return (
       <form className={styles.container} onSubmit={handleSubmit}>
         <Card className={styles.card}>
+          <div className={styles.buttonContainer}>
+            { currentSlide <= imagesNumber - 1 &&
+          <IconButton iconClassName="fa fa-times-circle fa-5x hint--bottom" data-hint="删除该图片" onClick={this.onDeleteButton}/>}
+          </div>
           <CardMedia>
             <div>
               <Carousel key={211} className={styles.slider} decorators={Decorators} framePadding="50px" width="100%" slidesToShow={1}
@@ -159,8 +164,6 @@ export default class SubmitForm extends Component {
               </Carousel>
             </div>
           </CardMedia>
-          { currentSlide <= imagesNumber - 1 &&
-          <FlatButton onClick={this.onDeleteButton}>删除图片</FlatButton>}
           <CardTitle subtitle={entity.owner} >
             <div className="hint--top" data-hint="标题">
             <TextField key={201} hintText="标题" {...title}/>
@@ -174,7 +177,7 @@ export default class SubmitForm extends Component {
         </Card>
 
         <List className={styles.list}>
-          <ListItem key={1} className="hint--top" data-hint="城市" leftIcon={<FontIcon className="fa fa-map-marker"/>} >
+          <ListItem key={1} className="hint--bottom" data-hint="城市" leftIcon={<FontIcon className="fa fa-map-marker"/>} >
             <TextField key={10} hintText="城市" {...city}/>
           </ListItem>
           <ListItem key={2} className="hint--top" data-hint="地址" leftIcon={<FontIcon className="fa fa-map" />}>
