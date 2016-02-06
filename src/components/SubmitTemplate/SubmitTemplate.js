@@ -57,33 +57,14 @@ export default class SubmitTemplate extends Component {
 
     //custom arrows
     var Decorators = [
-      {
-      component: React.createClass({
-        render() {
-          return (
-            <i onClick={this.props.previousSlide} className="fa fa-arrow-left"/>
-          )
-        }
+      {component: React.createClass({render() {
+          return (<i onClick={this.props.previousSlide} className="fa fa-arrow-left"/>)}
       }),
-      position: 'CenterLeft',
-      style: {
-        padding: 20
-      }
-    },
-      {
-        component: React.createClass({
-          render() {
-            return (
-              <i onClick={this.props.nextSlide} className="fa fa-arrow-right"/>
-            )
-          }
-        }),
-        position: 'CenterRight',
-        style: {
-          padding: 20
-        }
-      },
-
+      position: 'CenterLeft', style: {padding: 20}},
+      {component: React.createClass({render() {
+          return (<i onClick={this.props.nextSlide} className="fa fa-arrow-right"/>)}
+      }),
+      position: 'CenterRight', style: {padding: 20}},
     ];
 
     const pickerStyle ={

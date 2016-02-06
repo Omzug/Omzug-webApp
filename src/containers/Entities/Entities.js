@@ -64,7 +64,18 @@ export default class Entities extends Component {
     const styles = require('./Entities.scss');
     const { entities, getList, error, loading, locationId, onLocationChange } = this.props;
     const houses = entities.list;
+
     console.log('entities are', houses)
+    var Decorators = [
+      {component: React.createClass({render() {
+        return (<i onClick={this.props.previousSlide} className="fa fa-arrow-left"/>)}
+      }),
+        position: 'CenterLeft', style: {padding: 20}},
+      {component: React.createClass({render() {
+        return (<i onClick={this.props.nextSlide} className="fa fa-arrow-right"/>)}
+      }),
+        position: 'CenterRight', style: {padding: 20}},
+    ];
 
     return (
       <div>
@@ -76,27 +87,33 @@ export default class Entities extends Component {
             <MenuItem value={4} primaryText="Hamburg"/>
             <MenuItem value={5} primaryText="NordWestfalen"/>
           </DropDownMenu>
+
+          <RaisedButton label="My Button" onClick={this.addNumber} />
         </div>
 
-        <RaisedButton label="My Button"
-                      onClick={this.addNumber} />
 
-        <div className={styles.container}>
-          <GridList cellHeight={600} cellWidth={400} style={styles.gridList}>
+        <div className={styles.container + " " + styles.gridContainer}>
+          {houses && houses.length > 0 &&
+          <GridList cellHeight={300} padding={50} cols={3} className={styles.gridList}>
             {/* id, city, owner, title, price, images*/}
-          {houses.map((house, index) => (
-            <GridTile
-              key={index}
-              title={house.title}
-              subtitle={<span>by <b>{house.owner}</b> In <b>{house.city}</b></span>}
-              actionIcon={<IconButton><StarBorder color="white"/></IconButton>}
-            >
-              <Carousel className={styles.slider} framePadding="20px" slidesToShow={1}>
-                {house.images && house.images.length >= 1 && house.images.map(address => (<img src={address}/>))}
-              </Carousel>
-            </GridTile>
-          ))}
+            {houses.map((house, index) => (
+              <GridTile
+                className={styles.tile}
+                key={index}
+                style={{"display" : "flex", "align-items":"center", "justify-content": "center"}}
+                title={house.title}
+                subtitle={<span>by <b>{house.owner}</b> In <b>{house.city}</b></span>}
+                actionIcon={<IconButton><StarBorder color="white"/></IconButton>}
+              >
+                <Carousel key={house.id} decorators={Decorators} className={styles.carousel} width={"100%"}
+                          slidesToShow={1}>
+                  {house.images && house.images.length >= 1 && house.images.map(address => (
+                    <div className={styles.imageContainer}><img src={address}/></div>))}
+                </Carousel>
+              </GridTile>
+            ))}
           </GridList>
+          }
         </div>
 
         <div className="container">

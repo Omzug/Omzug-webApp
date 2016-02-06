@@ -100,36 +100,15 @@ export default class SubmitForm extends Component {
       //asyncValidating
       } = this.props;
 
-
-    //custom arrows
     var Decorators = [
-      {
-        component: React.createClass({
-          render() {
-            return (
-              <i onClick={this.props.previousSlide} className="fa fa-arrow-left fa-lg"/>
-            )
-          }
-        }),
-        position: 'CenterLeft',
-        style: {
-          padding: 20
-        }
-      },
-      {
-        component: React.createClass({
-          render() {
-            return (
-              <i onClick={this.props.nextSlide} className="fa fa-arrow-right fa-lg"/>
-            )
-          }
-        }),
-        position: 'CenterRight',
-        style: {
-          padding: 20
-        }
-      },
-
+      {component: React.createClass({render() {
+        return (<i onClick={this.props.previousSlide} className="fa fa-arrow-left"/>)}
+      }),
+        position: 'CenterLeft', style: {padding: 20}},
+      {component: React.createClass({render() {
+        return (<i onClick={this.props.nextSlide} className="fa fa-arrow-right"/>)}
+      }),
+        position: 'CenterRight', style: {padding: 20}},
     ];
 
     const pickerStyle ={
@@ -137,7 +116,6 @@ export default class SubmitForm extends Component {
     }
 
     const imagesNumber = entity.images.length + cachedImages.length;
-
     return (
       <form className={styles.container} onSubmit={handleSubmit}>
         <Card className={styles.card}>
@@ -147,7 +125,9 @@ export default class SubmitForm extends Component {
           </div>
           <CardMedia>
             <div>
-              <Carousel key={211} className={styles.slider} decorators={Decorators} framePadding="50px" width="100%" slidesToShow={1}
+              <Carousel key={211} className={styles.slider}
+                        decorators={Decorators}
+                        framePadding="50px" width="100%" slidesToShow={1}
                         onChange={this.props.onChangeSlide}>
                 {entity.images && entity.images.length >= 1 && entity.images.map( address =><img src={address}/>)}
                 {cachedImages && cachedImages.length >= 1 && cachedImages.map(file => <img src={window.URL.createObjectURL(file)}/>)}

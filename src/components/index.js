@@ -15,3 +15,4 @@ export RegisterForm from './RegisterForm/RegisterForm';
 export SubmitForm from './SubmitForm/SubmitForm';
 export SubmitTemplate from './SubmitTemplate/SubmitTemplate';
 export Carousel from './Carousel/Carousel';
+export createDecorates from './Decorators/Decorators';
