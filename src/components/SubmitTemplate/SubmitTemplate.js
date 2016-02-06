@@ -55,16 +55,21 @@ export default class SubmitTemplate extends Component {
     const image3 = require('./c1.jpg');
     const {entity, contactOpen, cachedImages} = this.props;
 
-    //custom arrows
     var Decorators = [
       {component: React.createClass({render() {
-          return (<i onClick={this.props.previousSlide} className="fa fa-arrow-left"/>)}
+        return (
+          <div className={styles.arrowContainer} onClick={this.props.previousSlide}>
+            <i className={styles.arrowIcon + " fa fa-angle-double-left fa-2x"}/>
+          </div>)}
       }),
-      position: 'CenterLeft', style: {padding: 20}},
+        position: 'CenterLeft', style: {height: "100%"}},
       {component: React.createClass({render() {
-          return (<i onClick={this.props.nextSlide} className="fa fa-arrow-right"/>)}
+        return (
+          <div className={styles.arrowContainer} onClick={this.props.nextSlide}>
+            <i className={styles.arrowIcon + " fa fa-angle-double-right fa-2x"}/>
+          </div>)}
       }),
-      position: 'CenterRight', style: {padding: 20}},
+        position: 'CenterRight', style: {height: "100%"}},
     ];
 
     const pickerStyle ={

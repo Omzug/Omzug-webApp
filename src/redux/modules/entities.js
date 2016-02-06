@@ -19,7 +19,7 @@ export function load(){
 }
 
 export function isLoaded(globalState) {
-  return globalState.entity && globalState.entity.loaded;
+  return globalState.entities && globalState.entities.loaded;
 }
 
 export function onLocationChange(event, index, value){
@@ -51,7 +51,7 @@ export default function reducer(state = initState, action = {}) {
         ...state,
         loading: false,
         loaded: true,
-        data: action.result,
+        list: action.result.list,
         error: null
       };
     case LOAD_FAIL:
@@ -59,7 +59,7 @@ export default function reducer(state = initState, action = {}) {
         ...state,
         loading: false,
         loaded: false,
-        data: null,
+        list: [],
         error: action.error
       };
     case CLEAR:

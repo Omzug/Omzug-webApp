@@ -102,13 +102,19 @@ export default class SubmitForm extends Component {
 
     var Decorators = [
       {component: React.createClass({render() {
-        return (<i onClick={this.props.previousSlide} className="fa fa-arrow-left"/>)}
+        return (
+          <div className={styles.arrowContainer} onClick={this.props.previousSlide}>
+            <i className={styles.arrowIcon + " fa fa-angle-double-left fa-2x"}/>
+          </div>)}
       }),
-        position: 'CenterLeft', style: {padding: 20}},
+        position: 'CenterLeft', style: {height: "100%"}},
       {component: React.createClass({render() {
-        return (<i onClick={this.props.nextSlide} className="fa fa-arrow-right"/>)}
+        return (
+          <div className={styles.arrowContainer} onClick={this.props.nextSlide}>
+            <i className={styles.arrowIcon + " fa fa-angle-double-right fa-2x"}/>
+          </div>)}
       }),
-        position: 'CenterRight', style: {padding: 20}},
+        position: 'CenterRight', style: {height: "100%"}},
     ];
 
     const pickerStyle ={

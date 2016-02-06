@@ -1,3 +1,5 @@
+@import "./color.scss";
+
 .centerBox {
   display: flex;
   align-items: center;
@@ -12,6 +14,23 @@
   //vertical center
   align-items: center;
 }
+
+.arrowContainer{
+  display: flex;
+  align-items: center;
+  height:100%;
+  padding: 0 8px;
+  cursor:pointer;
+  color: $transparent;
+  &:hover {
+    color : $darkWhite;
+    background-color: $lightWhite;
+  }
+  .arrowIcon{
+
+  }
+}
+
 
 
 .noMargin {

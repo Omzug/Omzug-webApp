@@ -36,7 +36,7 @@ function fetchDataDeferred(getState, dispatch) {
 
 @connect(
   state => ({
-    entities: state.entities.data,
+    entities: state.entities.list,
     error: state.entities.error,
     loading: state.entities.loading,
     locationId : state.entities.locationId
@@ -46,7 +46,7 @@ function fetchDataDeferred(getState, dispatch) {
 )
 export default class Entities extends Component {
   static propTypes = {
-    entities : PropTypes.object,
+    entities : PropTypes.array,
     error: PropTypes.string,
     loading: PropTypes.bool,
     locationId : PropTypes.number,
@@ -62,19 +62,26 @@ export default class Entities extends Component {
 
   render() {
     const styles = require('./Entities.scss');
-    const { entities, getList, error, loading, locationId, onLocationChange } = this.props;
-    const houses = entities.list;
+    const {getList, error, loading, locationId, onLocationChange } = this.props;
+    const houses = this.props.entities;
 
     console.log('entities are', houses)
+
     var Decorators = [
       {component: React.createClass({render() {
-        return (<i onClick={this.props.previousSlide} className="fa fa-arrow-left"/>)}
+        return (
+          <div className={styles.arrowContainer} onClick={this.props.previousSlide}>
+            <i className={styles.arrowIcon + " fa fa-angle-double-left fa-2x"}/>
+          </div>)}
       }),
-        position: 'CenterLeft', style: {padding: 20}},
+        position: 'CenterLeft', style: {height: "100%"}},
       {component: React.createClass({render() {
-        return (<i onClick={this.props.nextSlide} className="fa fa-arrow-right"/>)}
+        return (
+          <div className={styles.arrowContainer} onClick={this.props.nextSlide}>
+            <i className={styles.arrowIcon + " fa fa-angle-double-right fa-2x"}/>
+          </div>)}
       }),
-        position: 'CenterRight', style: {padding: 20}},
+        position: 'CenterRight', style: {height: "100%"}},
     ];
 
     return (
@@ -93,38 +100,40 @@ export default class Entities extends Component {
 
 
         <div className={styles.container + " " + styles.gridContainer}>
-          {houses && houses.length > 0 &&
+          {houses.length &&
           <GridList cellHeight={300} padding={50} cols={3} className={styles.gridList}>
-            {/* id, city, owner, title, price, images*/}
             {houses.map((house, index) => (
               <GridTile
                 className={styles.tile}
                 key={index}
-                style={{"display" : "flex", "align-items":"center", "justify-content": "center"}}
+                style={{"display" : "flex", "alignItems":"center", "justifyContent": "center"}}
                 title={house.title}
                 subtitle={<span>by <b>{house.owner}</b> In <b>{house.city}</b></span>}
-                actionIcon={<IconButton><StarBorder color="white"/></IconButton>}
+                actionIcon={<IconButton iconClassName="fa fa-hand-o-right fa-4x" iconStyle={{"color" : "white"}}/>}
               >
                 <Carousel key={house.id} decorators={Decorators} className={styles.carousel} width={"100%"}
                           slidesToShow={1}>
                   {house.images && house.images.length >= 1 && house.images.map(address => (
-                    <div className={styles.imageContainer}><img src={address}/></div>))}
+                    <LinkContainer to={`/entities/${houses.length}`}>
+                    <div className={styles.imageContainer}>
+                      <img src={address}/>
+                    </div>
+                    </LinkContainer>))}
                 </Carousel>
               </GridTile>
             ))}
-          </GridList>
-          }
+          </GridList>}
+
+          {houses.length && <p>这个地区暂时没可用的房源</p>}
         </div>
 
         <div className="container">
-          {entities && entities.number &&
-            <LinkContainer to={`/entities/${entities.number}`}>
-              <button>link to entity with number {entities.number}</button>
+          {houses && houses.number &&
+            <LinkContainer to={`/entities/${houses.length}`}>
+              <button>link to entity with number {houses.length}</button>
             </LinkContainer>
           }
         </div>
-
-        <div className="detail"></div>
 
         {error &&
         <div className="alert alert-danger" role="alert">
