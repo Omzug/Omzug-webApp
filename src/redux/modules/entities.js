@@ -8,15 +8,21 @@ const LOAD_FAIL = 'Nevermind/entityList/LOAD_FAIL';
 const CLEAR = 'Nevermind/entityList/CLEAR'
 const CHANGE_LOCATION = "Nevermind/entityList/CHANGE_LOCATION"
 
-export function load(){
+export function load(city){
   return {
     types: [LOAD, LOAD_SUCCESS, LOAD_FAIL],
     promise: (client) => {
-      const url = '/list'
+      let url;
+      if(city) {
+        url = '/list' + '/' + city
+      }else{
+        url ='/list'
+      }
       return client.get(url)
     } // params not used, just shown as demonstration
   };
 }
+
 
 export function isLoaded(globalState) {
   return globalState.entities && globalState.entities.loaded;
@@ -36,7 +42,8 @@ function filterData(locationValue){
 
 const initState = {
   list :[],
-  locationId : 1,
+  locationId : 0,
+  loaded: false,
 };
 
 export default function reducer(state = initState, action = {}) {

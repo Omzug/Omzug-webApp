@@ -24,9 +24,11 @@ import ThemeManager from 'material-ui/lib/styles/theme-manager';
 import ThemeDecorator from 'material-ui/lib/styles/theme-decorator';
 import StarBorder from 'material-ui/lib/svg-icons/toggle/star-border';
 
+import cityList from '../../constant/cityList';
+
 function fetchDataDeferred(getState, dispatch) {
   if (!isLoaded(getState())) {
-    console.log("after load we get state:", getState().router)
+    //console.log("after load we get state:", getState().router)
     return dispatch(getList());
   }
 }
@@ -39,6 +41,7 @@ function fetchDataDeferred(getState, dispatch) {
     entities: state.entities.list,
     error: state.entities.error,
     loading: state.entities.loading,
+    loaded: state.entities.loaded,
     locationId : state.entities.locationId
   }),
   {getList, onLocationChange}
@@ -50,22 +53,31 @@ export default class Entities extends Component {
     error: PropTypes.string,
     loading: PropTypes.bool,
     locationId : PropTypes.number,
+    loaded :PropTypes.bool,
 
     getList: PropTypes.func.isRequired,
     onLocationChange: PropTypes.func.isRequired,
   };
 
-  addNumber = (event) => {
-    event.preventDefault();
-    this.props.getList()
+  loadCity = (event) => {
+    const locationId = this.props.locationId
+    if(locationId) {
+      //if location is chosen, it starts from 1
+      this.props.getList(cityList[locationId]);
+    }else{
+      this.props.getList();
+    }
   }
 
   render() {
     const styles = require('./Entities.scss');
-    const {getList, error, loading, locationId, onLocationChange } = this.props;
+    const {loaded, getList, error, loading, locationId, onLocationChange } = this.props;
     const houses = this.props.entities;
 
-    console.log('entities are', houses)
+    let refreshClassName = 'fa fa-refresh';
+    if (loading) {
+      refreshClassName += ' fa-spin';
+    }
 
     var Decorators = [
       {component: React.createClass({render() {
@@ -88,52 +100,43 @@ export default class Entities extends Component {
       <div>
         <div className={styles.listNav}>
           <DropDownMenu value={locationId} onChange={onLocationChange} className={styles.dropDown}>
-            <MenuItem value={1} primaryText="Berlin"/>
-            <MenuItem value={2} primaryText="Stuttgart"/>
-            <MenuItem value={3} primaryText="Munich"/>
-            <MenuItem value={4} primaryText="Hamburg"/>
-            <MenuItem value={5} primaryText="NordWestfalen"/>
+            {/* the value starts from 1 */}
+            {cityList.map((city, index) => <MenuItem value={index} key={index} primaryText={cityList[index]}/>)}
           </DropDownMenu>
 
-          <RaisedButton label="My Button" onClick={this.addNumber} />
+          <RaisedButton onClick={this.loadCity}><i className={refreshClassName}/> 载入</RaisedButton>
         </div>
 
+        {loaded &&
+        <div className={styles.gridContainer}>
+          { houses.length ?
+            <GridList cellHeight={300} padding={50} cols={3} className={styles.gridList}>
+              {houses.map((house, index) => (
+                <GridTile
+                  className={styles.tile}
+                  key={house.id}
+                  style={{"display" : "flex", "alignItems":"center", "justifyContent": "center"}}
+                  title={house.title}
+                  subtitle={<span>by <b>{house.owner}</b> In <b>{house.city}</b></span>}
+                  actionIcon={<IconButton iconClassName="fa fa-hand-o-right fa-4x" iconStyle={{"color" : "white"}}/>}
+                >
+                  <Carousel key={house.id} decorators={Decorators} className={styles.carousel} width={"100%"}
+                            initialSlideHight={300} initialSlideWidth={500} slidesToShow={1}>
+                    {house.images && house.images.length >= 1 && house.images.map((address, index) => (
+                      <div key={index} className={styles.imageContainer}>
+                        <LinkContainer to={`/entities/${houses.length}`}>
+                          <img key={index} src={address}/>
+                        </LinkContainer>
+                      </div>
+                    ))}
+                  </Carousel>
+                </GridTile>
+              ))}
+            </GridList> :
 
-        <div className={styles.container + " " + styles.gridContainer}>
-          {houses.length &&
-          <GridList cellHeight={300} padding={50} cols={3} className={styles.gridList}>
-            {houses.map((house, index) => (
-              <GridTile
-                className={styles.tile}
-                key={index}
-                style={{"display" : "flex", "alignItems":"center", "justifyContent": "center"}}
-                title={house.title}
-                subtitle={<span>by <b>{house.owner}</b> In <b>{house.city}</b></span>}
-                actionIcon={<IconButton iconClassName="fa fa-hand-o-right fa-4x" iconStyle={{"color" : "white"}}/>}
-              >
-                <Carousel key={house.id} decorators={Decorators} className={styles.carousel} width={"100%"}
-                          slidesToShow={1}>
-                  {house.images && house.images.length >= 1 && house.images.map(address => (
-                    <LinkContainer to={`/entities/${houses.length}`}>
-                    <div className={styles.imageContainer}>
-                      <img src={address}/>
-                    </div>
-                    </LinkContainer>))}
-                </Carousel>
-              </GridTile>
-            ))}
-          </GridList>}
-
-          {houses.length && <p>这个地区暂时没可用的房源</p>}
+            <p>这个地区暂时没可用的房源</p>}
         </div>
-
-        <div className="container">
-          {houses && houses.number &&
-            <LinkContainer to={`/entities/${houses.length}`}>
-              <button>link to entity with number {houses.length}</button>
-            </LinkContainer>
-          }
-        </div>
+        }
 
         {error &&
         <div className="alert alert-danger" role="alert">

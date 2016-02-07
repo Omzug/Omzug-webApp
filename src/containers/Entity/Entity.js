@@ -14,14 +14,14 @@ import FlatButton from 'material-ui/lib/flat-button';
 
 function fetchDataDeferred(getState, dispatch) {
   if (!isLoaded(getState())) {
-    console.log("nothing load, after load we get state:")
+    //console.log("nothing load, after load we get state:")
     return dispatch(onLoad(getState().router.params.entityId));
   }
 }
 
 //get the params only after page loaded
 function checkState(getState, dispatch){
-  console.log('before load we get state: ')
+
 }
 
 @connectData(

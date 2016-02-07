@@ -35,19 +35,27 @@ export default function listHause(req, params) {
       //reject("we don't have such endpoint")
     })
   }else {
-    var totalNum = parseInt(params[0])
+    var city = params[0]
+    console.log(" get request city is", city)
     return new Promise((resolve, reject) => {
-      var result = []
-      for (let i = 0; i < totalNum; i++) {
-        result.push(i + "times visited");
-      }
-
+      var result = {}
 
       setTimeout(()=> {
         resolve({
-          entities: result,
-          id: params[0],//which should be a string
-          time: Date.now()
+          list: [
+            {
+              id : 12321,
+              city: "stuttgart",
+              owner: "hanwencheng",
+              title : "i got an idea",
+              price : 860,
+              images : [
+                "http://media.zenfs.com/en-US/video/video.pd2upload.com/video.yahoofinance.com@fc01f40d-8f4e-3cbc-9d8f-a7b9e79d95fd_FULL.jpg",
+                "http://g-ecx.images-amazon.com/images/G/01/img15/pet-products/small-tiles/23695_pets_vertical_store_dogs_small_tile_8._CB312176604_.jpg",
+              ]
+            },
+          ],
+          number: 2
         });
       }, 1000)
 

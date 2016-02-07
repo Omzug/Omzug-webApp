@@ -16,7 +16,6 @@
 .gridContainer{
   margin: 110px 50px 50px 10px;
   .gridList{
-
     .carousel{
       height:100%;
       width:100%;
@@ -30,11 +29,11 @@
         justify-content: center;
         //max-height:400px;
         img{
+          cursor:pointer;
           max-height:300px;
           max-width:100%;
         }
       }
-
     }
   }
 }
