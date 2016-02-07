@@ -87,15 +87,6 @@ export default class App extends Component {
               <LinkContainer to="/chat">
                 <li eventKey={1}>Chat</li>
               </LinkContainer>}
-              {!config.isDebug &&
-              <LinkContainer to="/widgets">
-                <li eventKey={2}>Widgets</li>
-              </LinkContainer>
-              }
-              {!config.isDebug &&
-              <LinkContainer to="/survey">
-                <li eventKey={3}>Survey</li>
-              </LinkContainer>}
 
               {!user &&
               <LinkContainer to="/register">
