@@ -76,6 +76,14 @@ export default class SubmitTemplate extends Component {
       display:'inline'
     }
 
+    const formatDate = (dateString) =>
+    {
+      const date = new Date(dateString)
+      const month = date.getMonth() + 1;
+      const day = date.getDate();
+      const year = date.getFullYear();
+      return day + '/' + month + '/' + year;
+    }
 
     return (
       <div className={styles.container}>
@@ -136,9 +144,9 @@ export default class SubmitTemplate extends Component {
           <ListItem key={8} className="hint--top" data-hint="类型" primaryText={entity.type? "整套出租" : "单间"}  leftIcon={<FontIcon className="fa fa-home" />}/>
           <ListItem key={9} leftIcon={<FontIcon className="fa fa-calendar" />} children={
           <div>
-            <p className="hint--top" data-hint="开始日期">{entity.startDate}</p>
+            <p className="hint--top" data-hint="开始日期">{formatDate(entity.startDate)}</p>
             <br/>
-            <p className="hint--top" data-hint="结束日期">{entity.endDate? entity.endDate: "无限制"}</p>
+            <p className="hint--top" data-hint="结束日期">{entity.endDate? formatDate(entity.endDate): "无限制"}</p>
           </div>
           }>
           </ListItem>

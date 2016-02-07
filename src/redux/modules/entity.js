@@ -22,7 +22,7 @@ const CHANGE_SLIDE = "Nevermind/entity/CHANGE_SLIDE";
 const initState = {
   loaded: false,
   saveError: {},
-  editing : true,
+  editing : false,
   contactOpen : false,
   data : {
     location: "地址",

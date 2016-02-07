@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import Helmet from 'react-helmet';
-import { MiniInfoBar } from 'components';
 
 export default class About extends Component {
 
@@ -15,7 +14,7 @@ export default class About extends Component {
     const kitten = require('./kitten.jpg');
     return (
       <div className="container">
-        <h1>About Us</h1>
+        <h1>联系我们</h1>
         <Helmet title="About Us"/>
 
         <p>
@@ -27,13 +26,7 @@ export default class About extends Component {
           and Xinyue Yang from Kunsthochschule Berlin-Weissensee. It aims to provide a renting platform for chinese students in Germany.
         </p>
 
-        <h3>Mini Bar <span style={{color: '#aaa'}}>(not that kind)</span></h3>
-
-        <p>Hey! You found the mini info bar! The following component is display-only. Note that it shows the same
-          time as the info bar.</p>
-
-        <MiniInfoBar/>
-
+        {/*
         <h3>Images</h3>
 
         <p>
@@ -46,6 +39,7 @@ export default class About extends Component {
         </p>
 
         {showKitten && <div><img src={kitten}/></div>}
+        */}
       </div>
     );
   }

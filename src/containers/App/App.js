@@ -89,13 +89,25 @@ export default class App extends Component {
               </LinkContainer>}
 
               {!user &&
+              <LinkContainer to="/login">
+                <li eventKey={2}>登陆</li>
+              </LinkContainer>}
+
+              {user &&
+              <LinkContainer to="/logout">
+                <li eventKey={3} className="logout-link" onClick={this.handleLogout}>登出</li>
+              </LinkContainer>
+              }
+
+              {!user &&
               <LinkContainer to="/register">
                 <li eventKey={4}>快速注册</li>
               </LinkContainer>}
 
+              {!config.isDebug && user &&
               <LinkContainer to="/submit">
-                <li eventKey={9}>提交房屋</li>
-              </LinkContainer>
+                <li eventKey={5}>我要出租</li>
+              </LinkContainer>}
 
               {!config.isDebug &&
               <LinkContainer to="/main">
@@ -103,21 +115,10 @@ export default class App extends Component {
               </LinkContainer>
               }
 
+              {!config.isDebug &&
               <LinkContainer to="/entities/3">
-                <li eventKey={5}>某房屋</li>
-              </LinkContainer>
-
-              {!user &&
-              <LinkContainer to="/login">
-                <li eventKey={7}>登陆</li>
+                <li eventKey={7}>某房屋</li>
               </LinkContainer>}
-              {user &&
-              <LinkContainer to="/logout">
-                <li eventKey={8} className="logout-link" onClick={this.handleLogout}>
-                  登出
-                </li>
-              </LinkContainer>
-              }
             </ul>
           </div>
 
@@ -125,10 +126,13 @@ export default class App extends Component {
             <ul>
               {user &&
               <li><span className={rightLi}><i className={styles.loggedInMessage}/>Logged in as <strong>{user.username}</strong></span></li>}
-              {user &&
+              {user && !config.isDebug &&
               <li><span className={rightLi}><i className="fa fa-pencil fa-lg" /><a href="#">管理账号</a></span></li>}
               {user &&
-              <li><span className={rightLi}><i className="fa fa-truck fa-lg" /><a href="rent/rent.html"> 我要出租</a></span></li>}
+              <LinkContainer to="/about">
+              <li><span className={rightLi}><i className="fa fa-truck fa-lg" /><a href="rent/rent.html"> 我的出租</a></span></li>
+              </LinkContainer>}
+
               <LinkContainer to="/about">
                 <li><span className={rightLi}><i className="fa fa-child fa-lg" />关于我们</span></li>
               </LinkContainer>
