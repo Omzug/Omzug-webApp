@@ -48,16 +48,6 @@ export default class Submit extends Component{
         <h1>Submit</h1>
         <Helmet title="Submit"/>
 
-        <button className="btn btn-primary" onClick={this.handleEdit()}>
-          <i className="fa fa-pencil"/> Edit
-        </button>
-
-        <div style={{textAlign: 'center', margin: 15}}>
-          <button className="btn btn-primary" onClick={this.handleInitialize}>
-            <i className="fa fa-pencil"/> Initialize Form
-          </button>
-        </div>
-
         <SubmitForm onSubmit={this.handleSubmit}/>
       </div>
     )

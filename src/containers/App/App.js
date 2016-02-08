@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { IndexLink } from 'react-router';
 import { LinkContainer } from 'react-router-bootstrap';
-import { Navbar, Nav, li } from 'react-bootstrap';
+import { Navbar, Nav, div } from 'react-bootstrap';
 import Helmet from 'react-helmet';
 import { isLoaded as isInfoLoaded, load as loadInfo } from 'redux/modules/info';
 import { isLoaded as isAuthLoaded, load as loadAuth, logout, clearLoginError } from 'redux/modules/auth';
@@ -11,6 +11,7 @@ import { pushState } from 'redux-router';
 import connectData from 'helpers/connectData';
 import config from '../../config';
 import injectTapEventPlugin from 'react-tap-event-plugin';
+import FlatButton from 'material-ui/lib/flat-button';
 
 injectTapEventPlugin();
 
@@ -71,73 +72,74 @@ export default class App extends Component {
         <Helmet {...config.app.head}/>
         <div className={styles.navbar}>
           <div className={styles.left}>
-            <ul>
-              <LinkContainer to="/">
-              <li className={styles.logo}>
-                  <span className={styles.headerschrift + " " + styles.hvrFloatShadow}>Delocate</span>
-              </li>
-              </LinkContainer>
-              <li>
-                <span className={styles.nebenschrift + " " + styles.hvrFloatShadow}>
-                  {config.app.description}
-                </span>
-              </li>
-              {!config.isDebug &&
-              user &&
-              <LinkContainer to="/chat">
-                <li eventKey={1}>Chat</li>
-              </LinkContainer>}
+            <LinkContainer to="/">
+            <div className={styles.logo}>
+                <img src={require('../../../static/favicon.svg')}/>
+            </div>
+            </LinkContainer>
+            <div className={styles.title}>
+              <div className={styles.headerSchrift}>
+                {config.app.title}
+              </div>
+              <div className={styles.nebenSchrift}>
+                {config.app.description}
+              </div>
+            </div>
+            { !config.isDebug &&
+            user &&
+            <LinkContainer to="/chat">
+              <FlatButton eventKey={1}>Chat</FlatButton>
+            </LinkContainer>}
 
-              {!user &&
-              <LinkContainer to="/login">
-                <li eventKey={2}>登陆</li>
-              </LinkContainer>}
+            {!user &&
+            <LinkContainer to="/login">
+              <FlatButton eventKey={2}>登陆</FlatButton>
+            </LinkContainer>}
 
-              {user &&
-              <LinkContainer to="/logout">
-                <li eventKey={3} className="logout-link" onClick={this.handleLogout}>登出</li>
-              </LinkContainer>
-              }
+            {user &&
+            <LinkContainer to="/logout">
+              <FlatButton eventKey={3} onClick={this.handleLogout}>登出</FlatButton>
+            </LinkContainer>
+            }
 
-              {!user &&
-              <LinkContainer to="/register">
-                <li eventKey={4}>快速注册</li>
-              </LinkContainer>}
+            {!user &&
+            <LinkContainer to="/register">
+              <FlatButton eventKey={4}>快速注册</FlatButton>
+            </LinkContainer>}
 
-              {!config.isDebug && user &&
-              <LinkContainer to="/submit">
-                <li eventKey={5}>我要出租</li>
-              </LinkContainer>}
+            {!config.isDebug && user &&
+            <LinkContainer to="/submit">
+              <FlatButton eventKey={5}>我要出租</FlatButton>
+            </LinkContainer>}
 
-              {!config.isDebug &&
-              <LinkContainer to="/main">
-                <li eventKey={6}>房屋们</li>
-              </LinkContainer>
-              }
+            {!config.isDebug &&
+            <LinkContainer to="/main">
+              <FlatButton eventKey={6}>房屋们</FlatButton>
+            </LinkContainer>
+            }
 
-              {!config.isDebug &&
-              <LinkContainer to="/entities/3">
-                <li eventKey={7}>某房屋</li>
-              </LinkContainer>}
-            </ul>
+            {!config.isDebug &&
+            <LinkContainer to="/entities/3">
+              <FlatButton eventKey={7}>某房屋</FlatButton>
+            </LinkContainer>}
           </div>
 
           <div className={styles.right}>
-            <ul>
-              {user &&
-              <li><span className={rightLi}><i className={styles.loggedInMessage}/>Logged in as <strong>{user.username}</strong></span></li>}
-              {user && !config.isDebug &&
-              <li><span className={rightLi}><i className="fa fa-pencil fa-lg" /><a href="#">管理账号</a></span></li>}
-              {user &&
-              <LinkContainer to="/about">
-              <li><span className={rightLi}><i className="fa fa-truck fa-lg" /><a href="rent/rent.html"> 我的出租</a></span></li>
-              </LinkContainer>}
+            {user &&
+            <div><span className={rightLi}><i className={styles.loggedInMessage}/>Logged in as <strong>{user.username}</strong></span></div>}
+            {user && !config.isDebug &&
+            <div><span className={rightLi}><i className="fa fa-pencil fa-lg" /><a href="#">管理账号</a></span></div>}
+            {user &&
+            <LinkContainer to="/about">
+            <div><span className={rightLi}><i className="fa fa-truck fa-lg" /><a href="rent/rent.html"> 我的出租</a></span></div>
+            </LinkContainer>}
 
-              <LinkContainer to="/about">
-                <li><span className={rightLi}><i className="fa fa-child fa-lg" />关于我们</span></li>
-              </LinkContainer>
-              <li><span className={rightLi}><i className="fa fa-github"/></span></li>
-            </ul>
+            <LinkContainer to="/about">
+              <FlatButton><span className={rightLi}><i className="fa fa-child fa-lg" />关于我们</span></FlatButton>
+            </LinkContainer>
+            <LinkContainer to="/about">
+              <FlatButton><span className={rightLi}><i className="fa fa-github"/>我的出租</span></FlatButton>
+            </LinkContainer>
           </div>
         </div>
 

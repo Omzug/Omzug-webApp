@@ -58,14 +58,14 @@ export default class SubmitTemplate extends Component {
     var Decorators = [
       {component: React.createClass({render() {
         return (
-          <div className={styles.arrowContainer} onClick={this.props.previousSlide}>
+          <div className={styles.arrowContainer1} onClick={this.props.previousSlide}>
             <i className={styles.arrowIcon + " fa fa-angle-double-left fa-2x"}/>
           </div>)}
       }),
         position: 'CenterLeft', style: {height: "100%"}},
       {component: React.createClass({render() {
         return (
-          <div className={styles.arrowContainer} onClick={this.props.nextSlide}>
+          <div className={styles.arrowContainer1} onClick={this.props.nextSlide}>
             <i className={styles.arrowIcon + " fa fa-angle-double-right fa-2x"}/>
           </div>)}
       }),
@@ -98,8 +98,8 @@ export default class SubmitTemplate extends Component {
           <CardMedia>
             <div>
               <Carousel className={styles.slider} decorators={Decorators} framePadding="50px" width="100%" slidesToShow={1}>
-                {entity.images && entity.images.length >= 1 && entity.images.map(address => (<img src={address}/>))}
-                {cachedImages && cachedImages.length >= 1 && cachedImages.map(file =><img src={window.URL.createObjectURL(file)}/>)}
+                {entity.images && entity.images.length >= 1 && entity.images.map(address => (<div className={styles.imageContainer}><img src={address}/></div>))}
+                {cachedImages && cachedImages.length >= 1 && cachedImages.map(file =><div className={styles.imageContainer}><img src={window.URL.createObjectURL(file)}/></div>)}
               </Carousel>
             </div>
           </CardMedia>

@@ -6,19 +6,21 @@ import {connect} from 'react-redux';
 import Helmet from 'react-helmet';
 import {initialize} from 'redux-form';
 import {RegisterForm} from 'components';
-import {register} from 'redux/modules/auth';
+import {register, clearLoginError} from 'redux/modules/auth';
+import {Snackbar} from 'material-ui';
 
 @connect(
   state => ({
     user: state.auth.user,
     loginError : state.auth.loginError
   }),
-  {initialize, register})
+  {initialize, register, clearLoginError})
 
 export default class Register extends Component{
   static propTypes = {
     initialize: PropTypes.func.isRequired,
     register: PropTypes.func.isRequired,
+    clearLoginError : PropTypes.func.isRequired,
     loginError: PropTypes.string,
   }
 
@@ -40,6 +42,7 @@ export default class Register extends Component{
   render(){
     const {loginError} = this.props;
     const styles = require('./Register.scss')
+    const popupStyle = { color : "red"}
 
     return (
       <div className="container">
@@ -52,7 +55,16 @@ export default class Register extends Component{
           </button>
         </div>
 
-        {loginError && <p className={ "bg-danger " + styles.error}><strong>{loginError}</strong></p>}
+        <Snackbar
+          open={loginError}
+          message={loginError}
+          autoHideDuration={4000}
+          bodyStyle={popupStyle}
+          onRequestClose={(reason) => {
+            console.log("error popout should cleared now because : " + reason);
+            this.props.clearLoginError();
+          }}
+        />
 
         <RegisterForm onSubmit={this.handleSubmit}/>
       </div>

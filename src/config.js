@@ -16,17 +16,17 @@ module.exports = Object.assign({
   apiHost: process.env.APIHOST || 'localhost',
   apiPort: process.env.APIPORT,
   app: {
-    title: 'DeLocate',
+    title: 'Omzug',
     description: '找到心仪的家',
     head: {
-      titleTemplate: 'DeLocate : %s',
+      titleTemplate: 'Omzug : %s',
       meta: [
         {name: 'description', content: '找到心仪的家'},
         {charset: 'utf-8'},
-        {property: 'og:site_name', content: 'DeLocate'},
+        {property: 'og:site_name', content: 'Omzug'},
         {property: 'og:image', content: 'https://react-redux.herokuapp.com/logo.jpg'},
         {property: 'og:locale', content: 'en_US'},
-        {property: 'og:title', content: 'DeLocate'},
+        {property: 'og:title', content: 'Omzug'},
         {property: 'og:description', content: 'Locate yourself in another lovely place.'},
         {property: 'og:card', content: 'summary'},
         {property: 'og:site', content: '@hanwencheng'},

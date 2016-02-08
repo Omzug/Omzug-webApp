@@ -41,7 +41,8 @@ export default function submit(req, params) {
           type : true,
           note : "一些备注",
           maximumPerson : 3,
-          images:["http://ecx.images-amazon.com/images/I/518zSqpmd4L._SY300_.jpg"],
+          images:["http://ecx.images-amazon.com/images/I/518zSqpmd4L._SY300_.jpg",
+            "http://ecx.images-amazon.com/images/I/514Uh33v2BL._AC_UL115_.jpg"],
       });
     }, 100)
 

@@ -103,14 +103,14 @@ export default class SubmitForm extends Component {
     var Decorators = [
       {component: React.createClass({render() {
         return (
-          <div className={styles.arrowContainer} onClick={this.props.previousSlide}>
+          <div className={styles.arrowContainer1} onClick={this.props.previousSlide}>
             <i className={styles.arrowIcon + " fa fa-angle-double-left fa-2x"}/>
           </div>)}
       }),
         position: 'CenterLeft', style: {height: "100%"}},
       {component: React.createClass({render() {
         return (
-          <div className={styles.arrowContainer} onClick={this.props.nextSlide}>
+          <div className={styles.arrowContainer1} onClick={this.props.nextSlide}>
             <i className={styles.arrowIcon + " fa fa-angle-double-right fa-2x"}/>
           </div>)}
       }),
@@ -130,25 +130,23 @@ export default class SubmitForm extends Component {
           <IconButton iconClassName="fa fa-times-circle fa-5x hint--bottom" data-hint="删除该图片" onClick={this.onDeleteButton}/>}
           </div>
           <CardMedia>
-            <div>
-              <Carousel key={211} className={styles.slider}
-                        decorators={Decorators}
-                        framePadding="50px" width="100%" slidesToShow={1}
-                        onChange={this.props.onChangeSlide}>
-                {entity.images && entity.images.length >= 1 && entity.images.map( address =><img src={address}/>)}
-                {cachedImages && cachedImages.length >= 1 && cachedImages.map(file => <img src={window.URL.createObjectURL(file)}/>)}
-                {imagesNumber < 3 &&
-                  <div className={styles.dropBox}>
-                    <DropZone onDrop={this.onDrop}>
-                      <div className={styles.inner}>
-                        <span className={styles.boxFont}>请点击选择图片或者将图片拖动到框中</span>
-                        <span className={styles.boxFont + " fa fa-plus-circle fa-5x"}/>
-                      </div>
-                    </DropZone>
-                  </div>
-                }
-              </Carousel>
-            </div>
+            <Carousel key={211} className={styles.slider}
+                      decorators={Decorators}
+                      framePadding="50px" width="100%" slidesToShow={1}
+                      onChange={this.props.onChangeSlide}>
+              {entity.images && entity.images.length >= 1 && entity.images.map( address =><div className={styles.imageContainer}><img src={address}/></div>)}
+              {cachedImages && cachedImages.length >= 1 && cachedImages.map(file => <div className={styles.imageContainer}><img src={window.URL.createObjectURL(file)}/></div>)}
+              {imagesNumber < 3 &&
+                <div className={styles.imageContainer}>
+                  <DropZone onDrop={this.onDrop}>
+                    <div className={styles.inner}>
+                      <span className={styles.boxFont}>请点击选择图片或者将图片拖动到框中</span>
+                      <span className={styles.boxFont + " fa fa-plus-circle fa-5x"}/>
+                    </div>
+                  </DropZone>
+                </div>
+              }
+            </Carousel>
           </CardMedia>
           <CardTitle subtitle={entity.owner} >
             <div className="hint--top" data-hint="标题">

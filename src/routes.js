@@ -22,9 +22,9 @@ export default (store) => {
   const requireLogin = (nextState, replaceState, cb) => {
     function checkAuth() {
       const { auth: { user }} = store.getState();
-      if (!user) {
+      if (user) {
         // oops, not logged in, so can't be here!
-        replaceState(null, '/');
+        replaceState(null, '/main');
       }
       cb();
     }
@@ -41,7 +41,7 @@ export default (store) => {
       const { auth: { user }} = store.getState();
       if (!user) {
         // oops, not logged in, so can't be here!
-        replaceState(null, '/main');
+        replaceState(null, '/');
       }
       cb();
     }
@@ -80,7 +80,7 @@ export default (store) => {
   return (
     <Route path="/" component={App}>
       { /* Home (main) route */ }
-      <IndexRoute component={Home} /* onEnter={checkUser} *//>
+      <IndexRoute component={Home} onEnter={checkUser}/>
 
 
       { /* Routes requiring login */ }

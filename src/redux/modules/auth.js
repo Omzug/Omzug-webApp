@@ -15,7 +15,9 @@ const CHECK_FAIL = 'delocate/auth/CHECK_FAIL';
 const CLEAR_LOGIN_ERROR = 'delocate/auth/CLEAR_LOGIN_ERROR';
 
 const initialState = {
-  loaded: false
+  loaded: false,
+  loginError: null,
+  loggingIn : false,
 };
 
 export default function reducer(state = initialState, action = {}) {

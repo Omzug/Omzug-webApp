@@ -24,10 +24,47 @@
   color: $transparent;
   &:hover {
     color : $darkWhite;
-    background-color: $lightWhite;
+    background-color: $faintBlack;
   }
   .arrowIcon{
 
+  }
+}
+
+.arrowContainer1{
+  display: flex;
+  align-items: center;
+  height:100%;
+  padding: 0 8px;
+  cursor:pointer;
+  color: $minBlack;
+  &:hover {
+    color : $darkWhite;
+    background-color: $faintBlack;
+  }
+  .arrowIcon{
+
+  }
+}
+
+.slider{
+  height:100%;
+  width:100%;
+  display:flex;
+  flex-direction: row;
+  align-items: center;
+  //justify-content: center;
+  .imageContainer{
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: center;
+    //max-height:400px;
+    img{
+      cursor:pointer;
+      max-height:700px;
+      max-width:100%;
+    }
   }
 }
 

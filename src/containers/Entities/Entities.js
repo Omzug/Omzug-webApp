@@ -8,22 +8,11 @@ import {bindActionCreators} from 'redux';
 import { LinkContainer } from 'react-router-bootstrap';
 import connectData from 'helpers/connectData';
 
-import DropDownMenu from 'material-ui/lib/DropDownMenu';
-import MenuItem from 'material-ui/lib/menus/menu-item';
+import {DropDownMenu, MenuItem, AppBar,RaisedButton, GridList, GridTile,
+  IconButton, ThemeManager, ThemeDecorator, StarBorder} from 'material-ui';
 
-import AppBar from 'material-ui/lib/app-bar';
-import RaisedButton from 'material-ui/lib/raised-button';
-
-import GridList from 'material-ui/lib/grid-list/grid-list';
-import GridTile from 'material-ui/lib/grid-list/grid-tile';
-import IconButton from 'material-ui/lib/icon-button';
 import {Carousel} from 'components';
-
 import myRawTheme from '../../theme/materialUI.theme';
-import ThemeManager from 'material-ui/lib/styles/theme-manager';
-import ThemeDecorator from 'material-ui/lib/styles/theme-decorator';
-import StarBorder from 'material-ui/lib/svg-icons/toggle/star-border';
-
 import cityList from '../../constant/cityList';
 
 function fetchDataDeferred(getState, dispatch) {
@@ -71,7 +60,7 @@ export default class Entities extends Component {
 
   render() {
     const styles = require('./Entities.scss');
-    const {loaded, getList, error, loading, locationId, onLocationChange } = this.props;
+    const {loaded, getList, error, loading, locationId, onLocationChange} = this.props;
     const houses = this.props.entities;
 
     let refreshClassName = 'fa fa-refresh';
