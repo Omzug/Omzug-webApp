@@ -53,15 +53,15 @@ export default class Login extends Component {
         <div>
           <form className="login-form" onSubmit={this.handleSubmit}>
             <div className={'form-group'}>
-              <label>用户名</label>
               <div>
-                <TextField type="text" hintText="用户名" ref="username" style={inputStyle}/>
+                <TextField type="text" hintText="用户名" ref="username" style={inputStyle}
+                           floatingLabelText="用户名"/>
               </div>
             </div>
             <div className={'form-group'}>
-              <label>密码</label>
               <div>
-                <TextField type="text" hintText="密码" ref="password" style={inputStyle}/>
+                <TextField type="password" hintText="密码" ref="password" style={inputStyle}
+                           floatingLabelText="密码"/>
               </div>
             </div>
 
