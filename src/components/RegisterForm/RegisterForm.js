@@ -61,6 +61,7 @@ export default class RegisterForm extends Component{
 
     const inputStyle = uiStyles.inputStyle;
     const buttonStyle = uiStyles.buttonStyle;
+    const anyError = email.error || username.error || password.error ||passwordRepeat.error || !isPasswordSame;
 
     const getError = ()=>{
       if(passwordRepeat.touched){
@@ -101,7 +102,7 @@ export default class RegisterForm extends Component{
         </div>
       </div>
       <div className={styles.buttonGroup}>
-        <RaisedButton disabled={isPasswordSame ? loggingIn : "true"} style={buttonStyle} onClick={handleSubmit}>
+        <RaisedButton disabled={anyError ? "true" : loggingIn} style={buttonStyle} onClick={handleSubmit}>
           {loggingIn ?
             <span className="fa fa-spin fa-refresh"/>
             :
