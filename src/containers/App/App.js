@@ -73,18 +73,21 @@ export default class App extends Component {
         <div className={styles.navbar}>
           <div className={styles.left}>
             <LinkContainer to="/">
-            <div className={styles.logo}>
-                <img src={require('../../../static/favicon.svg')}/>
-            </div>
+              <div className={styles.logo}>
+                  <img src={require('../../../static/favicon.svg')}/>
+              </div>
             </LinkContainer>
-            <div className={styles.title}>
-              <div className={styles.headerSchrift}>
-                {config.app.title}
+
+            <LinkContainer to="/">
+              <div className={styles.title}>
+                <div className={styles.headerSchrift}>
+                  {config.app.title}
+                </div>
+                <div className={styles.nebenSchrift}>
+                  {config.app.description}
+                </div>
               </div>
-              <div className={styles.nebenSchrift}>
-                {config.app.description}
-              </div>
-            </div>
+            </LinkContainer>
             { !config.isDebug &&
             user &&
             <LinkContainer to="/chat">
@@ -111,12 +114,6 @@ export default class App extends Component {
             <LinkContainer to="/submit">
               <FlatButton eventKey={5}>我要出租</FlatButton>
             </LinkContainer>}
-
-            {!config.isDebug &&
-            <LinkContainer to="/main">
-              <FlatButton eventKey={6}>房屋们</FlatButton>
-            </LinkContainer>
-            }
 
             {!config.isDebug &&
             <LinkContainer to="/entities/3">
