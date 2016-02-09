@@ -4,5 +4,5 @@
 
 export default {
   inputStyle : {width: "400px"},
-  buttonStyle : {height: "50px", "line-height": "50px", width:"60px", margin:"30px", fontSize: "large"}
+  buttonStyle : {height: "50px", "lineHeight": "50px", width:"60px", margin:"30px", fontSize: "large"}
 }

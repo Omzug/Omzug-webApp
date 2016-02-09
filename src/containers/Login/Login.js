@@ -24,19 +24,21 @@ import uiStyles from '../../theme/uiStyles';
 
 export default class Login extends Component {
   static propTypes = {
-    user: PropTypes.object,
-    login: PropTypes.func,
-    logout: PropTypes.func,
-    resetForm : PropTypes.func.isRequired,
-    //for login
+    fields: PropTypes.object.isRequired,
     loggingIn: PropTypes.bool,
     loginError: PropTypes.string,
+    user: PropTypes.object,
+    logout: PropTypes.func,
+    login: PropTypes.func.isRequired,
+    resetForm : PropTypes.func.isRequired,
     clearLoginError : PropTypes.func.isRequired,
   }
 
   handleSubmit = (event) => {
     event.preventDefault();
-    this.props.login(this.props.fields.email, this.props.fields.password);
+    console.log("submit now with error " + this.props.fields.email.error || this.props.fields.password.error ? true : loggingIn)
+    this.props.login(this.props.fields.email.value, this.props.fields.password.value);
+    console.log("submit now with user: " +  this.props.fields.email.value,  this.props.fields.password.value)
   }
 
   render() {
@@ -75,7 +77,7 @@ export default class Login extends Component {
               </div>
             </div>
 
-            <RaisedButton style style={buttonStyle} onClick={this.handleSubmit} disabled={anyError ? "true" : "false"}>
+            <RaisedButton style style={buttonStyle} onClick={this.handleSubmit}>
               {loggingIn ?
                 <span className="fa fa-spin fa-refresh"/>
                 :
@@ -92,7 +94,6 @@ export default class Login extends Component {
                 this.props.clearLoginError();
               }}
             />
-            {loginError && <p className={ "bg-danger " + styles.error}><strong>{loginError}</strong></p>}
           </form>
         </div>
         }

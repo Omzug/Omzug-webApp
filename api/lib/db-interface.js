@@ -179,13 +179,13 @@ DI.get = function(type, query, resolve, reject){
 
 /**
  * User login check
- * @param username {String} username
+ * @param email {String} username
  * @param password {String} password
  * @param resolve promise resolve with {status : true}
  * @param reject promise error
  */
-DI.userLogin =function(username, password, resolve, reject){
-  User.findOne({username : username}, function(err, user) {
+DI.userLogin =function(email, password, resolve, reject){
+  User.findOne({email : email}, function(err, user) {
 
     if (err) {
       reject({msg : LOGTITLE + Errors.AuthFailed + err});
