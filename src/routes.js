@@ -22,9 +22,9 @@ export default (store) => {
   const requireLogin = (nextState, replaceState, cb) => {
     function checkAuth() {
       const { auth: { user }} = store.getState();
-      if (user) {
+      if (!user) {
         // oops, not logged in, so can't be here!
-        replaceState(null, '/main');
+        replaceState(null, '/');
       }
       cb();
     }
@@ -39,9 +39,9 @@ export default (store) => {
   const checkUser = (nextState, replaceState, cb) => {
     function checkAuth() {
       const { auth: { user }} = store.getState();
-      if (!user) {
+      if (user) {
         // oops, not logged in, so can't be here!
-        replaceState(null, '/');
+        replaceState(null, '/main');
       }
       cb();
     }
@@ -87,11 +87,11 @@ export default (store) => {
       <Route onEnter={requireLogin}>
         <Route path="chat" component={Chat}/>
         <Route path="loginSuccess" component={LoginSuccess}/>
+        <Route path="main" component={Entities}/>
       </Route>
 
       { /* Routes */ }
       <Route path="about" component={About}/>
-      <Route path="main" component={Entities}/>
       <Route path="entities/:entityId" component={Entity} onEnter={logNextState}/>
       <Route path="login" component={Login}/>
       <Route path="register" component={Register}/>

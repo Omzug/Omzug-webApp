@@ -122,12 +122,12 @@ export function check(email){
   }
 }
 
-export function login(username, password) {
+export function login(email, password) {
   return {
     types: [LOGIN, LOGIN_SUCCESS, LOGIN_FAIL],
     promise: (client) => client.post('/login', {
       data: {
-        username: username,
+        email: email,
         password : password
       }
     })

@@ -185,6 +185,7 @@ DI.get = function(type, query, resolve, reject){
  * @param reject promise error
  */
 DI.userLogin =function(email, password, resolve, reject){
+  console.log("query info is", email, password)
   User.findOne({email : email}, function(err, user) {
 
     if (err) {
