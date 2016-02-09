@@ -29,12 +29,17 @@ function fetchData(getState, dispatch) {
 
 @connectData(fetchData)
 @connect(
-  state => ({user: state.auth.user}),
+  state => ({
+    user: state.auth.user,
+    newSubmit : state.entity.createId,
+  }),
   {logout, clearLoginError, pushState})
 export default class App extends Component {
   static propTypes = {
     children: PropTypes.object.isRequired,
     user: PropTypes.object,
+    newSubmit : PropTypes.string,
+
     logout: PropTypes.func.isRequired,
     pushState: PropTypes.func.isRequired,
     clearLoginError: PropTypes.func.isRequired,
@@ -53,6 +58,10 @@ export default class App extends Component {
     } else if (this.props.user && !nextProps.user) {
       // logout
       this.props.pushState(null, '/');
+    }
+
+    if(!this.props.newSubmit && nextProps.newSubmit){
+      this.props.pushState(null, '/entities/' + nextProps.newSubmit)
     }
   }
 
@@ -91,7 +100,7 @@ export default class App extends Component {
             { !config.isDebug &&
             user &&
             <LinkContainer to="/chat">
-              <FlatButton eventKey={1}>Chat</FlatButton>
+              <FlatButton eventKey={1}>聊天室</FlatButton>
             </LinkContainer>}
 
             {!user &&
@@ -110,27 +119,27 @@ export default class App extends Component {
               <FlatButton eventKey={4}>快速注册</FlatButton>
             </LinkContainer>}
 
-            {!config.isDebug && user &&
-            <LinkContainer to="/submit">
-              <FlatButton eventKey={5}>我要出租</FlatButton>
-            </LinkContainer>}
-
             {!config.isDebug &&
             <LinkContainer to="/entities/3">
-              <FlatButton eventKey={7}>某房屋</FlatButton>
+              <FlatButton eventKey={5}>某房屋</FlatButton>
             </LinkContainer>}
           </div>
 
           <div className={styles.right}>
             {user &&
-            <div><span className={rightLi}>Logged in as <strong className={styles.username}>{user.username}</strong></span></div>}
+            <div><span className={rightLi}>您好 <strong className={styles.username}>{user.username}</strong></span></div>}
             {user &&
             <LinkContainer to="/about">
-              <FlatButton><span className={rightLi}><i className="fa fa-truck fa-lg"/>我的出租</span></FlatButton>
+              <FlatButton eventKey={6}><span className={rightLi}><i className="fa fa-truck fa-lg"/>我的出租</span></FlatButton>
+            </LinkContainer>
+            }
+            {user &&
+            <LinkContainer to="/submit">
+              <FlatButton eventKey={7}><span className={rightLi}><i className="fa fa-pencil fa-lg"/>发布房屋</span></FlatButton>
             </LinkContainer>
             }
             <LinkContainer to="/about">
-              <FlatButton><span className={rightLi}><i className="fa fa-child fa-lg" />关于我们</span></FlatButton>
+              <FlatButton eventKey={8}><span className={rightLi}><i className="fa fa-child fa-lg" />关于我们</span></FlatButton>
             </LinkContainer>
           </div>
         </div>

@@ -7,22 +7,42 @@ import {connect} from 'react-redux';
 import Helmet from 'react-helmet';
 import {initialize} from 'redux-form';
 import {SubmitForm} from 'components';
-import {editStart, editStop } from 'redux/modules/submit'
+import connectData from 'helpers/connectData';
+import {isLoaded, onLoad, onClear, onSubmitNew, onCacheSubmit} from "redux/modules/entity"
+
+function initSubmit(getState, dispatch){
+  dispatch(onClear());
+}
 
 @connect(
   state => ({
-
+    entity: state.entity.data,
+    cachedImages : state.entity.cachedImages,
   }),
-  {initialize})
+  {initialize, onClear, onSubmitNew}
+)
+
+@connectData(
+  initSubmit, null
+)
 
 export default class Submit extends Component{
   static propTypes = {
-    initialize: PropTypes.func.isRequired
+    initialize: PropTypes.func.isRequired,
+    onClear : PropTypes.func.isRequired,
+    onSubmitNew : PropTypes.func.isRequired,
+
+    entity: PropTypes.object,
+    cachedImages : PropTypes.array,
   }
 
   handleSubmit = (data) => {
-    console.log('data is', data)
-    //this.props.register(data)
+    data.images = this.props.entity.images
+    data.id = this.props.entity
+    const images = this.props.cachedImages
+    this.props.onSubmitNew(data, images);
+    console.log("submit now with data:" , data)
+    console.log("submit now with images:", images )
     //this.props.initialize('register', {})
     //window.alert('Data submitted! ' + JSON.stringify(data));
   }
@@ -45,8 +65,8 @@ export default class Submit extends Component{
 
     return (
       <div className="container">
-        <h1>Submit</h1>
-        <Helmet title="Submit"/>
+        <h1>发布新房源</h1>
+        <Helmet title="发布新房源"/>
 
         <SubmitForm onSubmit={this.handleSubmit}/>
       </div>

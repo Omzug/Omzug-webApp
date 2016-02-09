@@ -44,9 +44,9 @@
         }
         .nebenSchrift{
           color: $lightBlack;
-          line-height:18px;
-          height:18px;
-          font-size: 15px;
+          line-height: 16px;
+          height:16px;
+          font-size: 14px;
         }
       }
     }
@@ -61,8 +61,8 @@
       font-size: medium;
       text-align: right;
       .links{
-        margin:  5px;
-        font-size: 12px;
+        font-size: 14px;
+        margin : 0 5px;
       }
       .username{
         color: $blue500;

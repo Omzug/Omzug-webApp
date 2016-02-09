@@ -15,6 +15,7 @@ export default function login(req) {
         console.log('success login with data', data)
         req.session.user = {email : req.body.email}; //TODO is it function well?
         console.log('the user session information is', req.session)
+        // data is the message
         return resolve(data.data);
       },
       function(err){

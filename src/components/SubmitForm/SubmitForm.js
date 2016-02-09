@@ -195,9 +195,9 @@ export default class SubmitForm extends Component {
           <ListItem key={8} className="hint--top" data-hint="开始结束日期" leftIcon={<FontIcon className="fa fa-calendar" />} children={
             <div key={83}>
             {/*every child should have a key, or react give a stupid warnning */}
-              <DatePicker key={81} autoOk={true} value={new Date(startDate.value)}
+              <DatePicker key={81} autoOk={true} value={new Date(startDate.value)} hintText="开始日期"
               onChange={(event, newDate) => startDate.onChange(newDate)} formatDate={this.dateFormat}/>
-              <DatePicker key={82} autoOk={true} value={new Date(endDate.value)}
+              <DatePicker key={82} autoOk={true} value={new Date(endDate.value)} hintText="结束日期"
               onChange={(event, newDate) => endDate.onChange(newDate)} formatDate={this.dateFormat}/>
             </div>
           }>

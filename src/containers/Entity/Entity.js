@@ -5,7 +5,7 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {isLoaded, load as onLoad, clear as onClear, changeLocation as onChangeLocation, onSubmit, onCacheSubmit} from "redux/modules/entity"
+import {isLoaded, onLoad, onClear, onSubmit, onCacheSubmit} from "redux/modules/entity"
 import connectData from 'helpers/connectData';
 import { SubmitForm } from 'components';
 import { SubmitTemplate } from 'components';
@@ -34,6 +34,7 @@ function checkState(getState, dispatch){
     error: state.entity.error,
     loading: state.entity.loading,
     editing: state.entity.editing,
+    loadedId : state.entity.loadedId,
   }),
   {onLoad, onClear, onSubmit,onCacheSubmit}
 )
@@ -50,6 +51,7 @@ export default class Entity extends Component {
     loading: PropTypes.bool,
     editing: PropTypes.bool,
     cachedImages : PropTypes.array,
+    loadedId : PropTypes.number,
 
     //editStart: PropTypes.func.isRequired,
     onClear : PropTypes.func.isRequired,
@@ -61,6 +63,7 @@ export default class Entity extends Component {
   handleSubmit = (data) => {
     //test id property
     data.images = this.props.entity.images
+    data.id = this.props.entity
     const images = this.props.cachedImages
     this.props.onSubmit(data, images);
     console.log("submit now with data:" , data)

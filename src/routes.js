@@ -88,6 +88,7 @@ export default (store) => {
         <Route path="chat" component={Chat}/>
         <Route path="loginSuccess" component={LoginSuccess}/>
         <Route path="main" component={Entities}/>
+        <Route path="submit" component={Submit}/>
       </Route>
 
       { /* Routes */ }
@@ -95,7 +96,7 @@ export default (store) => {
       <Route path="entities/:entityId" component={Entity} onEnter={logNextState}/>
       <Route path="login" component={Login}/>
       <Route path="register" component={Register}/>
-      <Route path="submit" component={Submit}/>
+
 
       { /* Catch all route */ }
       <Route path="*" component={NotFound} status={404} />

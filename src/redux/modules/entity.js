@@ -18,6 +18,7 @@ const CACHE_DATA = "Nevermind/entity/CACHE_DATA";
 const ADD_IMAGE = "Nevermind/entity/ADD_IMAGE";
 const DELETE_IMAGE = "Nevermind/entity/DELETE_IMAGE";
 const CHANGE_SLIDE = "Nevermind/entity/CHANGE_SLIDE";
+const SUBMIT_NEW_SUCCESS = "Nevermind/entity/SUBMIT_NEW_SUCCESS";
 
 const initState = {
   loaded: false,
@@ -31,8 +32,8 @@ const initState = {
     size : "面积",
     price: "价格",
     caution: "押金",
-    startDate : "开始日期",
-    endDate : "无期限",
+    startDate : "",
+    endDate : "",
     description: "房屋介绍",
     title : "标题",
     owner : "所有人",
@@ -46,6 +47,8 @@ const initState = {
   },
   cachedImages:[],
   currentSlide: 0,
+  submittedMessage: null,
+  createId: null,
 };
 
 export default function reducer(state = initState, action){
@@ -93,6 +96,22 @@ export default function reducer(state = initState, action){
             submitting : false,
             data : cachedData,
             cached : null,
+            submittedMessage : action.result.status,
+          }
+    case SUBMIT_NEW_SUCCESS:
+      //only add a new createId property here
+          return {
+            ...state,
+            submitting :false,
+            data : action.result.data,
+            cached : null,
+            submittedMessage : action.result.status,
+            //this id should be a string
+            createId : action.result.data.id,
+            loaded: true,
+            loading: false,
+            loadedId: action.result.data.id,
+            error : null,
           }
     case SUBMIT_FAIL:
           return {
@@ -153,7 +172,7 @@ export function isLoaded(globalState) {
   return globalState.entity && globalState.entity.loaded;
 }
 
-export function clear(){
+export function onClear(){
   return {
     type: CLEAR
   }
@@ -197,31 +216,13 @@ export function onDeleteImage(id){
   }
 }
 
-export function onSubmit(data, images){
-  //const fileReader = new FileReader();
-  //
-  //const totalNumber = images.length;
-  //var imageStrings = [];
-  //
-  //images.forEach(file => fileReader.readAsText(file));
-  //
-  //return new Promise(function (resolve, reject){
-  //  fileReader.onload = (event)=> {
-  //    imageStrings.push(event.target.result);
-  //    console.log("finished encoding image " + imageStrings.length)
-  //    if(imageStrings.length == totalNumber){
-  //      resolve({
-  //        cached: data,
-  //        types: [SUBMIT, SUBMIT_SUCCESS, SUBMIT_FAIL],
-  //        promise: (client) => client.post('./submit', {
-  //          data : submitData,
-  //          image : imageStrings,
-  //        })
-  //      })
-  //    }
-  //  }
-  //});
+export function onLoadInit(){
+  return {
+    type : LOAD_INIT,
+  }
+}
 
+export function onSubmit(data, images){
   const submitData = {
     data : data,
     images : images,
@@ -230,6 +231,23 @@ export function onSubmit(data, images){
   return {
     cached : data,
     types: [SUBMIT, SUBMIT_SUCCESS, SUBMIT_FAIL],
+    promise: (client) => client.post('./submit', {
+      data : submitData,
+      files : images
+    })
+  }
+}
+
+
+export function onSubmitNew(data, images){
+  const submitData = {
+    data : data,
+    images : images,
+  }
+  console.log('new submit object is', submitData )
+  return {
+    cached : data,
+    types: [SUBMIT, SUBMIT_NEW_SUCCESS, SUBMIT_FAIL],
     promise: (client) => client.post('./submit', {
       data : submitData,
       files : images
@@ -251,9 +269,7 @@ export function onChangeSlide(page){
   }
 }
 
-
-
-export function load(number){
+export function onLoad(number){
   return {
     types: [LOAD, LOAD_SUCCESS, LOAD_FAIL],
     promise: (client) => {
