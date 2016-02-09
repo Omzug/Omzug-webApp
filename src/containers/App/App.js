@@ -126,19 +126,14 @@ export default class App extends Component {
 
           <div className={styles.right}>
             {user &&
-            <div><span className={rightLi}><i className={styles.loggedInMessage}/>Logged in as <strong>{user.username}</strong></span></div>}
-            {user && !config.isDebug &&
-            <div><span className={rightLi}><i className="fa fa-pencil fa-lg" /><a href="#">管理账号</a></span></div>}
+            <div><span className={rightLi}>Logged in as <strong className={styles.username}>{user.username}</strong></span></div>}
             {user &&
             <LinkContainer to="/about">
-            <div><span className={rightLi}><i className="fa fa-truck fa-lg" /><a href="rent/rent.html"> 我的出租</a></span></div>
-            </LinkContainer>}
-
+              <FlatButton><span className={rightLi}><i className="fa fa-truck fa-lg"/>我的出租</span></FlatButton>
+            </LinkContainer>
+            }
             <LinkContainer to="/about">
               <FlatButton><span className={rightLi}><i className="fa fa-child fa-lg" />关于我们</span></FlatButton>
-            </LinkContainer>
-            <LinkContainer to="/about">
-              <FlatButton><span className={rightLi}><i className="fa fa-github"/>我的出租</span></FlatButton>
             </LinkContainer>
           </div>
         </div>
