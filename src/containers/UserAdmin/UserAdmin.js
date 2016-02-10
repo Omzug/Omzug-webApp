@@ -1,9 +1,10 @@
 /**
- * Created by hanwencheng on 1/6/16.
+ * Created by hanwencheng on 2/10/16.
  */
+
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
-import {isLoaded, load as getList, onLocationChange} from 'redux/modules/entities';
+import {isLoaded, onLoad, onLocationChange} from 'redux/modules/admin';
 import {bindActionCreators} from 'redux';
 import connectData from 'helpers/connectData';
 import {List} from "components";
@@ -16,7 +17,7 @@ import cityList from '../../constant/cityList';
 function fetchDataDeferred(getState, dispatch) {
   if (!isLoaded(getState())) {
     //console.log("after load we get state:", getState().router)
-    return dispatch(getList());
+    return dispatch(onLoad());
   }
 }
 
@@ -25,14 +26,13 @@ function fetchDataDeferred(getState, dispatch) {
 
 @connect(
   state => ({
-    entities: state.entities.list,
-    error: state.entities.error,
-    loading: state.entities.loading,
-    loaded: state.entities.loaded,
-    locationId : state.entities.locationId
+    entities: state.admin.list,
+    error: state.admin.error,
+    loading: state.admin.loading,
+    loaded: state.admin.loaded,
+    locationId : state.admin.locationId
   }),
-  {getList, onLocationChange}
-  //dispatch => bindActionCreators({getList}, dispatch)
+  {onLoad, onLocationChange}
 )
 export default class Entities extends Component {
   static propTypes = {
@@ -42,23 +42,17 @@ export default class Entities extends Component {
     locationId : PropTypes.number,
     loaded :PropTypes.bool,
 
-    getList: PropTypes.func.isRequired,
+    onLoad: PropTypes.func.isRequired,
     onLocationChange: PropTypes.func.isRequired,
   };
 
-  loadCity = (event) => {
-    const locationId = this.props.locationId
-    if(locationId) {
-      //if location is chosen, it starts from 1
-      this.props.getList(cityList[locationId]);
-    }else{
-      this.props.getList();
-    }
+  loadList = (event) => {
+      this.props.onLoad();
   }
 
   render() {
-    const styles = require('./Entities.scss');
-    const {loaded, getList, error, loading, locationId, onLocationChange} = this.props;
+    const styles = require('./UserAdmin.scss');
+    const {loaded, error, loading} = this.props;
     const houses = this.props.entities;
 
     let refreshClassName = 'fa fa-refresh';
@@ -69,20 +63,15 @@ export default class Entities extends Component {
     return (
       <div>
         <div className={styles.listNav}>
-          <DropDownMenu value={locationId} onChange={onLocationChange} className={styles.dropDown}>
-            {/* the value starts from 1 */}
-            {cityList.map((city, index) => <MenuItem value={index} key={index} primaryText={cityList[index]}/>)}
-          </DropDownMenu>
-
-          <RaisedButton onClick={this.loadCity} style={{lineHeight: "36px" }}><i className={refreshClassName}/> 刷新</RaisedButton>
+          <RaisedButton onClick={this.loadList} style={{lineHeight: "36px" }}><i className={refreshClassName}/> 刷新</RaisedButton>
         </div>
 
         {loaded &&
         <div className={styles.gridContainer}>
           { houses.length ?
             <List houses={this.props.entities}/>
-             :
-            <p>这个地区暂时没可用的房源</p>}
+            :
+            <p>还没有发布任何房源</p>}
         </div>
         }
 

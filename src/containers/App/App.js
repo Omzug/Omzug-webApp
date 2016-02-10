@@ -129,7 +129,7 @@ export default class App extends Component {
             {user &&
             <div><span className={rightLi}>您好 <strong className={styles.username}>{user.username}</strong></span></div>}
             {user &&
-            <LinkContainer to="/about">
+            <LinkContainer to="/admin">
               <FlatButton eventKey={6}><span className={rightLi}><i className="fa fa-truck fa-lg"/>我的出租</span></FlatButton>
             </LinkContainer>
             }

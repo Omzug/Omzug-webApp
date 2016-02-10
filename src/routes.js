@@ -15,7 +15,8 @@ import {
     Entities,
     Entity,
     Register,
-    Submit
+    Submit,
+    UserAdmin,
   } from 'containers';
 
 export default (store) => {
@@ -89,6 +90,7 @@ export default (store) => {
         <Route path="loginSuccess" component={LoginSuccess}/>
         <Route path="main" component={Entities}/>
         <Route path="submit" component={Submit}/>
+        <Route path="admin" component={UserAdmin}/>
       </Route>
 
       { /* Routes */ }
