@@ -31,14 +31,14 @@ function fetchData(getState, dispatch) {
 @connect(
   state => ({
     user: state.auth.user,
-    newSubmit : state.entity.createId,
+    createId : state.entity.createId,
   }),
   {logout, clearLoginError, pushState})
 export default class App extends Component {
   static propTypes = {
     children: PropTypes.object.isRequired,
     user: PropTypes.object,
-    newSubmit : PropTypes.string,
+    createId : PropTypes.string,
 
     logout: PropTypes.func.isRequired,
     pushState: PropTypes.func.isRequired,
@@ -60,8 +60,8 @@ export default class App extends Component {
       this.props.pushState(null, '/');
     }
 
-    if(!this.props.newSubmit && nextProps.newSubmit){
-      this.props.pushState(null, '/entities/' + nextProps.newSubmit)
+    if(!this.props.createId && nextProps.createId){
+      this.props.pushState(null, '/entities/' + nextProps.createId)
     }
   }
 

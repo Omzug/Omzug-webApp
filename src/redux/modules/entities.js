@@ -8,38 +8,6 @@ const LOAD_FAIL = 'Nevermind/entityList/LOAD_FAIL';
 const CLEAR = 'Nevermind/entityList/CLEAR'
 const CHANGE_LOCATION = "Nevermind/entityList/CHANGE_LOCATION"
 
-export function load(city){
-  return {
-    types: [LOAD, LOAD_SUCCESS, LOAD_FAIL],
-    promise: (client) => {
-      let url;
-      if(city) {
-        url = '/list' + '/' + city
-      }else{
-        url ='/list'
-      }
-      return client.get(url)
-    } // params not used, just shown as demonstration
-  };
-}
-
-
-export function isLoaded(globalState) {
-  return globalState.entities && globalState.entities.loaded;
-}
-
-export function onLocationChange(event, index, value){
-  return {
-    type : CHANGE_LOCATION,
-    id : value,
-  }
-}
-
-// to be added when we change location
-function filterData(locationValue){
-
-}
-
 const initState = {
   list :[],
   locationId : 0,
@@ -80,5 +48,37 @@ export default function reducer(state = initState, action = {}) {
       }
     default : return state;
   }
+}
+
+export function load(city){
+  return {
+    types: [LOAD, LOAD_SUCCESS, LOAD_FAIL],
+    promise: (client) => {
+      let url;
+      if(city) {
+        url = '/list' + '/' + city
+      }else{
+        url ='/list'
+      }
+      return client.get(url)
+    } // params not used, just shown as demonstration
+  };
+}
+
+
+export function isLoaded(globalState) {
+  return globalState.entities && globalState.entities.loaded;
+}
+
+export function onLocationChange(event, index, value){
+  return {
+    type : CHANGE_LOCATION,
+    id : value,
+  }
+}
+
+// to be added when we change location
+function filterData(locationValue){
+
 }
 
