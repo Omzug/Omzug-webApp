@@ -77,16 +77,17 @@ export default function reducer(state = initState, action){
         error: action.error
       };
     case SUBMIT:
-          return {
-            ...state,
-            submitting : true,
-            cached : action.cached,
-            editing : false,
-            currentSlide : 0,
-            feedback : "now submitting, please wait"
-          }
+      var cachedData = Object.assign({}, state.data);
+      return {
+        ...state,
+        submitting : true,
+        cached : cachedData,
+        data : action.cached,
+        editing : false,
+        currentSlide : 0,
+        feedback : "now submitting, please wait"
+      }
     case SUBMIT_SUCCESS:
-          const cachedData = Object.assign({}, state.cached)
           //state.cachedImages.forEach(function(image){
           //  if(!image.pushed) {
           //    update(image, {$merge: {pushed : true}})
@@ -96,7 +97,7 @@ export default function reducer(state = initState, action){
           return {
             ...state,
             submitting : false,
-            data : cachedData,
+            //data : cachedData,
             cached : null,
             feedback : action.result.status,
           }
@@ -105,7 +106,7 @@ export default function reducer(state = initState, action){
           return {
             ...state,
             submitting :false,
-            data : action.result.data,
+            //data : action.result.data,
             cached : null,
             feedback : "发布成功,ID是" + action.result.data.id,
             //this id should be a string
@@ -116,9 +117,12 @@ export default function reducer(state = initState, action){
             error : null,
           }
     case SUBMIT_FAIL:
+      var originData = Object.assign({}, state.cached);
           return {
             ...state,
             submitting : false,
+            data : originData,
+            cached :null,
             feedback : action.error,
             // TODO this error is not used, or change to boolean?
             submitError : action.error,
@@ -267,13 +271,6 @@ export function onSubmitNew(data, images){
 export function onClearMessage(){
   return {
     type : CLEAR_MESSAGE
-  }
-}
-
-export function onCacheSubmit(cachedData){
-  return {
-    type: CACHE_DATA,
-    cached : cachedData
   }
 }
 

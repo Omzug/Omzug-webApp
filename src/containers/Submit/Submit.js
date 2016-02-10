@@ -8,7 +8,7 @@ import Helmet from 'react-helmet';
 import {initialize} from 'redux-form';
 import {SubmitForm} from 'components';
 import connectData from 'helpers/connectData';
-import {isLoaded, onLoad, onClear, onSubmitNew, onCacheSubmit, onClearMessage} from "redux/modules/entity"
+import {isLoaded, onLoad, onClear, onSubmitNew, onClearMessage} from "redux/modules/entity"
 import {Snackbar} from 'material-ui';
 import uiStyles from "../../theme/uiStyles";
 

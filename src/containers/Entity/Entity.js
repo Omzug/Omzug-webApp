@@ -5,7 +5,7 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {isLoaded, onLoad, onClear, onSubmit, onCacheSubmit, onClearMessage} from "redux/modules/entity"
+import {isLoaded, onLoad, onClear, onSubmit, onClearMessage} from "redux/modules/entity"
 import connectData from 'helpers/connectData';
 import { SubmitForm } from 'components';
 import { SubmitTemplate } from 'components';
@@ -37,7 +37,7 @@ function checkState(getState, dispatch){
     loadedId : state.entity.loadedId,
     feedback : state.entity.feedback,
   }),
-  {onLoad, onClear, onSubmit,onCacheSubmit, onClearMessage}
+  {onLoad, onClear, onSubmit, onClearMessage}
 )
 export default class Entity extends Component {
 
@@ -59,7 +59,6 @@ export default class Entity extends Component {
     onClear : PropTypes.func.isRequired,
     onLoad: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
-    onCacheSubmit : PropTypes.func.isRequired,
     onClearMessage : PropTypes.func.isRequired,
   }
 
