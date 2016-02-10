@@ -65,7 +65,7 @@ export default class Entity extends Component {
   handleSubmit = (data) => {
     //test id property
     data.images = this.props.entity.images
-    data.id = this.props.entity
+    data.id = this.props.entity.id
     const images = this.props.cachedImages
     this.props.onSubmit(data, images);
     console.log("submit now with data:" , data)

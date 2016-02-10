@@ -3,24 +3,24 @@
  */
 
 import memoize from 'lru-memoize';
-import {createValidator, required, minLength, email, numberAndLetter,integer, isImage} from 'utils/validation';
+import {createValidator, required, minLength, email, numberAndLetter,integer, isImage, numeric} from 'utils/validation';
 
 const submitValidation = createValidator({
   id:[required],
-  location: [],
   city: [required],//which should be a string
   type: [required, between(0,1), integer],
-  roomNumber: [integer, required],
-  size : [required, integer],
   price: [required, integer],
-  caution: [integer],
   startDate : [required],
-  endDate : [],
+  title : [required],
+
   description: [],
-  title : [],
-  owner : [],
+  location: [],
+  roomNumber: [integer],
+  size : [integer],
+  caution: [integer],
+  endDate : [],
   email : [email],
-  phone : [minLength(11), maxLength(12)],
+  phone : [minLength(11), maxLength(12),numeric],
   note : [],
   maximumPerson : [integer],
   images : [],

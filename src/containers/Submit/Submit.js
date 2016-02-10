@@ -43,7 +43,8 @@ export default class Submit extends Component{
 
   handleSubmit = (data) => {
     data.images = this.props.entity.images
-    data.id = this.props.entity
+    //TODO if this id = false, then do the create
+    data.id = false;
     const images = this.props.cachedImages
     this.props.onSubmitNew(data, images);
     console.log("submit now with data:" , data)

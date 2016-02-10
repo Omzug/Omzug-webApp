@@ -21,8 +21,7 @@ var nameValidator = [
   })
 ]
 
-var passwordValidator =
-  validate({
+var passwordValidator = validate({
     validator: 'isAlphanumeric',
     arguments: [6, 50],
     message: 'Password should be between {ARGS[0]} and {ARGS[1]} characters, and only with numbers and alphabets'

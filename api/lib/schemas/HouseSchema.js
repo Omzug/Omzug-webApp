@@ -10,16 +10,43 @@ var stringValidator = {
   message : ' {VALUE} should be at least 6 character '
 }
 
+var emailValidator = validate({
+  validator: 'isEmail',
+  message : "email format not qualified"
+})
+
+var phoneValidator = [
+  validate({
+    validator : 'isLength',
+    arguments: [11, 12],
+    message : "should use normal germany phone number, 11 or 12 digits"
+  }),
+  validate({
+    validator : 'isNumeric',
+    message : "phone number should only contain numbers"
+  })
+]
+
 module.exports = function(Schema, collectionName){
   return new Schema({
-    location : { type : String, required : true , validate : stringValidator},
-    title :  { type : String, required : true ,validate : stringValidator},
-    fee : { type : Number , required: false},
-    size : { type :Number , required : false},
-    user : { type : String , required : false ,validate : stringValidator},
     city :  { type : String, required : true , validate : stringValidator},
-    state :  { type : String, required : true , validate : stringValidator},
-    longTerm :  { type : Boolean, required : true },
+    type : {type : Number, required : true},
+    price : {type: Number, required : true},
+    startDate : {type : Date, required : true},
+    title : {type : String, required : true},
+    owner : {type : ObjectId, required : true},
+
+    location : { type : String, validate : stringValidator},
+    size : { type :Number , required : false},
+    roomNumber : {type :Number, required : false},
+    caution : { type : Number , required: false},
+    endDate : { type : Date, required : false},
+    description : { type : String, required : false},
+    email : { type : String, required : false, validate : emailValidator},
+    phone : { type : String, required : false, validate : phoneValidator},
+    note : { type : String, required : false},
+    maximumPerson : { type : Number, required : false} ,
+    images : {type : Array, required : false},
 
   }, { strict : true, collection : collectionName, timestamps: true});
 }

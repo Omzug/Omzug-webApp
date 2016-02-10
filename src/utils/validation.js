@@ -36,6 +36,12 @@ export function numberAndLetter(value){
   }
 }
 
+export function numeric(value){
+  if(!/^[0-9]+$/.test(value)) {
+    return `Should be Numeric, only numbers here`
+  }
+}
+
 export function maxLength(max) {
   return value => {
     if (!isEmpty(value) && value.length > max) {
