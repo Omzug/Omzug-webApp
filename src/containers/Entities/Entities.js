@@ -56,9 +56,14 @@ export default class Entities extends Component {
     }
   }
 
+  dropDownListener = (event, index, value) => {
+    this.props.onLocationChange(value);
+    this.props.getList(value);
+  }
+
   render() {
     const styles = require('./Entities.scss');
-    const {loaded, getList, error, loading, locationId, onLocationChange} = this.props;
+    const {loaded, getList, error, loading, locationId} = this.props;
     const houses = this.props.entities;
 
     let refreshClassName = 'fa fa-refresh';
@@ -69,7 +74,7 @@ export default class Entities extends Component {
     return (
       <div>
         <div className={styles.listNav}>
-          <DropDownMenu value={locationId} onChange={onLocationChange} className={styles.dropDown}>
+          <DropDownMenu value={locationId} onChange={this.dropDownListener} className={styles.dropDown}>
             {/* the value starts from 1 */}
             {cityList.map((city, index) => <MenuItem value={index} key={index} primaryText={cityList[index]}/>)}
           </DropDownMenu>

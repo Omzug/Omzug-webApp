@@ -70,7 +70,7 @@ export function isLoaded(globalState) {
   return globalState.entities && globalState.entities.loaded;
 }
 
-export function onLocationChange(event, index, value){
+export function onLocationChange(value){
   return {
     type : CHANGE_LOCATION,
     id : value,
