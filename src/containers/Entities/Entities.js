@@ -5,13 +5,11 @@ import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {isLoaded, load as getList, onLocationChange} from 'redux/modules/entities';
 import {bindActionCreators} from 'redux';
-import { LinkContainer } from 'react-router-bootstrap';
 import connectData from 'helpers/connectData';
+import {List} from "components";
 
-import {DropDownMenu, MenuItem, AppBar,RaisedButton, GridList, GridTile,
-  IconButton, ThemeManager, ThemeDecorator, StarBorder} from 'material-ui';
+import {DropDownMenu, MenuItem,RaisedButton, ThemeManager, ThemeDecorator} from 'material-ui';
 
-import {Carousel} from 'components';
 import myRawTheme from '../../theme/materialUI.theme';
 import cityList from '../../constant/cityList';
 
@@ -68,23 +66,6 @@ export default class Entities extends Component {
       refreshClassName += ' fa-spin';
     }
 
-    var Decorators = [
-      {component: React.createClass({render() {
-        return (
-          <div className={styles.arrowContainer} onClick={this.props.previousSlide}>
-            <i className={styles.arrowIcon + " fa fa-angle-double-left fa-2x"}/>
-          </div>)}
-      }),
-        position: 'CenterLeft', style: {height: "100%"}},
-      {component: React.createClass({render() {
-        return (
-          <div className={styles.arrowContainer} onClick={this.props.nextSlide}>
-            <i className={styles.arrowIcon + " fa fa-angle-double-right fa-2x"}/>
-          </div>)}
-      }),
-        position: 'CenterRight', style: {height: "100%"}},
-    ];
-
     return (
       <div>
         <div className={styles.listNav}>
@@ -99,30 +80,8 @@ export default class Entities extends Component {
         {loaded &&
         <div className={styles.gridContainer}>
           { houses.length ?
-            <GridList cellHeight={300} padding={50} cols={3} className={styles.gridList}>
-              {houses.map((house, index) => (
-                <GridTile
-                  className={styles.tile}
-                  key={house.id}
-                  style={{"display" : "flex", "alignItems":"center", "justifyContent": "center"}}
-                  title={house.title}
-                  subtitle={<span>by <b>{house.owner}</b> In <b>{house.city}</b></span>}
-                  actionIcon={<IconButton iconClassName="fa fa-hand-o-right fa-4x" iconStyle={{"color" : "white"}}/>}
-                >
-                  <Carousel key={house.id} decorators={Decorators} className={styles.carousel} width={"100%"}
-                            initialSlideHight={300} initialSlideWidth={500} slidesToShow={1}>
-                    {house.images && house.images.length >= 1 && house.images.map((address, index) => (
-                      <div key={index} className={styles.imageContainer}>
-                        <LinkContainer to={`/entities/${houses.length}`}>
-                          <img key={index} src={address}/>
-                        </LinkContainer>
-                      </div>
-                    ))}
-                  </Carousel>
-                </GridTile>
-              ))}
-            </GridList> :
-
+            <List houses={this.props.entities}/>
+             :
             <p>这个地区暂时没可用的房源</p>}
         </div>
         }

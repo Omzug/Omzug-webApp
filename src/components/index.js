@@ -13,3 +13,4 @@ export SubmitForm from './SubmitForm/SubmitForm';
 export SubmitTemplate from './SubmitTemplate/SubmitTemplate';
 export Carousel from './Carousel/Carousel';
 export createDecorates from './Decorators/Decorators';
+export List from './List/List';
