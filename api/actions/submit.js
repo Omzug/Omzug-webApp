@@ -48,7 +48,7 @@ export default function submit(req, params) {
             images:[],
           }
         });
-    }, 100)
+    }, 2000)
 
   });
 }

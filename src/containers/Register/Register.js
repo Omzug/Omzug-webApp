@@ -8,6 +8,7 @@ import {initialize} from 'redux-form';
 import {RegisterForm} from 'components';
 import {register, clearLoginError} from 'redux/modules/auth';
 import {Snackbar} from 'material-ui';
+import uiStyles from "../../theme/uiStyles";
 
 @connect(
   state => ({
@@ -42,7 +43,6 @@ export default class Register extends Component{
   render(){
     const {loginError} = this.props;
     const styles = require('./Register.scss')
-    const popupStyle = { color : "red"}
 
     return (
       <div className="container">
@@ -59,7 +59,7 @@ export default class Register extends Component{
           open={loginError}
           message={loginError}
           autoHideDuration={4000}
-          bodyStyle={popupStyle}
+          bodyStyle={uiStyles.snackBarStyle}
           onRequestClose={(reason) => {
             console.log("error popout should cleared now because : " + reason);
             this.props.clearLoginError();

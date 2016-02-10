@@ -19,6 +19,7 @@ const ADD_IMAGE = "Nevermind/entity/ADD_IMAGE";
 const DELETE_IMAGE = "Nevermind/entity/DELETE_IMAGE";
 const CHANGE_SLIDE = "Nevermind/entity/CHANGE_SLIDE";
 const SUBMIT_NEW_SUCCESS = "Nevermind/entity/SUBMIT_NEW_SUCCESS";
+const CLEAR_MESSAGE = "Nevermind/entity/CLEAR_MESSAGE"
 
 const initState = {
   loaded: false,
@@ -47,7 +48,7 @@ const initState = {
   },
   cachedImages:[],
   currentSlide: 0,
-  submittedMessage: null,
+  feedback: null,
   createId: null,
 };
 
@@ -82,6 +83,7 @@ export default function reducer(state = initState, action){
             cached : action.cached,
             editing : false,
             currentSlide : 0,
+            feedback : "now submitting, please wait"
           }
     case SUBMIT_SUCCESS:
           const cachedData = Object.assign({}, state.cached)
@@ -96,7 +98,7 @@ export default function reducer(state = initState, action){
             submitting : false,
             data : cachedData,
             cached : null,
-            submittedMessage : action.result.status,
+            feedback : action.result.status,
           }
     case SUBMIT_NEW_SUCCESS:
       //only add a new createId property here
@@ -105,7 +107,7 @@ export default function reducer(state = initState, action){
             submitting :false,
             data : action.result.data,
             cached : null,
-            submittedMessage : action.result.status,
+            feedback : "发布成功,ID是" + action.result.data.id,
             //this id should be a string
             createId : action.result.data.id,
             loaded: true,
@@ -117,11 +119,18 @@ export default function reducer(state = initState, action){
           return {
             ...state,
             submitting : false,
+            feedback : action.error,
+            // TODO this error is not used, or change to boolean?
             submitError : action.error,
             cachedImages : [],
           }
     case CLEAR:
       return initState;
+    case CLEAR_MESSAGE:
+          return {
+            ...state,
+            feedback : null
+          }
     case CLOSE_CONTACT:
       return {
         ...state,
@@ -252,6 +261,12 @@ export function onSubmitNew(data, images){
       data : submitData,
       files : images
     })
+  }
+}
+
+export function onClearMessage(){
+  return {
+    type : CLEAR_MESSAGE
   }
 }
 

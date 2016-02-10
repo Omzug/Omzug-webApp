@@ -2,7 +2,7 @@ import React from 'react';
 import {IndexRoute, Route} from 'react-router';
 import {pushState} from 'redux-router'
 import { isLoaded as isAuthLoaded, load as loadAuth } from 'redux/modules/auth';
-import {clear as clearEntity} from 'redux/modules/entity';
+import {onClear as clearEntity} from 'redux/modules/entity';
 import config from './config.js'
 import {
     App,

@@ -220,5 +220,3 @@ export default class SubmitForm extends Component {
     );
   }
 }
-
-

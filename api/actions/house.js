@@ -29,7 +29,7 @@ export default function listHause(req, params) {
         note : "some note here",
         type : 1,
       });
-    }, 100)
+    }, 500)
 
   });
 }

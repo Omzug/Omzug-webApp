@@ -5,12 +5,12 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {isLoaded, onLoad, onClear, onSubmit, onCacheSubmit} from "redux/modules/entity"
+import {isLoaded, onLoad, onClear, onSubmit, onCacheSubmit, onClearMessage} from "redux/modules/entity"
 import connectData from 'helpers/connectData';
 import { SubmitForm } from 'components';
 import { SubmitTemplate } from 'components';
-
-import FlatButton from 'material-ui/lib/flat-button';
+import uiStyles from "../../theme/uiStyles";
+import {FlatButton, Snackbar} from 'material-ui';
 
 function fetchDataDeferred(getState, dispatch) {
   if (!isLoaded(getState())) {
@@ -35,8 +35,9 @@ function checkState(getState, dispatch){
     loading: state.entity.loading,
     editing: state.entity.editing,
     loadedId : state.entity.loadedId,
+    feedback : state.entity.feedback,
   }),
-  {onLoad, onClear, onSubmit,onCacheSubmit}
+  {onLoad, onClear, onSubmit,onCacheSubmit, onClearMessage}
 )
 export default class Entity extends Component {
 
@@ -52,12 +53,14 @@ export default class Entity extends Component {
     editing: PropTypes.bool,
     cachedImages : PropTypes.array,
     loadedId : PropTypes.number,
+    feedback : PropTypes.string,
 
     //editStart: PropTypes.func.isRequired,
     onClear : PropTypes.func.isRequired,
     onLoad: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
     onCacheSubmit : PropTypes.func.isRequired,
+    onClearMessage : PropTypes.func.isRequired,
   }
 
   handleSubmit = (data) => {
@@ -77,7 +80,7 @@ export default class Entity extends Component {
     //})
 
   render(){
-    const {entity, error, loading, onClear, editing, onLoad} = this.props;
+    const {entity, error, loading, onClear, editing, onLoad, feedback} = this.props;
 
     // for test case
     const test = false;
@@ -97,6 +100,17 @@ export default class Entity extends Component {
            :
           <SubmitTemplate />
         }
+
+        <Snackbar
+          open={feedback}
+          message={feedback}
+          autoHideDuration={4000}
+          bodyStyle={uiStyles.snackBarStyle}
+          onRequestClose={(reason) => {
+            console.log("error popout should cleared now because : " + reason);
+            this.props.onClearMessage();
+          }}
+        />
       </div>
     )
   }

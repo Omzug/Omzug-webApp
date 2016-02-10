@@ -8,7 +8,9 @@ import Helmet from 'react-helmet';
 import {initialize} from 'redux-form';
 import {SubmitForm} from 'components';
 import connectData from 'helpers/connectData';
-import {isLoaded, onLoad, onClear, onSubmitNew, onCacheSubmit} from "redux/modules/entity"
+import {isLoaded, onLoad, onClear, onSubmitNew, onCacheSubmit, onClearMessage} from "redux/modules/entity"
+import {Snackbar} from 'material-ui';
+import uiStyles from "../../theme/uiStyles";
 
 function initSubmit(getState, dispatch){
   dispatch(onClear());
@@ -18,8 +20,9 @@ function initSubmit(getState, dispatch){
   state => ({
     entity: state.entity.data,
     cachedImages : state.entity.cachedImages,
+    feedback : state.entity.feedback,
   }),
-  {initialize, onClear, onSubmitNew}
+  {initialize, onClear, onSubmitNew, onClearMessage}
 )
 
 @connectData(
@@ -31,7 +34,9 @@ export default class Submit extends Component{
     initialize: PropTypes.func.isRequired,
     onClear : PropTypes.func.isRequired,
     onSubmitNew : PropTypes.func.isRequired,
+    onClearMessage : PropTypes.func.isRequired,
 
+    feedback : PropTypes.string,
     entity: PropTypes.object,
     cachedImages : PropTypes.array,
   }
@@ -62,13 +67,24 @@ export default class Submit extends Component{
   };
 
   render(){
-
+    const {feedback} = this.props
     return (
       <div className="container">
         <h1>发布新房源</h1>
         <Helmet title="发布新房源"/>
 
         <SubmitForm onSubmit={this.handleSubmit}/>
+
+        <Snackbar
+          open={feedback}
+          message={feedback}
+          autoHideDuration={4000}
+          bodyStyle={uiStyles.snackBarStyle}
+          onRequestClose={(reason) => {
+            console.log("error popout should cleared now because : " + reason);
+            this.props.onClearMessage();
+          }}
+        />
       </div>
     )
   }
