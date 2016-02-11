@@ -4,6 +4,7 @@
 var mongoModel = require('./model.js')
 var House = mongoModel.House
 var User = mongoModel.User
+var createId = mongoModel.createId
 const config = require('./config.js')
 const logger = require('./logger.js').logger
 const async = require('async')
@@ -52,7 +53,56 @@ DI.init = function () {
   //setInterval(self.intervalSaveTxs, batchInsertInterval);
 
   this.initialized = true;
+  insert();
 };
+
+function insert(){
+  var objectId = createId("56a2a61b6dcc58c80d18bec5");
+  var house1 = new House({
+    id : 12321,
+    city: "stuttgart",
+    owner: objectId,
+    startDate : new Date(),
+    type : 1,
+    title : "i got an idea",
+    price : 860,
+
+    images : [
+      "http://media.zenfs.com/en-US/video/video.pd2upload.com/video.yahoofinance.com@fc01f40d-8f4e-3cbc-9d8f-a7b9e79d95fd_FULL.jpg",
+      "http://g-ecx.images-amazon.com/images/G/01/img15/pet-products/small-tiles/23695_pets_vertical_store_dogs_small_tile_8._CB312176604_.jpg",
+    ]
+  })
+  var house2 = new House({
+    id : 12333,
+      city: "berlin",
+      type : 0,
+      owner: objectId,
+      title : "anyway it is a bad idea",
+      price : 600,
+      startDate : new Date(),
+
+      images:[
+      "http://media4.popsugar-assets.com/files/2014/08/08/878/n/1922507/caef16ec354ca23b_thumb_temp_cover_file32304521407524949.xxxlarge/i/Funny-Cat-GIFs.jpg",
+    ]
+  })
+
+  console.log("test the length with string validator")
+    console.log(/d{6,1024}/.test("iamfi"),/d{6,1024}/.test("iamfine"), /d{6,1024}/.test("iamfin"))
+  //house1.save(function(err, result){
+  //  console.log('house 1 saved success', result, err)
+  //})
+  //house2.save(function(err, result){
+  //  console.log('house 2 saved success', result, err)
+  //})
+
+  DI.getAll("house",{owner : objectId}, function(result){
+    console.log("get all result:", result)
+  },function(err){
+    console.log("get all error", err)
+  })
+
+
+}
 
 function test(){
   var testUser = new User({
@@ -152,6 +202,47 @@ DI.get = function(type, query, resolve, reject){
     },
     function(schema, callback){
       schema.findOne(query).exec(function(err, result){
+        if(err){
+          callback({type : 0, msg : LOGTITLE + Errors.DataBaseFailed + err })
+        }
+        if(result == null){
+          callback({type : 1 , msg : LOGTITLE + Errors.NotFound})
+        }else {
+          logSuccess(type, result)
+          callback(null, result)
+        }
+      })
+    }
+  ]
+
+  async.waterfall(steps, function(err, result){
+    if(err){
+      reject(err)
+    }else {
+      resolve({
+        status : true,
+        data : result
+      })
+    }
+  })
+}
+
+/**
+ * Error Code
+ * 0 : internal error
+ * 1 : not found error
+ * @param type
+ * @param query
+ * @param resolve
+ * @param reject
+ */
+DI.getAll = function(type, query, resolve, reject){
+  let steps = [
+    function(callback){
+      findSchema(type, callback)
+    },
+    function(schema, callback){
+      schema.find(query).exec(function(err, result){
         if(err){
           callback({type : 0, msg : LOGTITLE + Errors.DataBaseFailed + err })
         }

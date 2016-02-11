@@ -21,6 +21,7 @@ export default function listHause(req, params) {
         caution: 2000,
         startDate : new Date(),
         endDate : new Date(),
+
         description: "this is a house",
         title : "house title",
         owner : "hanwenCheng",

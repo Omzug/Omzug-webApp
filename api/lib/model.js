@@ -25,6 +25,10 @@ var initMongoDb = function(){
   return mongoose.connection;
 };
 
+module.exports.createId = function(string){
+  return new mongoose.Types.ObjectId(string);
+}
 module.exports.initMongoDb = initMongoDb;
 //module.exports.House = mongoose.model(houseCollectionName, HouseSchema);
 module.exports.User = mongoose.model(userCollectionName, UserSchema)
+module.exports.House = mongoose.model(houseCollectionName, HouseSchema)

@@ -254,6 +254,8 @@ export function onSubmit(data, images){
 
 
 export function onSubmitNew(data, images){
+  // TODO change it to lower case
+  data.city = data.city.toLowerCase();
   const submitData = {
     data : data,
     images : images,

@@ -3,6 +3,7 @@
  */
 var validate = require('mongoose-validator');
 
+//TODO this validator does not function
 var stringValidator = {
   validator : function(value){
     return /d{6,1024}/.test(value)
@@ -28,15 +29,16 @@ var phoneValidator = [
 ]
 
 module.exports = function(Schema, collectionName){
+  var ObjectId = Schema.ObjectId;
   return new Schema({
-    city :  { type : String, required : true , validate : stringValidator},
+    city :  { type : String, required : true/*, validate : stringValidator*/},
     type : {type : Number, required : true},
     price : {type: Number, required : true},
     startDate : {type : Date, required : true},
     title : {type : String, required : true},
     owner : {type : ObjectId, required : true},
 
-    location : { type : String, validate : stringValidator},
+    location : { type : String/*, validate : stringValidator*/},
     size : { type :Number , required : false},
     roomNumber : {type :Number, required : false},
     caution : { type : Number , required: false},

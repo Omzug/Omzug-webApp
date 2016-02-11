@@ -2,8 +2,10 @@
  * Created by hanwencheng on 2/4/16.
  */
 var formidable = require('formidable');
+const async = require('async')
+
 export default function submit(req, params) {
-  console.log('in api house.js params are', params)
+  console.log('in api submit.js we get request is', params)
 
   var submitHouse = req.body;
   var form = new formidable.IncomingForm();
