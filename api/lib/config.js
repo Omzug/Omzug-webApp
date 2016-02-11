@@ -8,6 +8,7 @@ module.exports = {
   //please list the collection names one by one
   userCollectionName : 'user',
   houseCollectionName : 'house',
+  pageSize : 18,
 
   errors : {
     SchemaCannotFind : 'SchemaCannotFind: schema can not be find, please check again',

@@ -95,11 +95,11 @@ function insert(){
   //  console.log('house 2 saved success', result, err)
   //})
 
-  DI.getAll("house",{owner : objectId}, function(result){
-    console.log("get all result:", result)
-  },function(err){
-    console.log("get all error", err)
-  })
+  //DI.getAllInit("house",{owner : objectId}, function(result){
+  //  console.log("get all result:", result)
+  //},function(err){
+  //  console.log("get all error", err)
+  //})
 
 
 }
@@ -230,28 +230,72 @@ DI.get = function(type, query, resolve, reject){
 /**
  * Error Code
  * 0 : internal error
- * 1 : not found error
  * @param type
  * @param query
+ * @param page which will not be used, just to align the method
  * @param resolve
  * @param reject
  */
-DI.getAll = function(type, query, resolve, reject){
+DI.getAllInit = function(type, query, page , resolve, reject){
+  let steps = [
+    function(callback){
+      findSchema(type, callback)
+    },
+    function(schema, callback) {
+      var queryObject = schema.find(query);
+      queryObject.count(function (err, count) {
+        if (err) {
+          callback({type: 0, msg: LOGTITLE + Errors.DataBaseFailed + err})
+        }
+        callback(null, queryObject, count)
+      })
+    },
+    function(queryObject, count, callback){
+      queryObject.sort({'createdAt' : -1}).limit(config.pageSize).exec('find',function(err, result){
+        if(err){
+          callback({type : 0, msg : LOGTITLE + Errors.DataBaseFailed + err })
+        }
+        callback(null, result, count)
+      })
+    }
+  ]
+
+  async.waterfall(steps, function(err, result, count){
+    if(err){
+      reject(err)
+    }else {
+      resolve({
+        status : true,
+        data : result,
+        totalNumber : count
+      })
+    }
+  })
+}
+
+/**
+ * Error Code
+ * 0 : internal error
+ * @param type
+ * @param query
+ * @param page
+ * @param resolve
+ * @param reject
+ */
+DI.getAll = function(type, query, page, resolve, reject){
   let steps = [
     function(callback){
       findSchema(type, callback)
     },
     function(schema, callback){
-      schema.find(query).exec(function(err, result){
+      // notice taht page start from 0
+      const skipPage = page * config.pageSize;
+      console.log('skip page number is', skipPage);
+      schema.find(query).sort({'createdAt' : -1}).skip(skipPage).limit(config.pageSize).exec(function(err, result){
         if(err){
           callback({type : 0, msg : LOGTITLE + Errors.DataBaseFailed + err })
         }
-        if(result == null){
-          callback({type : 1 , msg : LOGTITLE + Errors.NotFound})
-        }else {
-          logSuccess(type, result)
-          callback(null, result)
-        }
+        callback(null, result)
       })
     }
   ]
