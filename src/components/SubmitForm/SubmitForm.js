@@ -6,49 +6,33 @@ import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {reduxForm} from 'redux-form';
 
-import {onEndEdit, onAddImage, onChangeSlide, onDeleteImage} from "redux/modules/entity";
-import FlatButton from 'material-ui/lib/flat-button';
+import {onEndEdit, onAddImage, onChangeSlide, onDeleteImage, onToggleLimit} from "redux/modules/entity";
 //import Slider from 'nuka-carousel';
 import {Carousel} from 'components';
 
-import TextField from 'material-ui/lib/text-field';
-import FontIcon from 'material-ui/lib/font-icon';
+import {Paper, TextField, FontIcon, FlatButton, Card, CardActions, CardHeader, MenuItem,
+  IconButton, CardMedia, CardTitle, CardText, List, ListItem, Divider, SelectField,
+  DatePicker, Toggle} from 'material-ui';
 
-import Paper from 'material-ui/lib/paper';
-
-import Card from 'material-ui/lib/card/card';
-import CardActions from 'material-ui/lib/card/card-actions';
-import CardHeader from 'material-ui/lib/card/card-header';
-import CardMedia from 'material-ui/lib/card/card-media';
-import CardTitle from 'material-ui/lib/card/card-title';
-import CardText from 'material-ui/lib/card/card-text';
-
-import List from 'material-ui/lib/lists/list';
-import ListItem from 'material-ui/lib/lists/list-item';
-import Divider from 'material-ui/lib/divider';
-import SelectField from 'material-ui/lib/select-field';
-import MenuItem from 'material-ui/lib/menus/menu-item';
-import IconButton from 'material-ui/lib/icon-button';
-
-import DatePicker from 'material-ui/lib/date-picker/date-picker';
 import DropZone from 'react-dropzone'
 
 
 @connect(
   state => ({
     entity: state.entity.data,
+    hasLimit : state.entity.hasLimit,
     initialValues : state.entity.data,
     cachedImages : state.entity.cachedImages,
     currentSlide : state.entity.currentSlide,
   }),
-  {onEndEdit, onAddImage, onChangeSlide, onDeleteImage}
+  {onEndEdit, onAddImage, onChangeSlide, onDeleteImage, onToggleLimit}
 )
 
 @reduxForm({
   form: 'house',
   //later should delete images in fields
   fields : ['city','location','roomNumber','size','price','caution','startDate','endDate',
-    'description','title','owner','email','phone', 'type','note','maximumPerson', 'images'],
+    'description','title','owner','email','phone', 'type','note','maximumPerson', 'images','shortTime'],
   //validate : registerValidation,
   //asyncValidate,
   //asyncBlurFields: ["email", "name"],
@@ -60,8 +44,10 @@ export default class SubmitForm extends Component {
     onAddImage : PropTypes.func.isRequired,
     onDeleteImage : PropTypes.func.isRequired,
     onChangeSlide : PropTypes.func.isRequired,
+    onToggleLimit : PropTypes.func.isRequired,
     cachedImages: PropTypes.array,
     currentSlide : PropTypes.number,
+    hasLimit : PropTypes.bool,
 
     fields: PropTypes.object.isRequired,
     handleSubmit: PropTypes.func.isRequired,
@@ -92,6 +78,7 @@ export default class SubmitForm extends Component {
       fields: {location,city,roomNumber,size,price,caution,startDate,endDate,
         description,title,owner,email,phone,type,note,maximumPerson,images},
       entity,
+      hasLimit,
       currentSlide,
       //resetForm,
       cachedImages,
@@ -197,8 +184,11 @@ export default class SubmitForm extends Component {
             {/*every child should have a key, or react give a stupid warnning */}
               <DatePicker key={81} autoOk={true} value={new Date(startDate.value)} hintText="开始日期"
               onChange={(event, newDate) => startDate.onChange(newDate)} formatDate={this.dateFormat}/>
-              <DatePicker key={82} autoOk={true} value={new Date(endDate.value)} hintText="结束日期"
-              onChange={(event, newDate) => endDate.onChange(newDate)} formatDate={this.dateFormat}/>
+              <Toggle label="短期" toggled={hasLimit} labelPosition="right" onToggle={(event, isToggled) => {this.props.onToggleLimit(isToggled)}}/>
+              { hasLimit &&
+                <DatePicker key={82} autoOk={true} value={new Date(endDate.value)} hintText="结束日期"
+                onChange={(event, newDate) => endDate.onChange(newDate)} formatDate={this.dateFormat}/>
+              }
             </div>
           }>
 

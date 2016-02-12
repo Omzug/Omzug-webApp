@@ -52,7 +52,7 @@ export default class Entity extends Component {
     loading: PropTypes.bool,
     editing: PropTypes.bool,
     cachedImages : PropTypes.array,
-    loadedId : PropTypes.number,
+    loadedId : PropTypes.string,
     feedback : PropTypes.string,
 
     //editStart: PropTypes.func.isRequired,

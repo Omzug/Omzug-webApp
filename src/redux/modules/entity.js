@@ -2,6 +2,7 @@
  * Created by hanwencheng on 1/9/16.
  */
 var update = require('react-addons-update');
+import cityList from '../../constant/cityList';
 import {validateImage} from '../../utils/validation';
 
 const LOAD = 'Nevermind/entity/LOAD';
@@ -21,7 +22,9 @@ const DELETE_IMAGE = "Nevermind/entity/DELETE_IMAGE";
 const CHANGE_SLIDE = "Nevermind/entity/CHANGE_SLIDE";
 const SUBMIT_NEW_SUCCESS = "Nevermind/entity/SUBMIT_NEW_SUCCESS";
 const CLEAR_MESSAGE = "Nevermind/entity/CLEAR_MESSAGE";
-const IMAGE_ERROR = "Nevermind/entity/IMAGE_ERROR"
+const IMAGE_ERROR = "Nevermind/entity/IMAGE_ERROR";
+const INIT_ENTITY = "Nevermind/entity/INIT_ENTITY";
+const TOGGLE = "Nevermind/entity/TOGGLE";
 
 const initState = {
   loaded: false,
@@ -29,26 +32,27 @@ const initState = {
   editing : false,
   contactOpen : false,
   data : {
-    city: "城市",//which should be a string
+    city: null,//which should be a string
     type : 0,
-    price: "价格",
-    startDate : "",
-    title : "标题",
-    owner : "",
+    price: 0,
+    startDate : null,
+    title : null,//TODO need set to null in production
+    owner : null,
 
-    location: "",
-    roomNumber: "",
-    size : "",
-    caution: "",
-    endDate : "",
-    description: "",
-    email : "",
-    phone : "",
-    note : "",
-    maximumPerson : 0 ,
+    location: null,
+    roomNumber: null,
+    size : null,
+    caution: null,
+    endDate : null,
+    description: null,
+    email : null,
+    phone : null,
+    note : null,
+    maximumPerson : null ,
     images:["http://ecx.images-amazon.com/images/I/518zSqpmd4L._SY300_.jpg",
       "http://ecx.images-amazon.com/images/I/514Uh33v2BL._AC_UL115_.jpg"],
   },
+  hasLimit : false,
   cachedImages:[],
   currentSlide: 0,
   feedback: null,
@@ -138,6 +142,15 @@ export default function reducer(state = initState, action){
           }
     case CLEAR:
       return initState;
+    case INIT_ENTITY :
+          return {
+            ...state,
+            data : update(state.data, {
+              city : {$set : cityList[action.city]},
+              owner : {$set : action.username},
+              startDate : {$set : new Date()},
+            }),
+          }
     case CLEAR_MESSAGE:
           return {
             ...state,
@@ -163,6 +176,19 @@ export default function reducer(state = initState, action){
         ...state,
         editing :false
       }
+    case TOGGLE:
+          return {
+            ...state,
+            hasLimit : action.value,
+            data : action.value ?
+              update(state.data, {
+                endDate : {$set : new Date()},
+              })
+              :
+              update(state.data, {
+                endDate : {$set : null}
+              })
+          }
     case ADD_IMAGE:
       // once only one image as input
       const image = update(state.cachedImages, {$push: [action.image]})
@@ -246,14 +272,14 @@ export function onLoadInit(){
 function generalizeParameter(data, images){
   var submitData;
   data.city = data.city.toLowerCase();
-  if(images.length > 0){
+  //if(images.length > 0){
     submitData = {
       data : data,
       files : images,
     }
-  }else{
-    submitData = data
-  }
+  //}else{
+  //  submitData = data
+  //}
   console.log('submit data in web is: ', submitData)
   return submitData;
 }
@@ -268,7 +294,6 @@ function checkImage(images){
 
 export function onSubmit(data, images){
   const imageError = checkImage(images)
-  console.log('image error is', imageError)
   if(imageError){
     return {
       type : IMAGE_ERROR,
@@ -285,7 +310,6 @@ export function onSubmit(data, images){
 
 export function onSubmitNew(data, images){
   const imageError = checkImage(images)
-  console.log('image error is', imageError)
   if(imageError){
     return {
       type : IMAGE_ERROR,
@@ -302,6 +326,21 @@ export function onSubmitNew(data, images){
 export function onClearMessage(){
   return {
     type : CLEAR_MESSAGE
+  }
+}
+
+export function onInitEntity(city, username){
+  return {
+    type : INIT_ENTITY,
+    city : city,
+    username : username,
+  }
+}
+
+export function onToggleLimit(value){
+  return {
+    type : TOGGLE,
+    value : value
   }
 }
 

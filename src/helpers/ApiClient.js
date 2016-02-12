@@ -26,15 +26,20 @@ class _ApiClient {
         const request = superagent[method](formatUrl(path));
 
         //add support for multipart request with attach file
-        if (method=='post' && files && files.length > 0){
+        if (method=='post' && files !== undefined){
           files.forEach(file => request.attach(file.name, file))
 
           if(params){
             request.field('query', params)
           }
-
           if (data) {
-            request.field('data', data);
+            console.log('data is',data)
+            for(var property in data){
+              if(data.hasOwnProperty(property)){
+                request.field(property , data[property])
+              }
+            }
+            console.log('transfer data is', request)
           }
 
           // TODO pass along the session cookie to the API server to maintain session state.

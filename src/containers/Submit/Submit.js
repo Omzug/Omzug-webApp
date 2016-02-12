@@ -8,12 +8,14 @@ import Helmet from 'react-helmet';
 import {initialize} from 'redux-form';
 import {SubmitForm} from 'components';
 import connectData from 'helpers/connectData';
-import {isLoaded, onLoad, onClear, onSubmitNew, onClearMessage} from "redux/modules/entity"
+import {isLoaded, onLoad, onClear, onInitEntity, onSubmitNew, onClearMessage} from "redux/modules/entity"
 import {Snackbar} from 'material-ui';
 import uiStyles from "../../theme/uiStyles";
 
 function initSubmit(getState, dispatch){
+  var state = getState()
   dispatch(onClear());
+  dispatch(onInitEntity(state.entities.locationId, state.auth.user.username));
 }
 
 @connect(
@@ -22,7 +24,7 @@ function initSubmit(getState, dispatch){
     cachedImages : state.entity.cachedImages,
     feedback : state.entity.feedback,
   }),
-  {initialize, onClear, onSubmitNew, onClearMessage}
+  {initialize, onInitEntity, onSubmitNew, onClearMessage}
 )
 
 @connectData(
@@ -32,7 +34,7 @@ function initSubmit(getState, dispatch){
 export default class Submit extends Component{
   static propTypes = {
     initialize: PropTypes.func.isRequired,
-    onClear : PropTypes.func.isRequired,
+    onInitEntity : PropTypes.func.isRequired,
     onSubmitNew : PropTypes.func.isRequired,
     onClearMessage : PropTypes.func.isRequired,
 
