@@ -56,7 +56,11 @@ export default class Entities extends Component {
 
   dropDownListener = (event, index, value) => {
     this.props.onLocationChange(value);
-    this.props.getList(value);
+    if(value && value <= cityList.length) {
+      this.props.getList(cityList[value].toLowerCase());
+    }else{
+      this.props.getList();
+    }
   }
 
   render() {
