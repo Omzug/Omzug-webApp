@@ -21,8 +21,9 @@ export default function submit(req, params) {
       //files.forEach(function(file){
       //  console.log("file name is", file.name, file.size)
       //})
+      if(err) console.log('errs are : ', err)
       console.log("files are ", files)
-      console.log("and field array is", fields )
+      console.log("and field array is", fields)
     })
 
     setTimeout(()=> {

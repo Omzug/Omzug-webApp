@@ -22,11 +22,13 @@ export default function reducer(state = initState, action = {}) {
         loading: true
       };
     case LOAD_SUCCESS:
+      //TODO
+      //console.log('in entites.js the action.result is', action.result)
       return {
         ...state,
         loading: false,
         loaded: true,
-        list: action.result.list,
+        list: action.result.data,
         error: null
       };
     case LOAD_FAIL:
@@ -56,7 +58,7 @@ export function load(city){
     promise: (client) => {
       let url;
       if(city) {
-        url = '/list' + '/' + city
+        url = '/list/city/' + city
       }else{
         url ='/list'
       }

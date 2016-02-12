@@ -47,10 +47,8 @@ export default class Entities extends Component {
   };
 
   loadCity = (event) => {
-    const locationId = this.props.locationId
-    if(locationId) {
-      //if location is chosen, it starts from 1
-      this.props.getList(cityList[locationId]);
+    if(locationId && locationId <= cityList.length) {
+      this.props.getList(cityList[locationId].toLowerCase());
     }else{
       this.props.getList();
     }
@@ -64,7 +62,7 @@ export default class Entities extends Component {
   render() {
     const styles = require('./Entities.scss');
     const {loaded, getList, error, loading, locationId} = this.props;
-    const houses = this.props.entities;
+    const houses = this.props.entities;//TODO
 
     let refreshClassName = 'fa fa-refresh';
     if (loading) {
