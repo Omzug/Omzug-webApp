@@ -23,7 +23,10 @@ export default function submit(req, params) {
       //})
       if(err) console.log('errs are : ', err)
       console.log("files are ", files)
-      console.log("and field array is", fields)
+      for(var property in fields) {
+        if(fields.hasOwnProperty(property))
+        console.log("fields."+ property + " : " , fields[property] )
+      }
     })
 
     setTimeout(()=> {

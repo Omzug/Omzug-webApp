@@ -2,6 +2,7 @@
  * Created by hanwencheng on 1/9/16.
  */
 var update = require('react-addons-update');
+import {validateImage} from '../../utils/validation';
 
 const LOAD = 'Nevermind/entity/LOAD';
 const LOAD_SUCCESS = 'Nevermind/entity/LOAD_SUCCESS';
@@ -19,7 +20,8 @@ const ADD_IMAGE = "Nevermind/entity/ADD_IMAGE";
 const DELETE_IMAGE = "Nevermind/entity/DELETE_IMAGE";
 const CHANGE_SLIDE = "Nevermind/entity/CHANGE_SLIDE";
 const SUBMIT_NEW_SUCCESS = "Nevermind/entity/SUBMIT_NEW_SUCCESS";
-const CLEAR_MESSAGE = "Nevermind/entity/CLEAR_MESSAGE"
+const CLEAR_MESSAGE = "Nevermind/entity/CLEAR_MESSAGE";
+const IMAGE_ERROR = "Nevermind/entity/IMAGE_ERROR"
 
 const initState = {
   loaded: false,
@@ -129,6 +131,11 @@ export default function reducer(state = initState, action){
             submitError : action.error,
             cachedImages : [],
           }
+    case IMAGE_ERROR :
+          return {
+            ...state,
+            feedback : action.imageError
+          }
     case CLEAR:
       return initState;
     case CLEAR_MESSAGE:
@@ -236,38 +243,59 @@ export function onLoadInit(){
   }
 }
 
-export function onSubmit(data, images){
-  const submitData = {
-    data : data,
-    images : images,
+function generalizeParameter(data, images){
+  var submitData;
+  data.city = data.city.toLowerCase();
+  if(images.length > 0){
+    submitData = {
+      data : data,
+      files : images,
+    }
+  }else{
+    submitData = data
   }
-  console.log('submit object is', submitData )
+  console.log('submit data in web is: ', submitData)
+  return submitData;
+}
+/**
+ * validate the images
+ * @param images
+ * @return error
+ */
+function checkImage(images){
+  return validateImage(images)
+}
+
+export function onSubmit(data, images){
+  const imageError = checkImage(images)
+  console.log('image error is', imageError)
+  if(imageError){
+    return {
+      type : IMAGE_ERROR,
+      imageError : imageError,
+    }
+  }
   return {
     cached : data,
     types: [SUBMIT, SUBMIT_SUCCESS, SUBMIT_FAIL],
-    promise: (client) => client.post('./submit', {
-      data : submitData,
-      files : images
-    })
+    promise: (client) => client.post('./submit', generalizeParameter(data, images))
   }
 }
 
 
 export function onSubmitNew(data, images){
-  // TODO change it to lower case
-  data.city = data.city.toLowerCase();
-  const submitData = {
-    data : data,
-    images : images,
+  const imageError = checkImage(images)
+  console.log('image error is', imageError)
+  if(imageError){
+    return {
+      type : IMAGE_ERROR,
+      imageError : imageError,
+    }
   }
-  console.log('new submit object is', submitData )
   return {
     cached : data,
     types: [SUBMIT, SUBMIT_NEW_SUCCESS, SUBMIT_FAIL],
-    promise: (client) => client.post('./submit', {
-      data : submitData,
-      files : images
-    })
+    promise: (client) => client.post('./submit', generalizeParameter(data, images))
   }
 }
 

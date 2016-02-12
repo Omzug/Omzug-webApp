@@ -1,5 +1,6 @@
 const isEmpty = value => value === undefined || value === null || value === '';
 const join = (rules) => (value, data) => rules.map(rule => rule(value, data)).filter(error => !!error)[0 /* first error */ ];
+const config = require('../config.js')
 
 export function email(value) {
   // Let's not start a debate on email regex. This is just for an example app!
@@ -74,14 +75,17 @@ export function match(field) {
   };
 }
 
-export function isImage(value){
-  var wrongSuffix = false;
+export function validateImage(value){
+  var error = [];
   value.forEach(function(file){
-    if (value.name.match(/\.(jpg|jpeg|png|gif)$/)){
-      wrongSuffix = true;
+    if (!file.name.match(/\.(jpg|jpeg|png|gif)$/)){
+      error.push(file.name + "上传的不是图像文件");
+    }
+    if(file.size > config.limitImageSize * 1024 * 1024){
+      error.push(file.name + "太大了,我们最大只接受" + config.limitImageSize + "M的文件")
     }
   });
-  if(wrongSuffix) return "上传的不是图像文件"
+  return error.length ? error.join(', ') : null
 }
 
 export function createValidator(rules) {

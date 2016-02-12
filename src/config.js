@@ -15,6 +15,7 @@ module.exports = Object.assign({
   port: process.env.PORT,
   apiHost: process.env.APIHOST || 'localhost',
   apiPort: process.env.APIPORT,
+  limitImageSize : 5,
   app: {
     title: 'Omzug',
     description: '找到心仪的家',
