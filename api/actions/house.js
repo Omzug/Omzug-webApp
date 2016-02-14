@@ -1,36 +1,19 @@
 /**
  * Created by hanwencheng on 2/3/16.
  */
+import DB from '../lib/db-interface.js';
+var createId  = require('../lib/model.js').createId;
 
-export default function listHause(req, params) {
+export default function getHouse(req, params) {
   console.log('in api house.js params are', params)
 
-  var houseId = parseInt(params[0])
+  var houseId = createId(params[0])
   return new Promise((resolve, reject) => {
-    var result = []
-
-
-    setTimeout(()=> {
-      resolve({
-        id : params[0],
-        location: "house object",
-        city: params[0],//which should be a string
-        roomNumber: Date.now(),
-        size : 50,
-        price: 860,
-        caution: 2000,
-        startDate : new Date(),
-        endDate : new Date(),
-
-        description: "this is a house",
-        title : "house title",
-        owner : "hanwenCheng",
-        email : "heawen.cheng@gmail.com",
-        phone : "017684443881",
-        note : "some note here",
-        type : 1,
-      });
-    }, 500)
-
+    DB.get('house', {_id : houseId}, function(result){
+      console.log('we get result here is', result)
+      return resolve(result.data)
+    }, function(err){
+      return resolve(err.msg)
+    })
   });
 }

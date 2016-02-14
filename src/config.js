@@ -19,6 +19,7 @@ module.exports = Object.assign({
   app: {
     title: 'Omzug',
     description: '找到心仪的家',
+    introduction: '请登录以开始',
     head: {
       titleTemplate: 'Omzug : %s',
       meta: [

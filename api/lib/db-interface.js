@@ -8,6 +8,7 @@ var createId = mongoModel.createId
 const config = require('./config.js')
 const logger = require('./logger.js').logger
 const async = require('async')
+const aws = require('./aws')
 
 const houseCollectionName = config.houseCollectionName;
 const userCollectionName = config.userCollectionName;
@@ -86,6 +87,7 @@ function insert(){
     ]
   })
 
+  //TODO
   console.log("test the length with string validator")
     console.log(/d{6,1024}/.test("iamfi"),/d{6,1024}/.test("iamfine"), /d{6,1024}/.test("iamfin"))
   //house1.save(function(err, result){
@@ -95,11 +97,11 @@ function insert(){
   //  console.log('house 2 saved success', result, err)
   //})
 
-  //DI.getAllInit("house",{owner : objectId}, function(result){
-  //  console.log("get all result:", result)
-  //},function(err){
-  //  console.log("get all error", err)
-  //})
+  DI.getAllInit("house",{owner : objectId}, null, function(result){
+    console.log("get all result:", result)
+  },function(err){
+    console.log("get all error", err)
+  })
 
 
 }
@@ -380,7 +382,7 @@ DI.update = function(type, query, update, resolve, reject){
       findSchema(type, callback)
     },
     function(schema, callback){
-      schema.findOneAndUpdate(query,update).exec(function(err, updated){
+      schema.findOneAndUpdate(query,update,{"new" : true, "upsert" : true}).exec(function(err, updated){
         if(err){
           callback({msg : LOGTITLE + Errors.DataBaseFailed + err })
         }else {

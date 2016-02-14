@@ -32,12 +32,14 @@ const initState = {
   editing : false,
   contactOpen : false,
   data : {
+    id : null,
     city: null,//which should be a string
     type : 0,
     price: 0,
     startDate : null,
     title : null,//TODO need set to null in production
     owner : null,
+    username : null,
 
     location: null,
     roomNumber: null,
@@ -49,8 +51,7 @@ const initState = {
     phone : null,
     note : null,
     maximumPerson : null ,
-    images:["http://ecx.images-amazon.com/images/I/518zSqpmd4L._SY300_.jpg",
-      "http://ecx.images-amazon.com/images/I/514Uh33v2BL._AC_UL115_.jpg"],
+    images:[],
   },
   hasLimit : false,
   cachedImages:[],
@@ -146,8 +147,9 @@ export default function reducer(state = initState, action){
           return {
             ...state,
             data : update(state.data, {
-              city : {$set : cityList[action.city]},
-              owner : {$set : action.username},
+              city : {$set : action.city ? cityList[action.city] : null},
+              owner : {$set : action.owner},
+              username : {$set : action.username},
               startDate : {$set : new Date()},
             }),
           }
@@ -192,6 +194,7 @@ export default function reducer(state = initState, action){
     case ADD_IMAGE:
       // once only one image as input
       const image = update(state.cachedImages, {$push: [action.image]})
+      console.log('after update the cachedImages are', image)
       return {
         ...state,
         cachedImages: image,
@@ -250,6 +253,7 @@ export  function onEndEdit(){
 }
 
 export function onAddImage(images){
+  console.log('in onAddImage images are', images)
   return {
     type : ADD_IMAGE,
     image : images[0],
@@ -292,7 +296,7 @@ function checkImage(images){
   return validateImage(images)
 }
 
-export function onSubmit(data, images){
+export function onSubmit(data, images, entityId, ownerId){
   const imageError = checkImage(images)
   if(imageError){
     return {
@@ -303,7 +307,7 @@ export function onSubmit(data, images){
   return {
     cached : data,
     types: [SUBMIT, SUBMIT_SUCCESS, SUBMIT_FAIL],
-    promise: (client) => client.post('./submit', generalizeParameter(data, images))
+    promise: (client) => client.post('./submit/'+ entityId, generalizeParameter(data, images))
   }
 }
 
@@ -329,10 +333,11 @@ export function onClearMessage(){
   }
 }
 
-export function onInitEntity(city, username){
+export function onInitEntity(city, ownerId, username){
   return {
     type : INIT_ENTITY,
     city : city,
+    owner : ownerId,
     username : username,
   }
 }

@@ -103,7 +103,7 @@ export default class SubmitTemplate extends Component {
               </Carousel>
             </div>
           </CardMedia>
-          <CardTitle title={entity.title} subtitle={entity.owner} />
+          <CardTitle title={entity.title} subtitle={entity.username} />
           <CardText>
             {entity.description}
           </CardText>

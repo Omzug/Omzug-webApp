@@ -16,7 +16,7 @@ export default class Home extends Component {
         <div className={styles.container}>
           <div className={styles.description}>
             <h4>{config.app.title}</h4>
-            <h5>{config.app.description}</h5>
+            <h5>{config.app.introduction}</h5>
           </div>
 
           <div className={styles.foto}>

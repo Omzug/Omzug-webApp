@@ -36,6 +36,7 @@ function checkState(getState, dispatch){
     editing: state.entity.editing,
     loadedId : state.entity.loadedId,
     feedback : state.entity.feedback,
+    entityId : state.router.params.entityId,
   }),
   {onLoad, onClear, onSubmit, onClearMessage}
 )
@@ -54,6 +55,7 @@ export default class Entity extends Component {
     cachedImages : PropTypes.array,
     loadedId : PropTypes.string,
     feedback : PropTypes.string,
+    entityId : PropTypes.string,
 
     //editStart: PropTypes.func.isRequired,
     onClear : PropTypes.func.isRequired,
@@ -63,11 +65,12 @@ export default class Entity extends Component {
   }
 
   handleSubmit = (data) => {
-    //test id property
+    // owner is included in entity
     data.images = this.props.entity.images
-    data.id = this.props.entity.id
+    // here we define a _id for update in database
+    data._id = this.props.entityId
     const images = this.props.cachedImages
-    this.props.onSubmit(data, images);
+    this.props.onSubmit(data, images, this.props.entityId);
     console.log("submit now with data:" , data)
     console.log("submit now with images:", images )
   }

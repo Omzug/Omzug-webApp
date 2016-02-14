@@ -33,6 +33,7 @@ class _ApiClient {
             request.field('query', params)
           }
           if (data) {
+            //request.field('data', data)
             console.log('data is',data)
             for(var property in data){
               if(data.hasOwnProperty(property)){

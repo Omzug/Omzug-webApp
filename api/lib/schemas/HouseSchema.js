@@ -37,6 +37,7 @@ module.exports = function(Schema, collectionName){
     startDate : {type : Date, required : true},
     title : {type : String, required : true},
     owner : {type : ObjectId, required : true},
+    username : {type : String, required : true},
 
     location : { type : String/*, validate : stringValidator*/},
     size : { type :Number , required : false},

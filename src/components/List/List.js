@@ -39,17 +39,17 @@ export default class List extends Component {
           {houses.map((house, index) => (
             <GridTile
               className={styles.tile}
-              key={house.id}
+              key={house._id}
               style={{"display" : "flex", "alignItems":"center", "justifyContent": "center"}}
               title={house.title}
-              subtitle={<span>by <b>{house.owner}</b> In <b>{house.city}</b></span>}
+              subtitle={<span>by <b>{house.username}</b> In <b>{house.city}</b></span>}
               actionIcon={<IconButton iconClassName="fa fa-hand-o-right fa-4x" iconStyle={{"color" : "white"}}/>}
             >
-              <Carousel key={house.id} decorators={Decorators} className={styles.carousel} width={"100%"}
+              <Carousel key={house._id} decorators={Decorators} className={styles.carousel} width={"100%"}
                         initialSlideHight={300} initialSlideWidth={500} slidesToShow={1}>
                 {house.images && house.images.length >= 1 && house.images.map((address, index) => (
                   <div key={index} className={styles.imageContainer}>
-                    <LinkContainer to={`/entities/${houses.length}`}>
+                    <LinkContainer to={`/entities/${house._id}`}>
                       <img key={index} src={address}/>
                     </LinkContainer>
                   </div>

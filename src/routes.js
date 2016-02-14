@@ -91,11 +91,11 @@ export default (store) => {
         <Route path="main" component={Entities}/>
         <Route path="submit" component={Submit}/>
         <Route path="admin" component={UserAdmin}/>
+        <Route path="entities/:entityId" component={Entity} onEnter={logNextState}/>
       </Route>
 
       { /* Routes */ }
       <Route path="about" component={About}/>
-      <Route path="entities/:entityId" component={Entity} onEnter={logNextState}/>
       <Route path="login" component={Login}/>
       <Route path="register" component={Register}/>
 

@@ -32,7 +32,8 @@ import DropZone from 'react-dropzone'
   form: 'house',
   //later should delete images in fields
   fields : ['city','location','roomNumber','size','price','caution','startDate','endDate',
-    'description','title','owner','email','phone', 'type','note','maximumPerson', 'images','shortTime'],
+    'description','title','owner','email','phone', 'type','note','maximumPerson', 'images',
+    'username'],
   //validate : registerValidation,
   //asyncValidate,
   //asyncBlurFields: ["email", "name"],
@@ -108,7 +109,7 @@ export default class SubmitForm extends Component {
       display:'inline'
     }
 
-    const imagesNumber = entity.images.length + cachedImages.length;
+    var imagesNumber = entity.images.length + cachedImages.length;
     return (
       <form className={styles.container} onSubmit={handleSubmit}>
         <Card className={styles.card}>
@@ -135,9 +136,9 @@ export default class SubmitForm extends Component {
               }
             </Carousel>
           </CardMedia>
-          <CardTitle subtitle={entity.owner} >
+          <CardTitle subtitle={entity.username} >
             <div className="hint--top" data-hint="标题">
-            <TextField key={201} hintText="标题" {...title}/>
+            <TextField key={201} hintText="标题" errorText={title.touched && title.error ? title.error : null} {...title}/>
             </div>
           </CardTitle>
           <CardText>
@@ -149,25 +150,25 @@ export default class SubmitForm extends Component {
 
         <List className={styles.list}>
           <ListItem key={1} className="hint--bottom" data-hint="城市" leftIcon={<FontIcon className="fa fa-map-marker"/>} >
-            <TextField key={10} hintText="城市" {...city}/>
+            <TextField key={10} hintText="城市" floatingLabelText="城市" errorText={city.touched && city.error ? city.error : null} {...city}/>
           </ListItem>
           <ListItem key={2} className="hint--top" data-hint="地址" leftIcon={<FontIcon className="fa fa-map" />}>
-            <TextField key={20} hintText="地址" {...location}/>
+            <TextField key={20} hintText="地址" errorText={location.touched && location.error ? location.error : null} {...location}/>
           </ListItem>
           <ListItem key={3} className="hint--top" data-hint="房间数" leftIcon={<FontIcon className="fa fa-codepen" />}>
-            <TextField key={30} hintText="房间数" {...roomNumber}/>
+            <TextField key={30} hintText="房间数" errorText={roomNumber.touched && roomNumber.error ? roomNumber.error : null} {...roomNumber}/>
           </ListItem>
           <ListItem key={4} className="hint--top" data-hint="面积" leftIcon={<FontIcon className="fa fa-th" />}>
-            <TextField key={40} hintText="面积" {...size}/>
+            <TextField key={40} hintText="面积" errorText={size.touched && size.error ? size.error : null} {...size}/>
           </ListItem>
           <ListItem key={5} className="hint--top" data-hint="租金" leftIcon={<FontIcon className="fa fa-euro" />}>
-            <TextField key={50} hintText="租金" {...price}/>
+            <TextField key={50} hintText="租金" errorText={price.touched && price.error ? price.error : null} {...price}/>
           </ListItem>
           <ListItem key={6} className="hint--top" data-hint="押金" leftIcon={<FontIcon className="fa fa-money" />}>
-            <TextField key={60} hintText="押金" {...caution}/>
+            <TextField key={60} hintText="押金" errorText={title.caution && title.caution ? title.error : null} {...caution}/>
           </ListItem>
           <ListItem key={7} className="hint--top" data-hint="最多人数" leftIcon={<FontIcon className="fa fa-child" />}>
-            <TextField key={70} hintText="最多人数" {...maximumPerson}/>
+            <TextField key={70} hintText="最多人数" errorText={title.maximumPerson && title.maximumPerson ? title.error : null} {...maximumPerson}/>
           </ListItem>
           <ListItem key={14} className="hint--top" data-hint="类型" leftIcon={<FontIcon className="fa fa-home" />}>
             <SelectField key={141} value={type.value} onChange={(event, value) => {
@@ -195,13 +196,13 @@ export default class SubmitForm extends Component {
 
           </ListItem >
           <ListItem key={9} className={styles.note} zDepth={2} className="hint--top" data-hint="备注">
-            <TextField key={90} hintText="备注" {...note}/>
+            <TextField key={90} hintText="备注" errorText={note.touched && note.error ? note.error : null} {...note}/>
           </ListItem>
           <ListItem key={11} className="hint--top" data-hint="邮箱" leftIcon={<FontIcon className="fa fa-envelope-o" />}>
-            <TextField key={110} hintText="邮箱" {...email}/>
+            <TextField key={110} hintText="邮箱" errorText={email.touched && email.error ? email.error : null} {...email}/>
           </ListItem>
           <ListItem key={12} className="hint--top" data-hint="手机" leftIcon={<FontIcon className="fa fa-mobile-phone" />}>
-            <TextField key={120} hintText="手机" {...phone}/>
+            <TextField key={120} hintText="手机" errorText={phone.touched && phone.error ? phone.error : null} {...phone}/>
           </ListItem>
 
           <FlatButton key={13} className={styles.editButton} onClick={handleSubmit}><span className="fa fa-pencil"/> 保存</FlatButton>

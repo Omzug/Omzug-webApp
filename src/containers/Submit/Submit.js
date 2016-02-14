@@ -15,7 +15,7 @@ import uiStyles from "../../theme/uiStyles";
 function initSubmit(getState, dispatch){
   var state = getState()
   dispatch(onClear());
-  dispatch(onInitEntity(state.entities.locationId, state.auth.user.username));
+  dispatch(onInitEntity(state.entities.locationId, state.auth.user._id, state.auth.user.username));
 }
 
 @connect(
@@ -23,6 +23,7 @@ function initSubmit(getState, dispatch){
     entity: state.entity.data,
     cachedImages : state.entity.cachedImages,
     feedback : state.entity.feedback,
+    user : state.auth.user,
   }),
   {initialize, onInitEntity, onSubmitNew, onClearMessage}
 )
@@ -38,6 +39,7 @@ export default class Submit extends Component{
     onSubmitNew : PropTypes.func.isRequired,
     onClearMessage : PropTypes.func.isRequired,
 
+    user : PropTypes.object,
     feedback : PropTypes.string,
     entity: PropTypes.object,
     cachedImages : PropTypes.array,
@@ -45,8 +47,9 @@ export default class Submit extends Component{
 
   handleSubmit = (data) => {
     data.images = this.props.entity.images
-    //TODO if this id = false, then do the create
-    data.id = false;
+    // default we don't set _id property, then do the create in database
+    data.owner = this.props.user._id
+    data.username = this.props.user.username
     const images = this.props.cachedImages
     this.props.onSubmitNew(data, images);
     console.log("submit now with data:" , data)

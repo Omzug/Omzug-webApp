@@ -3,32 +3,41 @@
  */
 
 var AWS = require('aws-sdk');
-
+var config = require('./config')
 AWS.config.update({region : 'eu-central-1'})
 
-var s3 = new AWS.S3();
+var s3 = new AWS.S3({params: {Bucket: 'omuzug'}});
 
 var getParams = function(path){
   return {
-    Bucket : "omzug",
     Key : path,
   }
 }
 
-var putParams = function(file) {
+var putParams = function(file, username) {
   return {
-    Bucket : "omzug",
     ACL:"public-read",
-    Key : "photo/" + name,
+    Key : "photo/" +username + "/" +  file.name,
     Body : file,
+    Expire : config.awsExpire,
     //ContentType : file.type,
+  }
+}
+
+var deleteParams = function(path){
+  return {
+    Key : path,
   }
 }
 
 console.log('aws endpoint is' , s3.endpoint);
 
-const upload = function(file, callback){
-  s3.putObject(putParams(file), callback);
+const deleteObject = function(path, callback){
+  s3.deleteObject(deleteParams(path), callback)
+}
+
+const upload = function(file, username, callback){
+  s3.putObject(putParams(file, username), callback);
 }
 
 const get = function(path, callback){
@@ -42,3 +51,4 @@ var callback = function(err, data){
 
 module.exports.upload = upload;
 module.exports.get = upload;
+module.exports.delete = deleteObject;
