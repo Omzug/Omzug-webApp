@@ -118,11 +118,7 @@ export default class App extends Component {
             <LinkContainer to="/register">
               <FlatButton eventKey={4}>快速注册</FlatButton>
             </LinkContainer>}
-
-            {!config.isDebug &&
-            <LinkContainer to="/entities/3">
-              <FlatButton eventKey={5}>某房屋</FlatButton>
-            </LinkContainer>}
+            
           </div>
 
           <div className={styles.right}>
