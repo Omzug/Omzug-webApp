@@ -98,7 +98,7 @@ function insert(){
   //})
 
   DI.getAllInit("house",{owner : objectId}, null, function(result){
-    console.log("get all result:", result)
+    console.log("get all result successful")
   },function(err){
     console.log("get all error", err)
   })

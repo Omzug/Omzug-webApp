@@ -13,7 +13,8 @@ import config from '../../config';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import FlatButton from 'material-ui/lib/flat-button';
 
-injectTapEventPlugin();
+//TODO maybe enable later
+//injectTapEventPlugin();
 
 //load authentication data when loaded
 function fetchData(getState, dispatch) {
@@ -118,7 +119,7 @@ export default class App extends Component {
             <LinkContainer to="/register">
               <FlatButton eventKey={4}>快速注册</FlatButton>
             </LinkContainer>}
-            
+
           </div>
 
           <div className={styles.right}>
