@@ -182,14 +182,6 @@ export default function reducer(state = initState, action){
           return {
             ...state,
             hasLimit : action.value,
-            data : action.value ?
-              update(state.data, {
-                endDate : {$set : new Date()},
-              })
-              :
-              update(state.data, {
-                endDate : {$set : null}
-              })
           }
     case ADD_IMAGE:
       // once only one image as input

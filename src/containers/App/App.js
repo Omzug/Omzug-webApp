@@ -13,8 +13,8 @@ import config from '../../config';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import FlatButton from 'material-ui/lib/flat-button';
 
-//TODO maybe enable later
-//injectTapEventPlugin();
+// it must be enabled before react 1.0 for material ui
+injectTapEventPlugin();
 
 //load authentication data when loaded
 function fetchData(getState, dispatch) {

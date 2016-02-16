@@ -57,11 +57,11 @@ export default class RegisterForm extends Component{
       handleSubmit,
       asyncValidating,
       loggingIn} = this.props;
-    const isPasswordSame = password.value && passwordRepeat.value && passwordRepeat.value === password.value;
+    var isPasswordSame = password.value && passwordRepeat.value && passwordRepeat.value === password.value;
 
     const inputStyle = uiStyles.inputStyle;
     const buttonStyle = uiStyles.buttonStyle;
-    const anyError = email.error || username.error || password.error ||passwordRepeat.error || !isPasswordSame;
+    var anyError = email.error || username.error || password.error ||passwordRepeat.error || !isPasswordSame;
 
     const getError = ()=>{
       if(passwordRepeat.touched){
@@ -102,7 +102,7 @@ export default class RegisterForm extends Component{
         </div>
       </div>
       <div className={styles.buttonGroup}>
-        <RaisedButton disabled={anyError ? "true" : loggingIn} style={buttonStyle} onClick={handleSubmit}>
+        <RaisedButton disabled={anyError ? true : loggingIn} style={buttonStyle} onClick={handleSubmit}>
           {loggingIn ?
             <span className="fa fa-spin fa-refresh"/>
             :

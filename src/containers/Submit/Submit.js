@@ -5,6 +5,7 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import Helmet from 'react-helmet';
+//it is not used yet
 import {initialize} from 'redux-form';
 import {SubmitForm} from 'components';
 import connectData from 'helpers/connectData';
@@ -57,20 +58,6 @@ export default class Submit extends Component{
     //this.props.initialize('register', {})
     //window.alert('Data submitted! ' + JSON.stringify(data));
   }
-
-  handleInitialize = () => {
-    this.props.initialize('register', {
-      email: 'heawen200@gmail.com',
-      username: "heawen200",
-      password: "123123",
-      passwordRepeat : "123123",
-    });
-  }
-
-  handleEdit = (widget) => {
-    const {editStart} = this.props; // eslint-disable-line no-shadow
-    return () => editStart(widget.id);
-  };
 
   render(){
     const {feedback} = this.props

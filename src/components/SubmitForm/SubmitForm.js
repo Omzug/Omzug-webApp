@@ -9,13 +9,13 @@ import {reduxForm} from 'redux-form';
 import {onEndEdit, onAddImage, onChangeSlide, onDeleteImage, onToggleLimit} from "redux/modules/entity";
 //import Slider from 'nuka-carousel';
 import {Carousel} from 'components';
+import submitValidation from './submitValidation'
 
-import {Paper, TextField, FontIcon, FlatButton, Card, CardActions, CardHeader, MenuItem,
-  IconButton, CardMedia, CardTitle, CardText, List, ListItem, Divider, SelectField,
+import {TextField, FontIcon, FlatButton, Card, MenuItem,
+  IconButton, CardMedia, CardTitle, CardText, List, ListItem, SelectField,
   DatePicker, Toggle} from 'material-ui';
 
 import DropZone from 'react-dropzone'
-
 
 @connect(
   state => ({
@@ -34,7 +34,7 @@ import DropZone from 'react-dropzone'
   fields : ['city','location','roomNumber','size','price','caution','startDate','endDate',
     'description','title','owner','email','phone', 'type','note','maximumPerson', 'images',
     'username'],
-  //validate : registerValidation,
+  validate : submitValidation,
   //asyncValidate,
   //asyncBlurFields: ["email", "name"],
 })
@@ -88,6 +88,15 @@ export default class SubmitForm extends Component {
       //asyncValidating
       } = this.props;
 
+    var anyError = location.error || city.error || roomNumber.error ||size.error || caution.error || startDate.error
+      || endDate.error || description.error || title.error || email.error || phone.error || type.error
+      || note.error || maximumPerson.error ;
+
+    var logError = function(){
+      console.log("error object is, ", anyError)
+    }
+
+
     var Decorators = [
       {component: React.createClass({render() {
         return (
@@ -138,6 +147,7 @@ export default class SubmitForm extends Component {
           </CardMedia>
           <CardTitle subtitle={entity.username} >
             <div className="hint--top" data-hint="标题">
+              {/* directly display the require error here since it hard to find */}
             <TextField key={201} hintText="标题" errorText={title.touched && title.error ? title.error : null} {...title}/>
             </div>
           </CardTitle>
@@ -185,7 +195,14 @@ export default class SubmitForm extends Component {
             {/*every child should have a key, or react give a stupid warnning */}
               <DatePicker key={81} autoOk={true} value={new Date(startDate.value)} hintText="开始日期"
               onChange={(event, newDate) => startDate.onChange(newDate)} formatDate={this.dateFormat}/>
-              <Toggle label="短期" toggled={hasLimit} labelPosition="right" onToggle={(event, isToggled) => {this.props.onToggleLimit(isToggled)}}/>
+              <Toggle label="短期" toggled={hasLimit} labelPosition="right" onToggle={(event, isToggled) => {
+                this.props.onToggleLimit(isToggled)
+                if(isToggled){
+                  endDate.onChange(new Date())
+                }else{
+                  endDate.onChange(null)
+                }
+              }}/>
               { hasLimit &&
                 <DatePicker key={82} autoOk={true} value={new Date(endDate.value)} hintText="结束日期"
                 onChange={(event, newDate) => endDate.onChange(newDate)} formatDate={this.dateFormat}/>
@@ -204,8 +221,8 @@ export default class SubmitForm extends Component {
           <ListItem key={12} className="hint--top" data-hint="手机" leftIcon={<FontIcon className="fa fa-mobile-phone" />}>
             <TextField key={120} hintText="手机" errorText={phone.touched && phone.error ? phone.error : null} {...phone}/>
           </ListItem>
-
-          <FlatButton key={13} className={styles.editButton} onClick={handleSubmit}><span className="fa fa-pencil"/> 保存</FlatButton>
+          <FlatButton key={15} className={styles.editButton} onClick={logError}><span className="fa fa-pencil"/> logError</FlatButton>
+          <FlatButton key={13} disabled={anyError ? true : false} className={styles.editButton} onClick={handleSubmit}><span className="fa fa-pencil"/> 保存</FlatButton>
         </List>
       </form>
     );
