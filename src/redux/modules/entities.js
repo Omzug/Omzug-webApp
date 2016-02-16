@@ -22,8 +22,6 @@ export default function reducer(state = initState, action = {}) {
         loading: true
       };
     case LOAD_SUCCESS:
-      //TODO
-      //console.log('in entites.js the action.result is', action.result)
       return {
         ...state,
         loading: false,

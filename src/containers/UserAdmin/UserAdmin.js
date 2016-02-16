@@ -9,7 +9,7 @@ import {bindActionCreators} from 'redux';
 import connectData from 'helpers/connectData';
 import {List} from "components";
 
-import {DropDownMenu, MenuItem,RaisedButton, ThemeManager, ThemeDecorator} from 'material-ui';
+import {DropDownMenu, MenuItem,RaisedButton} from 'material-ui';
 
 import myRawTheme from '../../theme/materialUI.theme';
 import cityList from '../../constant/cityList';
@@ -17,7 +17,7 @@ import cityList from '../../constant/cityList';
 function fetchDataDeferred(getState, dispatch) {
   if (!isLoaded(getState())) {
     //console.log("after load we get state:", getState().router)
-    return dispatch(onLoad());
+    return dispatch(onLoad(getState().auth.user._id));
   }
 }
 
@@ -26,6 +26,7 @@ function fetchDataDeferred(getState, dispatch) {
 
 @connect(
   state => ({
+    userId : state.auth.user._id,
     entities: state.admin.list,
     error: state.admin.error,
     loading: state.admin.loading,
@@ -41,13 +42,14 @@ export default class Entities extends Component {
     loading: PropTypes.bool,
     locationId : PropTypes.number,
     loaded :PropTypes.bool,
+    userId : PropTypes.string,
 
     onLoad: PropTypes.func.isRequired,
     onLocationChange: PropTypes.func.isRequired,
   };
 
   loadList = (event) => {
-      this.props.onLoad();
+      this.props.onLoad(this.props.userId);
   }
 
   render() {

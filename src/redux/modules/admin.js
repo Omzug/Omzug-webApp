@@ -24,7 +24,7 @@ export default function reducer(state = initState, action = {}) {
         ...state,
         loading: false,
         loaded: true,
-        list: action.result.list,
+        list: action.result.data,
         error: null
       };
     case LOAD_FAIL:
@@ -43,11 +43,11 @@ export default function reducer(state = initState, action = {}) {
   }
 }
 
-export function onLoad(){
+export function onLoad(userId){
   return {
     types: [LOAD, LOAD_SUCCESS, LOAD_FAIL],
     promise: (client) => {
-      let url ='/admin'
+      const url = '/list/user/' + userId
       return client.get(url)
     } // params not used, just shown as demonstration
   };

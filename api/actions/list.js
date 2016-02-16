@@ -2,6 +2,8 @@
  * Created by hanwencheng on 1/9/16.
  */
 import DB from '../lib/db-interface.js';
+var createId = require('../lib/model.js').createId
+
 
 export default function listHause(req, params) {
   const reqPage = req.query.page;
@@ -32,10 +34,10 @@ export default function listHause(req, params) {
     })
   }
 
-  const getUser = function(username){
-    console.log('now query user', username)
+  const getUser = function(userId){
+    console.log('now query user', userId)
     return new Promise((resolve, reject) => {
-      dbMethod('house', {owner : username}, page, function(result){
+      dbMethod('house', {owner : createId(userId)}, page, function(result){
         return resolve(result)
       }, function(err){
         return reject(err.msg)

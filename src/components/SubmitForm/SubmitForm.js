@@ -118,12 +118,15 @@ export default class SubmitForm extends Component {
       display:'inline'
     }
 
-    var imagesNumber = entity.images.length + cachedImages.length;
+    var calculateNumber = ()=> {
+      return entity.images.length + cachedImages.length
+    }
+
     return (
       <form className={styles.container} onSubmit={handleSubmit}>
         <Card className={styles.card}>
           <div className={styles.buttonContainer}>
-            { currentSlide <= imagesNumber - 1 &&
+            { currentSlide <= calculateNumber() - 1 &&
           <IconButton iconClassName="fa fa-times-circle fa-5x hint--bottom" data-hint="删除该图片" onClick={this.onDeleteButton}/>}
           </div>
           <CardMedia>
@@ -133,7 +136,7 @@ export default class SubmitForm extends Component {
                       onChange={this.props.onChangeSlide}>
               {entity.images && entity.images.length >= 1 && entity.images.map( address =><div className={styles.imageContainer}><img src={address}/></div>)}
               {cachedImages && cachedImages.length >= 1 && cachedImages.map(file => <div className={styles.imageContainer}><img src={window.URL.createObjectURL(file)}/></div>)}
-              {imagesNumber < 3 &&
+              {calculateNumber() < 3 &&
                 <div className={styles.imageContainer}>
                   <DropZone onDrop={this.onDrop}>
                     <div className={styles.inner}>
