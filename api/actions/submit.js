@@ -25,16 +25,15 @@ function deleteImage(path){
 }
 
 function processImageAddress(path){
-  //TODO
   console.log('process address is', path)
+  var paths = path.split("/")
+  var relativePath = paths[paths.length - 2] + "/" + paths[paths.length - 1]
+  console.log('we get new path is', relativePath)
+  return relativePath
 }
 
 export default function submit(req, params) {
   console.log('in api submit.js we get request is', params)
-
-  function checkImages(addressArray, fileNames) {
-
-  }
 
     //1. compare address array and the database
     //先增加后减少的情况,做判断
@@ -124,7 +123,7 @@ export default function submit(req, params) {
         return callback(null, house, files)
 
       deleteFiles.forEach(function(imageAddress){
-        deleteImage(processImageAddress(imageAddress), function(err, result){
+        aws.delete(processImageAddress(imageAddress), function(err, result){
           if(err){
             callback(err)
           }else{
@@ -221,7 +220,10 @@ export default function submit(req, params) {
           reject('submit internal error')
         }
       }else {
-        resolve(result)
+        resolve({
+          status : true,
+          data : result
+        })
       }
     })
   })

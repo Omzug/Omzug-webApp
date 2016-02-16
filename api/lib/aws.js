@@ -11,14 +11,14 @@ var s3 = new AWS.S3({params: {Bucket: 'omzug.com'}});
 
 var getParams = function(path){
   return {
-    Key : path,
+    Key : config.awsFolder + "/" + path,
   }
 }
 
 var putParams = function(file, data, username) {
   return {
     ACL:"public-read",
-    Key : "photos/" +username + "/" +  file.name,
+    Key : config.awsFolder + "/" +username + "/" +  file.name,
     Body : data,
     Expires : config.awsExpire,
     //Expires : Date.now() + config.awsExpire * 24 * 3600 * 1000 ,
@@ -28,7 +28,7 @@ var putParams = function(file, data, username) {
 
 var deleteParams = function(path){
   return {
-    Key : path,
+    Key : config.awsFolder + "/" + path,
   }
 }
 

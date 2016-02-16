@@ -72,7 +72,7 @@ export default function reducer(state = initState, action){
         ...state,
         loading: false,
         loaded: true,
-        loadedId : action.result.id,
+        loadedId : action.result._id,
         data: update(state.data, {$merge : action.result}),
         error: null
       };
@@ -107,7 +107,7 @@ export default function reducer(state = initState, action){
             submitting : false,
             //data : cachedData,
             cached : null,
-            feedback : action.result.status,
+            feedback : "更新成功",
           }
     case SUBMIT_NEW_SUCCESS:
       //only add a new createId property here
@@ -116,12 +116,12 @@ export default function reducer(state = initState, action){
             submitting :false,
             //data : action.result.data,
             cached : null,
-            feedback : "发布成功,ID是" + action.result.data.id,
+            feedback : "发布成功,ID是" + action.result.data._id,
             //this id should be a string
-            createId : action.result.data.id,
+            createId : action.result.data._id,
             loaded: true,
             loading: false,
-            loadedId: action.result.data.id,
+            loadedId: action.result.data._id,
             error : null,
           }
     case SUBMIT_FAIL:
