@@ -7,6 +7,8 @@ import {GridList, GridTile,
 import {Carousel} from 'components';
 import { LinkContainer } from 'react-router-bootstrap';
 
+var config = require('../../config');
+
 export default class List extends Component {
   static propTypes = {
     houses : PropTypes.array.isRequired
@@ -47,6 +49,21 @@ export default class List extends Component {
             >
               <Carousel key={house._id} decorators={Decorators} className={styles.carousel} width={"100%"}
                         initialSlideHight={300} initialSlideWidth={500} slidesToShow={1}>
+                { house.images.length ?
+                  house.images.map((address, index) => (
+                    <div key={index} className={styles.imageContainer}>
+                      <LinkContainer to={`/entities/${house._id}`}>
+                        <img key={index} src={address}/>
+                      </LinkContainer>
+                    </div>
+                  ))
+                  :
+                  <div key={998} className={styles.imageContainer}>
+                    <LinkContainer to={`/entities/${house._id}`}>
+                      <img key={999} src={config.iconPath}/>
+                    </LinkContainer>
+                  </div>
+                }
                 {house.images && house.images.length >= 1 && house.images.map((address, index) => (
                   <div key={index} className={styles.imageContainer}>
                     <LinkContainer to={`/entities/${house._id}`}>

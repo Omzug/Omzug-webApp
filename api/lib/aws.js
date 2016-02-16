@@ -20,7 +20,8 @@ var putParams = function(file, data, username) {
     ACL:"public-read",
     Key : "photos/" +username + "/" +  file.name,
     Body : data,
-    Expires : Date.now() + config.awsExpire * 24 * 3600 * 1000 ,
+    Expires : config.awsExpire,
+    //Expires : Date.now() + config.awsExpire * 24 * 3600 * 1000 ,
     //ContentType : file.type,
   }
 }

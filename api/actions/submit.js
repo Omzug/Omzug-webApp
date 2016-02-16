@@ -9,6 +9,7 @@ var createId = mongoModel.createId
 var fs = require('fs');
 var aws = require('../lib/aws');
 var tmpPath = require('../lib/config').tmpPath;
+var awsPrefix = require('../lib/config').awsPrefix;
 
 function upload(file, callback){
   console.log('file success upload: ', file)
@@ -68,9 +69,6 @@ export default function submit(req, params) {
 
     function parseRequest(callback) {
       form.parse(req, function (err, fields, files) {
-        //files.forEach(function(file){
-        //  console.log("file name is", file.name, file.size)
-        //})
         var filesArray = [];
         if (err) {
           callback(err)
@@ -82,11 +80,19 @@ export default function submit(req, params) {
           }
           house = Object.assign({}, fields)
           console.log('copied house object is', house)
+
           // normalize file into array
           for(var fileName in files){
             if(files.hasOwnProperty(fileName)){
               filesArray.push(files[fileName])
             }
+          }
+
+          // normalize images, only these two situation
+          if(house.images == ''){
+            house.images = []
+          }else {
+            house.images = house.images.split(',')
           }
           callback(null, house, filesArray)
         }
@@ -98,7 +104,6 @@ export default function submit(req, params) {
       if(params.length == 0)
         return callback(null, house, files)
 
-      //TODO to be test
       var houseId = createId(house._id)
       DB.get('house', {_id: houseId}, function (result) {
         result.data.images.forEach(function (imageAddress) {
@@ -109,7 +114,7 @@ export default function submit(req, params) {
         })
         callback(null, house, files)
       }, function (err) {
-        callback(err.msg)
+        callback(err)
       })
     }
 
@@ -148,7 +153,9 @@ export default function submit(req, params) {
           }else{
             console.log("here we get data is", data)
             // TODO should process it into address
-            house.images = house.images.concat(data.path)
+            const path = awsPrefix + house.username + '/' + file.name;
+            console.log('the adding images path is ', path)
+            house.images = house.images.concat(path)
             finished ++
             if(finished == files.length) {
               callback(null, house, files)
@@ -165,7 +172,6 @@ export default function submit(req, params) {
       var deleted = 0;
       files.some(function(file){
         fs.unlink(file.path, function(err){
-          //TODO check
           if(err){
             callback(err)
             return true
@@ -185,7 +191,7 @@ export default function submit(req, params) {
         // this case is new submit
         DB.save("house", house, function(result){
           console.log('insert new house in our database with:', result.data)
-          callback(null, house)
+          callback(null, result.data)
         }, function(err){
           console.log('err in insert new house in database :', err)
           callback(err)
@@ -194,7 +200,7 @@ export default function submit(req, params) {
         // this case is update existed house
         DB.update('house', {_id : house._id}, house, function(result){
           console.log('update house in our database with: ', result.data)
-          callback(null, house)
+          callback(null, result.data)
         }, function(err){
           console.log('err in update house in database : ', err)
           callback(err)
@@ -203,13 +209,20 @@ export default function submit(req, params) {
 
     }
 
-    async.waterfall(steps, function(err, house){
-      console.log("err and house is", err, house)
-      //if(err){
-      //  reject(err)
-      //}else {
-      //  resolve(house)
-      //}
+    async.waterfall(steps, function(err, result){
+      console.log("err and house is", err, result)
+      if(err){
+        if(err.msg) {
+          reject(err.msg)
+        }else if(typeof err == "string"){
+          reject(err)
+        }else{
+          console.log("we got error object: " , err)
+          reject('submit internal error')
+        }
+      }else {
+        resolve(result)
+      }
     })
   })
 

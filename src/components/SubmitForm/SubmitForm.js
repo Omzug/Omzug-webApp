@@ -148,7 +148,7 @@ export default class SubmitForm extends Component {
           <CardTitle subtitle={entity.username} >
             <div className="hint--top" data-hint="标题">
               {/* directly display the require error here since it hard to find */}
-            <TextField key={201} hintText="标题" errorText={title.touched && title.error ? title.error : null} {...title}/>
+            <TextField key={201} hintText="标题" errorText={title.error ? title.error : null} {...title}/>
             </div>
           </CardTitle>
           <CardText>

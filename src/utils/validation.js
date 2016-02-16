@@ -25,20 +25,20 @@ export function minLength(min) {
 
 export function between(min, max){
   return value => {
-    if(value < min || value > max){
+    if(!isEmpty(value) && (value < min || value > max)){
       return `Should between ${min} and ${max}`;
     }
   }
 }
 
 export function numberAndLetter(value){
-  if(!/^[a-zA-Z0-9]+$/.test(value)){
+  if(!isEmpty(value) && !/^[a-zA-Z0-9]+$/.test(value)){
     return `Must only contain number and letters`
   }
 }
 
 export function numeric(value){
-  if(!/^[0-9]+$/.test(value)) {
+  if(!isEmpty(value) && !/^[0-9]+$/.test(value)) {
     return `Should be Numeric, only numbers here`
   }
 }
