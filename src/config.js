@@ -19,9 +19,9 @@ module.exports = Object.assign({
   iconPath : 'https://s3.eu-central-1.amazonaws.com/omzug.com/favicon/apple-icon.png',
   noImagePath : 'https://s3.eu-central-1.amazonaws.com/omzug.com/favicon/no-image.jpg',
   app: {
-    title: 'Omzug',
+    title: 'Omzug',//head changeable
     description: '找到心仪的家',
-    introduction: '请登录以开始',
+    introduction: '"撑起我们葡萄枝嫩叶般的家。"',
     head: {
       titleTemplate: 'Omzug : %s',
       meta: [

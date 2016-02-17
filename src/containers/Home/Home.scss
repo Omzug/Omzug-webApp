@@ -12,7 +12,12 @@
     .description {
       width:20%;
       flex-grow: 1;
-      padding: 10px 30px 80px 30px;
+      padding: 50px 30px 250px 30px;
+      margin-left: 130px;
+      text-align: center;
+      .introduction{
+        margin-top: 20px;
+      }
       .humility {
         color: $humility;
         a {

@@ -14,6 +14,7 @@ import config from '../../config';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import FlatButton from 'material-ui/lib/flat-button';
 import cityList from '../../constant/cityList';
+import uiStyles from '../../theme/uiStyles';
 
 // it must be enabled before react 1.0 for material ui
 injectTapEventPlugin();
@@ -104,9 +105,9 @@ export default class App extends Component {
                 <div className={styles.headerSchrift}>
                   {config.app.title}
                 </div>
-                <div className={styles.nebenSchrift}>
+                {/*<div className={styles.nebenSchrift}>
                   {config.app.description}
-                </div>
+                </div>*/}
               </div>
             </LinkContainer>
             { !config.isDebug &&
@@ -120,35 +121,42 @@ export default class App extends Component {
               <FlatButton eventKey={2}>登陆</FlatButton>
             </LinkContainer>}
 
-            {user &&
-            <LinkContainer to="/logout">
-              <FlatButton eventKey={3} onClick={this.handleLogout}>登出</FlatButton>
-            </LinkContainer>
-            }
+            {/*{user &&
+             <LinkContainer to="/logout">
+             <FlatButton eventKey={3} onClick={this.handleLogout}>登出</FlatButton>
+             </LinkContainer>
+             } */}
+
 
             {!user &&
             <LinkContainer to="/register">
-              <FlatButton eventKey={4}>快速注册</FlatButton>
+              <FlatButton style={uiStyles.registerButton} labelStyle={uiStyles.labelStyle} eventKey={4} label="注册"></FlatButton>
             </LinkContainer>}
 
           </div>
 
-          <div className={styles.right}>
+          <div className={ user ? styles.right : styles.right + " " + styles.noUserRight}>
             {user &&
             <div><span className={rightLi}>您好 <strong className={styles.username}>{user.username}</strong></span></div>}
             {user &&
             <LinkContainer to="/admin">
-              <FlatButton eventKey={6}><span className={rightLi}><i className="fa fa-truck fa-lg"/>我的出租</span></FlatButton>
+              <FlatButton eventKey={3}><span className={rightLi}><i className="fa fa-truck fa-lg"/>我的出租</span></FlatButton>
             </LinkContainer>
             }
             {user &&
             <LinkContainer to="/submit">
-              <FlatButton eventKey={7}><span className={rightLi}><i className="fa fa-pencil fa-lg"/>发布房屋</span></FlatButton>
+              <FlatButton eventKey={6}><span className={rightLi}><i className="fa fa-pencil fa-lg"/>发布房屋</span></FlatButton>
             </LinkContainer>
             }
             <LinkContainer to="/about">
-              <FlatButton eventKey={8}><span className={rightLi}><i className="fa fa-child fa-lg" />关于我们</span></FlatButton>
+              <FlatButton className={styles.aboutUs} eventKey={7}><span className={rightLi}><i className="fa fa-child fa-lg"/>关于我们</span></FlatButton>
             </LinkContainer>
+            {user &&
+            <LinkContainer to="/logout">
+              <FlatButton eventKey={8} onClick={this.handleLogout}><span className={rightLi}><i className="fa fa-sign-out fa-lg" /> 登出</span></FlatButton>
+            </LinkContainer>
+            }
+
           </div>
         </div>
 
@@ -156,9 +164,12 @@ export default class App extends Component {
           {this.props.children}
         </div>
 
-        <div className="well text-center">
-          Have questions? Ask for help <a href="https://github.com/hanwencheng" target="_blank">
-          on Github</a>
+        <div className={styles.bottomText}>
+          <p>
+            Please feel free to give us some <a href="mailto: softlipaschara@gmail.com">Feedback</a>.<br />
+
+        All rights reserved &copy; 2016 Omzug
+          </p>
         </div>
       </div>
     );

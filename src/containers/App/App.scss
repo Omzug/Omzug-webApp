@@ -5,7 +5,7 @@
   .navbar{
     $size:60px;
     background-color: #fff;
-    height: $size;
+    height: 60px;
     width: 100%;
     position: fixed;
     z-index: 6;
@@ -20,16 +20,22 @@
       justify-content: flex-start;
       height:$size;
       div{
-        padding: 0 15px;
+        padding: 0 5px;
         font-size: large;
         height:$size;
         text-align: center;
         cursor:pointer;
-        line-height: $size;;
+        line-height: $size;
+         .register{
+           font-size: 30px;
+
+         }
       }
       .logo{
         img{
-          height:50px;
+          height:45px;
+          font-weight: bold;
+          padding-left: 10px;
         }
       }
       .title{
@@ -37,13 +43,15 @@
         flex-direction: column;
         height: $size;
         justify-content: center;
+        margin-bottom: 10px;
+        margin-top: 5px;
         .headerSchrift{
           height: 35px;
           line-height: 35px;
           font-size: 25px;
         }
         .nebenSchrift{
-          color: $lightBlack;
+          color: black;
           line-height: 16px;
           height:16px;
           font-size: 14px;
@@ -65,8 +73,11 @@
         margin : 0 5px;
       }
       .username{
-        color: $blue500;
+        color: cadetblue;
       }
+    }
+    .noUserRight{
+      padding-right : 20px;
     }
   }
   .brand {
@@ -90,4 +101,19 @@
 
 .appContent {
     margin: 50px 0; // for fixed navbar
+}
+
+.bottomText{
+  font-family: "Avenir Next", Helvetica, Arial, sans-serif;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin-top: 150px;
+  text-align: center;
+  font-size: 11px;
+}
+
+.aboutUs{
+  padding-right: 40px;
+
 }
