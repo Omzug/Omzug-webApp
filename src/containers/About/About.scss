@@ -1,0 +1,28 @@
+@import "../../theme/myHover.scss";
+
+.text{
+  margin-top: 70px;
+  margin-bottom: 80px;
+  line-height: 1.9em;
+  a{
+    &:hover{
+      color:steelblue;
+    }
+    &:visited{
+      color:steelblue;
+    }
+    &:active{
+      color:darkslategrey;
+    }
+  }
+}
+
+
+.container{
+  display: flex;
+  padding : 0 20px;
+  flex-direction: row;
+  justify-content: center;
+  margin-top: 130px;
+  text-align: left;
+}

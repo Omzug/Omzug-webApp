@@ -12,19 +12,23 @@ export default class About extends Component {
   render() {
     const {showKitten} = this.state;
     const kitten = require('./kitten.jpg');
+    const styles = require('./About.scss');
     return (
-      <div className="container">
-        <h1>联系我们</h1>
+      <div className={styles.container}>
+        <h1></h1>
         <Helmet title="About Us"/>
 
-        <p>
-          Delocate由来自斯图加特大学和柏林白湖艺术学院的学生程翰文和杨鑫玥于2016年在德国创立.
-          我们想为在德国留学的中国学生提供一个美观方便的租房平台.
-        </p>
-        <p>
-          Delocate is a website created in 2016 by Hanwen Cheng from Uni Stuttgart
-          and Xinyue Yang from Kunsthochschule Berlin-Weissensee. It aims to provide a renting platform for chinese students in Germany.
-        </p>
+        <div className={styles.text}>
+          <p>
+          Omzug由来自斯图加特大学和柏林白湖艺术学院的<br />学生<a href="https://github.com/hanwencheng">程翰文</a>
+          和<a href="http://janeschara.tumblr.com">杨鑫玥</a>于2016年在德国创立。
+          <br />我们想为在德国留学的中国学生提供一个美观方便的租房平台。<br /><br />
+          Omzug is a website created in 2016 by <a href="https://github.com/hanwencheng">Hanwen Cheng </a>
+             from Uni Stuttgart<br />
+          and <a href="http://janeschara.tumblr.com">Xinyue Yang</a> from Kunsthochschule Berlin-Weissensee. <br />
+          It aims to provide a renting platform for chinese students in Germany.
+          </p>
+        </div>
 
         {/*
         <h3>Images</h3>
