@@ -185,11 +185,11 @@ export default function reducer(state = initState, action){
           }
     case ADD_IMAGE:
       // once only one image as input
-      const image = update(state.cachedImages, {$push: [action.image]})
-      console.log('after update the cachedImages are', image)
+      const images = update(state.cachedImages, {$push: [action.image]})
+      console.log('after update the cachedImages are', images)
       return {
         ...state,
-        cachedImages: image,
+        cachedImages: images,
       }
     case DELETE_IMAGE:
       // notice action.id is start from 0
@@ -244,11 +244,11 @@ export  function onEndEdit(){
   }
 }
 
-export function onAddImage(images){
-  console.log('in onAddImage images are', images)
+export function onAddImage(image){
+  console.log('in onAddImage images are', image)
   return {
     type : ADD_IMAGE,
-    image : images[0],
+    image : image,
   }
 }
 

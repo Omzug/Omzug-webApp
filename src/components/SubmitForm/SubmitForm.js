@@ -65,7 +65,10 @@ export default class SubmitForm extends Component {
   }
 
   onDrop = (file) => {
-    console.log('file is', file)
+    if(Array.isArray(file)){
+      console.log("files are array, we use the first element", file)
+      file = file[0];
+    }
     this.props.onAddImage(file);
   }
 

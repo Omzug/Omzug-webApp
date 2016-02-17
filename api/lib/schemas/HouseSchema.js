@@ -6,7 +6,7 @@ var validate = require('mongoose-validator');
 //TODO this validator does not function
 var stringValidator = {
   validator : function(value){
-    return /d{6,1024}/.test(value)
+    return typeof value == "string" && value.length >= 6
   },
   message : ' {VALUE} should be at least 6 character '
 }

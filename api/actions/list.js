@@ -37,7 +37,7 @@ export default function listHause(req, params) {
   const getUser = function(userId){
     console.log('now query user', userId)
     return new Promise((resolve, reject) => {
-      dbMethod('house', {owner : createId(userId)}, page, function(result){
+      dbMethod('house', {owner : userId}, page, function(result){
         return resolve(result)
       }, function(err){
         return reject(err.msg)

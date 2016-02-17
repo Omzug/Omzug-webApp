@@ -50,9 +50,7 @@ export default function submit(req, params) {
   form.keepExtensions = true;
 
   return new Promise((resolve, reject) => {
-    //images.forEach(function(file){
-    //  console.log('file name and size are', file.name, file.size)
-    //})
+
     var house;
     var deleteFiles = [];
     var addFiles = [];

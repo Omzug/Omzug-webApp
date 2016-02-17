@@ -49,12 +49,13 @@ export default class Entities extends Component {
   };
 
   loadList = (event) => {
+      event.preventDefault();
       this.props.onLoad(this.props.userId);
   }
 
   render() {
     const styles = require('./UserAdmin.scss');
-    const {loaded, error, loading} = this.props;
+    const {loaded, error, loading, onLoad} = this.props;
     const houses = this.props.entities;
 
     let refreshClassName = 'fa fa-refresh';

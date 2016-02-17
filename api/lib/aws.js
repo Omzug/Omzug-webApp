@@ -26,16 +26,16 @@ var putParams = function(file, data, username) {
   }
 }
 
-var deleteParams = function(path){
+var deleteParams = function(username, filename){
   return {
-    Key : config.awsFolder + "/" + path,
+    Key : config.awsFolder + "/" +username + "/" +  filename,
   }
 }
 
 console.log('aws endpoint is' , s3.endpoint);
 
-const deleteObject = function(path, callback){
-  s3.deleteObject(deleteParams(path), callback)
+const deleteObject = function(username, filename, callback){
+  s3.deleteObject(deleteParams(username, filename), callback)
 }
 
 const upload = function(file, username, callback){
