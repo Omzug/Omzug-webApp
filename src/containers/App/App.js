@@ -83,7 +83,7 @@ export default class App extends Component {
           <div className={styles.left}>
             <LinkContainer to="/">
               <div className={styles.logo}>
-                  <img src={require('../../../static/favicon.svg')}/>
+                  <img className={styles.hvrWobbleSkew} src={require('../../../static/favicon.svg')}/>
               </div>
             </LinkContainer>
 
@@ -118,7 +118,7 @@ export default class App extends Component {
             <LinkContainer to="/register">
               <FlatButton eventKey={4}>快速注册</FlatButton>
             </LinkContainer>}
-            
+
           </div>
 
           <div className={styles.right}>
