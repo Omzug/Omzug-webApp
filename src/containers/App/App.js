@@ -95,7 +95,7 @@ export default class App extends Component {
           <div className={styles.left}>
             <LinkContainer to="/">
               <div className={styles.logo}>
-                  <img src={require('../../../static/favicon.svg')}/>
+                  <img className={styles.hvrWobbleSkew} src={require('../../../static/favicon.svg')}/>
               </div>
             </LinkContainer>
 
