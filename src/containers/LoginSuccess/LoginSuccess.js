@@ -16,12 +16,13 @@ class LoginSuccess extends Component {
 
   render() {
     const {user, logout} = this.props;
+    const styles = require('./LoginSuccess.scss');
     return (user &&
-      <div className="container">
+      <div className={styles.container}>
         <h1>Login Success</h1>
 
-        <div>
-          <p>Welcome, {user.username}. You have just successfully logged in, How exciting it is!
+        <div className={styles.greeting}>
+          <p>Hello,{user.username}! 欢迎来到Omzug! You have just successfully logged in, How exciting it is!
           </p>
 
           <p>you have the following information here: </p>
