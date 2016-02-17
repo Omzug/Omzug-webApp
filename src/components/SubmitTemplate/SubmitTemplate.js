@@ -7,24 +7,9 @@ import {connect} from 'react-redux';
 
 import {onContactOpen, onContactClose, onStartEdit} from "redux/modules/entity";
 
-import FlatButton from 'material-ui/lib/flat-button';
 import {Carousel} from 'components';
-
-import FontIcon from 'material-ui/lib/font-icon';
-
-import Paper from 'material-ui/lib/paper';
-import Dialog from 'material-ui/lib/dialog';
-
-import Card from 'material-ui/lib/card/card';
-import CardActions from 'material-ui/lib/card/card-actions';
-import CardHeader from 'material-ui/lib/card/card-header';
-import CardMedia from 'material-ui/lib/card/card-media';
-import CardTitle from 'material-ui/lib/card/card-title';
-import CardText from 'material-ui/lib/card/card-text';
-
-import List from 'material-ui/lib/lists/list';
-import ListItem from 'material-ui/lib/lists/list-item';
-import Divider from 'material-ui/lib/divider';
+import {RaisedButton, FlatButton, FontIcon, Paper, Dialog, Card, CardActions,
+  CardHeader, CardMedia, CardTitle, CardText, List, ListItem, Divider} from 'material-ui'
 
 var config = require('../../config');
 
@@ -163,7 +148,7 @@ export default class SubmitTemplate extends Component {
           }
 
 
-          <FlatButton key={12} className={styles.editButton} onClick={this.props.onStartEdit}><span className="fa fa-pencil"/> 编辑</FlatButton>
+          <RaisedButton key={12} className={styles.editButton} onClick={this.props.onStartEdit}><span className="fa fa-pencil"/> 编辑</RaisedButton>
         </List>
       </div>
     );
