@@ -47,7 +47,8 @@ export default class Entities extends Component {
   };
 
   loadCity = (event) => {
-    if(locationId && locationId <= cityList.length) {
+    event.preventDefault()
+    if(this.props.locationId && this.props.locationId <= cityList.length) {
       this.props.getList(cityList[locationId].toLowerCase());
     }else{
       this.props.getList();

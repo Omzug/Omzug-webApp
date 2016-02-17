@@ -8,6 +8,8 @@ const LOAD_FAIL = 'Nevermind/entityList/LOAD_FAIL';
 const CLEAR = 'Nevermind/entityList/CLEAR'
 const CHANGE_LOCATION = "Nevermind/entityList/CHANGE_LOCATION"
 
+var update = require('react-addons-update');
+
 const initState = {
   list :[],
   locationId : 0,
@@ -22,8 +24,6 @@ export default function reducer(state = initState, action = {}) {
         loading: true
       };
     case LOAD_SUCCESS:
-      //TODO
-      //console.log('in entites.js the action.result is', action.result)
       return {
         ...state,
         loading: false,

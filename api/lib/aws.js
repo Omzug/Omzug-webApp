@@ -5,39 +5,44 @@
 var AWS = require('aws-sdk');
 var config = require('./config')
 AWS.config.update({region : 'eu-central-1'})
+var fs = require('fs')
 
-var s3 = new AWS.S3({params: {Bucket: 'omuzug'}});
+var s3 = new AWS.S3({params: {Bucket: 'omzug.com'}});
 
 var getParams = function(path){
   return {
-    Key : path,
+    Key : config.awsFolder + "/" + path,
   }
 }
 
-var putParams = function(file, username) {
+var putParams = function(file, data, username) {
   return {
     ACL:"public-read",
-    Key : "photo/" +username + "/" +  file.name,
-    Body : file,
-    Expire : config.awsExpire,
+    Key : config.awsFolder + "/" +username + "/" +  file.name,
+    Body : data,
+    Expires : config.awsExpire,
+    //Expires : Date.now() + config.awsExpire * 24 * 3600 * 1000 ,
     //ContentType : file.type,
   }
 }
 
-var deleteParams = function(path){
+var deleteParams = function(username, filename){
   return {
-    Key : path,
+    Key : config.awsFolder + "/" +username + "/" +  filename,
   }
 }
 
 console.log('aws endpoint is' , s3.endpoint);
 
-const deleteObject = function(path, callback){
-  s3.deleteObject(deleteParams(path), callback)
+const deleteObject = function(username, filename, callback){
+  s3.deleteObject(deleteParams(username, filename), callback)
 }
 
 const upload = function(file, username, callback){
-  s3.putObject(putParams(file, username), callback);
+  fs.readFile(file.path, (err, data) => {
+    if (err) callback(err);
+    s3.putObject(putParams(file, data, username), callback);
+  })
 }
 
 const get = function(path, callback){

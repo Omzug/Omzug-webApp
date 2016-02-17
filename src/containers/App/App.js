@@ -6,13 +6,16 @@ import { Navbar, Nav, div } from 'react-bootstrap';
 import Helmet from 'react-helmet';
 import { isLoaded as isInfoLoaded, load as loadInfo } from 'redux/modules/info';
 import { isLoaded as isAuthLoaded, load as loadAuth, logout, clearLoginError } from 'redux/modules/auth';
+import { load as getList} from 'redux/modules/entities'
 //import { InfoBar } from 'components';
 import { pushState } from 'redux-router';
 import connectData from 'helpers/connectData';
 import config from '../../config';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import FlatButton from 'material-ui/lib/flat-button';
+import cityList from '../../constant/cityList';
 
+// it must be enabled before react 1.0 for material ui
 injectTapEventPlugin();
 
 //load authentication data when loaded
@@ -32,17 +35,20 @@ function fetchData(getState, dispatch) {
   state => ({
     user: state.auth.user,
     createId : state.entity.createId,
+    locationId : state.entities.locationId,
   }),
-  {logout, clearLoginError, pushState})
+  {logout, clearLoginError, pushState, getList})
 export default class App extends Component {
   static propTypes = {
     children: PropTypes.object.isRequired,
     user: PropTypes.object,
     createId : PropTypes.string,
+    locationId : PropTypes.number,
 
     logout: PropTypes.func.isRequired,
     pushState: PropTypes.func.isRequired,
     clearLoginError: PropTypes.func.isRequired,
+    getList : PropTypes.func.isRequired,
   };
 
   static contextTypes = {
@@ -62,6 +68,12 @@ export default class App extends Component {
 
     if(!this.props.createId && nextProps.createId){
       this.props.pushState(null, '/entities/' + nextProps.createId)
+      // refresh the main list
+      if(this.props.locationId && this.props.locationId <= cityList.length) {
+        this.props.getList(cityList[locationId].toLowerCase());
+      }else{
+        this.props.getList();
+      }
     }
   }
 

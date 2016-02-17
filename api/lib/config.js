@@ -9,7 +9,9 @@ module.exports = {
   userCollectionName : 'user',
   houseCollectionName : 'house',
   pageSize : 18,
+  awsFolder : "photos",
   awsExpire : 60,
+  awsPrefix : 'https://s3.eu-central-1.amazonaws.com/omzug.com/photos/',
   tmpPath : './tmp',
 
   errors : {

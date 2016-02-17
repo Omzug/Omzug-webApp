@@ -72,7 +72,7 @@ export default function reducer(state = initState, action){
         ...state,
         loading: false,
         loaded: true,
-        loadedId : action.result.id,
+        loadedId : action.result._id,
         data: update(state.data, {$merge : action.result}),
         error: null
       };
@@ -107,7 +107,7 @@ export default function reducer(state = initState, action){
             submitting : false,
             //data : cachedData,
             cached : null,
-            feedback : action.result.status,
+            feedback : "更新成功",
           }
     case SUBMIT_NEW_SUCCESS:
       //only add a new createId property here
@@ -116,12 +116,12 @@ export default function reducer(state = initState, action){
             submitting :false,
             //data : action.result.data,
             cached : null,
-            feedback : "发布成功,ID是" + action.result.data.id,
+            feedback : "发布成功,ID是" + action.result.data._id,
             //this id should be a string
-            createId : action.result.data.id,
+            createId : action.result.data._id,
             loaded: true,
             loading: false,
-            loadedId: action.result.data.id,
+            loadedId: action.result.data._id,
             error : null,
           }
     case SUBMIT_FAIL:
@@ -182,22 +182,14 @@ export default function reducer(state = initState, action){
           return {
             ...state,
             hasLimit : action.value,
-            data : action.value ?
-              update(state.data, {
-                endDate : {$set : new Date()},
-              })
-              :
-              update(state.data, {
-                endDate : {$set : null}
-              })
           }
     case ADD_IMAGE:
       // once only one image as input
-      const image = update(state.cachedImages, {$push: [action.image]})
-      console.log('after update the cachedImages are', image)
+      const images = update(state.cachedImages, {$push: [action.image]})
+      console.log('after update the cachedImages are', images)
       return {
         ...state,
-        cachedImages: image,
+        cachedImages: images,
       }
     case DELETE_IMAGE:
       // notice action.id is start from 0
@@ -252,11 +244,11 @@ export  function onEndEdit(){
   }
 }
 
-export function onAddImage(images){
-  console.log('in onAddImage images are', images)
+export function onAddImage(image){
+  console.log('in onAddImage images are', image)
   return {
     type : ADD_IMAGE,
-    image : images[0],
+    image : image,
   }
 }
 

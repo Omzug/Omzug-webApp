@@ -9,6 +9,7 @@ var createId = mongoModel.createId
 var fs = require('fs');
 var aws = require('../lib/aws');
 var tmpPath = require('../lib/config').tmpPath;
+var awsPrefix = require('../lib/config').awsPrefix;
 
 function upload(file, callback){
   console.log('file success upload: ', file)
@@ -24,16 +25,15 @@ function deleteImage(path){
 }
 
 function processImageAddress(path){
-  //TODO
   console.log('process address is', path)
+  var paths = path.split("/")
+  var relativePath = paths[paths.length - 2] + "/" + paths[paths.length - 1]
+  console.log('we get new path is', relativePath)
+  return relativePath
 }
 
 export default function submit(req, params) {
   console.log('in api submit.js we get request is', params)
-
-  function checkImages(addressArray, fileNames) {
-
-  }
 
     //1. compare address array and the database
     //先增加后减少的情况,做判断
@@ -49,14 +49,8 @@ export default function submit(req, params) {
   form.uploadDir = tmpPath;
   form.keepExtensions = true;
 
-  form.on('file', function(name, file) {
-
-  });
-
   return new Promise((resolve, reject) => {
-    //images.forEach(function(file){
-    //  console.log('file name and size are', file.name, file.size)
-    //})
+
     var house;
     var deleteFiles = [];
     var addFiles = [];
@@ -72,21 +66,30 @@ export default function submit(req, params) {
 
     function parseRequest(callback) {
       form.parse(req, function (err, fields, files) {
-        //files.forEach(function(file){
-        //  console.log("file name is", file.name, file.size)
-        //})
         var filesArray = [];
         if (err) {
           callback(err)
         } else {
           console.log("files are ", files)
+          for(var item in fields){
+            if(fields.hasOwnProperty(item) && fields[item] == "null")
+              delete fields[item];
+          }
           house = Object.assign({}, fields)
           console.log('copied house object is', house)
+
           // normalize file into array
           for(var fileName in files){
             if(files.hasOwnProperty(fileName)){
               filesArray.push(files[fileName])
             }
+          }
+
+          // normalize images, only these two situation
+          if(house.images == ''){
+            house.images = []
+          }else {
+            house.images = house.images.split(',')
           }
           callback(null, house, filesArray)
         }
@@ -98,7 +101,6 @@ export default function submit(req, params) {
       if(params.length == 0)
         return callback(null, house, files)
 
-      //TODO to be test
       var houseId = createId(house._id)
       DB.get('house', {_id: houseId}, function (result) {
         result.data.images.forEach(function (imageAddress) {
@@ -109,7 +111,7 @@ export default function submit(req, params) {
         })
         callback(null, house, files)
       }, function (err) {
-        callback(err.msg)
+        callback(err)
       })
     }
 
@@ -119,7 +121,7 @@ export default function submit(req, params) {
         return callback(null, house, files)
 
       deleteFiles.forEach(function(imageAddress){
-        deleteImage(processImageAddress(imageAddress), function(err, result){
+        aws.delete(processImageAddress(imageAddress), function(err, result){
           if(err){
             callback(err)
           }else{
@@ -138,19 +140,22 @@ export default function submit(req, params) {
       }
       var finished = 0
 
-      files.forEach(function(file){
-        console.log('start upload with file ', file)
+      files.some(function(file){
+        console.log('start upload with file ', file.name)
         aws.upload(file, house.username, function (err, data) {
           if (err) {
             console.log('we get error', err)
-            return callback(err)
+            callback(err)
+            return true
           }else{
             console.log("here we get data is", data)
             // TODO should process it into address
-            house.images = house.images.concat(data.path)
+            const path = awsPrefix + house.username + '/' + file.name;
+            console.log('the adding images path is ', path)
+            house.images = house.images.concat(path)
             finished ++
             if(finished == files.length) {
-              callback(null, house)
+              callback(null, house, files)
             }
           }
         })
@@ -159,31 +164,65 @@ export default function submit(req, params) {
 
     function deleteLocalTemp(house, files, callback){
       if(files.length == 0){
-        return callback(house)
+        return callback(null, house)
       }
-      fs.unlink(file.path, function(arg1, arg2){
-        console.log('arg1 is', arg1, 'arg2 is', arg2)
+      var deleted = 0;
+      files.some(function(file){
+        fs.unlink(file.path, function(err){
+          if(err){
+            callback(err)
+            return true
+          }
+          console.log('successful delete file', file.name)
+          deleted++
+          if(deleted == files.length){
+            callback(null, house)
+          }
+        })
       })
     }
 
 
     function updateDatabase(house, callback) {
-      DB.update('house', house, function(result){
-        console.log('finally result is', result.data)
-        callback(null, house)
-      }, function(err){
-        console.log('finally err is', err)
-        callback(err)
-      })
+      if(params.length == 0){
+        // this case is new submit
+        DB.save("house", house, function(result){
+          console.log('insert new house in our database with:', result.data)
+          callback(null, result.data)
+        }, function(err){
+          console.log('err in insert new house in database :', err)
+          callback(err)
+        })
+      }else{
+        // this case is update existed house
+        DB.update('house', {_id : house._id}, house, function(result){
+          console.log('update house in our database with: ', result.data)
+          callback(null, result.data)
+        }, function(err){
+          console.log('err in update house in database : ', err)
+          callback(err)
+        })
+      }
+
     }
 
-    async.waterfall(steps, function(err, house){
-      console.log("err and house is", err, house)
-      //if(err){
-      //  reject(err)
-      //}else {
-      //  resolve(house)
-      //}
+    async.waterfall(steps, function(err, result){
+      console.log("err and house is", err, result)
+      if(err){
+        if(err.msg) {
+          reject(err.msg)
+        }else if(typeof err == "string"){
+          reject(err)
+        }else{
+          console.log("we got error object: " , err)
+          reject('submit internal error')
+        }
+      }else {
+        resolve({
+          status : true,
+          data : result
+        })
+      }
     })
   })
 

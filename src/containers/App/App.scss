@@ -29,14 +29,14 @@
       }
       .logo{
         img{
-          height:$size;
+          height:50px;
         }
       }
       .title{
         display: flex;
         flex-direction: column;
         height: $size;
-        justify-content: flex-end;
+        justify-content: center;
         .headerSchrift{
           height: 35px;
           line-height: 35px;
