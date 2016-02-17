@@ -25,7 +25,12 @@
     "spaced-comment":0,
     "eol-last" : 0,
     "space-after-keywords" : 0,
-    "no-multi-spaces" : 0
+    "no-multi-spaces" : 0,
+    "new-cap" : 0,
+    "padded-blocks" : 0,
+    "no-trailing-spaces" : 0,
+    "space-infix-ops" : 0,
+    "comma-spacing" : 0
   },
   "plugins": [
     "react", "import"

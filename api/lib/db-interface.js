@@ -4,9 +4,11 @@
 var mongoModel = require('./model.js')
 var House = mongoModel.House
 var User = mongoModel.User
+var createId = mongoModel.createId
 const config = require('./config.js')
 const logger = require('./logger.js').logger
 const async = require('async')
+const aws = require('./aws')
 
 const houseCollectionName = config.houseCollectionName;
 const userCollectionName = config.userCollectionName;
@@ -52,7 +54,57 @@ DI.init = function () {
   //setInterval(self.intervalSaveTxs, batchInsertInterval);
 
   this.initialized = true;
+  insert();
 };
+
+function insert(){
+  var objectId = createId("56a2a61b6dcc58c80d18bec5");
+  var house1 = new House({
+    id : 12321,
+    city: "stuttgart",
+    owner: objectId,
+    startDate : new Date(),
+    type : 1,
+    title : "i got an idea",
+    price : 860,
+
+    images : [
+      "http://media.zenfs.com/en-US/video/video.pd2upload.com/video.yahoofinance.com@fc01f40d-8f4e-3cbc-9d8f-a7b9e79d95fd_FULL.jpg",
+      "http://g-ecx.images-amazon.com/images/G/01/img15/pet-products/small-tiles/23695_pets_vertical_store_dogs_small_tile_8._CB312176604_.jpg",
+    ]
+  })
+  var house2 = new House({
+    id : 12333,
+      city: "berlin",
+      type : 0,
+      owner: objectId,
+      title : "anyway it is a bad idea",
+      price : 600,
+      startDate : new Date(),
+
+      images:[
+      "http://media4.popsugar-assets.com/files/2014/08/08/878/n/1922507/caef16ec354ca23b_thumb_temp_cover_file32304521407524949.xxxlarge/i/Funny-Cat-GIFs.jpg",
+    ]
+  })
+
+  //TODO
+  console.log("test the length with string validator")
+    console.log(/d{6,1024}/.test("iamfi"),/d{6,1024}/.test("iamfine"), /d{6,1024}/.test("iamfin"))
+  //house1.save(function(err, result){
+  //  console.log('house 1 saved success', result, err)
+  //})
+  //house2.save(function(err, result){
+  //  console.log('house 2 saved success', result, err)
+  //})
+
+  DI.getAllInit("house",{owner : objectId}, null, function(result){
+    console.log("get all result:", result)
+  },function(err){
+    console.log("get all error", err)
+  })
+
+
+}
 
 function test(){
   var testUser = new User({
@@ -178,14 +230,100 @@ DI.get = function(type, query, resolve, reject){
 }
 
 /**
+ * Error Code
+ * 0 : internal error
+ * @param type
+ * @param query
+ * @param page which will not be used, just to align the method
+ * @param resolve
+ * @param reject
+ */
+DI.getAllInit = function(type, query, page , resolve, reject){
+  let steps = [
+    function(callback){
+      findSchema(type, callback)
+    },
+    function(schema, callback) {
+      var queryObject = schema.find(query);
+      queryObject.count(function (err, count) {
+        if (err) {
+          callback({type: 0, msg: LOGTITLE + Errors.DataBaseFailed + err})
+        }
+        callback(null, queryObject, count)
+      })
+    },
+    function(queryObject, count, callback){
+      queryObject.sort({'createdAt' : -1}).limit(config.pageSize).exec('find',function(err, result){
+        if(err){
+          callback({type : 0, msg : LOGTITLE + Errors.DataBaseFailed + err })
+        }
+        callback(null, result, count)
+      })
+    }
+  ]
+
+  async.waterfall(steps, function(err, result, count){
+    if(err){
+      reject(err)
+    }else {
+      resolve({
+        status : true,
+        data : result,
+        totalNumber : count
+      })
+    }
+  })
+}
+
+/**
+ * Error Code
+ * 0 : internal error
+ * @param type
+ * @param query
+ * @param page
+ * @param resolve
+ * @param reject
+ */
+DI.getAll = function(type, query, page, resolve, reject){
+  let steps = [
+    function(callback){
+      findSchema(type, callback)
+    },
+    function(schema, callback){
+      // notice taht page start from 0
+      const skipPage = page * config.pageSize;
+      console.log('skip page number is', skipPage);
+      schema.find(query).sort({'createdAt' : -1}).skip(skipPage).limit(config.pageSize).exec(function(err, result){
+        if(err){
+          callback({type : 0, msg : LOGTITLE + Errors.DataBaseFailed + err })
+        }
+        callback(null, result)
+      })
+    }
+  ]
+
+  async.waterfall(steps, function(err, result){
+    if(err){
+      reject(err)
+    }else {
+      resolve({
+        status : true,
+        data : result
+      })
+    }
+  })
+}
+
+/**
  * User login check
- * @param username {String} username
+ * @param email {String} username
  * @param password {String} password
  * @param resolve promise resolve with {status : true}
  * @param reject promise error
  */
-DI.userLogin =function(username, password, resolve, reject){
-  User.findOne({username : username}, function(err, user) {
+DI.userLogin =function(email, password, resolve, reject){
+  console.log("query info is", email, password)
+  User.findOne({email : email}, function(err, user) {
 
     if (err) {
       reject({msg : LOGTITLE + Errors.AuthFailed + err});
@@ -244,7 +382,7 @@ DI.update = function(type, query, update, resolve, reject){
       findSchema(type, callback)
     },
     function(schema, callback){
-      schema.findOneAndUpdate(query,update).exec(function(err, updated){
+      schema.findOneAndUpdate(query,update,{"new" : true, "upsert" : true}).exec(function(err, updated){
         if(err){
           callback({msg : LOGTITLE + Errors.DataBaseFailed + err })
         }else {

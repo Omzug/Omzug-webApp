@@ -1,62 +1,99 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import Helmet from 'react-helmet';
-import * as authActions from 'redux/modules/auth';
+import {reduxForm} from 'redux-form';
+import {clearLoginError, login} from 'redux/modules/auth';
+import loginValidation from './loginValidation';
+import {TextField, RaisedButton, Snackbar} from 'material-ui';
+import uiStyles from '../../theme/uiStyles';
 
 @connect(
   state => ({
     user: state.auth.user,
     loginError : state.auth.loginError,
-    //loggingIn : state.auth.loggingIn,
+    loggingIn : state.auth.loggingIn,
+    loginValue: state.auth.loginValue,
   }),
-  authActions)
+  {clearLoginError, login})
+
+@reduxForm({
+  form: 'login',
+  fields : ['email', 'password'],
+  validate : loginValidation,
+})
+
 export default class Login extends Component {
   static propTypes = {
-    user: PropTypes.object,
-    login: PropTypes.func,
-    logout: PropTypes.func,
-    //for login
+    fields: PropTypes.object.isRequired,
     loggingIn: PropTypes.bool,
     loginError: PropTypes.string,
+    user: PropTypes.object,
+    logout: PropTypes.func,
+    login: PropTypes.func.isRequired,
+    resetForm : PropTypes.func.isRequired,
+    clearLoginError : PropTypes.func.isRequired,
   }
 
   handleSubmit = (event) => {
     event.preventDefault();
-    let username = this.refs.username.value
-    let password = this.refs.password.value
-    if(username === "" || password === "") {
-      return;
-    }
-    this.props.login(username, password);
-    username = "";
-    password = "";
+    console.log("submit now with error " + this.props.fields.email.error || this.props.fields.password.error ? true : loggingIn)
+    this.props.login(this.props.fields.email.value, this.props.fields.password.value);
+    console.log("submit now with user: " +  this.props.fields.email.value,  this.props.fields.password.value)
   }
 
   render() {
-    const {user, logout, loggingIn, loginError} = this.props;
+    const {
+      fields: {email, password},
+      user, logout, loggingIn, loginError, resetForm
+    } = this.props;
     const styles = require('./Login.scss');
-    const loginForm = styles.login + " form-group"
+
+    const inputStyle = uiStyles.inputStyle;
+    const buttonStyle = uiStyles.buttonStyle;
+    const popupStyle = { color : "#ff0000"};
+    const anyError = email.error || password.error;
 
     return (
       <div className={styles.loginPage + ' container'}>
         <Helmet title="Login"/>
-        <h1>Login</h1>
+        <h1>登录</h1>
         {!user &&
         <div>
           <form className="login-form" onSubmit={this.handleSubmit}>
-            <div className={styles.loginForm}>
-              <input type="text" ref="username" placeholder="用户名" className="form-control"/>
+            <div className={'form-group'}>
+              <div>
+                <TextField type="text" hintText="邮箱" style={inputStyle}
+                           floatingLabelText="邮箱"
+                           errorText={email.touched && email.error ? email.error : null}  {...email}
+                />
+              </div>
+            </div>
+            <div className={'form-group'}>
+              <div>
+                <TextField type="password" hintText="密码" style={inputStyle}
+                           floatingLabelText="密码"
+                           errorText={password.touched && password.error ? password.error : null} {...password}
+                />
+              </div>
             </div>
 
-            <div className={styles.loginForm}>
-              <input type="password" ref="password" className="form-control" placeholder="这里输入密码"/>
-            </div>
+            <RaisedButton style style={buttonStyle} onClick={this.handleSubmit}>
+              {loggingIn ?
+                <span className="fa fa-spin fa-refresh"/>
+                :
+                <span>Los!</span>
+              }
+            </RaisedButton>
 
-            <button className="btn btn-success" onClick={this.handleSubmit}><i className="fa fa-sign-in"/>
-              Los!
-            </button>
-
-            {loginError && <p className={ "bg-danger " + styles.error}><strong>{loginError}</strong></p>}
+            <Snackbar
+              open={loginError}
+              message={loginError}
+              autoHideDuration={4000}
+              bodyStyle={popupStyle}
+              onRequestClose={(reason) => {
+                this.props.clearLoginError();
+              }}
+            />
           </form>
         </div>
         }

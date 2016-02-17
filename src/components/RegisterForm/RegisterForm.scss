@@ -1,10 +1,11 @@
 .registerForm{
 
-  input{
+  .input{
     width: 400px;
   }
 
-  button{
-    margin: 30px;
+  .buttonGroup{
+    display: flex;
+    flex-direction: row;
   }
 }

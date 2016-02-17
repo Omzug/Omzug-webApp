@@ -1,0 +1,96 @@
+@import "../../theme/utils.scss";
+@import "../../theme/myHover.scss";
+@import "../../theme/color.scss";
+@import "../../theme/utils.scss";
+
+.card{
+  width:60%;
+  min-width:300px;
+  flex-grow: 1;
+  position:relative;
+  align-self: flex-start;
+  .buttonContainer{
+    position:absolute;
+    right : 100px;
+    top : 100px;
+    //cursor: pointer;
+    z-index: 5;
+    //background-color: $lightBlack;
+    //color: $grey50;
+    //&:hover{
+      //background-color: $darkBlack ;
+    //}
+  }
+  .dropBox{
+    display: flex;
+    flex-direction: row;
+    //horizontal center
+    justify-content: center;
+    width: 100%;
+    height:100%;
+    //vertical center
+    align-items: center;
+    .boxFont{
+      vertical-align: center;
+    }
+    .inner{
+      display: flex;
+      flex-direction: row;
+      //horizontal center
+      justify-content: center;
+      width: 100%;
+      height:100%;
+      //vertical center
+      align-items: center;
+    }
+  }
+  .textArea{
+
+  }
+}
+
+.inner{
+  display: flex;
+  flex-direction: row;
+  //horizontal center
+  justify-content: center;
+  width: 100%;
+  height:100%;
+  //vertical center
+  align-items: center;
+}
+
+.list{
+  overflow: visible;
+  align-self: flex-start;
+  padding:50px;
+  width:40%;
+  min-width:300px;
+  flex-grow: 2;
+  .note{
+    margin:0 30px;
+    color:grey;
+  }
+}
+
+.editButton{
+  padding:20px;
+}
+
+
+
+.dialog{
+
+}
+.toggle{
+  right:30%;
+}
+.arrow{
+  width:20px;
+  height:20px;
+}
+
+.datePicker{
+  display: inline;
+}
+

@@ -1,34 +1,58 @@
 /**
  * Created by hanwencheng on 1/9/16.
  */
+import DB from '../lib/db-interface.js';
 
 export default function listHause(req, params) {
-  console.log('in api list.js params are', params)
-  if(params.length <= 0) {
+  const reqPage = req.query.page;
+  console.log("req page is", reqPage)
+  var dbMethod = reqPage ? DB.getAll : DB.getAllInit
+  var page = reqPage ? reqPage : null
+  console.log('the page query object is parameters are', page)
+
+  const getAll = function(){
+    console.log('now query all')
     return new Promise((resolve, reject) => {
-      resolve({
-        list: ['number1', 'number2', 'number3'],
-        number: 3
-      });
-      //reject("we don't have such endpoint")
+      dbMethod('house', {}, page, function(result){
+        return resolve(result)
+      }, function(err){
+        return reject(err.msg)
+      })
     })
-  }else {
-    var totalNum = parseInt(params[0])
+  }
+
+  const getCity = function(cityName){
+    console.log('now query city', cityName)
     return new Promise((resolve, reject) => {
-      var result = []
-      for (let i = 0; i < totalNum; i++) {
-        result.push(i + "times visited");
-      }
+      dbMethod('house', {city : cityName}, page, function(result){
+        return resolve(result)
+      }, function(err){
+        return reject(err.msg)
+      })
+    })
+  }
 
+  const getUser = function(username){
+    console.log('now query user', username)
+    return new Promise((resolve, reject) => {
+      dbMethod('house', {owner : username}, page, function(result){
+        return resolve(result)
+      }, function(err){
+        return reject(err.msg)
+      })
+    })
+  }
 
-      setTimeout(()=> {
-        resolve({
-          entities: result,
-          id: params[0],//which should be a string
-          time: Date.now()
-        });
-      }, 1000)
+  if(params.length <= 0) {
+    return getAll();
+  }
 
-    });
+  switch(params[0]) {
+    case "city" :
+      return params[1] ? getCity(params[1]) : getAll()
+    case "user" :
+      return params[1] ? getUser(params[1]) : getAll()
+    default :
+      return getAll()
   }
 }

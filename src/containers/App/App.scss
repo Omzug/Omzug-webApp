@@ -1,4 +1,5 @@
 @import "../../theme/myHover.scss";
+@import "../../theme/color.scss";
 
 .app {
   .navbar{
@@ -7,38 +8,64 @@
     height: $size;
     width: 100%;
     position: fixed;
+    z-index: 6;
     top: 0;
+    //border-bottom:2px solid $grey400;
+    box-shadow:0 0 8px grey;
     .left{
       float: left;
-      li{
-        display: inline;
-        padding: 0 10px;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: flex-start;
+      height:$size;
+      div{
+        padding: 0 15px;
+        font-size: large;
+        height:$size;
+        text-align: center;
+        cursor:pointer;
+        line-height: $size;;
       }
       .logo{
-        .headerschrift {
-          z-index: 10;
-          margin-left: 40px;
-          /*border:1px solid;*/
-          font-size: 36px;
-          font-weight: bold;
+        img{
+          height:$size;
         }
-        .nebenschrift {
-          z-index: 10;
-          font-size: 18px;
-          top: 33px;
-          left: 20px;
+      }
+      .title{
+        display: flex;
+        flex-direction: column;
+        height: $size;
+        justify-content: flex-end;
+        .headerSchrift{
+          height: 35px;
+          line-height: 35px;
+          font-size: 25px;
+        }
+        .nebenSchrift{
+          color: $lightBlack;
+          line-height: 16px;
+          height:16px;
+          font-size: 14px;
         }
       }
     }
     .right{
       float: right;
-      margin-right: 30px;
-      margin-top : 30px;
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      height:$size;
+      line-height: $size;
+      margin: 0 10px;
+      font-size: medium;
       text-align: right;
       .links{
-        z-index: 8;
-        margin:  5px;
-        font-size: 12px;
+        font-size: 14px;
+        margin : 0 5px;
+      }
+      .username{
+        color: $blue500;
       }
     }
   }
@@ -58,12 +85,6 @@
   nav :global(.fa) {
     font-size: 2em;
     line-height: 20px;
-  }
-}
-
-.right {
-  li {
-    display: inline;
   }
 }
 

@@ -4,25 +4,33 @@
 
 import React, {Component, PropTypes} from 'react';
 import {reduxForm} from 'redux-form';
+import {connect} from 'react-redux';
 import registerValidation from './registerValidation';
 import {check as checkEmail} from 'redux/modules/auth';
+import {TextField, RaisedButton} from 'material-ui';
+import uiStyles from '../../theme/uiStyles';
 
 const enableAsyncCheck = false;
-const asyncValidate = (value , dispatch) => {
+const asyncValidate = (value, dispatch) => {
   if(enableAsyncCheck){
     //return new Promise((resolve, reject) =>{
     //
     //})
     return dispatch(checkEmail(value))
-  }else{
-    return new Promise((resolve, reject) => {
-      console.log('sync validate value is disable now.')
-      resolve()
-    })
-
   }
+
+  return new Promise((resolve, reject) => {
+    console.log('sync validate value is disable now.')
+    resolve()
+  })
 }
 
+@connect(
+  state => ({
+    loggingIn: state.auth.loggingIn,
+  }),
+  {}
+)
 
 @reduxForm({
   form: 'register',
@@ -38,7 +46,7 @@ export default class RegisterForm extends Component{
     fields: PropTypes.object.isRequired,
     handleSubmit: PropTypes.func.isRequired,
     resetForm: PropTypes.func.isRequired,
-    submitting: PropTypes.bool.isRequired
+    loggingIn: PropTypes.bool.isRequired
   }
 
   render() {
@@ -47,52 +55,63 @@ export default class RegisterForm extends Component{
       fields: {email, username, password, passwordRepeat},
       resetForm,
       handleSubmit,
-      submitting,
-      asyncValidating} = this.props;
+      asyncValidating,
+      loggingIn} = this.props;
     const isPasswordSame = password.value && passwordRepeat.value && passwordRepeat.value === password.value;
+
+    const inputStyle = uiStyles.inputStyle;
+    const buttonStyle = uiStyles.buttonStyle;
+    const anyError = email.error || username.error || password.error ||passwordRepeat.error || !isPasswordSame;
+
+    const getError = ()=>{
+      if(passwordRepeat.touched){
+        if(passwordRepeat.error){
+          return passwordRepeat.error
+        }else if(password.touched && !isPasswordSame){
+          return "Password is not same";
+        }
+      }
+      return null;
+    }
 
     return (
     <form className={styles.registerForm} onSubmit={handleSubmit}>
       <div className={'form-group'}>
-        <label>Email</label>
         <div>
-          <input type="text" placeholder="Email" className="form-control" {...email}/>
+          <TextField type="text" hintText="Email" style={inputStyle} floatingLabelText="Email"
+                     errorText={email.touched && email.error ? email.error : null}  {...email}/>
         </div>
-        {email.touched && email.error && <div>{email.error}</div>}
       </div>
       <div className={'form-group'}>
-        <label>用户名</label>
         <div>
-          <input type="text" placeholder="Username" className="form-control" {...username}/>
+          <TextField type="text" hintText="Username" style={inputStyle} floatingLabelText="用户名"
+                     errorText={username.touched && username.error ? username.error : null} {...username}/>
           {asyncValidating === 'username' && <i /* spinning cog *//>}
         </div>
-        {username.touched && username.error && <div>{username.error}</div>}
       </div>
       <div className={'form-group'}>
-        <label>密码</label>
         <div>
-          <input type="text" placeholder="Password" className="form-control" {...password}/>
+          <TextField type="password" hintText="Password" style={inputStyle} floatingLabelText="密码"
+                     errorText={password.touched && password.error ? password.error : null} {...password}/>
         </div>
-        {password.touched && password.error && <div>{password.error}</div>}
       </div>
       <div className={'form-group'}>
-        <label>重复密码</label>
         <div>
-          <input type="text" placeholder="Repeat Password" className="form-control" {...passwordRepeat}/>
+          <TextField type="password" hintText="Repeat Password" style={inputStyle} floatingLabelText="重复密码"
+                     errorText={getError()} {...passwordRepeat}/>
         </div>
-        { passwordRepeat.touched && <div>{passwordRepeat.error}</div>}
-        {
-          passwordRepeat.touched && password.touched && !passwordRepeat.error && !isPasswordSame &&
-        <div>Password is not same</div>
-        }
       </div>
-      <div>
-        <button disabled={isPasswordSame? submitting : "true"} className="btn btn-primary" onClick={handleSubmit}>
-          {submitting ? <i/> : <i/>} Submit
-        </button>
-        <button disabled={submitting} className="btn btn-warning" onClick={resetForm}>
+      <div className={styles.buttonGroup}>
+        <RaisedButton disabled={anyError ? "true" : loggingIn} style={buttonStyle} onClick={handleSubmit}>
+          {loggingIn ?
+            <span className="fa fa-spin fa-refresh"/>
+            :
+            <span>Submit</span>
+          }
+        </RaisedButton>
+        <RaisedButton disabled={loggingIn} secondary={true} style={buttonStyle} onClick={resetForm}>
           Clear Values
-        </button>
+        </RaisedButton>
       </div>
     </form>
     );

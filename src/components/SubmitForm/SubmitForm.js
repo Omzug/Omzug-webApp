@@ -1,165 +1,212 @@
 /**
- * Created by hanwencheng on 1/13/16.
+ * Created by hanwencheng on 1/22/16.
  */
-import {bindActionCreators} from 'redux';
+
 import React, {Component, PropTypes} from 'react';
-import {reduxForm} from 'redux-form';
-import submitValidation from './submitValidation';
 import {connect} from 'react-redux';
-import * as submitActions from 'redux/modules/submit';
+import {reduxForm} from 'redux-form';
 
-const enableAsyncCheck = false;
-const asyncValidate = (value , dispatch) => {
-  if(enableAsyncCheck){
-    //return dispatch(checkEmail(value))
-    return new Promise((resolve, reject)=> {
-      reject('rejected by async validate')
-    })
-  }else{
-    return new Promise((resolve, reject) => {
-      resolve('sync validate value is disable now.')
-    })
+import {onEndEdit, onAddImage, onChangeSlide, onDeleteImage, onToggleLimit} from "redux/modules/entity";
+//import Slider from 'nuka-carousel';
+import {Carousel} from 'components';
 
-  }
-}
+import {Paper, TextField, FontIcon, FlatButton, Card, CardActions, CardHeader, MenuItem,
+  IconButton, CardMedia, CardTitle, CardText, List, ListItem, Divider, SelectField,
+  DatePicker, Toggle} from 'material-ui';
+
+import DropZone from 'react-dropzone'
+
+
 @connect(
   state => ({
-    saveError: state.widgets.saveError
+    entity: state.entity.data,
+    hasLimit : state.entity.hasLimit,
+    initialValues : state.entity.data,
+    cachedImages : state.entity.cachedImages,
+    currentSlide : state.entity.currentSlide,
   }),
-  dispatch => bindActionCreators(submitActions, dispatch)
+  {onEndEdit, onAddImage, onChangeSlide, onDeleteImage, onToggleLimit}
 )
 
 @reduxForm({
-  form: 'register',
-  fields : ['price', 'size', 'rooms', 'owner', 'startDate', 'endDate', 'type', 'city', 'street', 'note'],
-  validate : submitValidation,
-  asyncValidate,
-  //asyncBlurFields: ['rooms'],
+  form: 'house',
+  //later should delete images in fields
+  fields : ['city','location','roomNumber','size','price','caution','startDate','endDate',
+    'description','title','owner','email','phone', 'type','note','maximumPerson', 'images',
+    'username'],
+  //validate : registerValidation,
+  //asyncValidate,
+  //asyncBlurFields: ["email", "name"],
 })
-
-export default class SubmitForm extends Component{
+export default class SubmitForm extends Component {
   static propTypes = {
-    asyncValidating: PropTypes.string.isRequired,
-    resetForm: PropTypes.func.isRequired,
+    entity: PropTypes.object,
+    onEndEdit: PropTypes.func.isRequired,
+    onAddImage : PropTypes.func.isRequired,
+    onDeleteImage : PropTypes.func.isRequired,
+    onChangeSlide : PropTypes.func.isRequired,
+    onToggleLimit : PropTypes.func.isRequired,
+    cachedImages: PropTypes.array,
+    currentSlide : PropTypes.number,
+    hasLimit : PropTypes.bool,
 
     fields: PropTypes.object.isRequired,
-    editStop: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func.isRequired,
-    invalid: PropTypes.bool.isRequired,
-    pristine: PropTypes.bool.isRequired, //TODO what the hell is this?
-    save: PropTypes.func.isRequired,
     submitting: PropTypes.bool.isRequired,
-    saveError: PropTypes.object,
-    formKey: PropTypes.string.isRequired,
-    values: PropTypes.object.isRequired //TODO what is this?
+    nextSlide :PropTypes.func,
+    previousSlide : PropTypes.func,
   }
 
+  dateFormat = (date) => {
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+    const year = date.getFullYear();
+    return day + '/' + month + '/' + year;
+  }
+
+  onDrop = (file) => {
+    console.log('file is', file)
+    this.props.onAddImage(file);
+  }
+
+  onDeleteButton = () => {
+    this.props.onDeleteImage(this.props.currentSlide);
+  }
 
   render() {
+    const styles = require('./SubmitForm.scss');
     const {
-      fields: {
-        price, rooms, size, owner, startDate, endDate, type, city, street, note
-        },
-      resetForm,
+      fields: {location,city,roomNumber,size,price,caution,startDate,endDate,
+        description,title,owner,email,phone,type,note,maximumPerson,images},
+      entity,
+      hasLimit,
+      currentSlide,
+      //resetForm,
+      cachedImages,
       handleSubmit,
       submitting,
-      asyncValidating,
-
-      editStop,
-      formKey,
-      invalid,
-      pristine,
-      save,
-      saveError: { [formKey]: saveError },
-      values,
+      //asyncValidating
       } = this.props;
 
-    const styles = require('./SubmitForm.scss');
-    var canSubmit = true;
+    var Decorators = [
+      {component: React.createClass({render() {
+        return (
+          <div className={styles.arrowContainer1} onClick={this.props.previousSlide}>
+            <i className={styles.arrowIcon + " fa fa-angle-double-left fa-2x"}/>
+          </div>)}
+      }),
+        position: 'CenterLeft', style: {height: "100%"}},
+      {component: React.createClass({render() {
+        return (
+          <div className={styles.arrowContainer1} onClick={this.props.nextSlide}>
+            <i className={styles.arrowIcon + " fa fa-angle-double-right fa-2x"}/>
+          </div>)}
+      }),
+        position: 'CenterRight', style: {height: "100%"}},
+    ];
+
+    const pickerStyle ={
+      display:'inline'
+    }
+
+    var imagesNumber = entity.images.length + cachedImages.length;
     return (
-      <form onSubmit={handleSubmit()}>
-
-        <div>
-          <label>price</label>
-          <div>
-            <input type="text" placeholder="Email" {...price}/>
+      <form className={styles.container} onSubmit={handleSubmit}>
+        <Card className={styles.card}>
+          <div className={styles.buttonContainer}>
+            { currentSlide <= imagesNumber - 1 &&
+          <IconButton iconClassName="fa fa-times-circle fa-5x hint--bottom" data-hint="删除该图片" onClick={this.onDeleteButton}/>}
           </div>
-          {price.touched && price.error && <div>{price.error}</div>}
-        </div>
+          <CardMedia>
+            <Carousel key={211} className={styles.slider}
+                      decorators={Decorators}
+                      framePadding="50px" width="100%" slidesToShow={1}
+                      onChange={this.props.onChangeSlide}>
+              {entity.images && entity.images.length >= 1 && entity.images.map( address =><div className={styles.imageContainer}><img src={address}/></div>)}
+              {cachedImages && cachedImages.length >= 1 && cachedImages.map(file => <div className={styles.imageContainer}><img src={window.URL.createObjectURL(file)}/></div>)}
+              {imagesNumber < 3 &&
+                <div className={styles.imageContainer}>
+                  <DropZone onDrop={this.onDrop}>
+                    <div className={styles.inner}>
+                      <span className={styles.boxFont}>请点击选择图片或者将图片拖动到框中</span>
+                      <span className={styles.boxFont + " fa fa-plus-circle fa-5x"}/>
+                    </div>
+                  </DropZone>
+                </div>
+              }
+            </Carousel>
+          </CardMedia>
+          <CardTitle subtitle={entity.username} >
+            <div className="hint--top" data-hint="标题">
+            <TextField key={201} hintText="标题" errorText={title.touched && title.error ? title.error : null} {...title}/>
+            </div>
+          </CardTitle>
+          <CardText>
+            <div>
+              <textarea key={202} className={"form-control " + styles.textArea} rows="6" placeholder="填写一些具体介绍吧" {...description}/>
+            </div>
+          </CardText>
+        </Card>
 
-        <div>
-          <label>Rooms</label>
-          <div>
-            <input type="text" placeholder="Username" {...rooms}/>
-            {asyncValidating === 'rooms' && <i /* spinning cog *//>}
-          </div>
-          {rooms.touched && rooms.error && <div>{rooms.error}</div>}
-        </div>
+        <List className={styles.list}>
+          <ListItem key={1} className="hint--bottom" data-hint="城市" leftIcon={<FontIcon className="fa fa-map-marker"/>} >
+            <TextField key={10} hintText="城市" floatingLabelText="城市" errorText={city.touched && city.error ? city.error : null} {...city}/>
+          </ListItem>
+          <ListItem key={2} className="hint--top" data-hint="地址" leftIcon={<FontIcon className="fa fa-map" />}>
+            <TextField key={20} hintText="地址" errorText={location.touched && location.error ? location.error : null} {...location}/>
+          </ListItem>
+          <ListItem key={3} className="hint--top" data-hint="房间数" leftIcon={<FontIcon className="fa fa-codepen" />}>
+            <TextField key={30} hintText="房间数" errorText={roomNumber.touched && roomNumber.error ? roomNumber.error : null} {...roomNumber}/>
+          </ListItem>
+          <ListItem key={4} className="hint--top" data-hint="面积" leftIcon={<FontIcon className="fa fa-th" />}>
+            <TextField key={40} hintText="面积" errorText={size.touched && size.error ? size.error : null} {...size}/>
+          </ListItem>
+          <ListItem key={5} className="hint--top" data-hint="租金" leftIcon={<FontIcon className="fa fa-euro" />}>
+            <TextField key={50} hintText="租金" errorText={price.touched && price.error ? price.error : null} {...price}/>
+          </ListItem>
+          <ListItem key={6} className="hint--top" data-hint="押金" leftIcon={<FontIcon className="fa fa-money" />}>
+            <TextField key={60} hintText="押金" errorText={title.caution && title.caution ? title.error : null} {...caution}/>
+          </ListItem>
+          <ListItem key={7} className="hint--top" data-hint="最多人数" leftIcon={<FontIcon className="fa fa-child" />}>
+            <TextField key={70} hintText="最多人数" errorText={title.maximumPerson && title.maximumPerson ? title.error : null} {...maximumPerson}/>
+          </ListItem>
+          <ListItem key={14} className="hint--top" data-hint="类型" leftIcon={<FontIcon className="fa fa-home" />}>
+            <SelectField key={141} value={type.value} onChange={(event, value) => {
+            console.log('value is', value)
+            type.onChange(value);
+            }}>
+              <MenuItem value={0} primaryText="整套公寓"/>
+              <MenuItem value={1} primaryText="单间"/>
+            </SelectField>
+          </ListItem>
 
-        <div>
-          <label>size</label>
-          <div>
-            <input type="text" placeholder="size" {...size}/>
-          </div>
-          {size.touched && size.error && <div>{size.error}</div>}
-        </div>
+          <ListItem key={8} className="hint--top" data-hint="开始结束日期" leftIcon={<FontIcon className="fa fa-calendar" />} children={
+            <div key={83}>
+            {/*every child should have a key, or react give a stupid warnning */}
+              <DatePicker key={81} autoOk={true} value={new Date(startDate.value)} hintText="开始日期"
+              onChange={(event, newDate) => startDate.onChange(newDate)} formatDate={this.dateFormat}/>
+              <Toggle label="短期" toggled={hasLimit} labelPosition="right" onToggle={(event, isToggled) => {this.props.onToggleLimit(isToggled)}}/>
+              { hasLimit &&
+                <DatePicker key={82} autoOk={true} value={new Date(endDate.value)} hintText="结束日期"
+                onChange={(event, newDate) => endDate.onChange(newDate)} formatDate={this.dateFormat}/>
+              }
+            </div>
+          }>
 
-        <div>
-          <label>city</label>
-          <div>
-            <input type="text" placeholder="Repeat size" {...city}/>
-          </div>
-          { city.touched && <div>{city.error}</div>}
-        </div>
 
-        <div>
-          <label>street</label>
-          <div>
-            <input type="text" placeholder="Repeat size" {...street}/>
-          </div>
-          { street.touched && <div>{street.error}</div>}
-        </div>
+          </ListItem >
+          <ListItem key={9} className={styles.note} zDepth={2} className="hint--top" data-hint="备注">
+            <TextField key={90} hintText="备注" errorText={note.touched && note.error ? note.error : null} {...note}/>
+          </ListItem>
+          <ListItem key={11} className="hint--top" data-hint="邮箱" leftIcon={<FontIcon className="fa fa-envelope-o" />}>
+            <TextField key={110} hintText="邮箱" errorText={email.touched && email.error ? email.error : null} {...email}/>
+          </ListItem>
+          <ListItem key={12} className="hint--top" data-hint="手机" leftIcon={<FontIcon className="fa fa-mobile-phone" />}>
+            <TextField key={120} hintText="手机" errorText={phone.touched && phone.error ? phone.error : null} {...phone}/>
+          </ListItem>
 
-        <div>
-          <label>startDate</label>
-          <div>
-            <input type="text" placeholder="Repeat size" {...startDate}/>
-          </div>
-          { startDate.touched && <div>{startDate.error}</div>}
-        </div>
-
-        <div>
-          <label>endDate</label>
-          <div>
-            <input type="text" placeholder="Repeat size" {...endDate}/>
-          </div>
-          { endDate.touched && <div>{endDate.error}</div>}
-        </div>
-
-        <div>
-          <label>Note</label>
-          <div>
-            <input type="text" placeholder="Repeat size" {...note}/>
-          </div>
-          { note.touched && <div>{note.error}</div>}
-        </div>
-
-        <div>
-          <label>type</label>
-          <div>
-            <input type="text" placeholder="Repeat size" {...type}/>
-          </div>
-          { type.touched && <div>{type.error}</div>}
-        </div>
-
-        <div>
-          <button disabled={canSubmit && submitting} onClick={handleSubmit()}>
-            {submitting ? <i/> : <i/>} Submit
-          </button>
-          <button disabled={canSubmit && submitting} onClick={resetForm}>
-            Clear Values
-          </button>
-        </div>
+          <FlatButton key={13} className={styles.editButton} onClick={handleSubmit}><span className="fa fa-pencil"/> 保存</FlatButton>
+        </List>
       </form>
     );
   }

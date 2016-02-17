@@ -1,5 +1,40 @@
-.main{
-  width : 100px;
-  height: 100px;
-  background-color: green;
+@import "../../theme/utils.scss";
+@import "../../theme/myHover.scss";
+
+.card{
+  width:60%;
+  min-width:300px;
+  flex-grow: 1;
 }
+
+.list{
+  align-self: flex-start;
+  padding:50px;
+  width:40%;
+  min-width:300px;
+  flex-grow: 2;
+  .note{
+    margin:0 30px;
+    color:grey;
+  }
+}
+
+.editButton{
+  padding:20px;
+}
+
+
+
+.dialog{
+
+}
+
+.arrow{
+  width:20px;
+  height:20px;
+}
+
+.datePicker{
+  display: inline;
+}
+

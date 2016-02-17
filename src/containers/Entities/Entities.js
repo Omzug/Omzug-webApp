@@ -3,63 +3,96 @@
  */
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
-import {isLoaded, load as getList} from 'redux/modules/entities';
+import {isLoaded, load as getList, onLocationChange} from 'redux/modules/entities';
 import {bindActionCreators} from 'redux';
-import { LinkContainer } from 'react-router-bootstrap';
 import connectData from 'helpers/connectData';
+import {List} from "components";
+
+import {DropDownMenu, MenuItem,RaisedButton, ThemeManager, ThemeDecorator} from 'material-ui';
+
+import myRawTheme from '../../theme/materialUI.theme';
+import cityList from '../../constant/cityList';
 
 function fetchDataDeferred(getState, dispatch) {
   if (!isLoaded(getState())) {
-    console.log("after load we get state:", getState().router)
+    //console.log("after load we get state:", getState().router)
     return dispatch(getList());
   }
 }
 
+//@ThemeDecorator(ThemeManager.getMuiTheme(myRawTheme))
 @connectData(null, fetchDataDeferred)
 
 @connect(
   state => ({
-    entities: state.entities.data,
+    entities: state.entities.list,
     error: state.entities.error,
-    loading: state.entities.loading
+    loading: state.entities.loading,
+    loaded: state.entities.loaded,
+    locationId : state.entities.locationId
   }),
-  {getList}
+  {getList, onLocationChange}
   //dispatch => bindActionCreators({getList}, dispatch)
 )
 export default class Entities extends Component {
   static propTypes = {
-    data : PropTypes.object,
-    getList: PropTypes.func.isRequired,
+    entities : PropTypes.array,
     error: PropTypes.string,
     loading: PropTypes.bool,
+    locationId : PropTypes.number,
+    loaded :PropTypes.bool,
+
+    getList: PropTypes.func.isRequired,
+    onLocationChange: PropTypes.func.isRequired,
   };
 
-  addNumber = (event)=> {
-    event.preventDefault();
-    this.props.getList()
+  loadCity = (event) => {
+    if(locationId && locationId <= cityList.length) {
+      this.props.getList(cityList[locationId].toLowerCase());
+    }else{
+      this.props.getList();
+    }
+  }
+
+  dropDownListener = (event, index, value) => {
+    this.props.onLocationChange(value);
+    if(value && value <= cityList.length) {
+      this.props.getList(cityList[value].toLowerCase());
+    }else{
+      this.props.getList();
+    }
   }
 
   render() {
-    const { data, getList, error, loading } = this.props;
-    console.log('entities are', data)
+    const styles = require('./Entities.scss');
+    const {loaded, getList, error, loading, locationId} = this.props;
+    const houses = this.props.entities;//TODO
+
+    let refreshClassName = 'fa fa-refresh';
+    if (loading) {
+      refreshClassName += ' fa-spin';
+    }
+
     return (
       <div>
-        <h1>HauseList</h1>
-        <button className="" onClick={getList}>
-        </button>
-        <div className="container">
-          {data && data.list && data.list.map((unit, index)=>
-          <p key={index}>element is {unit} </p>
-        )}
+        <div className={styles.listNav}>
+          <DropDownMenu value={locationId} onChange={this.dropDownListener} className={styles.dropDown}>
+            {/* the value starts from 1 */}
+            {cityList.map((city, index) => <MenuItem value={index} key={index} primaryText={cityList[index]}/>)}
+          </DropDownMenu>
+
+          <RaisedButton onClick={this.loadCity} style={{lineHeight: "36px" }}><i className={refreshClassName}/> 刷新</RaisedButton>
         </div>
-        <div className="container">
-          {data && data.number &&
-          <LinkContainer to={`/entities/${data.number}`}>
-            <button>link to entity with number {data.number}</button>
-          </LinkContainer>}
+
+        {loaded &&
+        <div className={styles.gridContainer}>
+          { houses.length ?
+            <List houses={this.props.entities}/>
+             :
+            <p>这个地区暂时没可用的房源</p>}
         </div>
-        <div className="detail">
-        </div>
+        }
+
         {error &&
         <div className="alert alert-danger" role="alert">
           <span className="glyphicon glyphicon-exclamation-sign" aria-hidden="true">sorry</span>

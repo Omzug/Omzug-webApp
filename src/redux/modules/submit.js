@@ -1,5 +1,6 @@
 /**
  * Created by hanwencheng on 1/22/16.
+ * used in the edit page for submit the edited pages
  */
 const LOAD = 'omzug/submit/LOAD';
 const LOAD_SUCCESS = 'omzug/submit/LOAD_SUCCESS';

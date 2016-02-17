@@ -8,6 +8,9 @@ module.exports = {
   //please list the collection names one by one
   userCollectionName : 'user',
   houseCollectionName : 'house',
+  pageSize : 18,
+  awsExpire : 60,
+  tmpPath : './tmp',
 
   errors : {
     SchemaCannotFind : 'SchemaCannotFind: schema can not be find, please check again',

@@ -6,23 +6,12 @@ const LOAD = 'Nevermind/entityList/LOAD';
 const LOAD_SUCCESS = 'Nevermind/entityList/LOAD_SUCCESS';
 const LOAD_FAIL = 'Nevermind/entityList/LOAD_FAIL';
 const CLEAR = 'Nevermind/entityList/CLEAR'
-
-export function load(){
-  return {
-    types: [LOAD, LOAD_SUCCESS, LOAD_FAIL],
-    promise: (client) => {
-      const url = '/list'
-      return client.get(url)
-    } // params not used, just shown as demonstration
-  };
-}
-
-export function isLoaded(globalState) {
-  return globalState.entity && globalState.entity.loaded;
-}
+const CHANGE_LOCATION = "Nevermind/entityList/CHANGE_LOCATION"
 
 const initState = {
-  list :[]
+  list :[],
+  locationId : 0,
+  loaded: false,
 };
 
 export default function reducer(state = initState, action = {}) {
@@ -33,11 +22,13 @@ export default function reducer(state = initState, action = {}) {
         loading: true
       };
     case LOAD_SUCCESS:
+      //TODO
+      //console.log('in entites.js the action.result is', action.result)
       return {
         ...state,
         loading: false,
         loaded: true,
-        data: action.result,
+        list: action.result.data,
         error: null
       };
     case LOAD_FAIL:
@@ -45,14 +36,51 @@ export default function reducer(state = initState, action = {}) {
         ...state,
         loading: false,
         loaded: false,
-        data: null,
+        list: [],
         error: action.error
       };
     case CLEAR:
       return {
         initState
       }
+    case CHANGE_LOCATION:
+      return {
+        ...state,
+        locationId : action.id
+      }
     default : return state;
   }
+}
+
+export function load(city){
+  return {
+    types: [LOAD, LOAD_SUCCESS, LOAD_FAIL],
+    promise: (client) => {
+      let url;
+      if(city) {
+        url = '/list/city/' + city
+      }else{
+        url ='/list'
+      }
+      return client.get(url)
+    } // params not used, just shown as demonstration
+  };
+}
+
+
+export function isLoaded(globalState) {
+  return globalState.entities && globalState.entities.loaded;
+}
+
+export function onLocationChange(value){
+  return {
+    type : CHANGE_LOCATION,
+    id : value,
+  }
+}
+
+// to be added when we change location
+function filterData(locationValue){
+
 }
 

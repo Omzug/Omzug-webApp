@@ -5,4 +5,6 @@ export logout from './logout';
 export list from './list';
 export register from './register';
 export check from './check';
-export * as widget from './widget/index';
+export house from './house';
+export submit from './submit';
+export admin from './admin';

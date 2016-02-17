@@ -1,5 +1,6 @@
 const isEmpty = value => value === undefined || value === null || value === '';
 const join = (rules) => (value, data) => rules.map(rule => rule(value, data)).filter(error => !!error)[0 /* first error */ ];
+const config = require('../config.js')
 
 export function email(value) {
   // Let's not start a debate on email regex. This is just for an example app!
@@ -36,6 +37,12 @@ export function numberAndLetter(value){
   }
 }
 
+export function numeric(value){
+  if(!/^[0-9]+$/.test(value)) {
+    return `Should be Numeric, only numbers here`
+  }
+}
+
 export function maxLength(max) {
   return value => {
     if (!isEmpty(value) && value.length > max) {
@@ -66,6 +73,19 @@ export function match(field) {
       }
     }
   };
+}
+
+export function validateImage(value){
+  var error = [];
+  value.forEach(function(file){
+    if (!file.name.match(/\.(jpg|jpeg|png|gif)$/)){
+      error.push(file.name + "上传的不是图像文件");
+    }
+    if(file.size > config.limitImageSize * 1024 * 1024){
+      error.push(file.name + "太大了,我们最大只接受" + config.limitImageSize + "M的文件")
+    }
+  });
+  return error.length ? error.join(', ') : null
 }
 
 export function createValidator(rules) {

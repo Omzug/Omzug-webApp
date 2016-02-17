@@ -1,0 +1,18 @@
+@import "../../theme/variables.scss";
+@import "../../theme/utils.scss";
+
+.dropDown{
+
+}
+
+.listNav{
+  position : fixed;
+  z-index: 5;
+  top: 60px;
+  width: 100%;
+  background-color: white;
+}
+
+.gridContainer{
+  margin: 120px 50px 50px 10px;
+}

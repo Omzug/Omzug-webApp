@@ -2,22 +2,21 @@ import React from 'react';
 import {IndexRoute, Route} from 'react-router';
 import {pushState} from 'redux-router'
 import { isLoaded as isAuthLoaded, load as loadAuth } from 'redux/modules/auth';
-import {clear as clearEntity} from 'redux/modules/entity';
+import {onClear as clearEntity} from 'redux/modules/entity';
 import config from './config.js'
 import {
     App,
     Chat,
     Home,
-    Widgets,
     About,
     Login,
     LoginSuccess,
-    Survey,
     NotFound,
     Entities,
     Entity,
     Register,
-    Submit
+    Submit,
+    UserAdmin,
   } from 'containers';
 
 export default (store) => {
@@ -41,7 +40,7 @@ export default (store) => {
   const checkUser = (nextState, replaceState, cb) => {
     function checkAuth() {
       const { auth: { user }} = store.getState();
-      if (!user) {
+      if (user) {
         // oops, not logged in, so can't be here!
         replaceState(null, '/main');
       }
@@ -71,6 +70,7 @@ export default (store) => {
       console.log('should be cleared')
       store.dispatch(clearEntity())
     }
+    console.log('should not be cleared, keep old')
     cb();
   };
 
@@ -81,24 +81,24 @@ export default (store) => {
   return (
     <Route path="/" component={App}>
       { /* Home (main) route */ }
-      <IndexRoute component={Home} /* onEnter={checkUser} *//>
+      <IndexRoute component={Home} onEnter={checkUser}/>
 
 
       { /* Routes requiring login */ }
       <Route onEnter={requireLogin}>
         <Route path="chat" component={Chat}/>
         <Route path="loginSuccess" component={LoginSuccess}/>
+        <Route path="main" component={Entities}/>
+        <Route path="submit" component={Submit}/>
+        <Route path="admin" component={UserAdmin}/>
+        <Route path="entities/:entityId" component={Entity} onEnter={logNextState}/>
       </Route>
 
       { /* Routes */ }
       <Route path="about" component={About}/>
-      <Route path="main" component={Entities}/>
-      <Route path="entities/:entityId" component={Entity} onEnter={logNextState}/>
       <Route path="login" component={Login}/>
       <Route path="register" component={Register}/>
-      <Route path="submit" component={Submit}/>
-      <Route path="survey" component={Survey}/>
-      <Route path="widgets" component={Widgets}/>
+
 
       { /* Catch all route */ }
       <Route path="*" component={NotFound} status={404} />

@@ -10,11 +10,12 @@ export default function login(req) {
    * }
    */
   return new Promise((resolve, reject)=>{
-    DB.userLogin(req.body.username, req.body.password,
+    DB.userLogin(req.body.email, req.body.password,
       function(data){
         console.log('success login with data', data)
-        req.session.user = {name : req.body.username}; //TODO is it function well?
+        req.session.user = {email : req.body.email}; //TODO is it function well?
         console.log('the user session information is', req.session)
+        // data is the message
         return resolve(data.data);
       },
       function(err){

@@ -15,7 +15,9 @@ const CHECK_FAIL = 'delocate/auth/CHECK_FAIL';
 const CLEAR_LOGIN_ERROR = 'delocate/auth/CLEAR_LOGIN_ERROR';
 
 const initialState = {
-  loaded: false
+  loaded: false,
+  loginError: null,
+  loggingIn : false,
 };
 
 export default function reducer(state = initialState, action = {}) {
@@ -114,18 +116,18 @@ export function load() {
 
 //email must be a string
 export function check(email){
-  return{
+  return {
     types: [CHECK, CHECK_SUCCESS, CHECK_FAIL],
     promise : (client) => client.get('/check?email=' + email)
   }
 }
 
-export function login(username, password) {
+export function login(email, password) {
   return {
     types: [LOGIN, LOGIN_SUCCESS, LOGIN_FAIL],
     promise: (client) => client.post('/login', {
       data: {
-        username: username,
+        email: email,
         password : password
       }
     })
@@ -136,7 +138,7 @@ export function login(username, password) {
 export function register(data){
   return {
     types: [LOGIN, LOGIN_SUCCESS, LOGIN_FAIL],
-    promise: (client) => client.post('./register',{
+    promise: (client) => client.post('./register', {
       data : data
     })
   }
