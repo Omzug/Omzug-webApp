@@ -18,6 +18,7 @@ module.exports = Object.assign({
   limitImageSize : 5,
   iconPath : 'https://s3.eu-central-1.amazonaws.com/omzug.com/favicon/apple-icon.png',
   noImagePath : 'https://s3.eu-central-1.amazonaws.com/omzug.com/favicon/no-image.jpg',
+  mainGifPath : "https://s3.eu-central-1.amazonaws.com/omzug.com/gif/main.gif",
   app: {
     title: 'Omzug',//head changeable
     description: '找到心仪的家',

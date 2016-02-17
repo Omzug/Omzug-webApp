@@ -11,7 +11,7 @@ import {onEndEdit, onAddImage, onChangeSlide, onDeleteImage, onToggleLimit} from
 import {Carousel} from 'components';
 import submitValidation from './submitValidation'
 
-import {TextField, FontIcon, FlatButton, Card, MenuItem,
+import {TextField, FontIcon, RaisedButton, Card, MenuItem,
   IconButton, CardMedia, CardTitle, CardText, List, ListItem, SelectField,
   DatePicker, Toggle} from 'material-ui';
 
@@ -165,28 +165,28 @@ export default class SubmitForm extends Component {
         </Card>
 
         <List className={styles.list}>
-          <ListItem key={1} className="hint--bottom" data-hint="城市" leftIcon={<FontIcon className="fa fa-map-marker"/>} >
+          <ListItem key={1} className="hint--bottom" data-hint="城市" leftIcon={<FontIcon className="fa fa-map-marker" />} disableKeyboardFocus={true} >
             <TextField key={10} hintText="城市" floatingLabelText="城市" errorText={city.touched && city.error ? city.error : null} {...city}/>
           </ListItem>
-          <ListItem key={2} className="hint--top" data-hint="地址" leftIcon={<FontIcon className="fa fa-map" />}>
+          <ListItem key={2} className="hint--top" data-hint="地址" leftIcon={<FontIcon className="fa fa-map" />} disableKeyboardFocus={true}>
             <TextField key={20} hintText="地址" errorText={location.touched && location.error ? location.error : null} {...location}/>
           </ListItem>
-          <ListItem key={3} className="hint--top" data-hint="房间数" leftIcon={<FontIcon className="fa fa-codepen" />}>
+          <ListItem key={3} className="hint--top" data-hint="房间数" leftIcon={<FontIcon className="fa fa-codepen" />} disableKeyboardFocus={true}>
             <TextField key={30} hintText="房间数" errorText={roomNumber.touched && roomNumber.error ? roomNumber.error : null} {...roomNumber}/>
           </ListItem>
-          <ListItem key={4} className="hint--top" data-hint="面积" leftIcon={<FontIcon className="fa fa-th" />}>
+          <ListItem key={4} className="hint--top" data-hint="面积" leftIcon={<FontIcon className="fa fa-th" />} disableKeyboardFocus={true}>
             <TextField key={40} hintText="面积" errorText={size.touched && size.error ? size.error : null} {...size}/>
           </ListItem>
-          <ListItem key={5} className="hint--top" data-hint="租金" leftIcon={<FontIcon className="fa fa-euro" />}>
+          <ListItem key={5} className="hint--top" data-hint="租金" leftIcon={<FontIcon className="fa fa-euro" />} disableKeyboardFocus={true}>
             <TextField key={50} hintText="租金" errorText={price.touched && price.error ? price.error : null} {...price}/>
           </ListItem>
-          <ListItem key={6} className="hint--top" data-hint="押金" leftIcon={<FontIcon className="fa fa-money" />}>
+          <ListItem key={6} className="hint--top" data-hint="押金" leftIcon={<FontIcon className="fa fa-money" />} disableKeyboardFocus={true}>
             <TextField key={60} hintText="押金" errorText={title.caution && title.caution ? title.error : null} {...caution}/>
           </ListItem>
-          <ListItem key={7} className="hint--top" data-hint="最多人数" leftIcon={<FontIcon className="fa fa-child" />}>
+          <ListItem key={7} className="hint--top" data-hint="最多人数" leftIcon={<FontIcon className="fa fa-child" />} disableKeyboardFocus={true}>
             <TextField key={70} hintText="最多人数" errorText={title.maximumPerson && title.maximumPerson ? title.error : null} {...maximumPerson}/>
           </ListItem>
-          <ListItem key={14} className="hint--top" data-hint="类型" leftIcon={<FontIcon className="fa fa-home" />}>
+          <ListItem key={14} className="hint--top" data-hint="类型" leftIcon={<FontIcon className="fa fa-home" />} disableKeyboardFocus={true}>
             <SelectField key={141} value={type.value} onChange={(event, value) => {
             console.log('value is', value)
             type.onChange(value);
@@ -196,7 +196,7 @@ export default class SubmitForm extends Component {
             </SelectField>
           </ListItem>
 
-          <ListItem key={8} className="hint--top" data-hint="开始结束日期" leftIcon={<FontIcon className="fa fa-calendar" />} children={
+          <ListItem key={8} className="hint--top" data-hint="开始结束日期" leftIcon={<FontIcon className="fa fa-calendar" />} disableKeyboardFocus={true} children={
             <div key={83}>
             {/*every child should have a key, or react give a stupid warnning */}
               <DatePicker key={81} autoOk={true} value={new Date(startDate.value)} hintText="开始日期"
@@ -218,17 +218,17 @@ export default class SubmitForm extends Component {
 
 
           </ListItem >
-          <ListItem key={9} className={styles.note} zDepth={2} className="hint--top" data-hint="备注">
+          <ListItem key={9} className={styles.note} zDepth={2} className="hint--top" data-hint="备注" disableKeyboardFocus={true}>
             <TextField key={90} hintText="备注" errorText={note.touched && note.error ? note.error : null} {...note}/>
           </ListItem>
-          <ListItem key={11} className="hint--top" data-hint="邮箱" leftIcon={<FontIcon className="fa fa-envelope-o" />}>
+          <ListItem key={11} className="hint--top" data-hint="邮箱" leftIcon={<FontIcon className="fa fa-envelope-o" />} disableKeyboardFocus={true}>
             <TextField key={110} hintText="邮箱" errorText={email.touched && email.error ? email.error : null} {...email}/>
           </ListItem>
-          <ListItem key={12} className="hint--top" data-hint="手机" leftIcon={<FontIcon className="fa fa-mobile-phone" />}>
+          <ListItem key={12} className="hint--top" data-hint="手机" leftIcon={<FontIcon className="fa fa-mobile-phone" />} disableKeyboardFocus={true}>
             <TextField key={120} hintText="手机" errorText={phone.touched && phone.error ? phone.error : null} {...phone}/>
           </ListItem>
-          <FlatButton key={15} className={styles.editButton} onClick={logError}><span className="fa fa-pencil"/> logError</FlatButton>
-          <FlatButton key={13} disabled={anyError ? true : false} className={styles.editButton} onClick={handleSubmit}><span className="fa fa-pencil"/> 保存</FlatButton>
+          <RaisedButton key={15} className={styles.editButton} onClick={logError}><span className="fa fa-pencil"/> logError</RaisedButton>
+          <RaisedButton key={13} disabled={anyError ? true : false} className={styles.editButton} onClick={handleSubmit}><span className="fa fa-pencil"/> 保存</RaisedButton>
         </List>
       </form>
     );

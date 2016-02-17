@@ -20,7 +20,7 @@ export default class Home extends Component {
           </div>
 
           <div className={styles.foto}>
-            <img id="h" src={mainImage}/>
+            <img id="h" src={config.mainGifPath}/>
           </div>
         </div>
       </div>
