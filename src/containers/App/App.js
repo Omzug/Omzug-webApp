@@ -130,7 +130,7 @@ export default class App extends Component {
 
             {!user &&
             <LinkContainer to="/register">
-              <FlatButton style={uiStyles.registerButton} labelStyle={uiStyles.labelStyle} eventKey={4} label="注册"></FlatButton>
+              <FlatButton style={uiStyles.registerButton} labelStyle={uiStyles.labelStyle} eventKey={4} label="注册"/>
             </LinkContainer>}
 
           </div>
