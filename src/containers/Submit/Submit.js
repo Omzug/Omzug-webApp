@@ -63,10 +63,7 @@ export default class Submit extends Component{
     const {feedback} = this.props;
     const styles = require('./Submit.scss');
     return (
-      <div className="container">
-        <div className={styles.submitNew}><p></p></div>
-        <Helmet title="发布新房源"/>
-
+      <div>
         <SubmitForm onSubmit={this.handleSubmit}/>
 
         <Snackbar

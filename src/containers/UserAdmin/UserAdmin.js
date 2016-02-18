@@ -74,7 +74,7 @@ export default class Entities extends Component {
           { houses.length ?
             <List houses={this.props.entities}/>
             :
-            <p>还没有发布任何房源</p>}
+            <div className={styles.noHouseYet}><p>Ooops! 您还没有发布任何房源!</p></div>}
         </div>
         }
 
