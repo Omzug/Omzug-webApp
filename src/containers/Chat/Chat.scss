@@ -1,3 +1,5 @@
+@import '../../theme/color.scss';
+
 .chat {
   input {
     padding: 5px 10px;
@@ -9,5 +11,11 @@
     :global(.btn) {
       margin-left: 10px;
     }
+  }
+  .ownName{
+    color : $green700;
+  }
+  .ownText{
+    background-color : $green700;
   }
 }

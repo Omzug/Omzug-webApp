@@ -10,7 +10,7 @@ import connectData from 'helpers/connectData';
 import { SubmitForm } from 'components';
 import { SubmitTemplate } from 'components';
 import uiStyles from "../../theme/uiStyles";
-import {FlatButton, Snackbar} from 'material-ui';
+import {Snackbar} from 'material-ui';
 
 function fetchDataDeferred(getState, dispatch) {
   if (!isLoaded(getState())) {
