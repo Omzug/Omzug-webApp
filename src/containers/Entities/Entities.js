@@ -130,10 +130,11 @@ export default class Entities extends Component {
           {error}
         </div>}
 
+        {loading &&
         <div className={styles.loading}>
           <p className={styles.loadingText}> Loading Now</p>
           <p><i className="fa fa-spin fa-refresh fa-4x"/></p>
-        </div>
+        </div>}
       </div>
     );
   }
