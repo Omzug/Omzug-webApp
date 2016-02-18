@@ -119,7 +119,7 @@ export default class Entities extends Component {
           { houses.length ?
             <List houses={this.props.entities} onDeleteHouse={this.props.onDeleteHouse}/>
              :
-            <p>这个地区暂时没可用的房源</p>}
+            <div className={styles.regionNoSource}><p>Ooops! 这个地区暂时没可用的房源!</p></div>}
         </div>
         }
 
