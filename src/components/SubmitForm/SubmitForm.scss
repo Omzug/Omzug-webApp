@@ -3,12 +3,16 @@
 @import "../../theme/color.scss";
 @import "../../theme/utils.scss";
 
+
 .card{
   width:60%;
   min-width:300px;
   flex-grow: 1;
   position:relative;
   align-self: flex-start;
+  margin-left: 70px;
+  margin-top: 40px;
+  margin-right: 40px;
   .buttonContainer{
     position:absolute;
     right : 100px;
@@ -67,6 +71,7 @@
   width:40%;
   min-width:300px;
   flex-grow: 2;
+  margin-top: 30px;
   .note{
     margin:0 30px;
     color:grey;
