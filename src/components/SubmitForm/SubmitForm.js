@@ -151,7 +151,7 @@ export default class SubmitForm extends Component {
               }
             </Carousel>
           </CardMedia>
-          <CardTitle subtitle={entity.username} >
+          <CardTitle>
             <div className="hint--top" data-hint="标题">
               {/* directly display the require error here since it hard to find */}
             <TextField key={201} hintText="标题" floatingLabelText="标题" errorText={title.error ? title.error : null} {...title}/>

@@ -8,4 +8,6 @@ export default {
   snackBarStyle : {color : "red"},
   //dialogCancelStyle : {colod : ''},
   dialogConfirmStyle : {color : 'red'},
+  registerButton : {color:"cadetblue"},
+  labelStyle : {fontSize:"large"},
 }

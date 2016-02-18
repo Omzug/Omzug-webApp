@@ -15,8 +15,8 @@ export default class Home extends Component {
         <Helmet title="Home"/>
         <div className={styles.container}>
           <div className={styles.description}>
-            <h4>{config.app.title}</h4>
-            <h5>{config.app.introduction}</h5>
+            {/*<div className={styles.title}><h4></h4></div>*/}
+            <div className={styles.introduction}><h5>{config.app.introduction}</h5></div>
           </div>
 
           <div className={styles.foto}>
