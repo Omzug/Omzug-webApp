@@ -19,7 +19,7 @@ var emailValidator = validate({
 var phoneValidator = [
   validate({
     validator : 'isLength',
-    arguments: [11, 15],
+    arguments: [11, 16],
     message : "should use normal germany phone number, 11 to 15 digits"
   }),
   validate({

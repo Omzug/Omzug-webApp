@@ -8,7 +8,7 @@ module.exports = {
   //please list the collection names one by one
   userCollectionName : 'user',
   houseCollectionName : 'house',
-  pageSize : 18,
+  pageSize : 6,
   awsFolder : "photos",
   awsExpire : 60,
   awsPrefix : 'https://s3.eu-central-1.amazonaws.com/omzug.com/photos/',

@@ -1,5 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
+import {FlatButton} from 'material-ui';
 
 @connect(
   state => ({user: state.auth.user})
@@ -44,24 +45,30 @@ export default class Chat extends Component {
     this.setState({message: ''});
 
     socket.emit('msg', {
-      from: this.props.user.name,
+      from: this.props.user.username,
       text: msg
     });
   }
 
   render() {
-    const style = require('./Chat.scss');
+    const styles = require('./Chat.scss');
     const {user} = this.props;
+    const clearHistory = (event) => {
+      this.setState({messages : []})
+    }
 
     return (
-      <div className={style.chat + ' container'}>
-        <h1 className={style}>Chat</h1>
+      <div className={styles.chat + ' container'}>
+        <h1 className={styles}>Chat</h1>
 
         {user &&
         <div>
+          <FlatButton label="清空记录" onClick={clearHistory}/>
           <ul>
           {this.state.messages.map((msg) => {
-            return <li key={`chat.msg.${msg.id}`}>{msg.from}: {msg.text}</li>;
+            return msg.from == this.props.user.username ?
+             <li key={`chat.msg.${msg.id}`}><span className={styles.ownName}>{msg.from}</span>:<span className={styles.ownText}> {msg.text}</span></li>
+            : <li key={`chat.msg.${msg.id}`}>{msg.from}: {msg.text}</li>
           })}
           </ul>
           <form className="login-form" onSubmit={this.handleSubmit}>
@@ -73,8 +80,7 @@ export default class Chat extends Component {
             }/>
             <button className="btn" onClick={this.handleSubmit}>Send</button>
           </form>
-        </div>
-        }
+        </div>}
       </div>
     );
   }

@@ -3,7 +3,7 @@
  */
 
 import memoize from 'lru-memoize';
-import {createValidator, required, minLength, email, numberAndLetter,integer, isImage, numeric, between, maxLength} from 'utils/validation';
+import {createValidator, required, email, numberAndLetter,integer, isImage, phoneNumber, between} from 'utils/validation';
 
 const submitValidation = createValidator({
   city: [required],//which should be a string
@@ -19,7 +19,7 @@ const submitValidation = createValidator({
   caution: [integer],
   endDate : [],
   email : [email],
-  phone : [minLength(11), maxLength(15),numeric],
+  phone : [phoneNumber],
   note : [],
   maximumPerson : [integer],
   images : [],

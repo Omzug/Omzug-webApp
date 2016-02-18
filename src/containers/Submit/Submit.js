@@ -47,6 +47,11 @@ export default class Submit extends Component{
   }
 
   handleSubmit = (data) => {
+    /**
+     //validate phone number
+     if(data.phone && data.phone.indexOf("+") >= 0){
+      data.phone = data.phone.slice(1)
+    }**/
     data.images = this.props.entity.images
     // default we don't set _id property, then do the create in database
     data.owner = this.props.user._id

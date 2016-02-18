@@ -16,6 +16,7 @@ module.exports = Object.assign({
   apiHost: process.env.APIHOST || 'localhost',
   apiPort: process.env.APIPORT,
   limitImageSize : 5,
+  pageSize : 6,
   iconPath : 'https://s3.eu-central-1.amazonaws.com/omzug.com/favicon/apple-icon.png',
   noImagePath : 'https://s3.eu-central-1.amazonaws.com/omzug.com/favicon/no-image.jpg',
   mainGifPath : "https://s3.eu-central-1.amazonaws.com/omzug.com/gif/main.gif",

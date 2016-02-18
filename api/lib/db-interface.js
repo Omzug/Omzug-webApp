@@ -280,20 +280,71 @@ DI.getAllInit = function(type, query, page , resolve, reject){
  * 0 : internal error
  * @param type
  * @param query
- * @param page
+ * @param skipNumber
  * @param resolve
  * @param reject
  */
-DI.getAll = function(type, query, page, resolve, reject){
+DI.getAll = function(type, query, skipNumber, resolve, reject){
+  let steps = [
+    function(callback){
+      findSchema(type, callback)
+    },
+    function(schema, callback) {
+      var queryObject = schema.find(query);
+      queryObject.count(function (err, count) {
+        if (err) {
+          callback({type: 0, msg: LOGTITLE + Errors.DataBaseFailed + err})
+        }
+        callback(null, queryObject, count)
+      })
+    },
+    function(queryObject, count, callback){
+      var isEnd = false
+      var expectTotalNumber = Math.ceil(skipNumber/config.pageSize) * config.pageSize + config.pageSize;
+      if(expectTotalNumber >= count) isEnd = true
+      // notice that page start from 0
+      queryObject
+        .sort({'createdAt' : -1})
+        .skip(skipNumber)
+        .limit(expectTotalNumber-skipNumber)
+        .exec('find', function(err, result){
+        if(err){
+          callback({type : 0, msg : LOGTITLE + Errors.DataBaseFailed + err })
+        }
+        callback(null, result, isEnd)
+      })
+    }
+  ]
+
+  async.waterfall(steps, function(err, result, isEnd){
+    if(err){
+      reject(err)
+    }else {
+      resolve({
+        status : true,
+        isEnd : isEnd,
+        data : result,
+      })
+    }
+  })
+}
+
+/**
+ * Error Code
+ * 0 : internal error
+ * @param type
+ * @param query
+ * @param resolve
+ * @param reject
+ */
+DI.getAllNoLimit = function(type, query, resolve, reject){
   let steps = [
     function(callback){
       findSchema(type, callback)
     },
     function(schema, callback){
       // notice taht page start from 0
-      const skipPage = page * config.pageSize;
-      console.log('skip page number is', skipPage);
-      schema.find(query).sort({'createdAt' : -1}).skip(skipPage).limit(config.pageSize).exec(function(err, result){
+      schema.find(query).sort({'createdAt' : -1}).exec(function(err, result){
         if(err){
           callback({type : 0, msg : LOGTITLE + Errors.DataBaseFailed + err })
         }

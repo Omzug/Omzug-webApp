@@ -10,7 +10,7 @@ import connectData from 'helpers/connectData';
 import { SubmitForm } from 'components';
 import { SubmitTemplate } from 'components';
 import uiStyles from "../../theme/uiStyles";
-import {FlatButton, Snackbar} from 'material-ui';
+import {Snackbar} from 'material-ui';
 
 function fetchDataDeferred(getState, dispatch) {
   if (!isLoaded(getState())) {
@@ -65,6 +65,11 @@ export default class Entity extends Component {
   }
 
   handleSubmit = (data) => {
+    /**
+    //validate phone number
+    if(data.phone && data.phone.indexOf("+") >= 0){
+      data.phone = data.phone.slice(1)
+    }**/
     // owner is included in entity
     data.images = this.props.entity.images
     // here we define a _id for update in database

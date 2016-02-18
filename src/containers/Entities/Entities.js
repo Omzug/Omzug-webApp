@@ -3,10 +3,11 @@
  */
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
-import {isLoaded, load as getList, onLocationChange} from 'redux/modules/entities';
+import {isLoaded, load as getList, onLocationChange, onAppendList, onDeleteHouse,onDisableAppend} from 'redux/modules/entities';
 import {bindActionCreators} from 'redux';
 import connectData from 'helpers/connectData';
 import {List} from "components";
+import config from '../../config';
 
 import {DropDownMenu, MenuItem,RaisedButton, ThemeManager, ThemeDecorator} from 'material-ui';
 
@@ -25,13 +26,14 @@ function fetchDataDeferred(getState, dispatch) {
 
 @connect(
   state => ({
+    isEnd : state.entities.isEnd,
     entities: state.entities.list,
     error: state.entities.error,
     loading: state.entities.loading,
     loaded: state.entities.loaded,
     locationId : state.entities.locationId
   }),
-  {getList, onLocationChange}
+  {getList, onLocationChange, onAppendList, onDeleteHouse, onDisableAppend}
   //dispatch => bindActionCreators({getList}, dispatch)
 )
 export default class Entities extends Component {
@@ -41,9 +43,13 @@ export default class Entities extends Component {
     loading: PropTypes.bool,
     locationId : PropTypes.number,
     loaded :PropTypes.bool,
+    isEnd : PropTypes.bool,
 
+    onDisableAppend : PropTypes.func.isRequired,
+    onDeleteHouse : PropTypes.func.isRequired,
     getList: PropTypes.func.isRequired,
     onLocationChange: PropTypes.func.isRequired,
+    onAppendList : PropTypes.func.isRequired,
   };
 
   loadCity = (event) => {
@@ -62,6 +68,29 @@ export default class Entities extends Component {
     }else{
       this.props.getList();
     }
+  }
+
+  handleScroll = (event) => {
+    var listBody = event.srcElement.body;
+    console.log('windows inner height is', window.innerHeight, 'scroll top is', listBody.scrollTop, 'scrolllHeight is', listBody.scrollHeight)
+    if(window.innerHeight + listBody.scrollTop >= listBody.scrollHeight - 20){
+      //temporary disable append util we get result
+      if(!this.props.loading && !this.props.isEnd){
+        this.props.onDisableAppend();
+        console.log('now appending to list')
+        if(this.props.locationId && this.props.locationId <= cityList.length) {
+          this.props.onAppendList(cityList[locationId].toLowerCase(), this.props.entities.length);
+        }else{
+          this.props.onAppendList(null,this.props.entities.length);
+        }
+      }
+    }
+  }
+  componentDidMount(){
+    window.addEventListener('scroll', this.handleScroll)
+  }
+  componentWillUnmount(){
+    window.removeEventListener('scroll', this.handleScroll)
   }
 
   render() {
@@ -88,7 +117,7 @@ export default class Entities extends Component {
         {loaded &&
         <div className={styles.gridContainer}>
           { houses.length ?
-            <List houses={this.props.entities}/>
+            <List houses={this.props.entities} onDeleteHouse={this.props.onDeleteHouse}/>
              :
             <p>这个地区暂时没可用的房源</p>}
         </div>
@@ -99,6 +128,12 @@ export default class Entities extends Component {
           <span className="glyphicon glyphicon-exclamation-sign" aria-hidden="true">sorry</span>
           {' '}
           {error}
+        </div>}
+
+        {loading &&
+        <div className={styles.loading}>
+          <p className={styles.loadingText}> Loading Now</p>
+          <p><i className="fa fa-spin fa-refresh fa-4x"/></p>
         </div>}
       </div>
     );

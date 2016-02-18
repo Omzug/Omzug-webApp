@@ -18,6 +18,7 @@ var config = require('../../config');
     entity: state.entity.data,
     contactOpen : state.entity.contactOpen,
     cachedImages : state.entity.cachedImages,
+    userId : state.auth.user._id,
   }),
   {onContactOpen, onContactClose, onStartEdit}
 )
@@ -26,6 +27,7 @@ export default class SubmitTemplate extends Component {
     entity: PropTypes.object,
     contactOpen : PropTypes.bool,
     cachedImages: PropTypes.array,
+    userId : PropTypes.string,
 
     onContactOpen : PropTypes.func.isRequired,
     onContactClose : PropTypes.func.isRequired,
@@ -40,7 +42,7 @@ export default class SubmitTemplate extends Component {
     const image1 = require('./a1.jpg');
     const image2 = require('./b1.jpg');
     const image3 = require('./c1.jpg');
-    const {entity, contactOpen, cachedImages} = this.props;
+    const {entity, contactOpen, cachedImages, userId} = this.props;
 
     var Decorators = [
       {component: React.createClass({render() {
@@ -98,7 +100,7 @@ export default class SubmitTemplate extends Component {
           <CardActions>
             <FlatButton className={styles.button} onClick={this.props.onContactOpen}><span className="fa fa-envelope"/> 联系房主</FlatButton>
             <Dialog
-              title={entity.owner + "的联系方式"}
+              title={entity.username + "的联系方式"}
               actions={
               <div>
                 <FlatButton onClick={this.props.onContactClose} className={styles.hvrBuzzOut}>
@@ -147,8 +149,10 @@ export default class SubmitTemplate extends Component {
             </ListItem>
           }
 
-
-          <RaisedButton key={12} className={styles.editButton} onClick={this.props.onStartEdit}><span className="fa fa-pencil"/> 编辑</RaisedButton>
+          {userId && userId == entity.owner &&
+          <RaisedButton key={12} className={styles.editButton} onClick={this.props.onStartEdit}><span
+            className="fa fa-pencil"/> 编辑</RaisedButton>
+          }
         </List>
       </div>
     );
