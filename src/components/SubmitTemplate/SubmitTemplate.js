@@ -98,7 +98,7 @@ export default class SubmitTemplate extends Component {
           <CardActions>
             <FlatButton className={styles.button} onClick={this.props.onContactOpen}><span className="fa fa-envelope"/> 联系房主</FlatButton>
             <Dialog
-              title={entity.owner + "的联系方式"}
+              title={entity.username + "的联系方式"}
               actions={
               <div>
                 <FlatButton onClick={this.props.onContactClose} className={styles.hvrBuzzOut}>

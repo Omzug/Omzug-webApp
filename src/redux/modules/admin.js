@@ -18,6 +18,7 @@ const initState = {
   list :[],
   loaded: false,
   deleteFeedback : null,
+  loading :false,
   popover : false,
 };
 

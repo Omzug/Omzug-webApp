@@ -4,7 +4,7 @@
 
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
-import {isLoaded, onLoad, onLocationChange} from 'redux/modules/admin';
+import {isLoaded, onLoad, onLocationChange, onDeleteHouse} from 'redux/modules/admin';
 import {bindActionCreators} from 'redux';
 import connectData from 'helpers/connectData';
 import {List} from "components";
@@ -33,7 +33,7 @@ function fetchDataDeferred(getState, dispatch) {
     loaded: state.admin.loaded,
     locationId : state.admin.locationId
   }),
-  {onLoad, onLocationChange}
+  {onLoad, onLocationChange, onDeleteHouse}
 )
 export default class Entities extends Component {
   static propTypes = {
@@ -44,6 +44,7 @@ export default class Entities extends Component {
     loaded :PropTypes.bool,
     userId : PropTypes.string,
 
+    onDeleteHouse : PropTypes.func.isRequired,
     onLoad: PropTypes.func.isRequired,
     onLocationChange: PropTypes.func.isRequired,
   };
@@ -72,7 +73,7 @@ export default class Entities extends Component {
         {loaded &&
         <div className={styles.gridContainer}>
           { houses.length ?
-            <List houses={this.props.entities}/>
+            <List houses={this.props.entities} onDeleteHouse={this.props.onDeleteHouse}/>
             :
             <p>还没有发布任何房源</p>}
         </div>

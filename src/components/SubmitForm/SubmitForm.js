@@ -154,7 +154,7 @@ export default class SubmitForm extends Component {
           <CardTitle subtitle={entity.username} >
             <div className="hint--top" data-hint="标题">
               {/* directly display the require error here since it hard to find */}
-            <TextField key={201} hintText="标题" errorText={title.error ? title.error : null} {...title}/>
+            <TextField key={201} hintText="标题" floatingLabelText="标题" errorText={title.error ? title.error : null} {...title}/>
             </div>
           </CardTitle>
           <CardText>
@@ -169,22 +169,22 @@ export default class SubmitForm extends Component {
             <TextField key={10} hintText="城市" floatingLabelText="城市" errorText={city.touched && city.error ? city.error : null} {...city}/>
           </ListItem>
           <ListItem key={2} className="hint--top" data-hint="地址" leftIcon={<FontIcon className="fa fa-map" />} disableKeyboardFocus={true}>
-            <TextField key={20} hintText="地址" errorText={location.touched && location.error ? location.error : null} {...location}/>
+            <TextField key={20} hintText="地址" floatingLabelText="地址" errorText={location.touched && location.error ? location.error : null} {...location}/>
           </ListItem>
           <ListItem key={3} className="hint--top" data-hint="房间数" leftIcon={<FontIcon className="fa fa-codepen" />} disableKeyboardFocus={true}>
-            <TextField key={30} hintText="房间数" errorText={roomNumber.touched && roomNumber.error ? roomNumber.error : null} {...roomNumber}/>
+            <TextField key={30} hintText="房间数" floatingLabelText="房间数" errorText={roomNumber.touched && roomNumber.error ? roomNumber.error : null} {...roomNumber}/>
           </ListItem>
           <ListItem key={4} className="hint--top" data-hint="面积" leftIcon={<FontIcon className="fa fa-th" />} disableKeyboardFocus={true}>
-            <TextField key={40} hintText="面积" errorText={size.touched && size.error ? size.error : null} {...size}/>
+            <TextField key={40} hintText="面积" floatingLabelText="面积" errorText={size.touched && size.error ? size.error : null} {...size}/>
           </ListItem>
           <ListItem key={5} className="hint--top" data-hint="租金" leftIcon={<FontIcon className="fa fa-euro" />} disableKeyboardFocus={true}>
-            <TextField key={50} hintText="租金" errorText={price.touched && price.error ? price.error : null} {...price}/>
+            <TextField key={50} hintText="租金" floatingLabelText="租金" errorText={price.touched && price.error ? price.error : null} {...price}/>
           </ListItem>
           <ListItem key={6} className="hint--top" data-hint="押金" leftIcon={<FontIcon className="fa fa-money" />} disableKeyboardFocus={true}>
-            <TextField key={60} hintText="押金" errorText={title.caution && title.caution ? title.error : null} {...caution}/>
+            <TextField key={60} hintText="押金" floatingLabelText="押金" errorText={title.caution && title.caution ? title.error : null} {...caution}/>
           </ListItem>
           <ListItem key={7} className="hint--top" data-hint="最多人数" leftIcon={<FontIcon className="fa fa-child" />} disableKeyboardFocus={true}>
-            <TextField key={70} hintText="最多人数" errorText={title.maximumPerson && title.maximumPerson ? title.error : null} {...maximumPerson}/>
+            <TextField key={70} hintText="最多人数" floatingLabelText="最多人数" errorText={title.maximumPerson && title.maximumPerson ? title.error : null} {...maximumPerson}/>
           </ListItem>
           <ListItem key={14} className="hint--top" data-hint="类型" leftIcon={<FontIcon className="fa fa-home" />} disableKeyboardFocus={true}>
             <SelectField key={141} value={type.value} onChange={(event, value) => {
@@ -219,13 +219,13 @@ export default class SubmitForm extends Component {
 
           </ListItem >
           <ListItem key={9} className={styles.note} zDepth={2} className="hint--top" data-hint="备注" disableKeyboardFocus={true}>
-            <TextField key={90} hintText="备注" errorText={note.touched && note.error ? note.error : null} {...note}/>
+            <TextField key={90} hintText="备注" floatingLabelText="备注" errorText={note.touched && note.error ? note.error : null} {...note}/>
           </ListItem>
           <ListItem key={11} className="hint--top" data-hint="邮箱" leftIcon={<FontIcon className="fa fa-envelope-o" />} disableKeyboardFocus={true}>
-            <TextField key={110} hintText="邮箱" errorText={email.touched && email.error ? email.error : null} {...email}/>
+            <TextField key={110} hintText="邮箱" floatingLabelText="邮箱" errorText={email.touched && email.error ? email.error : null} {...email}/>
           </ListItem>
           <ListItem key={12} className="hint--top" data-hint="手机" leftIcon={<FontIcon className="fa fa-mobile-phone" />} disableKeyboardFocus={true}>
-            <TextField key={120} hintText="手机" errorText={phone.touched && phone.error ? phone.error : null} {...phone}/>
+            <TextField key={120} hintText="手机" floatingLabelText="手机" errorText={phone.touched && phone.error ? phone.error : null} {...phone}/>
           </ListItem>
           <RaisedButton key={15} className={styles.editButton} onClick={logError}><span className="fa fa-pencil"/> logError</RaisedButton>
           <RaisedButton key={13} disabled={anyError ? true : false} className={styles.editButton} onClick={handleSubmit}><span className="fa fa-pencil"/> 保存</RaisedButton>

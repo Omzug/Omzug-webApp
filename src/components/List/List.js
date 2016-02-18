@@ -1,11 +1,11 @@
 /**
  * Created by hanwencheng on 2/10/16.
  */
-import React, {Component, PropTypes} from 'react';
+import React, {Component, PropTypes, ExecutionEnvironment} from 'react';
 import {GridList, GridTile, Dialog, IconButton, FlatButton} from 'material-ui';
 import {Carousel} from 'components';
 import { LinkContainer } from 'react-router-bootstrap';
-import { onDeleteHouse, onOpenDialog, onCloseDialog } from 'redux/modules/admin';
+import {onOpenDialog, onCloseDialog } from 'redux/modules/admin';
 import {onStartEdit} from "redux/modules/entity";
 import {connect} from 'react-redux';
 import uiStyle from '../../theme/uiStyles'
@@ -17,7 +17,7 @@ var config = require('../../config');
     userId : state.auth.user._id,
     popover : state.admin.popover,
   }),
-  {onDeleteHouse, onOpenDialog, onCloseDialog, onStartEdit}
+  {onOpenDialog, onCloseDialog, onStartEdit}
 )
 export default class List extends Component {
   static propTypes = {
@@ -99,8 +99,12 @@ export default class List extends Component {
       }
     }
 
+    const checkScroll = (event)=>{
+      console.log('now scroll, the evnt is ', event)
+    }
+
     return (
-        <GridList cellHeight={300} padding={50} cols={3} className={styles.gridList}>
+        <GridList cellHeight={300} padding={50} cols={3} className={styles.gridList} onScroll={checkScroll}>
           {houses.map((house, index) => (
             <GridTile
               className={styles.tile}

@@ -1,5 +1,6 @@
 @import "../../theme/variables.scss";
 @import "../../theme/utils.scss";
+@import "../../theme/color.scss";
 
 .dropDown{
 
@@ -15,4 +16,20 @@
 
 .gridContainer{
   margin: 120px 50px 50px 10px;
+}
+
+.loading{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width :100%;
+  margin : 0 auto;
+  font-size: large;
+  text-align: center;
+  background-color: $grey50;
+  .loadingText{
+    padding : 0 20px;
+    color: $darkBlack
+  }
 }

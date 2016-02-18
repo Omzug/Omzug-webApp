@@ -65,6 +65,11 @@ export default class Entity extends Component {
   }
 
   handleSubmit = (data) => {
+    /**
+    //validate phone number
+    if(data.phone && data.phone.indexOf("+") >= 0){
+      data.phone = data.phone.slice(1)
+    }**/
     // owner is included in entity
     data.images = this.props.entity.images
     // here we define a _id for update in database

@@ -37,6 +37,12 @@ export function numberAndLetter(value){
   }
 }
 
+export function phoneNumber(value){
+  if(!isEmpty(value) && !/^\+?[0-9]{11,15}$/.test(value)) {
+    return `Should be Numeric, only numbers here`
+  }
+}
+
 export function numeric(value){
   if(!isEmpty(value) && !/^[0-9]+$/.test(value)) {
     return `Should be Numeric, only numbers here`
