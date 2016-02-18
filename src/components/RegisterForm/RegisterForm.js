@@ -109,9 +109,9 @@ export default class RegisterForm extends Component{
             <span>Submit</span>
           }
         </RaisedButton>
-        <RaisedButton disabled={loggingIn} secondary={true} style={buttonStyle} onClick={resetForm}>
+        {/*<RaisedButton disabled={loggingIn} secondary={true} style={buttonStyle} onClick={resetForm}>
           Clear Values
-        </RaisedButton>
+        </RaisedButton>*/}
       </div>
     </form>
     );
