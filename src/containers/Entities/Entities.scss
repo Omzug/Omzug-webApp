@@ -9,8 +9,10 @@
 .listNav{
   position : fixed;
   z-index: 5;
+  padding-top: 20px;
   top: 60px;
   width: 100%;
+  margin-left: 20px;
   background-color: white;
 }
 
@@ -32,4 +34,11 @@
     padding : 0 20px;
     color: $darkBlack
   }
+}
+
+.regionNoSource{
+  padding-top: 20px;
+  margin-left: 30px;
+  margin-bottom: 435px;
+  font-size: 20px;
 }
