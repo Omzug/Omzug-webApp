@@ -73,12 +73,13 @@ export default class App extends Component {
       this.props.pushState(null, '/entities/' + nextProps.createData._id)
       // refresh the main list
       if(this.props.locationId && this.props.locationId <= cityList.length) {
-        if(this.props.adminLoaded){
-          this.props.onAddData(nextProps.createData)
-        }
         this.props.getList(cityList[this.props.locationId].toLowerCase());
       }else{
         this.props.getList();
+      }
+      //refresh admin list
+      if(this.props.adminLoaded){
+        this.props.onAddData(nextProps.createData)
       }
     }
   }

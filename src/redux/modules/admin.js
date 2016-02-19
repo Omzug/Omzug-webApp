@@ -21,6 +21,7 @@ const initState = {
   deleteFeedback : null,
   loading :false,
   popover : false,
+  toDelete : null,
 };
 
 export default function reducer(state = initState, action = {}) {
@@ -50,16 +51,14 @@ export default function reducer(state = initState, action = {}) {
           return {
             ...state,
             deleting : true,
-            deleteIndex : action.index
           }
     case DELETE_HOUSE_SUCCESS:
-          var deleteIndex = state.deleteIndex
           return {
             ...state,
             deleting : false,
             deleteFeedback : "成功删除,所有相关的图片也已删除",
             // index start from 0
-            list : update(state.list, {$splice : [[deleteIndex, 1]]})
+            list : update(state.list, {$splice : [[action.index, 1]]})
           }
     case DELETE_HOUSE_FAIL:
           return {
@@ -70,6 +69,10 @@ export default function reducer(state = initState, action = {}) {
     case OPEN_DIALOG :
           return {
             ...state,
+            toDelete : {
+              house : action.house,
+              index : action.index,
+            },
             popover : true,
           }
     case CLOSE_DIALOG:
@@ -78,10 +81,13 @@ export default function reducer(state = initState, action = {}) {
             popover : false,
           }
     case ADD_DATA : {
+      console.log('the data before add is', state.list)
+      var updated = update(state.list, {$splice : [[0, 0 , action.data]]})
+      console.log('updated list is', updated)
       if(state.loaded)
         return {
           ...state,
-          list : update(state.list, {$splice : [[0, 0 , action.data]]})
+          list : updated
         }
     }
     case CLEAR:
@@ -102,19 +108,21 @@ export function onLoad(userId){
   };
 }
 
-export function onDeleteHouse(userId, houseId, houseIndex){
+export function onDeleteHouse(house, index){
   return {
-    index : houseIndex,
+    index : index,
     types : [DELETE_HOUSE, DELETE_HOUSE_SUCCESS, DELETE_HOUSE_FAIL],
     promise : (client) => {
-      var url = '/deleteHouse/' + userId +  "/" + houseId;
+      var url = '/deleteHouse/' + house.owner +  "/" + house._id;
       return client.get(url)
     }
   }
 }
 
-export function onOpenDialog(){
+export function onOpenDialog(house, index){
   return {
+    house : house,
+    index : index,
     type : OPEN_DIALOG
   }
 }
