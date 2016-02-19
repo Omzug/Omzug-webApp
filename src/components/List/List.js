@@ -118,7 +118,8 @@ export default class List extends Component {
               key={house._id}
               style={{"display" : "flex", "alignItems":"center", "justifyContent": "center", minWidth:"300px"}}
               title={house.title}
-              subtitle={<span>by <b>{house.username}</b> In <b>{house.city}</b></span>}
+              subtitle={<span>by <b className={styles.usernameColor}>{house.username}</b> In
+              <b className={styles.cityColor}> {house.city}</b></span>}
               actionIcon={renderIcon(house, index)}
             >
               <Carousel key={house._id} decorators={Decorators} className={styles.carousel} width={"100%"}

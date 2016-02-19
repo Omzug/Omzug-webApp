@@ -4,6 +4,7 @@
 
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
+import uiStyles from '../../theme/uiStyles';
 
 import {onContactOpen, onContactClose, onStartEdit} from "redux/modules/entity";
 
@@ -76,7 +77,7 @@ export default class SubmitTemplate extends Component {
 
     return (
       <div className={styles.container}>
-        <Card className={styles.card}>
+        <Card style={uiStyles.card} className={styles.card + " " + styles.hvrGlow}>
           {/*
           <CardHeader
             title="房子的标题"
@@ -84,7 +85,7 @@ export default class SubmitTemplate extends Component {
             avatar="http://lorempixel.com/100/100/nature/"
           />
           */}
-          <CardMedia>
+          <CardMedia style={uiStyles.CardMedia}>
             <div>
               <Carousel className={styles.slider} decorators={Decorators} framePadding="50px" width="100%" slidesToShow={1}>
                 {entity.images.length >= 1 && entity.images.map(address => (<div className={styles.imageContainer}><img src={address}/></div>))}
@@ -93,12 +94,12 @@ export default class SubmitTemplate extends Component {
               </Carousel>
             </div>
           </CardMedia>
-          <CardTitle title={entity.title} subtitle={entity.username} />
-          <CardText>
+          <CardTitle clasName={styles.CardTitle} style={uiStyles.CardTitle} title={entity.title} subtitle={"by " + entity.username} />
+          <CardText style={uiStyles.CardText}>
             {entity.description}
           </CardText>
           <CardActions>
-            <FlatButton className={styles.button} onClick={this.props.onContactOpen}><span className="fa fa-envelope"/> 联系房主</FlatButton>
+            <FlatButton style={uiStyles.actionButton} onClick={this.props.onContactOpen}><span className="fa fa-envelope"/> 联系房主</FlatButton>
             <Dialog
               title={entity.username + "的联系方式"}
               actions={
@@ -119,7 +120,7 @@ export default class SubmitTemplate extends Component {
                 <ListItem className="hint--top" data-hint="手机" primaryText={entity.phone} leftIcon={<FontIcon className="fa fa-mobile-phone" />} />
               </List>
             </Dialog>
-            <FlatButton className={styles.button} onClick={this.props.onContactOpen}><span className="fa fa-share"/> 分享</FlatButton>
+            <FlatButton style={uiStyles.actionButton} className={styles.button} onClick={this.props.onContactOpen}><span className="fa fa-share"/> 分享</FlatButton>
           </CardActions>
         </Card>
 
@@ -141,7 +142,7 @@ export default class SubmitTemplate extends Component {
           }>
           </ListItem>
 
-          <Divider key={10}/>
+
 
           {entity.note &&
             <ListItem key={11} className={styles.note} zDepth={2} className="hint--top" data-hint="备注">
