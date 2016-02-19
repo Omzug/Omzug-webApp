@@ -15,6 +15,10 @@ const APPEND_SUCCESS = "Nevermind/entityList/APPEND_SUCCESS"
 const APPEND_FAIL = "Nevermind/entityList/APPEND_FAIL"
 const DISABLE_APPEND = "Nevermind/entityList/DISABLE_APPEND"
 
+const CITY_LIST = "Nevermind/entityList/CITY_LIST"
+const CITY_LIST_SUCCESS = "Nevermind/entityList/CITY_LIST_SUCCESS"
+const CITY_LIST_FAIL = "Nevermind/entityList/CITY_LIST_FAIL"
+
 var update = require('react-addons-update');
 
 const initState = {
@@ -84,6 +88,20 @@ export default function reducer(state = initState, action = {}) {
         list: [],
         error: action.error
       };
+    case CITY_LIST:
+          return {
+            loadingCity : true,
+          }
+    case CITY_LIST_SUCCESS:
+          return {
+            loadingCity : false,
+            cityList : action.result.data
+          }
+    case CITY_LIST_FAIL :
+          return {
+            loadingCity : false,
+            error : action.error
+          }
     case CLEAR:
       return {
         initState
@@ -144,6 +162,16 @@ export function onDeleteHouse(userId, houseId, houseIndex){
     types : [DELETE_HOUSE, DELETE_HOUSE_SUCCESS, DELETE_HOUSE_FAIL],
     promise : (client) => {
       var url = '/deleteHouse/' + userId +  "/" + houseId;
+      return client.get(url)
+    }
+  }
+}
+
+export function getCityList(){
+  return {
+    types: [CITY_LIST, CITY_LIST_SUCCESS, CITY_LIST_FAIL],
+    promise : (client) => {
+      var url = '/cityList/';
       return client.get(url)
     }
   }

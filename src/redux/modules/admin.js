@@ -81,9 +81,7 @@ export default function reducer(state = initState, action = {}) {
             popover : false,
           }
     case ADD_DATA : {
-      console.log('the data before add is', state.list)
       var updated = update(state.list, {$splice : [[0, 0 , action.data]]})
-      console.log('updated list is', updated)
       if(state.loaded)
         return {
           ...state,

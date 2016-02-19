@@ -55,6 +55,11 @@ DI.init = function () {
 
   this.initialized = true;
   insert();
+  this.getCityList(function(result){
+    console.log('cityList is : ', result)
+  }, function(err){
+    console.log(err)
+  });
 };
 
 function insert(){
@@ -90,20 +95,6 @@ function insert(){
   //TODO
   console.log("test the length with string validator")
     console.log(/d{6,1024}/.test("iamfi"),/d{6,1024}/.test("iamfine"), /d{6,1024}/.test("iamfin"))
-  //house1.save(function(err, result){
-  //  console.log('house 1 saved success', result, err)
-  //})
-  //house2.save(function(err, result){
-  //  console.log('house 2 saved success', result, err)
-  //})
-
-  DI.getAllInit("house",{owner : objectId}, null, function(result){
-    console.log("get all result successful")
-  },function(err){
-    console.log("get all error", err)
-  })
-
-
 }
 
 function test(){
@@ -454,6 +445,18 @@ DI.update = function(type, query, update, resolve, reject){
       })
     }
   })
+}
+
+DI.getCityList = function(resolve, reject){
+  House.find().distinct('city', function(error, cities) {
+    if(error)
+      return reject({msg : "error in querying cities list : "  + error.toString() })
+
+    resolve({
+      status: true,
+      data : cities,
+    })
+  });
 }
 
 /**

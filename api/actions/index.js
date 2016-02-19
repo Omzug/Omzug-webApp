@@ -8,3 +8,4 @@ export check from './check';
 export house from './house';
 export submit from './submit';
 export deleteHouse from './deleteHouse';
+export cityList from './cityList';
