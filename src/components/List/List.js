@@ -77,12 +77,12 @@ export default class List extends Component {
               actions={[
                 <FlatButton
                   label="取消"
-                  onTouchTap={onCloseDialog}
+                  onClick={onCloseDialog}
                 />,
                 <FlatButton
                   label="删除"
                   keyboardFocused={true}
-                  onTouchTap={deleteHouse.bind(this, ownerId, houseId, index)}
+                  onClick={deleteHouse.bind(this, ownerId, houseId, index)}
                   labelStyle={uiStyle.dialogConfirmStyle}
                 />,
               ]}
@@ -109,14 +109,14 @@ export default class List extends Component {
             <GridTile
               className={styles.tile}
               key={house._id}
-              style={{"display" : "flex", "alignItems":"center", "justifyContent": "center"}}
+              style={{"display" : "flex", "alignItems":"center", "justifyContent": "center", minWidth:"300px"}}
               title={house.title}
               subtitle={<span>by <b>{house.username}</b> In <b>{house.city}</b></span>}
               actionIcon={renderIcon(house.owner, house._id, index)}
             >
               <Carousel key={house._id} decorators={Decorators} className={styles.carousel} width={"100%"}
-                        initialSlideHight={300} initialSlideWidth={500} slidesToShow={1}>
-                { house.images.length ?
+                        initialSlideHight={300} initialSlideWidth={500}>
+                { house.images && house.images.length ?
                   house.images.map((address, index) => (
                     <div key={index} className={styles.imageContainer}>
                       <LinkContainer to={`/entities/${house._id}`}>
@@ -131,13 +131,6 @@ export default class List extends Component {
                     </LinkContainer>
                   </div>
                 }
-                {house.images && house.images.length >= 1 && house.images.map((address, index) => (
-                  <div key={index} className={styles.imageContainer}>
-                    <LinkContainer to={`/entities/${house._id}`}>
-                      <img key={index} src={address}/>
-                    </LinkContainer>
-                  </div>
-                ))}
               </Carousel>
             </GridTile>
           ))}

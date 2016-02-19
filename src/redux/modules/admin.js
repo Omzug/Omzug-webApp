@@ -9,8 +9,9 @@ const CLEAR = 'Nevermind/admin/CLEAR';
 const DELETE_HOUSE = 'Nevermind/admin/DELETE_HOUSE'
 const DELETE_HOUSE_SUCCESS = 'Nevermind/admin/DELETE_HOUSE_SUCCESS'
 const DELETE_HOUSE_FAIL = 'Nevermind/admin/DELETE_HOUSE_FAIL'
-const OPEN_DIALOG = 'Nevermind/admin/OPEN_DIALOG'
-const CLOSE_DIALOG = 'Nevermind/admin/CLOSE_DIALOG'
+const OPEN_DIALOG = 'Nevermind/admin/OPEN_DIALOG';
+const CLOSE_DIALOG = 'Nevermind/admin/CLOSE_DIALOG';
+const ADD_DATA = 'Nevermind/admin/ADD_DATA';
 
 var update = require('react-addons-update');
 
@@ -76,6 +77,13 @@ export default function reducer(state = initState, action = {}) {
             ...state,
             popover : false,
           }
+    case ADD_DATA : {
+      if(state.loaded)
+        return {
+          ...state,
+          list : update(state.list, {$splice : [[0, 0 , action.data]]})
+        }
+    }
     case CLEAR:
       return {
         initState
@@ -117,6 +125,12 @@ export function onCloseDialog(){
   }
 }
 
+export function onAddData(data){
+  return {
+    type : ADD_DATA,
+    data : data
+  }
+}
 
 export function isLoaded(globalState) {
   return globalState.admin && globalState.admin.loaded;
