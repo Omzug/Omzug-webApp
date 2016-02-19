@@ -6,18 +6,17 @@ import { Navbar, Nav, div } from 'react-bootstrap';
 import Helmet from 'react-helmet';
 import { isLoaded as isInfoLoaded, load as loadInfo } from 'redux/modules/info';
 import { isLoaded as isAuthLoaded, load as loadAuth, logout, clearLoginError } from 'redux/modules/auth';
+import { onAddData } from 'redux/modules/admin';
 import { load as getList} from 'redux/modules/entities'
 //import { InfoBar } from 'components';
 import { pushState } from 'redux-router';
 import connectData from 'helpers/connectData';
 import config from '../../config';
-import injectTapEventPlugin from 'react-tap-event-plugin';
 import FlatButton from 'material-ui/lib/flat-button';
 import cityList from '../../constant/cityList';
 import uiStyles from '../../theme/uiStyles';
 
 // it must be enabled before react 1.0 for material ui
-injectTapEventPlugin();
 
 //load authentication data when loaded
 function fetchData(getState, dispatch) {
@@ -35,21 +34,24 @@ function fetchData(getState, dispatch) {
 @connect(
   state => ({
     user: state.auth.user,
-    createId : state.entity.createId,
+    adminLoaded : state.admin.loaded,
+    createData : state.entity.createData,
     locationId : state.entities.locationId,
   }),
-  {logout, clearLoginError, pushState, getList})
+  {logout, clearLoginError, pushState, getList, onAddData})
 export default class App extends Component {
   static propTypes = {
     children: PropTypes.object.isRequired,
     user: PropTypes.object,
     createId : PropTypes.string,
     locationId : PropTypes.number,
+    adminLoaded : PropTypes.bool,
 
     logout: PropTypes.func.isRequired,
     pushState: PropTypes.func.isRequired,
     clearLoginError: PropTypes.func.isRequired,
     getList : PropTypes.func.isRequired,
+    onAddData : PropTypes.func.isRequired,
   };
 
   static contextTypes = {
@@ -67,15 +69,23 @@ export default class App extends Component {
       this.props.pushState(null, '/');
     }
 
-    if(!this.props.createId && nextProps.createId){
-      this.props.pushState(null, '/entities/' + nextProps.createId)
+    if(!this.props.createData && nextProps.createData){
+      this.props.pushState(null, '/entities/' + nextProps.createData._id)
       // refresh the main list
       if(this.props.locationId && this.props.locationId <= cityList.length) {
-        this.props.getList(cityList[locationId].toLowerCase());
+        this.props.getList(cityList[this.props.locationId].toLowerCase());
       }else{
         this.props.getList();
       }
+      //refresh admin list
+      if(this.props.adminLoaded){
+        this.props.onAddData(nextProps.createData)
+      }
     }
+  }
+
+  handleClick = (e) => {
+    console.log("click", e);
   }
 
   handleLogout = (event) => {
@@ -130,7 +140,7 @@ export default class App extends Component {
 
             {!user &&
             <LinkContainer to="/register">
-              <FlatButton style={uiStyles.registerButton} labelStyle={uiStyles.labelStyle} eventKey={4} label="注册"></FlatButton>
+              <FlatButton style={uiStyles.registerButton} labelStyle={uiStyles.labelStyle} eventKey={4} label="注册"/>
             </LinkContainer>}
 
           </div>

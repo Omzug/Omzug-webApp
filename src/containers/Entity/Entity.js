@@ -14,7 +14,7 @@ import {Snackbar} from 'material-ui';
 
 function fetchDataDeferred(getState, dispatch) {
   if (!isLoaded(getState())) {
-    //console.log("nothing load, after load we get state:")
+    console.log("nothing load, after load we get state:" + getState().router.params.entityId )
     return dispatch(onLoad(getState().router.params.entityId));
   }
 }

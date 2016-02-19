@@ -72,7 +72,6 @@ export default class Entities extends Component {
 
   handleScroll = (event) => {
     var listBody = event.srcElement.body;
-    console.log('windows inner height is', window.innerHeight, 'scroll top is', listBody.scrollTop, 'scrolllHeight is', listBody.scrollHeight)
     if(window.innerHeight + listBody.scrollTop >= listBody.scrollHeight - 20){
       //temporary disable append util we get result
       if(!this.props.loading && !this.props.isEnd){

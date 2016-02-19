@@ -31,7 +31,7 @@ function fetchDataDeferred(getState, dispatch) {
     error: state.admin.error,
     loading: state.admin.loading,
     loaded: state.admin.loaded,
-    locationId : state.admin.locationId
+    locationId : state.admin.locationId,
   }),
   {onLoad, onLocationChange, onDeleteHouse}
 )

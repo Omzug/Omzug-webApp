@@ -31,7 +31,7 @@ var phoneValidator = [
 module.exports = function(Schema, collectionName){
   var ObjectId = Schema.ObjectId;
   return new Schema({
-    city :  { type : String, required : true/*, validate : stringValidator*/},
+    city :  { type : String, required : true, index: true/*, validate : stringValidator*/},
     type : {type : Number, required : true},
     price : {type: Number, required : true},
     startDate : {type : Date, required : true},

@@ -465,7 +465,7 @@ const Carousel = React.createClass({
   },
 
   countChildren(children){
-    var result = children.filter(function(child){
+    var result = React.Children.toArray(children).filter(function(child){
       if(child) return child
     })
     return React.Children.count(result)

@@ -84,7 +84,7 @@ export function match(field) {
 export function validateImage(value){
   var error = [];
   value.forEach(function(file){
-    if (!file.name.match(/\.(jpg|jpeg|png|gif)$/)){
+    if (!file.name.match(/\.(jpg|jpeg|png|gif|JPG|JPEG|PNG|GIF)$/)){
       error.push(file.name + "上传的不是图像文件");
     }
     if(file.size > config.limitImageSize * 1024 * 1024){

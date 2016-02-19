@@ -16,6 +16,7 @@ var config = require('../../config');
   state => ({
     userId : state.auth.user._id,
     popover : state.admin.popover,
+    toDelete : state.admin.toDelete,
   }),
   {onOpenDialog, onCloseDialog, onStartEdit}
 )
@@ -24,6 +25,7 @@ export default class List extends Component {
     userId : PropTypes.string.isRequired,
     houses : PropTypes.array.isRequired,
     popover : PropTypes.bool,
+    toDelete : PropTypes.object,
 
     onDeleteHouse: PropTypes.func.isRequired,
     onOpenDialog : PropTypes.func.isRequired,
@@ -33,7 +35,7 @@ export default class List extends Component {
 
   render(){
     const styles = require('./List.scss');
-    const {loaded, getList, error, locationId, onLocationChange, onDeleteHouse, onOpenDialog, onCloseDialog} = this.props;
+    const {loaded, getList, error, locationId, onLocationChange, onDeleteHouse, onOpenDialog, onCloseDialog, toDelete} = this.props;
     const houses = this.props.houses;
 
     var Decorators = [
@@ -53,36 +55,41 @@ export default class List extends Component {
         position: 'CenterRight', style: {height: "100%"}},
     ];
 
-    const deleteHouse = (ownerId, houseId, index, event) => {
+    const deleteHouse = (event) => {
       onCloseDialog(event);
-      console.log('press delete button with parameters : ',  ownerId, houseId, index, event)
-      onDeleteHouse(ownerId, houseId, index)
+      if(toDelete){
+        onDeleteHouse(toDelete.house, toDelete.index)
+      }
     }
 
     const startEdit = (event) => {
       this.props.onStartEdit()
     }
 
-    const renderIcon = (ownerId, houseId, index) => {
+    const saveIndex = (house, index, event) => {
+      onOpenDialog(house, index)
+    }
+
+    const renderIcon = (house, index) => {
       const iconStyle = {"color" : "white"}
-      if(ownerId === this.props.userId){
+      if(house.owner === this.props.userId){
         return(
           <span>
-            <LinkContainer to={`/entities/${houseId}`}>
+            <LinkContainer to={`/entities/${house._id}`}>
               <IconButton iconClassName="fa fa-pencil" onClick={startEdit} iconStyle={iconStyle}/>
             </LinkContainer>
-            <IconButton iconClassName="fa fa-trash" onClick={onOpenDialog} iconStyle={iconStyle}/>
+            <IconButton iconClassName="fa fa-trash" onClick={saveIndex.bind(this, house, index)} iconStyle={iconStyle}/>
             <Dialog
               title="确认删除"
               actions={[
                 <FlatButton
                   label="取消"
-                  onTouchTap={onCloseDialog}
+                  onClick={onCloseDialog}
                 />,
                 <FlatButton
                   label="删除"
                   keyboardFocused={true}
-                  onTouchTap={deleteHouse.bind(this, ownerId, houseId, index)}
+                  onClick={deleteHouse}
                   labelStyle={uiStyle.dialogConfirmStyle}
                 />,
               ]}
@@ -109,15 +116,15 @@ export default class List extends Component {
             <GridTile
               className={styles.tile}
               key={house._id}
-              style={{"display" : "flex", "alignItems":"center", "justifyContent": "center"}}
+              style={{"display" : "flex", "alignItems":"center", "justifyContent": "center", minWidth:"300px"}}
               title={house.title}
               subtitle={<span>by <b className={styles.usernameColor}>{house.username}</b> In
               <b className={styles.cityColor}> {house.city}</b></span>}
-              actionIcon={renderIcon(house.owner, house._id, index)}
+              actionIcon={renderIcon(house, index)}
             >
               <Carousel key={house._id} decorators={Decorators} className={styles.carousel} width={"100%"}
-                        initialSlideHight={300} initialSlideWidth={500} slidesToShow={1}>
-                { house.images.length ?
+                        initialSlideHight={300} initialSlideWidth={500}>
+                { house.images && house.images.length ?
                   house.images.map((address, index) => (
                     <div key={index} className={styles.imageContainer}>
                       <LinkContainer to={`/entities/${house._id}`}>
@@ -132,13 +139,6 @@ export default class List extends Component {
                     </LinkContainer>
                   </div>
                 }
-                {house.images && house.images.length >= 1 && house.images.map((address, index) => (
-                  <div key={index} className={styles.imageContainer}>
-                    <LinkContainer to={`/entities/${house._id}`}>
-                      <img key={index} src={address}/>
-                    </LinkContainer>
-                  </div>
-                ))}
               </Carousel>
             </GridTile>
           ))}

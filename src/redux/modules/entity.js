@@ -57,7 +57,7 @@ const initState = {
   cachedImages:[],
   currentSlide: 0,
   feedback: null,
-  createId: null,
+  createData: null,
 };
 
 export default function reducer(state = initState, action){
@@ -110,7 +110,7 @@ export default function reducer(state = initState, action){
             feedback : "更新成功",
           }
     case SUBMIT_NEW_SUCCESS:
-      //only add a new createId property here
+      //only add a new createData property here
           return {
             ...state,
             submitting :false,
@@ -118,7 +118,7 @@ export default function reducer(state = initState, action){
             cached : null,
             feedback : "发布成功,ID是" + action.result.data._id,
             //this id should be a string
-            createId : action.result.data._id,
+            createData : action.result.data,
             loaded: true,
             loading: false,
             loadedId: action.result.data._id,
@@ -152,6 +152,7 @@ export default function reducer(state = initState, action){
               username : {$set : action.username},
               startDate : {$set : new Date()},
             }),
+            createData : null,
           }
     case CLEAR_MESSAGE:
           return {

@@ -225,7 +225,7 @@ export default class SubmitForm extends Component {
             <TextField key={110} hintText="邮箱" floatingLabelText="邮箱" errorText={email.touched && email.error ? email.error : null} {...email}/>
           </ListItem>
           <ListItem key={12} className="hint--top" data-hint="手机" leftIcon={<FontIcon className="fa fa-mobile-phone" />} disableKeyboardFocus={true}>
-            <TextField key={120} hintText="手机" floatingLabelText="地址" errorText={phone.touched && phone.error ? phone.error : null} {...phone}/>
+            <TextField key={120} hintText="手机" floatingLabelText="手机" errorText={phone.touched && phone.error ? phone.error : null} {...phone}/>
           </ListItem>
           {/* <RaisedButton key={15} className={styles.editButton} onClick={logError}><span className="fa fa-pencil"/> logError</RaisedButton>*/}
           <RaisedButton key={13} disabled={anyError ? true : false} className={styles.editButton} onClick={handleSubmit}><span className="fa fa-pencil"/> 保存</RaisedButton>
