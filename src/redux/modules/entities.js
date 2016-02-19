@@ -49,16 +49,14 @@ export default function reducer(state = initState, action = {}) {
       return {
         ...state,
         deleting : true,
-        deleteIndex : action.index
       }
     case DELETE_HOUSE_SUCCESS:
-      var deleteIndex = state.deleteIndex
       return {
         ...state,
         deleting : false,
         deleteFeedback : "成功删除,所有相关的图片也已删除",
         // index start from 0
-        list : update(state.list, {$splice : [[deleteIndex, 1]]})
+        list : update(state.list, {$splice : [[action.index, 1]]})
       }
     case DELETE_HOUSE_FAIL:
       return {
@@ -156,9 +154,9 @@ export function onDisableAppend(){
   }
 }
 
-export function onDeleteHouse(userId, houseId, houseIndex){
+export function onDeleteHouse(userId, houseId, index){
   return {
-    index : houseIndex,
+    index : index,
     types : [DELETE_HOUSE, DELETE_HOUSE_SUCCESS, DELETE_HOUSE_FAIL],
     promise : (client) => {
       var url = '/deleteHouse/' + userId +  "/" + houseId;

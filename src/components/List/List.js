@@ -58,7 +58,7 @@ export default class List extends Component {
     const deleteHouse = (event) => {
       onCloseDialog(event);
       if(toDelete){
-        onDeleteHouse(toDelete.house, toDelete.index)
+        onDeleteHouse(this.props.userId, toDelete.house._id, toDelete.index)
       }
     }
 
