@@ -69,6 +69,7 @@ export default class Submit extends Component{
     const styles = require('./Submit.scss');
     return (
       <div>
+        <Helmet title="发布房源"/>
         <SubmitForm onSubmit={this.handleSubmit}/>
 
         <Snackbar

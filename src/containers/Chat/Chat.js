@@ -59,6 +59,7 @@ export default class Chat extends Component {
 
     return (
       <div className={styles.chat + ' container'}>
+        <Helmet title="聊天室"/>
         <h1 className={styles}>Chat</h1>
 
         {user &&

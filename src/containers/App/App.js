@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { IndexLink } from 'react-router';
+import { IndexLink, Link } from 'react-router';
 import { LinkContainer } from 'react-router-bootstrap';
 import { Navbar, Nav, div } from 'react-bootstrap';
 import Helmet from 'react-helmet';
@@ -119,14 +119,12 @@ export default class App extends Component {
             </LinkContainer>
             { !config.isDebug &&
             user &&
-            <LinkContainer to="/chat">
-              <FlatButton eventKey={1}>聊天室</FlatButton>
-            </LinkContainer>}
+            <FlatButton eventKey={1} linkButton={true} containerElement={<Link to="/chat" />} label="聊天室"/>
+            }
 
             {!user &&
-            <LinkContainer to="/login">
-              <FlatButton eventKey={2}>登陆</FlatButton>
-            </LinkContainer>}
+            <FlatButton eventKey={2} linkButton={true} containerElement={<Link to="/login" />} label="登录"/>
+            }
 
             {/*{user &&
              <LinkContainer to="/logout">
@@ -136,9 +134,9 @@ export default class App extends Component {
 
 
             {!user &&
-            <LinkContainer to="/register">
-              <FlatButton style={uiStyles.registerButton} labelStyle={uiStyles.labelStyle} eventKey={4} label="注册"/>
-            </LinkContainer>}
+              <FlatButton style={uiStyles.registerButton} labelStyle={uiStyles.labelStyle} eventKey={4} label="注册"
+                          linkButton={true} containerElement={<Link to="/register" />}/>
+            }
 
           </div>
 
@@ -155,9 +153,11 @@ export default class App extends Component {
               <FlatButton eventKey={6}><span className={rightLi}><i className="fa fa-pencil fa-lg"/>发布房屋</span></FlatButton>
             </LinkContainer>
             }
+
             <LinkContainer to="/about">
               <FlatButton className={styles.aboutUs} eventKey={7}><span className={rightLi}><i className="fa fa-child fa-lg"/>关于我们</span></FlatButton>
             </LinkContainer>
+
             {user &&
             <LinkContainer to="/logout">
               <FlatButton eventKey={8} onClick={this.handleLogout}><span className={rightLi}><i className="fa fa-sign-out fa-lg" /> 登出</span></FlatButton>

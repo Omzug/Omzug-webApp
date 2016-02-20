@@ -65,7 +65,7 @@ export default class Login extends Component {
 
     return (
       <div className={styles.loginPage + ' container'}>
-        <Helmet title="Login"/>
+        <Helmet title="登录"/>
         <h1>登录</h1>
         {!user &&
         <div>

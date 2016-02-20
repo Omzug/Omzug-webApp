@@ -106,6 +106,7 @@ export default class Entities extends Component {
 
     return (
       <div>
+        <Helmet title="房屋列表"/>
         <div className={styles.listNav}>
           <div className={styles.select}>
             <Select

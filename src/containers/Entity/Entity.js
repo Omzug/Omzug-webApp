@@ -102,6 +102,7 @@ export default class Entity extends Component {
 
     return (
       <div>
+        <Helmet title="房屋"/>
         {editing ?
           <SubmitForm onSubmit={this.handleSubmit} />
            :

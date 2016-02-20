@@ -65,6 +65,7 @@ export default class Entities extends Component {
 
     return (
       <div>
+        <Helmet title="我的发布"/>
         <div className={styles.listNav}>
           <RaisedButton onClick={this.loadList} style={{lineHeight: "36px" }}><i className={refreshClassName}/> 刷新</RaisedButton>
         </div>
