@@ -16,7 +16,7 @@ import uiStyles from "../../theme/uiStyles";
 function initSubmit(getState, dispatch){
   var state = getState()
   dispatch(onClear());
-  dispatch(onInitEntity(state.entities.locationId, state.auth.user._id, state.auth.user.username));
+  dispatch(onInitEntity(state.entities.locationId, state.entities.cityList, state.auth.user._id, state.auth.user.username));
 }
 
 @connect(

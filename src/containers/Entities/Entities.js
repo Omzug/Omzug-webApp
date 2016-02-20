@@ -3,7 +3,7 @@
  */
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
-import {isLoaded, load as getList, onLocationChange, onAppendList, onDeleteHouse,onDisableAppend, onGetCityList, onInit} from 'redux/modules/entities';
+import {isLoaded, onGetHouseList, onLocationChange, onAppendList, onDeleteHouse,onDisableAppend, onGetCityList, onInit} from 'redux/modules/entities';
 import {bindActionCreators} from 'redux';
 import connectData from 'helpers/connectData';
 import {List} from "components";
@@ -12,7 +12,6 @@ import Select from 'react-select';
 import {DropDownMenu, MenuItem,RaisedButton, ThemeManager, ThemeDecorator} from 'material-ui';
 
 import myRawTheme from '../../theme/materialUI.theme';
-import cityList from '../../constant/cityList';
 
 function fetchDataDeferred(getState, dispatch) {
   if (!isLoaded(getState())) {
@@ -34,9 +33,10 @@ function fetchDataDeferred(getState, dispatch) {
     loaded: state.entities.loaded,
     locationId : state.entities.locationId,
     cityList : state.entities.cityList,
+    loadingCity : state.entities.loadingCity,
   }),
-  {getList, onLocationChange, onAppendList, onDeleteHouse, onDisableAppend, onGetCityList}
-  //dispatch => bindActionCreators({getList}, dispatch)
+  {onGetHouseList, onLocationChange, onAppendList, onDeleteHouse, onDisableAppend, onGetCityList}
+  //dispatch => bindActionCreators({onGetHouseList}, dispatch)
 )
 export default class Entities extends Component {
   static propTypes = {
@@ -47,36 +47,31 @@ export default class Entities extends Component {
     loaded :PropTypes.bool,
     isEnd : PropTypes.bool,
     cityList : PropTypes.array,
+    loadingCity : PropTypes.bool,
 
     onDisableAppend : PropTypes.func.isRequired,
     onDeleteHouse : PropTypes.func.isRequired,
-    getList: PropTypes.func.isRequired,
+    onGetHouseList: PropTypes.func.isRequired,
     onLocationChange: PropTypes.func.isRequired,
     onAppendList : PropTypes.func.isRequired,
     onGetCityList : PropTypes.func.isRequired,
   };
-
-  loadCity = (event) => {
-    event.preventDefault()
-    if(this.props.locationId && this.props.locationId <= cityList.length) {
-      this.props.getList(cityList[locationId].toLowerCase());
-    }else{
-      this.props.getList();
-    }
-  }
 
   onSelectChange = (value) => {
     //value is number
     if(value === ""){
       value = null
     }
-    this.props.onLocationChange(value);
-    console.log('now the value of select is',value)
-    //if(value && value <= cityList.length) {
-    //  this.props.getList(this.props.cityList[value].toLowerCase());
-    //}else{
-    //  this.props.getList();
-    //}
+    if(this.props.locationId != value){
+      this.props.onLocationChange(value);
+      console.log('now the value of select is',value)
+      this.props.onGetHouseList(value, this.props.cityList)
+    }
+  }
+
+  onLoadListButton = (event) => {
+    this.props.onGetCityList();
+    this.onSelectChange(null);
   }
 
 
@@ -87,11 +82,7 @@ export default class Entities extends Component {
       if(!this.props.loading && !this.props.isEnd){
         this.props.onDisableAppend();
         console.log('now appending to list')
-        if(this.props.locationId && this.props.locationId <= cityList.length) {
-          this.props.onAppendList(cityList[locationId].toLowerCase(), this.props.entities.length);
-        }else{
-          this.props.onAppendList(null,this.props.entities.length);
-        }
+        this.props.onAppendList(this.props.locationId, this.props.cityList, this.props.entities.length);
       }
     }
   }
@@ -105,11 +96,11 @@ export default class Entities extends Component {
   render() {
     require('../../theme/react-select.css')
     const styles = require('./Entities.scss');
-    const {loaded, getList, error, loading, locationId} = this.props;
+    const {loaded, error, loading, locationId} = this.props;
     const houses = this.props.entities;//TODO
 
     let refreshClassName = 'fa fa-refresh';
-    if (loading) {
+    if (this.props.loadingCity) {
       refreshClassName += ' fa-spin';
     }
 
@@ -127,7 +118,7 @@ export default class Entities extends Component {
             />
           </div>
 
-          <RaisedButton onClick={this.loadCity} style={{lineHeight: "36px" }}><i className={refreshClassName}/> 刷新</RaisedButton>
+          <RaisedButton onClick={this.onLoadListButton} style={{lineHeight: "36px" }}><i className={refreshClassName}/> 更新城市列表</RaisedButton>
         </div>
 
         {loaded &&

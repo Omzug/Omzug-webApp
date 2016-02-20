@@ -152,18 +152,26 @@ export default function reducer(state = initState, action = {}) {
   }
 }
 
+function capitalizeFirstLetter(string) {
+  return string[0].toUpperCase() + string.slice(1);
+}
+
 function processCityList(cityList){
   var selectList = []
   cityList.forEach(function(city, index){
     selectList.push({
       value : index,
-      label : city
+      label : capitalizeFirstLetter(city)
     })
   })
   return selectList;
 }
 
-export function load(city){
+export function onGetHouseList(cityIndex, cityList){
+  var city = null
+  if(cityIndex !== null) {
+    city = cityList[cityIndex].label.toLowerCase();
+  }
   return {
     types: [LOAD, LOAD_SUCCESS, LOAD_FAIL],
     promise: (client) => {
@@ -188,7 +196,11 @@ export function onInit(){
   };
 }
 
-export function onAppendList(city, skipNumber){
+export function onAppendList(cityIndex, cityList, skipNumber){
+  var city = null
+  if(cityIndex !== null) {
+    city = cityList[cityIndex].label.toLowerCase();
+  }
   return {
     types: [LOAD, APPEND_SUCCESS, LOAD_FAIL],
     promise: (client) => {

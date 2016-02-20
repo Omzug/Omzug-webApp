@@ -2,7 +2,6 @@
  * Created by hanwencheng on 1/9/16.
  */
 var update = require('react-addons-update');
-import cityList from '../../constant/cityList';
 import {validateImage} from '../../utils/validation';
 
 const LOAD = 'Nevermind/entity/LOAD';
@@ -147,7 +146,7 @@ export default function reducer(state = initState, action){
           return {
             ...state,
             data : update(state.data, {
-              city : {$set : action.city ? cityList[action.city] : null},
+              city : {$set : action.city},
               owner : {$set : action.owner},
               username : {$set : action.username},
               startDate : {$set : new Date()},
@@ -326,7 +325,11 @@ export function onClearMessage(){
   }
 }
 
-export function onInitEntity(city, ownerId, username){
+export function onInitEntity(locationId, cityList, ownerId, username){
+  var city = null
+  if(locationId !== null && cityList.length){
+    city = cityList[locationId]
+  }
   return {
     type : INIT_ENTITY,
     city : city,

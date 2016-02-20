@@ -14,6 +14,9 @@
   width: 100%;
   margin-left: 20px;
   background-color: white;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
   .select{
     width:400px;
   }

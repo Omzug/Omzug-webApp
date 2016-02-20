@@ -7,13 +7,12 @@ import Helmet from 'react-helmet';
 import { isLoaded as isInfoLoaded, load as loadInfo } from 'redux/modules/info';
 import { isLoaded as isAuthLoaded, load as loadAuth, logout, clearLoginError } from 'redux/modules/auth';
 import { onAddData } from 'redux/modules/admin';
-import { load as getList} from 'redux/modules/entities'
+import { onGetHouseList} from 'redux/modules/entities'
 //import { InfoBar } from 'components';
 import { pushState } from 'redux-router';
 import connectData from 'helpers/connectData';
 import config from '../../config';
 import FlatButton from 'material-ui/lib/flat-button';
-import cityList from '../../constant/cityList';
 import uiStyles from '../../theme/uiStyles';
 
 // it must be enabled before react 1.0 for material ui
@@ -37,8 +36,9 @@ function fetchData(getState, dispatch) {
     adminLoaded : state.admin.loaded,
     createData : state.entity.createData,
     locationId : state.entities.locationId,
+    cityList : state.entities.cityList,
   }),
-  {logout, clearLoginError, pushState, getList, onAddData})
+  {logout, clearLoginError, pushState, onGetHouseList, onAddData})
 export default class App extends Component {
   static propTypes = {
     children: PropTypes.object.isRequired,
@@ -46,11 +46,12 @@ export default class App extends Component {
     createId : PropTypes.string,
     locationId : PropTypes.number,
     adminLoaded : PropTypes.bool,
+    cityList :PropTypes.array,
 
     logout: PropTypes.func.isRequired,
     pushState: PropTypes.func.isRequired,
     clearLoginError: PropTypes.func.isRequired,
-    getList : PropTypes.func.isRequired,
+    onGetHouseList : PropTypes.func.isRequired,
     onAddData : PropTypes.func.isRequired,
   };
 
@@ -72,11 +73,7 @@ export default class App extends Component {
     if(!this.props.createData && nextProps.createData){
       this.props.pushState(null, '/entities/' + nextProps.createData._id)
       // refresh the main list
-      if(this.props.locationId && this.props.locationId <= cityList.length) {
-        this.props.getList(cityList[this.props.locationId].toLowerCase());
-      }else{
-        this.props.getList();
-      }
+      this.props.onGetHouseList(this.props.locationId, this.props.cityList)
       //refresh admin list
       if(this.props.adminLoaded){
         this.props.onAddData(nextProps.createData)

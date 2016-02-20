@@ -79,7 +79,8 @@ export default function reducer(state = initialState, action = {}) {
     case CLEAR_LOGIN_ERROR:
       return {
         ...state,
-        loginError : null
+        loginError : null,
+        error : null,
       }
     case CHECK:
         return {

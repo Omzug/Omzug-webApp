@@ -12,7 +12,7 @@ import uiStyles from '../../theme/uiStyles';
     user: state.auth.user,
     loginError : state.auth.loginError,
     loggingIn : state.auth.loggingIn,
-    loginValue: state.auth.loginValue,
+    loadError : state.auth.error,
   }),
   {clearLoginError, login})
 
@@ -26,9 +26,9 @@ export default class Login extends Component {
   static propTypes = {
     fields: PropTypes.object.isRequired,
     loggingIn: PropTypes.bool,
+    loadError : PropTypes.object,
     loginError: PropTypes.string,
     user: PropTypes.object,
-    logout: PropTypes.func,
     login: PropTypes.func.isRequired,
     resetForm : PropTypes.func.isRequired,
     clearLoginError : PropTypes.func.isRequired,
@@ -44,7 +44,7 @@ export default class Login extends Component {
   render() {
     const {
       fields: {email, password},
-      user, logout, loggingIn, loginError, resetForm
+      user, loggingIn, loginError, loadError
     } = this.props;
     const styles = require('./Login.scss');
 
@@ -52,6 +52,16 @@ export default class Login extends Component {
     const buttonStyle = uiStyles.buttonStyle;
     const popupStyle = { color : "#ff0000"};
     const anyError = email.error || password.error;
+
+    const getError = ()=> {
+      if(loginError != null){
+        return loginError.error
+      }else if(loadError != null){
+        return loadError.code ? loadError.code : loadError.toString()
+      }else{
+        return null
+      }
+    }
 
     return (
       <div className={styles.loginPage + ' container'}>
@@ -86,8 +96,8 @@ export default class Login extends Component {
             </RaisedButton>
 
             <Snackbar
-              open={loginError}
-              message={loginError}
+              open={loginError != null || loadError != null}
+              message={getError()}
               autoHideDuration={4000}
               bodyStyle={popupStyle}
               onRequestClose={(reason) => {
