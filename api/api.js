@@ -21,7 +21,7 @@ app.use(session({
   secret: 'react and redux rule!!!!',
   resave: false,
   saveUninitialized: false,
-  cookie: { maxAge: 60000 }
+  cookie: { maxAge: config.sessionAge }
 }));
 app.use(bodyParser.json());
 

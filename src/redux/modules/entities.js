@@ -19,6 +19,10 @@ const CITY_LIST = "Nevermind/entityList/CITY_LIST"
 const CITY_LIST_SUCCESS = "Nevermind/entityList/CITY_LIST_SUCCESS"
 const CITY_LIST_FAIL = "Nevermind/entityList/CITY_LIST_FAIL"
 
+const INIT = "Nevermind/entityList/INIT"
+const INIT_SUCCESS = "Nevermind/entityList/INIT_SUCCESS"
+const INIT_FAIL = "Nevermind/entityList/INIT_FAIL"
+
 var update = require('react-addons-update');
 
 const initState = {
@@ -27,6 +31,7 @@ const initState = {
   loaded: false,
   loading :false,
   isEnd : false,
+  cityList : [],
 };
 
 export default function reducer(state = initState, action = {}) {
@@ -88,17 +93,46 @@ export default function reducer(state = initState, action = {}) {
       };
     case CITY_LIST:
           return {
+            ...state,
             loadingCity : true,
           }
     case CITY_LIST_SUCCESS:
           return {
+            ...state,
             loadingCity : false,
-            cityList : action.result.data
+            cityList : processCityList(action.result.data)
           }
     case CITY_LIST_FAIL :
           return {
+            ...state,
             loadingCity : false,
             error : action.error
+          }
+    case INIT :
+          return {
+            ...state,
+            loading : true,
+            loadingCity : true,
+          }
+    case INIT_SUCCESS:
+          return {
+            ...state,
+            loading: false,
+            loaded: true,
+            list: action.result.houses,
+            error: null,
+            isEnd : action.result.isEnd,
+            loadingCity : false,
+            cityList : processCityList(action.result.cities)
+          }
+    case INIT_FAIL:
+          return {
+            ...state,
+            loading: false,
+            loaded: false,
+            loadingCity : false,
+            list: [],
+            error: action.error
           }
     case CLEAR:
       return {
@@ -118,6 +152,17 @@ export default function reducer(state = initState, action = {}) {
   }
 }
 
+function processCityList(cityList){
+  var selectList = []
+  cityList.forEach(function(city, index){
+    selectList.push({
+      value : index,
+      label : city
+    })
+  })
+  return selectList;
+}
+
 export function load(city){
   return {
     types: [LOAD, LOAD_SUCCESS, LOAD_FAIL],
@@ -128,6 +173,16 @@ export function load(city){
       }else{
         url ='/list'
       }
+      return client.get(url)
+    } // params not used, just shown as demonstration
+  };
+}
+
+export function onInit(){
+  return {
+    types: [INIT, INIT_SUCCESS, INIT_FAIL],
+    promise: (client) => {
+      let  url = '/initList'
       return client.get(url)
     } // params not used, just shown as demonstration
   };
@@ -165,11 +220,11 @@ export function onDeleteHouse(userId, houseId, index){
   }
 }
 
-export function getCityList(){
+export function onGetCityList(){
   return {
     types: [CITY_LIST, CITY_LIST_SUCCESS, CITY_LIST_FAIL],
     promise : (client) => {
-      var url = '/cityList/';
+      var url = '/cityList';
       return client.get(url)
     }
   }

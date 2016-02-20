@@ -12,7 +12,6 @@ import {List} from "components";
 import {DropDownMenu, MenuItem,RaisedButton} from 'material-ui';
 
 import myRawTheme from '../../theme/materialUI.theme';
-import cityList from '../../constant/cityList';
 
 function fetchDataDeferred(getState, dispatch) {
   if (!isLoaded(getState())) {

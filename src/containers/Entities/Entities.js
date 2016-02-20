@@ -3,12 +3,12 @@
  */
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
-import {isLoaded, load as getList, onLocationChange, onAppendList, onDeleteHouse,onDisableAppend} from 'redux/modules/entities';
+import {isLoaded, load as getList, onLocationChange, onAppendList, onDeleteHouse,onDisableAppend, onGetCityList, onInit} from 'redux/modules/entities';
 import {bindActionCreators} from 'redux';
 import connectData from 'helpers/connectData';
 import {List} from "components";
 import config from '../../config';
-
+import Select from 'react-select';
 import {DropDownMenu, MenuItem,RaisedButton, ThemeManager, ThemeDecorator} from 'material-ui';
 
 import myRawTheme from '../../theme/materialUI.theme';
@@ -17,8 +17,9 @@ import cityList from '../../constant/cityList';
 function fetchDataDeferred(getState, dispatch) {
   if (!isLoaded(getState())) {
     //console.log("after load we get state:", getState().router)
-    return dispatch(getList());
+    return dispatch(onInit());
   }
+
 }
 
 //@ThemeDecorator(ThemeManager.getMuiTheme(myRawTheme))
@@ -31,9 +32,10 @@ function fetchDataDeferred(getState, dispatch) {
     error: state.entities.error,
     loading: state.entities.loading,
     loaded: state.entities.loaded,
-    locationId : state.entities.locationId
+    locationId : state.entities.locationId,
+    cityList : state.entities.cityList,
   }),
-  {getList, onLocationChange, onAppendList, onDeleteHouse, onDisableAppend}
+  {getList, onLocationChange, onAppendList, onDeleteHouse, onDisableAppend, onGetCityList}
   //dispatch => bindActionCreators({getList}, dispatch)
 )
 export default class Entities extends Component {
@@ -44,12 +46,14 @@ export default class Entities extends Component {
     locationId : PropTypes.number,
     loaded :PropTypes.bool,
     isEnd : PropTypes.bool,
+    cityList : PropTypes.array,
 
     onDisableAppend : PropTypes.func.isRequired,
     onDeleteHouse : PropTypes.func.isRequired,
     getList: PropTypes.func.isRequired,
     onLocationChange: PropTypes.func.isRequired,
     onAppendList : PropTypes.func.isRequired,
+    onGetCityList : PropTypes.func.isRequired,
   };
 
   loadCity = (event) => {
@@ -61,14 +65,20 @@ export default class Entities extends Component {
     }
   }
 
-  dropDownListener = (event, index, value) => {
-    this.props.onLocationChange(value);
-    if(value && value <= cityList.length) {
-      this.props.getList(cityList[value].toLowerCase());
-    }else{
-      this.props.getList();
+  onSelectChange = (value) => {
+    //value is number
+    if(value === ""){
+      value = null
     }
+    this.props.onLocationChange(value);
+    console.log('now the value of select is',value)
+    //if(value && value <= cityList.length) {
+    //  this.props.getList(this.props.cityList[value].toLowerCase());
+    //}else{
+    //  this.props.getList();
+    //}
   }
+
 
   handleScroll = (event) => {
     var listBody = event.srcElement.body;
@@ -93,6 +103,7 @@ export default class Entities extends Component {
   }
 
   render() {
+    require('../../theme/react-select.css')
     const styles = require('./Entities.scss');
     const {loaded, getList, error, loading, locationId} = this.props;
     const houses = this.props.entities;//TODO
@@ -105,10 +116,16 @@ export default class Entities extends Component {
     return (
       <div>
         <div className={styles.listNav}>
-          <DropDownMenu value={locationId} onChange={this.dropDownListener} className={styles.dropDown}>
-            {/* the value starts from 1 */}
-            {cityList.map((city, index) => <MenuItem value={index} key={index} primaryText={cityList[index]}/>)}
-          </DropDownMenu>
+          <div className={styles.select}>
+            <Select
+              name="selectCity"
+              options={this.props.cityList}
+              value={locationId === null ? "" : this.props.cityList[locationId].label}
+              onChange={this.onSelectChange}
+              noResultsText={"数据库里暂无这里的房屋信息"}
+              placeholder={"选择您所在的城市"}
+            />
+          </div>
 
           <RaisedButton onClick={this.loadCity} style={{lineHeight: "36px" }}><i className={refreshClassName}/> 刷新</RaisedButton>
         </div>
