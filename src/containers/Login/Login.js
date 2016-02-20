@@ -59,7 +59,7 @@ export default class Login extends Component {
       }else if(loadError != null){
         return loadError.code ? loadError.code : loadError.toString()
       }else{
-        return null
+        return ""
       }
     }
 

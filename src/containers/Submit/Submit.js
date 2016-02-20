@@ -72,8 +72,8 @@ export default class Submit extends Component{
         <SubmitForm onSubmit={this.handleSubmit}/>
 
         <Snackbar
-          open={feedback}
-          message={feedback}
+          open={feedback !== null}
+          message={feedback == null ? "" : feedback}
           autoHideDuration={4000}
           bodyStyle={uiStyles.snackBarStyle}
           onRequestClose={(reason) => {

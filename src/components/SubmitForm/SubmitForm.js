@@ -10,12 +10,14 @@ import {onEndEdit, onAddImage, onChangeSlide, onDeleteImage, onToggleLimit} from
 //import Slider from 'nuka-carousel';
 import {Carousel} from 'components';
 import submitValidation from './submitValidation'
+import Select from 'react-select';
 
 import {TextField, FontIcon, RaisedButton, Card, MenuItem,
   IconButton, CardMedia, CardTitle, CardText, List, ListItem, SelectField,
   DatePicker, Toggle} from 'material-ui';
 
 import DropZone from 'react-dropzone'
+import defaultCityList from '../../constant/cityList';
 
 @connect(
   state => ({
@@ -77,6 +79,7 @@ export default class SubmitForm extends Component {
   }
 
   render() {
+    require('../../theme/react-select.css')
     const styles = require('./SubmitForm.scss');
     const {
       fields: {location,city,roomNumber,size,price,caution,startDate,endDate,
@@ -125,6 +128,13 @@ export default class SubmitForm extends Component {
       return entity.images.length + cachedImages.length
     }
 
+    const onCityChange =(value)=>{
+      if(value === ""){
+        return city.onChange(null)
+      }
+      city.onChange(defaultCityList[value].label)
+    }
+
     return (
       <form className={styles.container} onSubmit={handleSubmit}>
         <Card className={styles.card}>
@@ -165,8 +175,20 @@ export default class SubmitForm extends Component {
         </Card>
 
         <List className={styles.list}>
-          <ListItem key={1} className="hint--bottom" data-hint="城市" leftIcon={<FontIcon className="fa fa-map-marker" />} disableKeyboardFocus={true} >
+          {/*<ListItem key={1} className="hint--bottom" data-hint="城市" leftIcon={<FontIcon className="fa fa-map-marker" />} disableKeyboardFocus={true} >
             <TextField key={10} hintText="城市" floatingLabelText="城市" errorText={city.touched && city.error ? city.error : null} {...city}/>
+          </ListItem>*/}
+          <Select
+            name="selectPostCity"
+            options={defaultCityList}
+            value={city.value === null ? "" : city.value}
+            onChange={onCityChange}
+            noResultsText={"暂时不支持你选择的地区,请选择附近的城市"}
+            placeholder={"选择所在的城市"}
+            ignoreAccents={false}
+          />
+          <ListItem key={1}>
+
           </ListItem>
           <ListItem key={2} className="hint--top" data-hint="地址" leftIcon={<FontIcon className="fa fa-map" />} disableKeyboardFocus={true}>
             <TextField key={20} hintText="地址" floatingLabelText="地址" errorText={location.touched && location.error ? location.error : null} {...location}/>

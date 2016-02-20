@@ -27,7 +27,7 @@ var update = require('react-addons-update');
 
 const initState = {
   list :[],
-  locationId : 0,
+  locationId : null,
   loaded: false,
   loading :false,
   isEnd : false,

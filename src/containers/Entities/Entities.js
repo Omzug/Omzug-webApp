@@ -111,7 +111,7 @@ export default class Entities extends Component {
             <Select
               name="selectCity"
               options={this.props.cityList}
-              value={locationId === null ? "" : this.props.cityList[locationId].label}
+              value={locationId === null || !this.props.cityList.length ? "" : this.props.cityList[locationId].label}
               onChange={this.onSelectChange}
               noResultsText={"数据库里暂无这里的房屋信息"}
               placeholder={"选择您所在的城市"}

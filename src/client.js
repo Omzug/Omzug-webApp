@@ -15,6 +15,10 @@ import {reduxReactRouter, ReduxRouter} from 'redux-router';
 import getRoutes from './routes';
 import makeRouteHooksSafe from './helpers/makeRouteHooksSafe';
 
+import injectTapEventPlugin from 'react-tap-event-plugin';
+
+injectTapEventPlugin();
+
 const client = new ApiClient();
 
 // Three different types of scroll behavior available.

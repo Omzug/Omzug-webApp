@@ -32,9 +32,9 @@ const initState = {
   contactOpen : false,
   data : {
     id : null,
-    city: null,//which should be a string
+    city: "",//which should be a string
     type : 0,
-    price: 0,
+    price: null,
     startDate : null,
     title : null,//TODO need set to null in production
     owner : null,
@@ -150,6 +150,7 @@ export default function reducer(state = initState, action){
               owner : {$set : action.owner},
               username : {$set : action.username},
               startDate : {$set : new Date()},
+              price : {$set :  0}
             }),
             createData : null,
           }
@@ -326,9 +327,9 @@ export function onClearMessage(){
 }
 
 export function onInitEntity(locationId, cityList, ownerId, username){
-  var city = null
+  var city = ""
   if(locationId !== null && cityList.length){
-    city = cityList[locationId]
+    city = cityList[locationId].label
   }
   return {
     type : INIT_ENTITY,
