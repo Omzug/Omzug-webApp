@@ -106,7 +106,7 @@ export default class RegisterForm extends Component{
           {loggingIn ?
             <span className="fa fa-spin fa-refresh"/>
             :
-            <span>Submit</span>
+            <span>提交</span>
           }
         </RaisedButton>
         {/*<RaisedButton disabled={loggingIn} secondary={true} style={buttonStyle} onClick={resetForm}>

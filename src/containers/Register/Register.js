@@ -18,6 +18,7 @@ import uiStyles from "../../theme/uiStyles";
   }),
   {initialize, register, clearLoginError})
 
+
 export default class Register extends Component{
   static propTypes = {
     initialize: PropTypes.func.isRequired,
@@ -37,22 +38,27 @@ export default class Register extends Component{
     const styles = require('./Register.scss')
 
     return (
-      <div className="container">
+      <div className={styles.container}>
         <div className={styles.register}><h1>注册</h1></div>
           <Helmet title="Register"/>
-
         <Snackbar
           open={loginError}
           message={loginError}
           autoHideDuration={4000}
-          bodyStyle={uiStyles.snackBarStyle}
+          style={uiStyles.snackBarRootStyle}
+          bodyStyle={uiStyles.snackBarBodyStyle}
           onRequestClose={(reason) => {
             console.log("error popout should cleared now because : " + reason);
             this.props.clearLoginError();
           }}
         />
 
-        <RegisterForm onSubmit={this.handleSubmit}/>
+        <div className={styles.container1}>
+          <RegisterForm onSubmit={this.handleSubmit}/>
+
+          <div><img className ={styles.registerPic}
+                    src="https://41.media.tumblr.com/3c41788b9aaedab70a03cc286521aa88/tumblr_o2tdluSTeD1qkfs2lo1_1280.jpg"/></div>
+        </div>
       </div>
     )
   }
