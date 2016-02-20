@@ -54,12 +54,13 @@ export default class Login extends Component {
     const anyError = email.error || password.error;
 
     return (
-      <div className={styles.loginPage + ' container'}>
+      <div className={styles.loginPage}>
         <Helmet title="Login"/>
-        <h1>登录</h1>
+        <div className={styles.register}><h1>登录</h1></div>
         {!user &&
-        <div>
-          <form className="login-form" onSubmit={this.handleSubmit}>
+        <div className={styles.container}>
+
+          <div><form className="login-form" onSubmit={this.handleSubmit}>
             <div className={'form-group'}>
               <div>
                 <TextField type="text" hintText="邮箱" style={inputStyle}
@@ -76,7 +77,7 @@ export default class Login extends Component {
                 />
               </div>
             </div>
-
+            <div className={styles.raisedButton}>
             <RaisedButton style style={buttonStyle} onClick={this.handleSubmit}>
               {loggingIn ?
                 <span className="fa fa-spin fa-refresh"/>
@@ -84,7 +85,7 @@ export default class Login extends Component {
                 <span>Los!</span>
               }
             </RaisedButton>
-
+            </div>
             <Snackbar
               open={loginError}
               message={loginError}
@@ -94,7 +95,8 @@ export default class Login extends Component {
                 this.props.clearLoginError();
               }}
             />
-          </form>
+          </form></div>
+          <div><img className={styles.loginPic} src="https://41.media.tumblr.com/41dcb11625dd4c9511934e514871ec16/tumblr_o2tlx3t0R61qkfs2lo1_1280.jpg"/></div>
         </div>
         }
       </div>

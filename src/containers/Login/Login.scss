@@ -23,3 +23,27 @@
     border-radius: 3px;
   }
 }
+
+.container{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  margin-left: 130px;
+}
+
+.loginPic{
+  width:90%;
+  margin-left: 30px;
+  margin-top: -40px;
+}
+
+.register{
+  margin-left:130px;
+  padding-top: 50px;
+}
+
+.raisedButton{
+  display: flex;
+  justify-content: flex-start;
+  margin-left: -25px;
+}
