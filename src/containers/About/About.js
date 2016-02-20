@@ -21,7 +21,7 @@ export default class About extends Component {
         <div className={styles.text}>
           <p>
           Omzug由来自斯图加特大学和柏林白湖艺术学院的<br />学生<a href="https://github.com/hanwencheng">程翰文</a>
-          和<a href="http://janeschara.tumblr.com">杨鑫玥</a>于2016年在德国创立。
+          和<a href="http://janeschara.tumblr.com">杨鑫玥</a>于2016年在德国创建。
           <br />我们想为在德国留学的中国学生提供一个美观方便的租房平台。<br /><br />
           Omzug is a website created in 2016 by <a href="https://github.com/hanwencheng">Hanwen Cheng </a>
              from Uni Stuttgart<br />
