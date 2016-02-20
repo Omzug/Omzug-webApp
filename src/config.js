@@ -23,7 +23,9 @@ module.exports = Object.assign({
   app: {
     title: 'Omzug',//head changeable
     description: '找到心仪的家',
-    introduction: '"撑起我们葡萄枝嫩叶般的家。"',
+    introduction: '为在德国的中国留学生提供简易美观的租房平台。',
+    introduction2:'请登陆查看房屋。',
+    introductionEn : 'This is a renting platform for Chinese students in Germany.',
     head: {
       titleTemplate: 'Omzug : %s',
       meta: [

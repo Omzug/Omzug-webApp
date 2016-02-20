@@ -16,11 +16,13 @@ export default class Home extends Component {
         <div className={styles.container}>
           <div className={styles.description}>
             {/*<div className={styles.title}><h4></h4></div>*/}
-            <div className={styles.introduction}><h5>{config.app.introduction}</h5></div>
+            <div className={styles.introduction}><h4>{config.app.introduction}<br /><br />
+              {config.app.introductionEn}</h4></div>
+            {/*<div><img className={styles.bulb} src="http://www.endlessicons.com/wp-content/uploads/2012/09/light-bulb-icon-614x460.png"/></div>*/}
           </div>
 
           <div className={styles.foto}>
-            <img id="h" src={config.mainGifPath}/>
+            <img id="h" src="https://49.media.tumblr.com/936d938e81a488e380316352a6c3eefe/tumblr_o2tghkrmXz1qkfs2lo1_1280.gif"/>
           </div>
         </div>
       </div>
