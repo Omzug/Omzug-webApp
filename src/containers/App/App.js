@@ -12,7 +12,7 @@ import { onGetHouseList} from 'redux/modules/entities'
 import { pushState } from 'redux-router';
 import connectData from 'helpers/connectData';
 import config from '../../config';
-import FlatButton from 'material-ui/lib/flat-button';
+import {FlatButton, FontIcon} from 'material-ui';
 import uiStyles from '../../theme/uiStyles';
 
 // it must be enabled before react 1.0 for material ui
@@ -134,8 +134,8 @@ export default class App extends Component {
 
 
             {!user &&
-              <FlatButton style={uiStyles.registerButton} labelStyle={uiStyles.labelStyle} eventKey={4} label="注册"
-                          linkButton={true} containerElement={<Link to="/register" />}/>
+            <FlatButton style={uiStyles.registerButton} labelStyle={uiStyles.labelStyle} eventKey={4} label="注册"
+                        linkButton={true} containerElement={<Link to="/register" />}/>
             }
 
           </div>
@@ -153,6 +153,19 @@ export default class App extends Component {
               <FlatButton eventKey={6}><span className={rightLi}><i className="fa fa-pencil fa-lg"/>发布房屋</span></FlatButton>
             </LinkContainer>
             }
+            <FlatButton className={styles.aboutUs} eventKey={7}>
+              <Link to="/about">
+              <span className={rightLi}><i className="fa fa-child fa-lg"/>关于我们</span>
+              </Link>
+            </FlatButton>
+
+
+            <FlatButton className={styles.aboutUs} eventKey={7}
+                        linkButton={true} containerElement={<Link to="/chat" />}
+                        label="关于我们"
+                        icon={
+                            <FontIcon className="fa fa-child" />
+                        }/>
 
             <LinkContainer to="/about">
               <FlatButton className={styles.aboutUs} eventKey={7}><span className={rightLi}><i className="fa fa-child fa-lg"/>关于我们</span></FlatButton>
