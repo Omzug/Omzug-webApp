@@ -40,9 +40,6 @@ export default class SubmitTemplate extends Component {
 
   render() {
     const styles = require('./SubmitTemplate.scss');
-    const image1 = require('./a1.jpg');
-    const image2 = require('./b1.jpg');
-    const image3 = require('./c1.jpg');
     const {entity, contactOpen, cachedImages, userId} = this.props;
 
     var Decorators = [

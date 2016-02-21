@@ -1,4 +1,4 @@
-require('babel/polyfill');
+require('babel-polyfill');
 
 const environment = {
   development: {
@@ -39,9 +39,6 @@ module.exports = Object.assign({
         {property: 'og:creator', content: '@hanwencheng'},
         {property: 'og:title', content: 'DeLocate'},
         {property: 'og:description', content: 'Locate yourself in another lovely place.'},
-        {property: 'og:image', content: 'https://react-redux.herokuapp.com/logo.jpg'},
-        {property: 'og:image:width', content: '200'},
-        {property: 'og:image:height', content: '200'}
       ]
     }
   },

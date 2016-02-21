@@ -8,16 +8,24 @@ import Helmet from 'react-helmet';
 //it is not used yet
 import {initialize} from 'redux-form';
 import {SubmitForm} from 'components';
-import connectData from 'helpers/connectData';
 import {isLoaded, onLoad, onClear, onInitEntity, onSubmitNew, onClearMessage} from "redux/modules/entity"
 import {Snackbar} from 'material-ui';
 import uiStyles from "../../theme/uiStyles";
+import { asyncConnect } from 'redux-async-connect';
 
-function initSubmit(getState, dispatch){
-  var state = getState()
-  dispatch(onClear());
-  dispatch(onInitEntity(state.entities.locationId, state.entities.cityList, state.auth.user._id, state.auth.user.username));
-}
+@asyncConnect([{
+  promise: ({store: {dispatch, getState}}) => {
+    const promises = [];
+    var state = getState()
+    promises.push(dispatch(onClear()));
+    promises.push(dispatch(onInitEntity(
+      state.entities.locationId,
+      state.entities.cityList,
+      state.auth.user._id,
+      state.auth.user.username)));
+    return Promise.all(promises);
+  }
+}])
 
 @connect(
   state => ({
@@ -27,10 +35,6 @@ function initSubmit(getState, dispatch){
     user : state.auth.user,
   }),
   {initialize, onInitEntity, onSubmitNew, onClearMessage}
-)
-
-@connectData(
-  initSubmit, null
 )
 
 export default class Submit extends Component{

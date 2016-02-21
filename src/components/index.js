@@ -5,7 +5,6 @@
  *
  */
 
-export GithubButton from './GithubButton/GithubButton';
 export InfoBar from './InfoBar/InfoBar';
 export MiniInfoBar from './MiniInfoBar/MiniInfoBar';
 export RegisterForm from './RegisterForm/RegisterForm';

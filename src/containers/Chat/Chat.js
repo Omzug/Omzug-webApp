@@ -1,6 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {FlatButton} from 'material-ui';
+import Helmet from 'react-helmet';
 
 @connect(
   state => ({user: state.auth.user})

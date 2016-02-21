@@ -6,22 +6,24 @@ import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {isLoaded, onLoad, onLocationChange, onDeleteHouse} from 'redux/modules/admin';
 import {bindActionCreators} from 'redux';
-import connectData from 'helpers/connectData';
 import {List} from "components";
+import Helmet from 'react-helmet';
+import { asyncConnect } from 'redux-async-connect';
 
 import {DropDownMenu, MenuItem,RaisedButton} from 'material-ui';
 
 import myRawTheme from '../../theme/materialUI.theme';
 
-function fetchDataDeferred(getState, dispatch) {
-  if (!isLoaded(getState())) {
-    //console.log("after load we get state:", getState().router)
-    return dispatch(onLoad(getState().auth.user._id));
-  }
-}
-
 //@ThemeDecorator(ThemeManager.getMuiTheme(myRawTheme))
-@connectData(null, fetchDataDeferred)
+@asyncConnect([{
+  deferred: true,
+  promise: ({store: {dispatch, getState}}) => {
+    if (!isLoaded(getState())) {
+      //console.log("after load we get state:", getState().router)
+      return dispatch(onLoad(getState().auth.user._id));
+    }
+  }
+}])
 
 @connect(
   state => ({

@@ -10,26 +10,25 @@ import { onAddData } from 'redux/modules/admin';
 import { onGetHouseList} from 'redux/modules/entities'
 //import { InfoBar } from 'components';
 import { pushState } from 'redux-router';
-import connectData from 'helpers/connectData';
 import config from '../../config';
 import {FlatButton, FontIcon} from 'material-ui';
 import uiStyles from '../../theme/uiStyles';
+import { routeActions } from 'react-router-redux';
+import { asyncConnect } from 'redux-async-connect';
 
 // it must be enabled before react 1.0 for material ui
-
-//load authentication data when loaded
-function fetchData(getState, dispatch) {
-  const promises = [];
-  if (!isInfoLoaded(getState())) {
-    promises.push(dispatch(loadInfo()));
+@asyncConnect([{
+  promise: ({store: {dispatch, getState}}) => {
+    const promises = [];
+    if (!isInfoLoaded(getState())) {
+      promises.push(dispatch(loadInfo()));
+    }
+    if (!isAuthLoaded(getState())) {
+      promises.push(dispatch(loadAuth()));
+    }
+    return Promise.all(promises);
   }
-  if (!isAuthLoaded(getState())) {
-    promises.push(dispatch(loadAuth()));
-  }
-  return Promise.all(promises);
-}
-
-@connectData(fetchData)
+}])
 @connect(
   state => ({
     user: state.auth.user,
@@ -38,7 +37,7 @@ function fetchData(getState, dispatch) {
     locationId : state.entities.locationId,
     cityList : state.entities.cityList,
   }),
-  {logout, clearLoginError, pushState, onGetHouseList, onAddData})
+  {logout, clearLoginError, pushState: routeActions.push, onGetHouseList, onAddData})
 export default class App extends Component {
   static propTypes = {
     children: PropTypes.object.isRequired,
@@ -64,14 +63,14 @@ export default class App extends Component {
     if (!this.props.user && nextProps.user) {
       // login
       this.props.clearLoginError();
-      this.props.pushState(null, '/main');
+      this.props.pushState('/main');
     } else if (this.props.user && !nextProps.user) {
       // logout
-      this.props.pushState(null, '/');
+      this.props.pushState('/');
     }
 
     if(!this.props.createData && nextProps.createData){
-      this.props.pushState(null, '/entities/' + nextProps.createData._id)
+      this.props.pushState('/entities/' + nextProps.createData._id)
       // refresh the main list
       this.props.onGetHouseList(this.props.locationId, this.props.cityList)
       //refresh admin list
@@ -88,7 +87,7 @@ export default class App extends Component {
   handleLogout = (event) => {
     event.preventDefault();
     this.props.logout();
-  }
+  };
 
   render() {
     const {user} = this.props;

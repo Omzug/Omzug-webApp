@@ -5,25 +5,26 @@ import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {isLoaded, onGetHouseList, onLocationChange, onAppendList, onDeleteHouse,onDisableAppend, onGetCityList, onInit} from 'redux/modules/entities';
 import {bindActionCreators} from 'redux';
-import connectData from 'helpers/connectData';
 import {List} from "components";
 import config from '../../config';
 import Select from 'react-select';
+import Helmet from 'react-helmet';
+import { asyncConnect } from 'redux-async-connect';
 import {DropDownMenu, MenuItem,RaisedButton, ThemeManager, ThemeDecorator} from 'material-ui';
 
 import myRawTheme from '../../theme/materialUI.theme';
 
-function fetchDataDeferred(getState, dispatch) {
-  if (!isLoaded(getState())) {
-    //console.log("after load we get state:", getState().router)
-    return dispatch(onInit());
+@asyncConnect([{
+  deferred: true,
+  promise: ({store: {dispatch, getState}}) => {
+    if (!isLoaded(getState())) {
+      //console.log("after load we get state:", getState().router)
+      return dispatch(onInit());
+    }
   }
-
-}
+}])
 
 //@ThemeDecorator(ThemeManager.getMuiTheme(myRawTheme))
-@connectData(null, fetchDataDeferred)
-
 @connect(
   state => ({
     isEnd : state.entities.isEnd,

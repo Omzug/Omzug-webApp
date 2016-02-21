@@ -6,27 +6,28 @@ import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {isLoaded, onLoad, onClear, onSubmit, onClearMessage} from "redux/modules/entity"
-import connectData from 'helpers/connectData';
 import { SubmitForm } from 'components';
 import { SubmitTemplate } from 'components';
 import uiStyles from "../../theme/uiStyles";
 import {Snackbar} from 'material-ui';
+import { asyncConnect } from 'redux-async-connect';
+import Helmet from 'react-helmet';
 
-function fetchDataDeferred(getState, dispatch) {
-  if (!isLoaded(getState())) {
-    console.log("nothing load, after load we get state:" + getState().router.params.entityId )
-    return dispatch(onLoad(getState().router.params.entityId));
+function getEntityId(getState){
+  var path = getState().routing.location.pathname;
+  return path.split("/")[2]
+}
+
+@asyncConnect([{
+  deferred: true,
+  promise: ({store: {dispatch, getState}}) => {
+    if (!isLoaded(getState())) {
+      console.log("nothing load, after load we get state:" + getEntityId(getState) )
+      return dispatch(onLoad(getEntityId(getState)));
+    }
   }
-}
+}])
 
-//get the params only after page loaded
-function checkState(getState, dispatch){
-
-}
-
-@connectData(
-  checkState, fetchDataDeferred
-)
 @connect(
   state => ({
     entity: state.entity.data,

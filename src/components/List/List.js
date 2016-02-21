@@ -127,14 +127,14 @@ export default class List extends Component {
                 { house.images && house.images.length ?
                   house.images.map((address, index) => (
                     <div key={index} className={styles.imageContainer}>
-                      <LinkContainer to={`/entities/${house._id}`}>
+                      <LinkContainer to={'/entities/' + house._id}>
                         <img key={index} src={address}/>
                       </LinkContainer>
                     </div>
                   ))
                   :
                   <div key={998} className={styles.imageContainer}>
-                    <LinkContainer to={`/entities/${house._id}`}>
+                    <LinkContainer to={'/entities/' + house._id}>
                       <img key={999} src={config.iconPath}/>
                     </LinkContainer>
                   </div>

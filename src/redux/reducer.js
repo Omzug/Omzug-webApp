@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 import multireducer from 'multireducer';
-import { routerStateReducer } from 'redux-router';
-
+import { routeReducer } from 'react-router-redux';
+import {reducer as reduxAsyncConnect} from 'redux-async-connect';
 import auth from './modules/auth';
 import {reducer as form} from 'redux-form';
 import info from './modules/info';
@@ -11,7 +11,8 @@ import submit from './modules/submit'
 import admin from './modules/admin'
 
 export default combineReducers({
-  router: routerStateReducer,
+  routing: routeReducer,
+  reduxAsyncConnect,
   auth,
   form,
   info,
