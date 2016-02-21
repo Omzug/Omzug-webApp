@@ -11,6 +11,7 @@ import { SubmitForm } from 'components';
 import { SubmitTemplate } from 'components';
 import uiStyles from "../../theme/uiStyles";
 import {Snackbar} from 'material-ui';
+import Helmet from 'react-helmet';
 
 function fetchDataDeferred(getState, dispatch) {
   if (!isLoaded(getState())) {

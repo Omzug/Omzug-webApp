@@ -9,6 +9,7 @@ import connectData from 'helpers/connectData';
 import {List} from "components";
 import config from '../../config';
 import Select from 'react-select';
+import Helmet from 'react-helmet';
 import {DropDownMenu, MenuItem,RaisedButton, ThemeManager, ThemeDecorator} from 'material-ui';
 
 import myRawTheme from '../../theme/materialUI.theme';

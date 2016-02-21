@@ -8,6 +8,7 @@ import {isLoaded, onLoad, onLocationChange, onDeleteHouse} from 'redux/modules/a
 import {bindActionCreators} from 'redux';
 import connectData from 'helpers/connectData';
 import {List} from "components";
+import Helmet from 'react-helmet';
 
 import {DropDownMenu, MenuItem,RaisedButton} from 'material-ui';
 
