@@ -124,6 +124,12 @@ export function check(email){
 }
 
 export function login(email, password) {
+  if(!email || !password){
+    return {
+      type: LOGIN_FAIL,
+      error : "please enter your email and password",
+    }
+  }
   return {
     types: [LOGIN, LOGIN_SUCCESS, LOGIN_FAIL],
     promise: (client) => client.post('/login', {
