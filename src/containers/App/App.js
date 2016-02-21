@@ -153,6 +153,7 @@ export default class App extends Component {
               <FlatButton eventKey={6}><span className={rightLi}><i className="fa fa-pencil fa-lg"/>发布房屋</span></FlatButton>
             </LinkContainer>
             }
+            {/*
             <FlatButton className={styles.aboutUs} eventKey={7}>
               <Link to="/about">
               <span className={rightLi}><i className="fa fa-child fa-lg"/>关于我们</span>
@@ -166,6 +167,7 @@ export default class App extends Component {
                         icon={
                             <FontIcon className="fa fa-child" />
                         }/>
+                        */}
 
             <LinkContainer to="/about">
               <FlatButton className={styles.aboutUs} eventKey={7}><span className={rightLi}><i className="fa fa-child fa-lg"/>关于我们</span></FlatButton>
