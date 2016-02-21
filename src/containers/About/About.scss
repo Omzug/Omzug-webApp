@@ -1,15 +1,19 @@
 @import "../../theme/myHover.scss";
 
 .text{
-  margin-top: 70px;
-  margin-bottom: 80px;
-  line-height: 1.9em;
+  margin-top: 65px;
+  margin-bottom: 110px;
+  line-height: 2.0em;
+  color: grey;
+  font-family:  "Avenir Next","Lantinghei SC",  Arial, sans-serif;
+  font-weight: 400;
+  font-size: 13px;
   a{
     &:hover{
-      color:steelblue;
+      color:black;
     }
     &:visited{
-      color:steelblue;
+      color:black;
     }
     &:active{
       color:darkslategrey;
@@ -25,4 +29,11 @@
   justify-content: center;
   margin-top: 130px;
   text-align: left;
+}
+
+.cnText{
+  letter-spacing: 1px;
+  font-size: 13px;
+  line-height: 2.1em;
+  color: #484848;
 }

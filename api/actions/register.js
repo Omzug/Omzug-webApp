@@ -27,8 +27,8 @@ export default function register(req) {
         DB.get('user', {email : email},
         function(result){
           if(result.data.email === email){
-            callback("the email is already registered")
-          }else callback("we meet database duplicate error")
+            callback("The email is already registered")
+          }else callback("We meet database duplicate error")
         },
         function(err){
           if(err.type === 1){
@@ -43,7 +43,7 @@ export default function register(req) {
         DB.get('user', {username : username},
           function(result){
             if(result.data.username === username){
-              callback("the username is already registered")
+              callback("The username is already registered")
             }else callback("we meet database duplicate error")
           },
           function(err){

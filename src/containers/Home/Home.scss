@@ -9,14 +9,19 @@
     background: #fff;
     //padding:40px 20px;
     color: black;
+    margin-bottom: -80px;
     .description {
-      width:20%;
+      z-index: 10;
+      width:45%;
       flex-grow: 1;
-      padding: 50px 30px 250px 30px;
+      padding: 150px 30px 250px 0px;
       margin-left: 130px;
-      text-align: center;
+      text-align: left;
+      margin-top: 60px;
       .introduction{
+        font-size: 20px;
         margin-top: 20px;
+        padding-bottom: 10px;
       }
       .humility {
         color: $humility;
@@ -34,8 +39,16 @@
       img{
         width: 100%;
         height:auto;
+        margin-left:-80px;
+        margin-top: -20px;
       }
     }
   }
 }
 
+.bulb{
+  width:50%;
+  height: auto;
+  margin-left: 70px;
+  margin-top: -20px;
+}
