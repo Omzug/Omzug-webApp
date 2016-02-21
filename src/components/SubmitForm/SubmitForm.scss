@@ -71,7 +71,7 @@
   width:40%;
   min-width:300px;
   flex-grow: 2;
-  margin-top: 30px;
+  margin-top: 0px;
   .note{
     margin:0 30px;
     color:grey;
@@ -99,3 +99,32 @@
   display: inline;
 }
 
+.rowContainer{
+ display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-start;
+  margin-bottom: 0;
+  margin-left:-100px;
+
+}
+
+.withOutError{
+  padding-top :40px;
+  padding-right: 10px;
+}
+
+.withError{
+  border :1px solid red;
+  align-self: center;
+  padding-right: 10px;
+}
+
+.warmCold{
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: row;
+  margin-top: 20px;
+  margin-left: -24px;
+
+}

@@ -10,11 +10,15 @@ export default {
   //dialogCancelStyle : {colod : ''},
   dialogConfirmStyle : {color : 'red'},
   registerButton : {color:"cadetblue"},
-  labelStyle : {fontSize:"large"},
   actionButton : {float:"right",height: "40px", "lineHeight": "40px"},
   CardTitle : {marginTop:"-40px",marginLeft:"60px",fontSize:"small"},
   CardText: {marginTop:"-20px", marginLeft:"60px", width:"380px",lineHeight:"1.9em"},
   card: {backgroundColor: "white", boxShadow: "0 0 25px rgba(0, 0, 0, 0.06)"},
-  registerForm: {width:"400px"}
+  registerForm: {width:"400px"},
+  labelStyle : { fontFamily:"Avenir Next",fontWeight:"400"},
+  warmCold:{fontSize:"14px", fontFamily:"Roboto", fontWeight:"300",color:"#484848"},
+  buttonGroup : {width :"90px", display: "flex", flexDirection: "row", justifyContent : "flex-start", marginTop : "30px",
+  marginLeft:"-22px",color:"grey",fontSize:"12px"},
+  hintStyle:{fontFamily:"Avenir Next", fontWeight:"400"}
 
 }
