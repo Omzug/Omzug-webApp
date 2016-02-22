@@ -7,7 +7,7 @@ var config = require('./config')
 AWS.config.update({region : 'eu-central-1'})
 var fs = require('fs')
 
-var s3 = new AWS.S3({params: {Bucket: 'test.omzug.com'}});
+var s3 = new AWS.S3({params: {Bucket: config.awsBucket}});
 
 var getParams = function(path){
   return {

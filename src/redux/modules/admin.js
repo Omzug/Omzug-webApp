@@ -106,12 +106,12 @@ export function onLoad(userId){
   };
 }
 
-export function onDeleteHouse(house, index){
+export function onDeleteHouse(userId, houseId, index){
   return {
     index : index,
     types : [DELETE_HOUSE, DELETE_HOUSE_SUCCESS, DELETE_HOUSE_FAIL],
     promise : (client) => {
-      var url = '/deleteHouse/' + house.owner +  "/" + house._id;
+      var url = '/deleteHouse/' + userId +  "/" + houseId;
       return client.get(url)
     }
   }

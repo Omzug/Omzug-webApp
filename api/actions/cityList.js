@@ -6,25 +6,13 @@ import DB from '../lib/db-interface.js';
 
 export default function cityList(req, params) {
 
-  /**
-   * req.body
-   * {
-   *  name : name,
-   *  password: password
-   * }
-   */
+  console.log('in city list we receive params are', params)
   return new Promise((resolve, reject)=>{
-    DB.userLogin(req.body.email, req.body.password,
-      function(data){
-        console.log('success login with data', data)
-        req.session.user = data.data;
-        console.log('the user session information is', req.session)
-        // data is the message
-        return resolve(data.data);
-      },
-      function(err){
-        req.session.user = "";
-        return reject(err.msg);
-      })
+    DB.getCityList(function(result){
+      console.log('success get citylist ', result)
+      resolve(result)
+    }, function(err){
+      reject(err.msg)
+    });
   });
 }

@@ -71,7 +71,6 @@
   width:40%;
   min-width:300px;
   flex-grow: 2;
-  margin-top: 0px;
   .note{
     margin:0 30px;
     color:grey;
@@ -104,9 +103,18 @@
   flex-direction: row;
   justify-content: center;
   align-items: flex-start;
-  margin-bottom: 0;
+  margin-bottom: 10px;
   margin-left:-100px;
 
+}
+.rowContainerCity{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-start;
+  margin-bottom: 0px;
+  margin-left:-100px;
+  margin-top: 35px;
 }
 
 .withOutError{
@@ -120,6 +128,12 @@
   padding-right: 10px;
 }
 
+.select{
+  width: 60%;
+  padding-left: 10px;
+  padding-bottom: 20px;
+}
+
 .warmCold{
   display: flex;
   justify-content: flex-start;
@@ -127,4 +141,23 @@
   margin-top: 20px;
   margin-left: -24px;
 
+}
+
+.chengShi{
+  padding-top: 10px;
+  padding-left: 15px;
+
+}
+
+.buttonGroup2{
+  margin-bottom: 20px;
+}
+.buttonGroup1{
+  padding-top: 5px;
+}
+
+.submit{
+  margin-top: 70px;
+  margin-bottom: 260px;
+  margin-left: 10px;
 }

@@ -1,6 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {FlatButton} from 'material-ui';
+import Helmet from 'react-helmet';
 
 @connect(
   state => ({user: state.auth.user})
@@ -59,6 +60,7 @@ export default class Chat extends Component {
 
     return (
       <div className={styles.chat + ' container'}>
+        <Helmet title="聊天室"/>
         <h1 className={styles}>Chat</h1>
 
         {user &&

@@ -15,6 +15,12 @@
   margin-left: 20px;
   background-color: white;
   padding-bottom: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  .select{
+    width:400px;
+  }
 }
 
 .gridContainer{
@@ -34,6 +40,7 @@
   font-size: large;
   text-align: center;
   background-color: $grey50;
+  padding-top: 50px;
   .loadingText{
     padding : 0 20px;
     color: $darkBlack

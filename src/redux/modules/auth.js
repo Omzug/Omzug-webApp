@@ -79,7 +79,8 @@ export default function reducer(state = initialState, action = {}) {
     case CLEAR_LOGIN_ERROR:
       return {
         ...state,
-        loginError : null
+        loginError : null,
+        error : null,
       }
     case CHECK:
         return {
@@ -123,6 +124,12 @@ export function check(email){
 }
 
 export function login(email, password) {
+  if(!email || !password){
+    return {
+      type: LOGIN_FAIL,
+      error : "please enter your email and password",
+    }
+  }
   return {
     types: [LOGIN, LOGIN_SUCCESS, LOGIN_FAIL],
     promise: (client) => client.post('/login', {

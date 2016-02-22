@@ -19,14 +19,19 @@ const CITY_LIST = "Nevermind/entityList/CITY_LIST"
 const CITY_LIST_SUCCESS = "Nevermind/entityList/CITY_LIST_SUCCESS"
 const CITY_LIST_FAIL = "Nevermind/entityList/CITY_LIST_FAIL"
 
+const INIT = "Nevermind/entityList/INIT"
+const INIT_SUCCESS = "Nevermind/entityList/INIT_SUCCESS"
+const INIT_FAIL = "Nevermind/entityList/INIT_FAIL"
+
 var update = require('react-addons-update');
 
 const initState = {
   list :[],
-  locationId : 0,
+  locationId : null,
   loaded: false,
   loading :false,
   isEnd : false,
+  cityList : [],
 };
 
 export default function reducer(state = initState, action = {}) {
@@ -49,16 +54,14 @@ export default function reducer(state = initState, action = {}) {
       return {
         ...state,
         deleting : true,
-        deleteIndex : action.index
       }
     case DELETE_HOUSE_SUCCESS:
-      var deleteIndex = state.deleteIndex
       return {
         ...state,
         deleting : false,
         deleteFeedback : "成功删除,所有相关的图片也已删除",
         // index start from 0
-        list : update(state.list, {$splice : [[deleteIndex, 1]]})
+        list : update(state.list, {$splice : [[action.index, 1]]})
       }
     case DELETE_HOUSE_FAIL:
       return {
@@ -90,17 +93,46 @@ export default function reducer(state = initState, action = {}) {
       };
     case CITY_LIST:
           return {
+            ...state,
             loadingCity : true,
           }
     case CITY_LIST_SUCCESS:
           return {
+            ...state,
             loadingCity : false,
-            cityList : action.result.data
+            cityList : processCityList(action.result.data)
           }
     case CITY_LIST_FAIL :
           return {
+            ...state,
             loadingCity : false,
             error : action.error
+          }
+    case INIT :
+          return {
+            ...state,
+            loading : true,
+            loadingCity : true,
+          }
+    case INIT_SUCCESS:
+          return {
+            ...state,
+            loading: false,
+            loaded: true,
+            list: action.result.houses,
+            error: null,
+            isEnd : action.result.isEnd,
+            loadingCity : false,
+            cityList : processCityList(action.result.cities)
+          }
+    case INIT_FAIL:
+          return {
+            ...state,
+            loading: false,
+            loaded: false,
+            loadingCity : false,
+            list: [],
+            error: action.error
           }
     case CLEAR:
       return {
@@ -120,7 +152,26 @@ export default function reducer(state = initState, action = {}) {
   }
 }
 
-export function load(city){
+function capitalizeFirstLetter(string) {
+  return string[0].toUpperCase() + string.slice(1);
+}
+
+function processCityList(cityList){
+  var selectList = []
+  cityList.forEach(function(city, index){
+    selectList.push({
+      value : index,
+      label : capitalizeFirstLetter(city)
+    })
+  })
+  return selectList;
+}
+
+export function onGetHouseList(cityIndex, cityList){
+  var city = null
+  if(cityIndex !== null) {
+    city = cityList[cityIndex].label.toLowerCase();
+  }
   return {
     types: [LOAD, LOAD_SUCCESS, LOAD_FAIL],
     promise: (client) => {
@@ -135,7 +186,21 @@ export function load(city){
   };
 }
 
-export function onAppendList(city, skipNumber){
+export function onInit(){
+  return {
+    types: [INIT, INIT_SUCCESS, INIT_FAIL],
+    promise: (client) => {
+      let  url = '/initList'
+      return client.get(url)
+    } // params not used, just shown as demonstration
+  };
+}
+
+export function onAppendList(cityIndex, cityList, skipNumber){
+  var city = null
+  if(cityIndex !== null) {
+    city = cityList[cityIndex].label.toLowerCase();
+  }
   return {
     types: [LOAD, APPEND_SUCCESS, LOAD_FAIL],
     promise: (client) => {
@@ -156,9 +221,9 @@ export function onDisableAppend(){
   }
 }
 
-export function onDeleteHouse(userId, houseId, houseIndex){
+export function onDeleteHouse(userId, houseId, index){
   return {
-    index : houseIndex,
+    index : index,
     types : [DELETE_HOUSE, DELETE_HOUSE_SUCCESS, DELETE_HOUSE_FAIL],
     promise : (client) => {
       var url = '/deleteHouse/' + userId +  "/" + houseId;
@@ -167,11 +232,11 @@ export function onDeleteHouse(userId, houseId, houseIndex){
   }
 }
 
-export function getCityList(){
+export function onGetCityList(){
   return {
     types: [CITY_LIST, CITY_LIST_SUCCESS, CITY_LIST_FAIL],
     promise : (client) => {
-      var url = '/cityList/';
+      var url = '/cityList';
       return client.get(url)
     }
   }

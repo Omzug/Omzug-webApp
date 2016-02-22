@@ -11,12 +11,14 @@ import {onEndEdit, onAddImage, onChangeSlide, onDeleteImage, onToggleLimit} from
 import {Carousel} from 'components';
 import submitValidation from './submitValidation'
 import uiStyles from '../../theme/uiStyles'
+import Select from 'react-select';
 
 import {TextField, FontIcon, RaisedButton, Card, MenuItem,
   IconButton, CardMedia, CardTitle, CardText, List, ListItem, SelectField,
   DatePicker, Toggle, RadioButton, RadioButtonGroup} from 'material-ui';
 
 import DropZone from 'react-dropzone'
+import defaultCityList from '../../constant/cityList';
 
 @connect(
   state => ({
@@ -78,6 +80,7 @@ export default class SubmitForm extends Component {
   }
 
   render() {
+    require('../../theme/react-select.css')
     const styles = require('./SubmitForm.scss');
     const {
       fields: {location,city,roomNumber,size,price,caution,startDate,endDate,
@@ -132,9 +135,53 @@ export default class SubmitForm extends Component {
       return value.error && value.touched? withError : withOutError
     }
 
+    const onCityChange =(value)=>{
+      if(value === ""){
+        return city.onChange(null)
+      }
+      city.onChange(defaultCityList[value].label)
+    }
+
+    /*<List>
+
+     <ListItem key={8} leftIcon={<FontIcon className="fa fa-calendar" />} disableKeyboardFocus={true} children={
+     <div key={83}>
+     {/*every child should have a key, or react give a stupid warnning
+     <DatePicker key={81} autoOk={true} value={new Date(startDate.value)} hintText="开始日期"
+     onChange={(event, newDate) => startDate.onChange(newDate)} formatDate={this.dateFormat}/>
+     <Toggle label="短期" toggled={hasLimit} labelPosition="right" onToggle={(event, isToggled) => {
+     this.props.onToggleLimit(isToggled)
+     if(isToggled){
+     endDate.onChange(new Date())
+     }else{
+     endDate.onChange(null)
+     }
+     }}/>
+     { hasLimit &&
+     <DatePicker key={82} autoOk={true} value={new Date(endDate.value)} hintText="结束日期"
+     onChange={(event, newDate) => endDate.onChange(newDate)} formatDate={this.dateFormat}/>
+     }
+     </div>
+     }>
+
+
+     </ListItem >
+     <ListItem key={9} className={styles.note} zDepth={2} disableKeyboardFocus={true}>
+     <TextField key={90} hintText="备注" floatingLabelText="备注" errorText={note.touched && note.error ? note.error : null} {...note}/>
+     </ListItem>
+     <ListItem key={11} leftIcon={<FontIcon className="fa fa-envelope-o" />} disableKeyboardFocus={true}>
+     <TextField key={110} hintText="邮箱" floatingLabelText="邮箱" errorText={email.touched && email.error ? email.error : null} {...email}/>
+     </ListItem>
+     <ListItem key={12} leftIcon={<FontIcon className="fa fa-mobile-phone" />} disableKeyboardFocus={true}>
+     <TextField key={120} hintText="手机" floatingLabelText="手机" errorText={phone.touched && phone.error ? phone.error : null} {...phone}/>
+     </ListItem>
+     {/* <RaisedButton key={15} className={styles.editButton} onClick={logError}><span className="fa fa-pencil"/> logError</RaisedButton>
+     <RaisedButton key={13} disabled={anyError ? true : false} className={styles.editButton} onClick={handleSubmit}><span/> 提交</RaisedButton>
+     </List>*/
 
     return (
       <form className={styles.container} onSubmit={handleSubmit}>
+
         <Card className={styles.card}>
           <div className={styles.buttonContainer}>
             { currentSlide <= calculateNumber() - 1 &&
@@ -170,33 +217,42 @@ export default class SubmitForm extends Component {
 
         <div className={styles.list}>
           <div>
-            <div className={styles.rowContainer}>
-              <div className={errorStyle(city)}><i className="fa fa-location-arrow"/> 城市: </div>
-              <div><TextField style={uiStyles.labelStyle} key={10}  floatingLabelText=" city" errorText={city.touched && city.error ? city.error : null} {...city}/></div>
+            <div className={styles.rowContainerCity}>
+              <div className={styles.chengShi}><i className="fa fa-location-arrow"/> 城市 :</div>
+              <Select
+                className={styles.select}
+                name="selectPostCity"
+                options={defaultCityList}
+                value={city.value === null ? "" : city.value}
+                onChange={onCityChange}
+                noResultsText={"暂时不支持你选择的地区,请选择附近的城市"}
+                placeholder={"选择所在的城市"}
+                ignoreAccents={false}
+              />
             </div>
 
             <div className={styles.rowContainer}>
-              <div className={errorStyle(location)}><i className="fa fa-map-marker"/> 地址:</div>
-              <div><TextField key={20}  floatingLabelText=" address" errorText={location.touched && location.error ? location.error : null} {...location}/></div>
+              <div className={errorStyle(location)}><i className="fa fa-map-marker"/> 地址 :</div>
+              <div><TextField key={20}  floatingLabelText=" " errorText={location.touched && location.error ? location.error : null} {...location}/></div>
             </div>
 
             <div className={styles.rowContainer}>
-              <div className={errorStyle(size)}><i className="fa fa-square"/> 面积:</div>
-              <div><TextField key={40}  floatingLabelText=" size" errorText={size.touched && size.error ? size.error : null} {...size}/></div>
+              <div className={errorStyle(size)}><i className="fa fa-square"/> 面积 :</div>
+              <div><TextField key={40}  floatingLabelText=" " errorText={size.touched && size.error ? size.error : null} {...size}/></div>
             </div>
 
             <div className={styles.rowContainer}>
-              <div className={errorStyle(price)}><i className="fa fa-eur"/> 租金:</div>
-              <div><TextField key={50}  floatingLabelText=" price" errorText={price.touched && price.error ? price.error : null} {...price}/></div>
+              <div className={errorStyle(price)}><i className="fa fa-eur"/> 租金 :</div>
+              <div><TextField key={50}  floatingLabelText=" " errorText={price.touched && price.error ? price.error : null} {...price}/></div>
             </div>
 
             <div className={styles.rowContainer}>
-              <div className={errorStyle(caution)}><i className="fa fa-lock"/> 押金:</div>
-              <div><TextField key={60}  floatingLabelText=" Kaution" errorText={caution.touched && caution.error ? caution.error : null} {...caution}/></div>
+              <div className={errorStyle(caution)}><i className="fa fa-lock"/> 押金 :</div>
+              <div><TextField key={60}  floatingLabelText=" " errorText={caution.touched && caution.error ? caution.error : null} {...caution}/></div>
             </div>
 
 
-              <div>
+              <div className={styles.buttonGroup1}>
                 <RadioButtonGroup name="costType" style={uiStyles.buttonGroup}>
                   <RadioButton
                     value="warm"
@@ -212,7 +268,7 @@ export default class SubmitForm extends Component {
                   />
                 </RadioButtonGroup>
               </div>
-            <div>
+            <div className={styles.buttonGroup2}>
               <RadioButtonGroup name="costType" style={uiStyles.buttonGroup}>
                 <RadioButton
                   value="wg"
@@ -228,86 +284,20 @@ export default class SubmitForm extends Component {
                 />
               </RadioButtonGroup>
             </div>
-
+            <div className={styles.rowContainer}>
+              <div className={errorStyle(email)}><i className="fa fa-envelope"/> 邮箱 :</div>
+              <div><TextField key={110}  floatingLabelText=" " errorText={email.touched && email.error ? email.error : null} {...email}/></div>
+            </div>
+            <div className={styles.rowContainer}>
+              <div className={errorStyle(phone)}><i className="fa fa-phone"/> 手机 :</div>
+              <div><TextField key={120}  floatingLabelText=" " errorText={phone.touched && phone.error ? phone.error : null} {...phone}/></div>
+            </div>
+            <div className={styles.submit}>
+              <RaisedButton key={13} disabled={anyError ? true : false} className={styles.editButton} onClick={handleSubmit}><span/> 提交</RaisedButton>
+            </div>
           </div>
-
-
-
-          <List>
-
-            <ListItem key={1} leftIcon={<FontIcon className="fa fa-location-arrow fa-lg" />} disableKeyboardFocus={true} >
-              <TextField key={10} hintText="城" floatingLabelText="城市" errorText={city.touched && city.error ? city.error : null} {...city}/>
-            </ListItem>
-            <ListItem key={2} leftIcon={<FontIcon className="fa fa-map-marker fa-lg" />} disableKeyboardFocus={true}>
-              <TextField key={20} hintText="地址" floatingLabelText="地址" errorText={location.touched && location.error ? location.error : null} {...location}/>
-            </ListItem>
-
-            <ListItem primaryText={
-              <div>
-                <FontIcon className="fa fa-euro fa-lg"/>
-                <TextField key={40} hintText="面积" floatingLabelText="面积" errorText={size.touched && size.error ? size.error : null} {...size}/>
-              </div>
-            } key={4} disableKeyboardFocus={true}/>
-
-            <ListItem primaryText={
-              <div>
-                <FontIcon className="fa fa-euro fa-lg"/>
-                <TextField key={50} hintText="租金" floatingLabelText="租金" errorText={price.touched && price.error ? price.error : null} {...price}/>
-              </div>
-            } key={5} disableKeyboardFocus={true}/>
-
-            <ListItem key={6} leftIcon={<FontIcon className="fa fa-money fa-lg" />} disableKeyboardFocus={true}>
-              <TextField key={60} hintText="Kaution" floatingLabelText="Kaution" errorText={title.caution && title.caution ? title.error : null} {...caution}/>
-            </ListItem>
-            <ListItem key={7} leftIcon={<FontIcon className="fa fa-child fa-lg" />} disableKeyboardFocus={true}>
-              <TextField key={70} hintText="最多人数" floatingLabelText="最多人数" errorText={title.maximumPerson && title.maximumPerson ? title.error : null} {...maximumPerson}/>
-            </ListItem>
-            <ListItem key={14} leftIcon={<FontIcon className="fa fa-home fa-lg" />} disableKeyboardFocus={true}>
-              <SelectField key={141} value={type.value} onChange={(event, value) => {
-              console.log('value is', value)
-              type.onChange(value);
-              }}>
-                <MenuItem value={0} primaryText="整套公寓"/>
-                <MenuItem value={1} primaryText="单间"/>
-              </SelectField>
-            </ListItem>
-
-            <ListItem key={8} leftIcon={<FontIcon className="fa fa-calendar" />} disableKeyboardFocus={true} children={
-              <div key={83}>
-              {/*every child should have a key, or react give a stupid warnning */}
-                <DatePicker key={81} autoOk={true} value={new Date(startDate.value)} hintText="开始日期"
-                onChange={(event, newDate) => startDate.onChange(newDate)} formatDate={this.dateFormat}/>
-                <Toggle label="短期" toggled={hasLimit} labelPosition="right" onToggle={(event, isToggled) => {
-                  this.props.onToggleLimit(isToggled)
-                  if(isToggled){
-                    endDate.onChange(new Date())
-                  }else{
-                    endDate.onChange(null)
-                  }
-                }}/>
-                { hasLimit &&
-                  <DatePicker key={82} autoOk={true} value={new Date(endDate.value)} hintText="结束日期"
-                  onChange={(event, newDate) => endDate.onChange(newDate)} formatDate={this.dateFormat}/>
-                }
-              </div>
-            }>
-
-
-            </ListItem >
-            <ListItem key={9} className={styles.note} zDepth={2} disableKeyboardFocus={true}>
-              <TextField key={90} hintText="备注" floatingLabelText="备注" errorText={note.touched && note.error ? note.error : null} {...note}/>
-            </ListItem>
-            <ListItem key={11} leftIcon={<FontIcon className="fa fa-envelope-o" />} disableKeyboardFocus={true}>
-              <TextField key={110} hintText="邮箱" floatingLabelText="邮箱" errorText={email.touched && email.error ? email.error : null} {...email}/>
-            </ListItem>
-            <ListItem key={12} leftIcon={<FontIcon className="fa fa-mobile-phone" />} disableKeyboardFocus={true}>
-              <TextField key={120} hintText="手机" floatingLabelText="手机" errorText={phone.touched && phone.error ? phone.error : null} {...phone}/>
-            </ListItem>
-            {/* <RaisedButton key={15} className={styles.editButton} onClick={logError}><span className="fa fa-pencil"/> logError</RaisedButton>*/}
-            <RaisedButton key={13} disabled={anyError ? true : false} className={styles.editButton} onClick={handleSubmit}><span className="fa fa-pencil"/> 保存</RaisedButton>
-          </List>
         </div>
       </form>
-    );
+    )
   }
 }

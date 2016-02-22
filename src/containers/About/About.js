@@ -16,7 +16,7 @@ export default class About extends Component {
     return (
       <div className={styles.container}>
         <h1></h1>
-        <Helmet title="About Us"/>
+        <Helmet title="关于我们"/>
 
         <div className={styles.text}>
           <p className={styles.cnText}>

@@ -35,7 +35,7 @@ export default class List extends Component {
 
   render(){
     const styles = require('./List.scss');
-    const {loaded, getList, error, locationId, onLocationChange, onDeleteHouse, onOpenDialog, onCloseDialog, toDelete} = this.props;
+    const {onDeleteHouse, onOpenDialog, onCloseDialog, toDelete} = this.props;
     const houses = this.props.houses;
 
     var Decorators = [
@@ -58,7 +58,7 @@ export default class List extends Component {
     const deleteHouse = (event) => {
       onCloseDialog(event);
       if(toDelete){
-        onDeleteHouse(toDelete.house, toDelete.index)
+        onDeleteHouse(this.props.userId, toDelete.house._id, toDelete.index)
       }
     }
 

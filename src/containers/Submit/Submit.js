@@ -16,7 +16,7 @@ import uiStyles from "../../theme/uiStyles";
 function initSubmit(getState, dispatch){
   var state = getState()
   dispatch(onClear());
-  dispatch(onInitEntity(state.entities.locationId, state.auth.user._id, state.auth.user.username));
+  dispatch(onInitEntity(state.entities.locationId, state.entities.cityList, state.auth.user._id, state.auth.user.username));
 }
 
 @connect(
@@ -69,11 +69,12 @@ export default class Submit extends Component{
     const styles = require('./Submit.scss');
     return (
       <div>
+        <Helmet title="发布房源"/>
         <SubmitForm onSubmit={this.handleSubmit}/>
 
         <Snackbar
-          open={feedback}
-          message={feedback}
+          open={feedback !== null}
+          message={feedback == null ? "" : feedback}
           autoHideDuration={4000}
           bodyStyle={uiStyles.snackBarStyle}
           onRequestClose={(reason) => {

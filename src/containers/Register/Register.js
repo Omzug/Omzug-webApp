@@ -40,7 +40,7 @@ export default class Register extends Component{
     return (
       <div className={styles.container}>
         <div className={styles.register}><h1>注册</h1></div>
-          <Helmet title="Register"/>
+          <Helmet title="注册"/>
         <Snackbar
           open={loginError}
           message={loginError}

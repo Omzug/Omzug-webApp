@@ -20,7 +20,9 @@ export default function login(req) {
       },
       function(err){
         req.session.user = "";
-        return reject(err.msg);
+        return reject({
+          error : err.msg
+        });
       })
   });
 }

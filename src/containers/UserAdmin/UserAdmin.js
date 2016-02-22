@@ -8,11 +8,11 @@ import {isLoaded, onLoad, onLocationChange, onDeleteHouse} from 'redux/modules/a
 import {bindActionCreators} from 'redux';
 import connectData from 'helpers/connectData';
 import {List} from "components";
+import Helmet from 'react-helmet';
 
 import {DropDownMenu, MenuItem,RaisedButton} from 'material-ui';
 
 import myRawTheme from '../../theme/materialUI.theme';
-import cityList from '../../constant/cityList';
 
 function fetchDataDeferred(getState, dispatch) {
   if (!isLoaded(getState())) {
@@ -66,6 +66,7 @@ export default class Entities extends Component {
 
     return (
       <div>
+        <Helmet title="我的发布"/>
         <div className={styles.listNav}>
           <RaisedButton onClick={this.loadList} style={{lineHeight: "36px" }}><i className={refreshClassName}/> 刷新</RaisedButton>
         </div>

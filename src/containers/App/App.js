@@ -1,19 +1,18 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { IndexLink } from 'react-router';
+import { IndexLink, Link } from 'react-router';
 import { LinkContainer } from 'react-router-bootstrap';
 import { Navbar, Nav, div } from 'react-bootstrap';
 import Helmet from 'react-helmet';
 import { isLoaded as isInfoLoaded, load as loadInfo } from 'redux/modules/info';
 import { isLoaded as isAuthLoaded, load as loadAuth, logout, clearLoginError } from 'redux/modules/auth';
 import { onAddData } from 'redux/modules/admin';
-import { load as getList} from 'redux/modules/entities'
+import { onGetHouseList} from 'redux/modules/entities'
 //import { InfoBar } from 'components';
 import { pushState } from 'redux-router';
 import connectData from 'helpers/connectData';
 import config from '../../config';
-import FlatButton from 'material-ui/lib/flat-button';
-import cityList from '../../constant/cityList';
+import {FlatButton, FontIcon} from 'material-ui';
 import uiStyles from '../../theme/uiStyles';
 
 // it must be enabled before react 1.0 for material ui
@@ -37,8 +36,9 @@ function fetchData(getState, dispatch) {
     adminLoaded : state.admin.loaded,
     createData : state.entity.createData,
     locationId : state.entities.locationId,
+    cityList : state.entities.cityList,
   }),
-  {logout, clearLoginError, pushState, getList, onAddData})
+  {logout, clearLoginError, pushState, onGetHouseList, onAddData})
 export default class App extends Component {
   static propTypes = {
     children: PropTypes.object.isRequired,
@@ -46,11 +46,12 @@ export default class App extends Component {
     createId : PropTypes.string,
     locationId : PropTypes.number,
     adminLoaded : PropTypes.bool,
+    cityList :PropTypes.array,
 
     logout: PropTypes.func.isRequired,
     pushState: PropTypes.func.isRequired,
     clearLoginError: PropTypes.func.isRequired,
-    getList : PropTypes.func.isRequired,
+    onGetHouseList : PropTypes.func.isRequired,
     onAddData : PropTypes.func.isRequired,
   };
 
@@ -72,11 +73,7 @@ export default class App extends Component {
     if(!this.props.createData && nextProps.createData){
       this.props.pushState(null, '/entities/' + nextProps.createData._id)
       // refresh the main list
-      if(this.props.locationId && this.props.locationId <= cityList.length) {
-        this.props.getList(cityList[this.props.locationId].toLowerCase());
-      }else{
-        this.props.getList();
-      }
+      this.props.onGetHouseList(this.props.locationId, this.props.cityList)
       //refresh admin list
       if(this.props.adminLoaded){
         this.props.onAddData(nextProps.createData)
@@ -122,14 +119,12 @@ export default class App extends Component {
             </LinkContainer>
             { !config.isDebug &&
             user &&
-            <LinkContainer to="/chat">
-              <FlatButton eventKey={1}>聊天室</FlatButton>
-            </LinkContainer>}
+            <FlatButton eventKey={1} linkButton={true} containerElement={<Link to="/chat" />} label="聊天室"/>
+            }
 
             {!user &&
-            <LinkContainer to="/login">
-              <FlatButton eventKey={2}>登陆</FlatButton>
-            </LinkContainer>}
+            <FlatButton eventKey={2} linkButton={true} containerElement={<Link to="/login" />} label="登录"/>
+            }
 
             {/*{user &&
              <LinkContainer to="/logout">
@@ -139,9 +134,9 @@ export default class App extends Component {
 
 
             {!user &&
-            <LinkContainer to="/register">
-              <FlatButton style={uiStyles.registerButton} labelStyle={uiStyles.labelStyle} eventKey={4} label="注册"/>
-            </LinkContainer>}
+            <FlatButton style={uiStyles.registerButton} labelStyle={uiStyles.labelStyle} eventKey={4} label="注册"
+                        linkButton={true} containerElement={<Link to="/register" />}/>
+            }
 
           </div>
 
@@ -158,9 +153,26 @@ export default class App extends Component {
               <FlatButton eventKey={6}><span className={rightLi}><i className="fa fa-pencil fa-lg"/>发布房屋</span></FlatButton>
             </LinkContainer>
             }
+            {/*
+            <FlatButton className={styles.aboutUs} eventKey={7}>
+              <Link to="/about">
+              <span className={rightLi}><i className="fa fa-child fa-lg"/>关于我们</span>
+              </Link>
+            </FlatButton>
+
+
+            <FlatButton className={styles.aboutUs} eventKey={7}
+                        linkButton={true} containerElement={<Link to="/chat" />}
+                        label="关于我们"
+                        icon={
+                            <FontIcon className="fa fa-child" />
+                        }/>
+                        */}
+
             <LinkContainer to="/about">
               <FlatButton className={styles.aboutUs} eventKey={7}><span className={rightLi}><i className="fa fa-child fa-lg"/>关于我们</span></FlatButton>
             </LinkContainer>
+
             {user &&
             <LinkContainer to="/logout">
               <FlatButton eventKey={8} onClick={this.handleLogout}><span className={rightLi}><i className="fa fa-sign-out fa-lg" /> 登出</span></FlatButton>
