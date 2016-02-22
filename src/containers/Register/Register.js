@@ -38,9 +38,8 @@ export default class Register extends Component{
     const styles = require('./Register.scss')
 
     return (
-      <div className={styles.container}>
-        <div className={styles.register}><h1>注册</h1></div>
-          <Helmet title="注册"/>
+      <div className={styles.registerPage}>
+        <Helmet title="注册"/>
         <Snackbar
           open={loginError}
           message={loginError}
@@ -53,11 +52,15 @@ export default class Register extends Component{
           }}
         />
 
-        <div className={styles.container1}>
+        <div className={styles.container}>
+        <div className={styles.registerForm}>
+          <div className={styles.registerTitle}><h1>注册</h1></div>
           <RegisterForm onSubmit={this.handleSubmit}/>
+        </div>
 
-          <div><img className ={styles.registerPic}
-                    src="https://41.media.tumblr.com/3c41788b9aaedab70a03cc286521aa88/tumblr_o2tdluSTeD1qkfs2lo1_1280.jpg"/></div>
+
+        <div className ={styles.registerPic}>
+          <img src="https://41.media.tumblr.com/3c41788b9aaedab70a03cc286521aa88/tumblr_o2tdluSTeD1qkfs2lo1_1280.jpg"/></div>
         </div>
       </div>
     )

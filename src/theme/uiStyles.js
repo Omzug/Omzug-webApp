@@ -3,7 +3,7 @@
  */
 
 export default {
-  inputStyle : {width: "400px"},
+  inputStyle : {width: "100%"},
   buttonStyle : {height: "50px", "lineHeight": "50px", width:"60px", margin:"30px", fontSize: "large"},
   snackBarBodyStyle : {backgroundColor : "#FF6F6F", width:"20px", textAlign:"center", borderRadius:"20px",marginBottom:"30px"},
   snackBarRootStyle : {color : "red" },
