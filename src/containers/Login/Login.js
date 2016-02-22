@@ -66,47 +66,50 @@ export default class Login extends Component {
     return (
       <div className={styles.loginPage}>
         <Helmet title="Login"/>
-        <div className={styles.register}><h1>登录</h1></div>
         {!user &&
         <div className={styles.container}>
-
-          <div><form className="login-form" onSubmit={this.handleSubmit}>
-            <div className={'form-group'}>
-              <div>
-                <TextField type="text" hintText="邮箱" style={inputStyle}
-                           floatingLabelText="邮箱"
-                           errorText={email.touched && email.error ? email.error : null}  {...email}
-                />
+          <div className={styles.loginForm}>
+            <div className={styles.loginTitle}><h1>登录</h1></div>
+            <form onSubmit={this.handleSubmit}>
+              <div className={'form-group'}>
+                <div>
+                  <TextField type="text" hintText="邮箱" style={inputStyle}
+                             floatingLabelText="邮箱"
+                             errorText={email.touched && email.error ? email.error : null}  {...email}
+                  />
+                </div>
               </div>
-            </div>
-            <div className={'form-group'}>
-              <div>
-                <TextField type="password" hintText="密码" style={inputStyle}
-                           floatingLabelText="密码"
-                           errorText={password.touched && password.error ? password.error : null} {...password}
-                />
+              <div className={'form-group'}>
+                <div>
+                  <TextField type="password" hintText="密码" style={inputStyle}
+                             floatingLabelText="密码"
+                             errorText={password.touched && password.error ? password.error : null} {...password}
+                  />
+                </div>
               </div>
-            </div>
-            <div className={styles.raisedButton}>
-            <RaisedButton style style={buttonStyle} onClick={this.handleSubmit}>
-              {loggingIn ?
-                <span className="fa fa-spin fa-refresh"/>
-                :
-                <span>Los!</span>
-              }
-            </RaisedButton>
-            </div>
-            <Snackbar
-              open={loginError != null || loadError != null}
-              message={getError()}
-              autoHideDuration={4000}
-              bodyStyle={popupStyle}
-              onRequestClose={(reason) => {
-                this.props.clearLoginError();
-              }}
-            />
-          </form></div>
-          <div><img className={styles.loginPic} src="https://41.media.tumblr.com/41dcb11625dd4c9511934e514871ec16/tumblr_o2tlx3t0R61qkfs2lo1_1280.jpg"/></div>
+              <div className={styles.raisedButton}>
+              <RaisedButton style style={buttonStyle} onClick={this.handleSubmit}>
+                {loggingIn ?
+                  <span className="fa fa-spin fa-refresh"/>
+                  :
+                  <span>Los!</span>
+                }
+              </RaisedButton>
+              </div>
+              <Snackbar
+                open={loginError != null || loadError != null}
+                message={getError()}
+                autoHideDuration={4000}
+                bodyStyle={popupStyle}
+                onRequestClose={(reason) => {
+                  this.props.clearLoginError();
+                }}
+              />
+            </form>
+          </div>
+          <div className={styles.loginPic}>
+            <img src="https://41.media.tumblr.com/41dcb11625dd4c9511934e514871ec16/tumblr_o2tlx3t0R61qkfs2lo1_1280.jpg"/>
+          </div>
         </div>
         }
       </div>

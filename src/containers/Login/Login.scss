@@ -1,49 +1,75 @@
+@import '../../theme/media';
+
 .loginPage {
-  input {
-    padding: 5px 10px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-  }
-  form {
-    margin: 30px 0;
-    :global(.btn) {
-      margin-left: 10px;
+  .container {
+    width:100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    input {
+      width:100%;
+      padding: 5px 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    form {
+      margin: 30px 0;
+      :global(.btn) {
+        margin-left: 10px;
+      }
+    }
+
+    .loginForm {
+      width: 40%;
+      min-width: 256px;
+      max-width: 500px;
+      padding-left: 80px;
+      .loginTitle{
+      }
+      .raisedButton{
+        display: flex;
+        justify-content: flex-start;
+        margin-left: -25px;
+      }
+    }
+
+    .loginPic {
+      width: 60%;
+      min-width: 384px;
+      margin-top: 0;
+      img{
+        max-width:100%;
+      }
     }
   }
+}
 
-  .loginForm{
-    width: 300px;
-    margin : 30px;
+@include max-screen(768px){
+  .loginPage {
+    .loginTitle {
+      margin: 0 auto;
+      padding: 40px 0 0 0;
+    }
+    .container {
+      .loginPic {
+        display: none;
+      }
+      .loginForm {
+        padding: 0 40px;
+        width: 60%;
+      }
+    }
   }
+}
 
-  .error{
-    width: 400px;
-    font-size: medium;
-    margin : 30px;
-    border-radius: 3px;
+@include max-screen(600px){
+  .loginPage{
+    .container{
+      .loginForm{
+        padding : 0 20px;
+        width:80%;
+      }
+    }
   }
-}
-
-.container{
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  margin-left: 130px;
-}
-
-.loginPic{
-  width:90%;
-  margin-left: 30px;
-  margin-top: -40px;
-}
-
-.register{
-  margin-left:130px;
-  padding-top: 50px;
-}
-
-.raisedButton{
-  display: flex;
-  justify-content: flex-start;
-  margin-left: -25px;
 }
