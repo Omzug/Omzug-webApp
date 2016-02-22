@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
-import {FlatButton} from 'material-ui';
+import {RaisedButton} from 'material-ui';
 import Helmet from 'react-helmet';
 
 @connect(
@@ -61,11 +61,10 @@ export default class Chat extends Component {
     return (
       <div className={styles.chat + ' container'}>
         <Helmet title="聊天室"/>
-        <h1 className={styles}>Chat</h1>
+        <h4 className={styles.title}>聊天室</h4>
 
         {user &&
         <div>
-          <FlatButton label="清空记录" onClick={clearHistory}/>
           <ul>
           {this.state.messages.map((msg) => {
             return msg.from == this.props.user.username ?
@@ -74,13 +73,18 @@ export default class Chat extends Component {
           })}
           </ul>
           <form className="login-form" onSubmit={this.handleSubmit}>
-            <input type="text" ref="message" placeholder="Enter your message"
-             value={this.state.message}
-             onChange={(event) => {
-               this.setState({message: event.target.value});
-             }
-            }/>
-            <button className="btn" onClick={this.handleSubmit}>Send</button>
+            <div className={styles.inputGroup}>
+              <input className={styles.input} type="text" ref="message" placeholder="Enter your message"
+               value={this.state.message}
+               onChange={(event) => {
+                 this.setState({message: event.target.value});
+               }
+              }/>
+              <div className={styles.buttonGroup}>
+                <RaisedButton onClick={this.handleSubmit} label="发送"/>
+                <RaisedButton label="清空记录" onClick={clearHistory}/>
+              </div>
+            </div>
           </form>
         </div>}
       </div>
