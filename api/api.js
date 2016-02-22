@@ -8,6 +8,10 @@ import PrettyError from 'pretty-error';
 import http from 'http';
 import SocketIo from 'socket.io';
 import DB from './lib/db-interface.js';
+const MongoStore = require('connect-mongo')(session);
+
+var mongoModel = require('./lib/model.js')
+var mongoConnection = mongoModel.initMongoDb()
 
 const pretty = new PrettyError();
 const app = express();
@@ -18,7 +22,8 @@ const io = new SocketIo(server);
 io.path('/ws');
 
 app.use(session({
-  secret: 'react and redux rule!!!!',
+  secret: 'hanwen is cool!!!!',
+  store : new MongoStore({ mongooseConnection: mongoConnection }),
   resave: false,
   saveUninitialized: false,
   cookie: { maxAge: config.sessionAge }

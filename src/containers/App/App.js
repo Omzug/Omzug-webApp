@@ -101,58 +101,61 @@ export default class App extends Component {
         <Helmet {...config.app.head}/>
         <div className={styles.navbar}>
           <div className={styles.left}>
-            <LinkContainer to="/">
-              <div className={styles.logo}>
-                  <img className={styles.hvrWobbleSkew} src={require('../../../static/favicon.svg')}/>
-              </div>
-            </LinkContainer>
-
-            <LinkContainer to="/">
-              <div className={styles.title}>
-                <div className={styles.headerSchrift}>
-                  {config.app.title}
+            <div className={styles.logoContainer}>
+              <LinkContainer to="/">
+                <div className={styles.logo}>
+                    <img className={styles.hvrWobbleSkew} src={require('../../../static/favicon.svg')}/>
                 </div>
-                {/*<div className={styles.nebenSchrift}>
-                  {config.app.description}
-                </div>*/}
-              </div>
-            </LinkContainer>
-            { !config.isDebug &&
-            user &&
-            <FlatButton eventKey={1} linkButton={true} containerElement={<Link to="/chat" />} label="聊天室"/>
+              </LinkContainer>
+
+              <LinkContainer to="/">
+                <div className={styles.title}>
+                  <div className={styles.headerSchrift}>
+                    {config.app.title}
+                  </div>
+                  {/*<div className={styles.nebenSchrift}>
+                    {config.app.description}
+                  </div>*/}
+                </div>
+              </LinkContainer>
+            </div>
+
+            <div className={styles.buttonContainer}>
+              {!user &&
+              <FlatButton eventKey={2} linkButton={true} containerElement={<Link to="/login" />} label="登录"/>
+              }
+
+              {/*{user &&
+               <LinkContainer to="/logout">
+               <FlatButton eventKey={3} onClick={this.handleLogout}>登出</FlatButton>
+               </LinkContainer>
+               } */}
+
+              {!user &&
+              <FlatButton labelStyle={uiStyles.registerButton} eventKey={4} label="注册"
+                          linkButton={true} containerElement={<Link to="/register" />}/>
+              }
+
+              <FlatButton containerElement={<Link to="/about" />}
+                          linkButton={true} eventKey={7} label="关于我们"/>
+
+              { !config.isDebug &&
+              user &&
+              <FlatButton eventKey={1} linkButton={true} containerElement={<Link to="/chat" />} label="聊天室"/>
             }
-
-            {!user &&
-            <FlatButton eventKey={2} linkButton={true} containerElement={<Link to="/login" />} label="登录"/>
-            }
-
-            {/*{user &&
-             <LinkContainer to="/logout">
-             <FlatButton eventKey={3} onClick={this.handleLogout}>登出</FlatButton>
-             </LinkContainer>
-             } */}
-
-
-            {!user &&
-            <FlatButton style={uiStyles.registerButton} labelStyle={uiStyles.labelStyle} eventKey={4} label="注册"
-                        linkButton={true} containerElement={<Link to="/register" />}/>
-            }
+            </div>
 
           </div>
-
+          {user &&
           <div className={ user ? styles.right : styles.right + " " + styles.noUserRight}>
-            {user &&
-            <div><span className={rightLi}>您好 <strong className={styles.username}>{user.username}</strong></span></div>}
-            {user &&
+            <div className={styles.welcome}><span className={rightLi}>您好 <i className="fa fa-child"/> <strong className={styles.username}>{user.username}</strong></span></div>
             <LinkContainer to="/admin">
               <FlatButton eventKey={3}><span className={rightLi}><i className="fa fa-truck fa-lg"/>我的出租</span></FlatButton>
             </LinkContainer>
-            }
-            {user &&
             <LinkContainer to="/submit">
               <FlatButton eventKey={6}><span className={rightLi}><i className="fa fa-pencil fa-lg"/>发布房屋</span></FlatButton>
             </LinkContainer>
-            }
+
             {/*
             <FlatButton className={styles.aboutUs} eventKey={7}>
               <Link to="/about">
@@ -169,17 +172,10 @@ export default class App extends Component {
                         }/>
                         */}
 
-            <LinkContainer to="/about">
-              <FlatButton className={styles.aboutUs} eventKey={7}><span className={rightLi}><i className="fa fa-child fa-lg"/>关于我们</span></FlatButton>
-            </LinkContainer>
-
-            {user &&
             <LinkContainer to="/logout">
               <FlatButton eventKey={8} onClick={this.handleLogout}><span className={rightLi}><i className="fa fa-sign-out fa-lg" /> 登出</span></FlatButton>
             </LinkContainer>
-            }
-
-          </div>
+          </div>}
         </div>
 
         <div className={styles.appContent}>

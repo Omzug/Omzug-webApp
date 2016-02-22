@@ -2,16 +2,12 @@
 @import "../../theme/utils.scss";
 
 .home {
-  dd {
-    margin-bottom: 15px;
-  }
   .container {
     background: #fff;
     //padding:40px 20px;
     color: black;
     margin-bottom: -80px;
     .description {
-      z-index: 10;
       width:45%;
       flex-grow: 1;
       padding: 150px 30px 250px 0px;
