@@ -24,8 +24,10 @@
       width: 40%;
       min-width: 256px;
       max-width: 500px;
-      padding-left: 80px;
+      padding-left: 130px;
+      padding-top: 65px;
       .loginTitle{
+        padding-bottom: 0px;
       }
       .raisedButton{
         display: flex;
@@ -37,7 +39,7 @@
     .loginPic {
       width: 60%;
       min-width: 384px;
-      margin-top: 0;
+      margin-top: 30px;
       img{
         max-width:100%;
       }
