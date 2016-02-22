@@ -131,6 +131,10 @@ export default class SubmitTemplate extends Component {
           <div className={styles.rowContainer}><i className="fa fa-eur"/> 租金 : 暖租  {entity.price} Eur  </div>
           <div className={styles.rowContainer}><i className="fa fa-lock"/> 押金 :  {entity.caution} Eur</div>
           <div className={styles.rowContainer}><i className="fa fa-calendar"/> 租期 : 13.02.2016 -- 13.03.2016 </div>
+          {userId && userId == entity.owner &&
+          <RaisedButton style={uiStyles.buttonStyle} key={12} className={styles.editButton} onClick={this.props.onStartEdit}><span
+            className="fa fa-pencil"/> 编辑</RaisedButton>
+          }
 
 
         </div>

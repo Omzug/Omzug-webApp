@@ -4,8 +4,9 @@
 
 export default {
   inputStyle : {width: "400px"},
-  buttonStyle : {height: "50px", "lineHeight": "50px", width:"60px", margin:"30px", fontSize: "large"},
+  buttonStyle : {height: "50px", "lineHeight": "50px", width:"60px", margin:"30px"},
   snackBarBodyStyle : {backgroundColor : "#FF6F6F", width:"20px", textAlign:"center", borderRadius:"20px",marginBottom:"30px"},
+  snackBarStyle : {backgroundColor : "cadetblue", width:"20px", textAlign:"center", borderRadius:"20px",marginBottom:"30px"},
   snackBarRootStyle : {color : "red" },
   //dialogCancelStyle : {colod : ''},
   dialogConfirmStyle : {color : 'red'},

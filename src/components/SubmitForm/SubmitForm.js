@@ -293,7 +293,7 @@ export default class SubmitForm extends Component {
               <div><TextField key={120}  floatingLabelText=" " errorText={phone.touched && phone.error ? phone.error : null} {...phone}/></div>
             </div>
             <div className={styles.submit}>
-              <RaisedButton key={13} disabled={anyError ? true : false} className={styles.editButton} onClick={handleSubmit}><span/> 提交</RaisedButton>
+              <RaisedButton style={uiStyles.buttonStyle} key={13} disabled={anyError ? true : false} className={styles.editButton} onClick={handleSubmit}><span/> 提交</RaisedButton>
             </div>
           </div>
         </div>
