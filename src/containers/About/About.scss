@@ -1,4 +1,5 @@
 @import "../../theme/myHover.scss";
+@import "../../theme/media.scss";
 
 .text{
   margin-top: 65px;
@@ -36,4 +37,17 @@
   font-size: 13px;
   line-height: 2.1em;
   color: #484848;
+}
+
+@include max-screen(768px){
+  .text{
+    margin-top: 20px;
+    margin-bottom:80px;
+  }
+}
+
+@include max-screen(375px){
+  .text{
+    margin-bottom: 30px;
+  }
 }
