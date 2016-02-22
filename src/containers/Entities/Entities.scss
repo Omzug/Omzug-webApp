@@ -1,6 +1,7 @@
 @import "../../theme/variables.scss";
 @import "../../theme/utils.scss";
 @import "../../theme/color.scss";
+@import "../../theme/media.scss";
 
 .dropDown{
 
@@ -52,4 +53,18 @@
   margin-left: 30px;
   margin-bottom: 435px;
   font-size: 20px;
+}
+
+@include max-screen(820px){
+  .listNav{
+    position: static;
+  }
+}
+
+@include max-screen(768px){
+  .listNav{
+    //when user login
+    margin-top: 120px;
+    //when user not login there are 30px blank here, it should be 90px, so we set that in Home.scss
+  }
 }

@@ -1,3 +1,4 @@
+@import "../../theme/media.scss";
 @import "../../theme/myHover.scss";
 @import "../../theme/color.scss";
 
@@ -5,7 +6,7 @@
   .navbar{
     $size:60px;
     background-color: #fff;
-    height: 60px;
+    height: $size;
     width: 100%;
     position: fixed;
     z-index: 6;
@@ -26,35 +27,36 @@
         text-align: center;
         cursor:pointer;
         line-height: $size;
-         .register{
-           font-size: 30px;
-
-         }
       }
-      .logo{
-        img{
-          height:45px;
-          font-weight: bold;
-          padding-left: 10px;
-        }
-      }
-      .title{
+      .logoContainer {
         display: flex;
-        flex-direction: column;
-        height: $size;
-        justify-content: center;
-        margin-bottom: 10px;
-        margin-top: 5px;
-        .headerSchrift{
-          height: 35px;
-          line-height: 35px;
-          font-size: 25px;
+        flex-direction: row;
+        align-items: center;
+        .logo {
+          img {
+            height: 45px;
+            font-weight: bold;
+            padding-left: 10px;
+          }
         }
-        .nebenSchrift{
-          color: black;
-          line-height: 16px;
-          height:16px;
-          font-size: 14px;
+        .title {
+          display: flex;
+          flex-direction: column;
+          height: $size;
+          justify-content: center;
+          margin-bottom: 10px;
+          margin-top: 5px;
+          .headerSchrift {
+            height: 35px;
+            line-height: 35px;
+            font-size: 25px;
+          }
+          .nebenSchrift {
+            color: black;
+            line-height: 16px;
+            height: 16px;
+            font-size: 14px;
+          }
         }
       }
     }
@@ -80,19 +82,6 @@
       padding-right : 20px;
     }
   }
-  .brand {
-    position: absolute;
-    $size: 20px;
-    top: 5px;
-    left: 5px;
-    display: inline-block;
-    background: #2d2d2d url('../Home/logo.png') no-repeat center center;
-    width: $size;
-    height: $size;
-    background-size: 80%;
-    margin: 0 10px 0 0;
-    border-radius: $size / 2;
-  }
   nav :global(.fa) {
     font-size: 2em;
     line-height: 20px;
@@ -116,5 +105,77 @@
 
 .aboutUs{
   padding-right: 40px;
+}
 
+@include max-screen(768px){
+  .app{
+    .navbar{
+      position:static;
+      $size:40px;
+      display: flex;
+      flex-direction: row;
+      //height:auto;
+      flex-wrap: wrap;
+      .left{
+        width:100%;
+        float: none;
+        flex-wrap: wrap;
+        justify-content: center;
+        flex-direction: row;
+        height:auto;
+        div{
+          padding : 0;
+          font-size: small;
+        }
+        .logoContainer{
+          width:100%;
+          display: flex;
+          flex-direction: row;
+          justify-content: center;
+          align-items: center;
+          .logo{
+            img{
+              height:45px;
+              //there is already 10px for padding left
+              padding:0 10px;
+            }
+          }
+        }
+        .buttonContainer{
+          display: flex;
+          flex-direction: row;
+          justify-content: center;
+          width:100%;
+        }
+      }
+      .right{
+        float:none;
+        width:100%;
+        //margin-top: 60px;
+        .welcome{
+          display:none;
+        }
+      }
+      .noUserRight{
+        padding-right : 0;
+      }
+    }
+    .appContent{
+      margin-top: 10px;
+      max-width: 100%;
+    }
+  }
+
+}
+
+@include screen(768px, 820px){
+  .app {
+    .navbar {
+      .right{
+        .welcome{
+          display: none;
+        }
+      }
+    }
+  }
 }
