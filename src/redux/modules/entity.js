@@ -24,6 +24,8 @@ const CLEAR_MESSAGE = "Nevermind/entity/CLEAR_MESSAGE";
 const IMAGE_ERROR = "Nevermind/entity/IMAGE_ERROR";
 const INIT_ENTITY = "Nevermind/entity/INIT_ENTITY";
 const TOGGLE = "Nevermind/entity/TOGGLE";
+const CHANGE_TYPE = "Nevermind/entity/CHANGE_TYPE";
+const CHANGE_PRICE_TYPE = "Nevermind/entity/CHANGE_PRICE_TYPE";
 
 const initState = {
   loaded: false,
@@ -33,7 +35,8 @@ const initState = {
   data : {
     id : null,
     city: "",//which should be a string
-    type : 0,
+    type : null,
+    priceType : null,
     price: null,
     startDate : null,
     title : null,//TODO need set to null in production
@@ -41,7 +44,6 @@ const initState = {
     username : null,
 
     location: null,
-    roomNumber: null,
     size : null,
     caution: null,
     endDate : null,
@@ -49,7 +51,6 @@ const initState = {
     email : null,
     phone : null,
     note : null,
-    maximumPerson : null ,
     images:[],
   },
   hasLimit : false,
@@ -200,12 +201,24 @@ export default function reducer(state = initState, action){
         return update(state, {data: {images: {$splice: [[action.id, 1]]}}});
       }else if(action.id < lengthCached + lengthRemote){
         return update(state, {cachedImages : {$splice : [[action.id - lengthRemote , 1]]}})
+      }else{
+        return
       }
     case CHANGE_SLIDE:
           return {
             ...state,
             currentSlide : action.page,
           }
+    case CHANGE_TYPE:
+          return {
+            ...state,
+            data : update(state.data, {type : {$set : action.value},})
+          }
+    case CHANGE_PRICE_TYPE:
+      return {
+        ...state,
+        data : update(state.data, {priceType : {$set : action.value},})
+      }
     default :
       return state;
   }
@@ -350,6 +363,20 @@ export function onChangeSlide(page){
   return {
     type: CHANGE_SLIDE,
     page: page,
+  }
+}
+
+export function onChangePriceType(value){
+  return {
+    type : CHANGE_PRICE_TYPE,
+    value : value,
+  }
+}
+
+export function onChangeType(value){
+  return {
+    type : CHANGE_TYPE,
+    value : value,
   }
 }
 

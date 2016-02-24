@@ -2,42 +2,46 @@
 @import "../../theme/myHover.scss";
 @import "../../theme/color.scss";
 @import "../../theme/utils.scss";
+@import '../../theme/media.scss';
 
-
-.card{
-  width:60%;
-  min-width:300px;
-  flex-grow: 1;
-  position:relative;
-  align-self: flex-start;
-  margin-left: 70px;
-  margin-top: 40px;
-  margin-right: 40px;
-  .buttonContainer{
-    position:absolute;
-    right : 100px;
-    top : 100px;
-    //cursor: pointer;
-    z-index: 5;
-    //background-color: $lightBlack;
-    //color: $grey50;
-    //&:hover{
-      //background-color: $darkBlack ;
-    //}
-  }
-  .dropBox{
-    display: flex;
-    flex-direction: row;
-    //horizontal center
-    justify-content: center;
-    width: 100%;
-    height:100%;
-    //vertical center
-    align-items: center;
-    .boxFont{
-      vertical-align: center;
+.container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  .list{
+    overflow: visible;
+    align-self: flex-start;
+    padding:50px;
+    width:20%;
+    min-width:300px;
+    flex-grow: 1;
+    margin-top: 70px;
+    .note{
+      margin:0 30px;
+      color:grey;
     }
-    .inner{
+  }
+  .card{
+    width:60%;
+    height:70%;
+    min-width:300px;
+    flex-grow: 1;
+    align-self: flex-start;
+    margin: 0 20px;
+    .buttonContainer{
+      position:absolute;
+      right : 100px;
+      top : 100px;
+      //cursor: pointer;
+      z-index: 5;
+      //background-color: $lightBlack;
+      //color: $grey50;
+      //&:hover{
+      //background-color: $darkBlack ;
+      //}
+    }
+    .dropBox{
       display: flex;
       flex-direction: row;
       //horizontal center
@@ -46,12 +50,26 @@
       height:100%;
       //vertical center
       align-items: center;
+      .boxFont{
+        vertical-align: center;
+      }
+      .inner{
+        display: flex;
+        flex-direction: row;
+        //horizontal center
+        justify-content: center;
+        width: 100%;
+        height:100%;
+        //vertical center
+        align-items: center;
+      }
+    }
+    .textArea{
+
     }
   }
-  .textArea{
-
-  }
 }
+
 
 .inner{
   display: flex;
@@ -62,20 +80,6 @@
   height:100%;
   //vertical center
   align-items: center;
-}
-
-.list{
-  overflow: visible;
-  align-self: flex-start;
-  padding:50px;
-  width:40%;
-  min-width:300px;
-  flex-grow: 2;
-  margin-top: 30px;
-  .note{
-    margin:0 30px;
-    color:grey;
-  }
 }
 
 .editButton{
@@ -99,3 +103,95 @@
   display: inline;
 }
 
+.rowContainer{
+ display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-start;
+  margin-bottom: 10px;
+  margin-left:-100px;
+
+}
+.rowContainerCity{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-start;
+  margin-bottom: 0px;
+  margin-left:-100px;
+  margin-top: 35px;
+}
+
+.withOutError{
+  padding-top :40px;
+  padding-right: 10px;
+}
+
+.withError{
+  border :1px solid red;
+  align-self: center;
+  padding-right: 10px;
+}
+
+.select{
+  width: 60%;
+  padding-left: 10px;
+  padding-bottom: 20px;
+}
+
+.warmCold{
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: row;
+  margin-top: 20px;
+  margin-left: -24px;
+
+}
+
+.city{
+  padding-top: 10px;
+  padding-left: 15px;
+
+}
+
+.buttonGroup2{
+  margin-bottom: 20px;
+}
+.buttonGroup1{
+  padding-top: 5px;
+}
+
+.submit{
+  margin-top: 35px;
+  margin-bottom: 260px;
+  margin-left: 0px;
+}
+
+//card min-width + list min-width + margin container
+@include max-screen(840px){
+  .container{
+    margin : 0;
+    .card {
+      margin:20px;
+    }
+    .list{
+      max-width: 300px;
+      margin:20px;
+    }
+  }
+}
+
+@include max-screen(540px){
+  .container{
+    .card{
+      min-width: 300px;
+    }
+    .list{
+      width: 200px;
+    }
+  }
+}
+
+.rowContainer{
+  margin-bottom: 60px;
+}

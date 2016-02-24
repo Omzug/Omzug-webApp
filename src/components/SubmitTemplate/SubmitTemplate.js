@@ -123,8 +123,23 @@ export default class SubmitTemplate extends Component {
             <FlatButton style={uiStyles.actionButton} className={styles.button} onClick={this.props.onContactOpen}><span className="fa fa-share"/> 分享</FlatButton>
           </CardActions>
         </Card>
+        <div className={styles.list}>
+          <div className={styles.rowContainer}><i className="fa fa-location-arrow"/> 城市 :  {entity.city}</div>
+          <div className={styles.rowContainer}><i className="fa fa-map-marker"/> 地址 :  {entity.location}</div>
+          <div className={styles.rowContainer}><i className="fa fa-square"/> 面积 :  {entity.size} m²</div>
+          <div className={styles.rowContainer}><i className="fa fa-cube"/> 类型 :  {entity.type ? "WG" : "Wohnung/Apartment"}</div>
+          <div className={styles.rowContainer}><i className="fa fa-eur"/> 租金 : {entity.priceType ? "暖租" : "冷租"}  {entity.price} Eur  </div>
+          <div className={styles.rowContainer}><i className="fa fa-lock"/> 押金 :  {entity.caution} Eur</div>
+          <div className={styles.rowContainer}><i className="fa fa-calendar"/> 租期 : {formatDate(entity.startDate)} -- {entity.endDate ? "无期限" : formatDate(entity.startDate) } </div>
+          {userId && userId == entity.owner &&
+          <RaisedButton style={uiStyles.buttonStyle} key={12} className={styles.editButton} onClick={this.props.onStartEdit}><span
+            className="fa fa-pencil"/> 编辑</RaisedButton>
+          }
 
-        <List className={styles.list}>
+
+        </div>
+
+        {/*<List className={styles.list}>
           <ListItem key={1} className="hint--top" data-hint="城市" primaryText={entity.city} leftIcon={<FontIcon className="fa fa-map-marker" />} />
           <ListItem key={2} className="hint--top" data-hint="地址" primaryText={entity.location} leftIcon={<FontIcon className="fa fa-map" />} />
           <ListItem key={3} className="hint--top" data-hint="房间数" primaryText={entity.roomNumber} leftIcon={<FontIcon className="fa fa-codepen" />} />
@@ -154,7 +169,7 @@ export default class SubmitTemplate extends Component {
           <RaisedButton key={12} className={styles.editButton} onClick={this.props.onStartEdit}><span
             className="fa fa-pencil"/> 编辑</RaisedButton>
           }
-        </List>
+        </List>*/}
       </div>
     );
   }

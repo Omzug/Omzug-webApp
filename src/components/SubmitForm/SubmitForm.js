@@ -6,15 +6,17 @@ import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {reduxForm} from 'redux-form';
 
-import {onEndEdit, onAddImage, onChangeSlide, onDeleteImage, onToggleLimit} from "redux/modules/entity";
+import {onEndEdit, onAddImage, onChangeSlide,
+  onDeleteImage, onToggleLimit, onChangeType, onChangePriceType} from "redux/modules/entity";
 //import Slider from 'nuka-carousel';
 import {Carousel} from 'components';
 import submitValidation from './submitValidation'
+import uiStyles from '../../theme/uiStyles'
 import Select from 'react-select';
 
 import {TextField, FontIcon, RaisedButton, Card, MenuItem,
   IconButton, CardMedia, CardTitle, CardText, List, ListItem, SelectField,
-  DatePicker, Toggle} from 'material-ui';
+  DatePicker, Toggle, RadioButton, RadioButtonGroup} from 'material-ui';
 
 import DropZone from 'react-dropzone'
 import defaultCityList from '../../constant/cityList';
@@ -27,7 +29,7 @@ import defaultCityList from '../../constant/cityList';
     cachedImages : state.entity.cachedImages,
     currentSlide : state.entity.currentSlide,
   }),
-  {onEndEdit, onAddImage, onChangeSlide, onDeleteImage, onToggleLimit}
+  {onEndEdit, onAddImage, onChangeSlide, onDeleteImage, onToggleLimit, onChangeType, onChangePriceType}
 )
 
 @reduxForm({
@@ -48,6 +50,8 @@ export default class SubmitForm extends Component {
     onDeleteImage : PropTypes.func.isRequired,
     onChangeSlide : PropTypes.func.isRequired,
     onToggleLimit : PropTypes.func.isRequired,
+    onChangeType : PropTypes.func.isRequired,
+    onChangePriceType : PropTypes.func.isRequired,
     cachedImages: PropTypes.array,
     currentSlide : PropTypes.number,
     hasLimit : PropTypes.bool,
@@ -94,6 +98,7 @@ export default class SubmitForm extends Component {
       //asyncValidating
       } = this.props;
 
+    //TODO change it later
     var anyError = location.error || city.error || roomNumber.error ||size.error || caution.error || startDate.error
       || endDate.error || description.error || title.error || email.error || phone.error || type.error
       || note.error || maximumPerson.error ;
@@ -128,6 +133,12 @@ export default class SubmitForm extends Component {
       return entity.images.length + cachedImages.length
     }
 
+    const errorStyle = (value) =>{
+      const withOutError = styles.withOutError
+      const withError = " "+ styles.withError
+      return value.error && value.touched? withError : withOutError
+    }
+
     const onCityChange =(value)=>{
       if(value === ""){
         return city.onChange(null)
@@ -135,8 +146,46 @@ export default class SubmitForm extends Component {
       city.onChange(defaultCityList[value].label)
     }
 
+    /*<List>
+
+     <ListItem key={8} leftIcon={<FontIcon className="fa fa-calendar" />} disableKeyboardFocus={true} children={
+     <div key={83}>
+     {/*every child should have a key, or react give a stupid warnning
+     <DatePicker key={81} autoOk={true} value={new Date(startDate.value)} hintText="开始日期"
+     onChange={(event, newDate) => startDate.onChange(newDate)} formatDate={this.dateFormat}/>
+     <Toggle label="短期" toggled={hasLimit} labelPosition="right" onToggle={(event, isToggled) => {
+     this.props.onToggleLimit(isToggled)
+     if(isToggled){
+     endDate.onChange(new Date())
+     }else{
+     endDate.onChange(null)
+     }
+     }}/>
+     { hasLimit &&
+     <DatePicker key={82} autoOk={true} value={new Date(endDate.value)} hintText="结束日期"
+     onChange={(event, newDate) => endDate.onChange(newDate)} formatDate={this.dateFormat}/>
+     }
+     </div>
+     }>
+
+
+     </ListItem >
+     <ListItem key={9} className={styles.note} zDepth={2} disableKeyboardFocus={true}>
+     <TextField key={90} hintText="备注" floatingLabelText="备注" errorText={note.touched && note.error ? note.error : null} {...note}/>
+     </ListItem>
+     <ListItem key={11} leftIcon={<FontIcon className="fa fa-envelope-o" />} disableKeyboardFocus={true}>
+     <TextField key={110} hintText="邮箱" floatingLabelText="邮箱" errorText={email.touched && email.error ? email.error : null} {...email}/>
+     </ListItem>
+     <ListItem key={12} leftIcon={<FontIcon className="fa fa-mobile-phone" />} disableKeyboardFocus={true}>
+     <TextField key={120} hintText="手机" floatingLabelText="手机" errorText={phone.touched && phone.error ? phone.error : null} {...phone}/>
+     </ListItem>
+     {/* <RaisedButton key={15} className={styles.editButton} onClick={logError}><span className="fa fa-pencil"/> logError</RaisedButton>
+     <RaisedButton key={13} disabled={anyError ? true : false} className={styles.editButton} onClick={handleSubmit}><span/> 提交</RaisedButton>
+     </List>*/
+
     return (
       <form className={styles.container} onSubmit={handleSubmit}>
+
         <Card className={styles.card}>
           <div className={styles.buttonContainer}>
             { currentSlide <= calculateNumber() - 1 &&
@@ -162,97 +211,124 @@ export default class SubmitForm extends Component {
             </Carousel>
           </CardMedia>
           <CardTitle>
-            <div className="hint--top" data-hint="标题">
               {/* directly display the require error here since it hard to find */}
             <TextField key={201} hintText="标题" floatingLabelText="标题" errorText={title.error ? title.error : null} {...title}/>
-            </div>
           </CardTitle>
           <CardText>
-            <div>
-              <textarea key={202} className={"form-control " + styles.textArea} rows="6" placeholder="填写一些具体介绍吧" {...description}/>
-            </div>
+              <textarea key={202} className={"form-control " + styles.textArea} rows="8" placeholder="填写一些具体介绍吧" {...description}/>
           </CardText>
         </Card>
 
-        <List className={styles.list}>
-          {/*<ListItem key={1} className="hint--bottom" data-hint="城市" leftIcon={<FontIcon className="fa fa-map-marker" />} disableKeyboardFocus={true} >
-            <TextField key={10} hintText="城市" floatingLabelText="城市" errorText={city.touched && city.error ? city.error : null} {...city}/>
-          </ListItem>*/}
-          <Select
-            name="selectPostCity"
-            options={defaultCityList}
-            value={city.value === null ? "" : city.value}
-            onChange={onCityChange}
-            noResultsText={"暂时不支持你选择的地区,请选择附近的城市"}
-            placeholder={"选择所在的城市"}
-            ignoreAccents={false}
-          />
-          <ListItem key={1}>
+        <div className={styles.list}>
+          <div>
+            <div className={styles.rowContainerCity}>
+              <div className={styles.city}><i className="fa fa-location-arrow"/> 城市 :</div>
+              <Select
+                className={styles.select}
+                name="selectPostCity"
+                options={defaultCityList}
+                value={city.value === null ? "" : city.value}
+                onChange={onCityChange}
+                noResultsText={"暂时不支持你选择的地区,请选择附近的城市"}
+                placeholder={"选择所在的城市"}
+                ignoreAccents={false}
+              />
+            </div>
 
-          </ListItem>
-          <ListItem key={2} className="hint--top" data-hint="地址" leftIcon={<FontIcon className="fa fa-map" />} disableKeyboardFocus={true}>
-            <TextField key={20} hintText="地址" floatingLabelText="地址" errorText={location.touched && location.error ? location.error : null} {...location}/>
-          </ListItem>
-          <ListItem key={3} className="hint--top" data-hint="房间数" leftIcon={<FontIcon className="fa fa-codepen" />} disableKeyboardFocus={true}>
-            <TextField key={30} hintText="房间数" floatingLabelText="房间数" errorText={roomNumber.touched && roomNumber.error ? roomNumber.error : null} {...roomNumber}/>
-          </ListItem>
-          <ListItem key={4} className="hint--top" data-hint="面积" leftIcon={<FontIcon className="fa fa-th" />} disableKeyboardFocus={true}>
-            <TextField key={40} hintText="面积" floatingLabelText="面积" errorText={size.touched && size.error ? size.error : null} {...size}/>
-          </ListItem>
-          <ListItem key={5} className="hint--top" data-hint="租金" leftIcon={<FontIcon className="fa fa-euro" />} disableKeyboardFocus={true}>
-            <TextField key={50} hintText="租金" floatingLabelText="租金" errorText={price.touched && price.error ? price.error : null} {...price}/>
-          </ListItem>
-          <ListItem key={6} className="hint--top" data-hint="押金" leftIcon={<FontIcon className="fa fa-money" />} disableKeyboardFocus={true}>
-            <TextField key={60} hintText="押金" floatingLabelText="押金" errorText={title.caution && title.caution ? title.error : null} {...caution}/>
-          </ListItem>
-          <ListItem key={7} className="hint--top" data-hint="最多人数" leftIcon={<FontIcon className="fa fa-child" />} disableKeyboardFocus={true}>
-            <TextField key={70} hintText="最多人数" floatingLabelText="最多人数" errorText={title.maximumPerson && title.maximumPerson ? title.error : null} {...maximumPerson}/>
-          </ListItem>
-          <ListItem key={14} className="hint--top" data-hint="类型" leftIcon={<FontIcon className="fa fa-home" />} disableKeyboardFocus={true}>
-            <SelectField key={141} value={type.value} onChange={(event, value) => {
-            console.log('value is', value)
-            type.onChange(value);
-            }}>
-              <MenuItem value={0} primaryText="整套公寓"/>
-              <MenuItem value={1} primaryText="单间"/>
-            </SelectField>
-          </ListItem>
+            <div className={styles.rowContainer}>
+              <div className={errorStyle(location)}><i className="fa fa-map-marker"/> 地址 :</div>
+              <div><TextField key={20}  floatingLabelText=" " errorText={location.touched && location.error ? location.error : null} {...location}/></div>
+            </div>
 
-          <ListItem key={8} className="hint--top" data-hint="开始结束日期" leftIcon={<FontIcon className="fa fa-calendar" />} disableKeyboardFocus={true} children={
-            <div key={83}>
-            {/*every child should have a key, or react give a stupid warnning */}
+            <div className={styles.rowContainer}>
+              <div className={errorStyle(size)}><i className="fa fa-square"/> 面积 :</div>
+              <div><TextField key={40}  floatingLabelText=" " errorText={size.touched && size.error ? size.error : null} {...size}/></div>
+            </div>
+
+            <div className={styles.rowContainer}>
+              <div className={errorStyle(price)}><i className="fa fa-eur"/> 租金 :</div>
+              <div><TextField key={50}  floatingLabelText=" " errorText={price.touched && price.error ? price.error : null} {...price}/></div>
+            </div>
+
+            <div className={styles.rowContainer}>
+              <div className={errorStyle(caution)}><i className="fa fa-lock"/> 押金 :</div>
+              <div><TextField key={60}  floatingLabelText=" " errorText={caution.touched && caution.error ? caution.error : null} {...caution}/></div>
+            </div>
+
+            <div className={styles.rowContainer}>
               <DatePicker key={81} autoOk={true} value={new Date(startDate.value)} hintText="开始日期"
-              onChange={(event, newDate) => startDate.onChange(newDate)} formatDate={this.dateFormat}/>
+                          onChange={(event, newDate) => startDate.onChange(newDate)} formatDate={this.dateFormat}/>
+            </div>
+            <div className={styles.rowContainer}>
               <Toggle label="短期" toggled={hasLimit} labelPosition="right" onToggle={(event, isToggled) => {
-                this.props.onToggleLimit(isToggled)
-                if(isToggled){
-                  endDate.onChange(new Date())
-                }else{
-                  endDate.onChange(null)
-                }
-              }}/>
+                 this.props.onToggleLimit(isToggled)
+                 if(isToggled){
+                 endDate.onChange(new Date())
+                 }else{
+                 endDate.onChange(null)
+                 }
+                 }}/>
+            </div>
+            <div className={styles.rowContainer}>
               { hasLimit &&
-                <DatePicker key={82} autoOk={true} value={new Date(endDate.value)} hintText="结束日期"
-                onChange={(event, newDate) => endDate.onChange(newDate)} formatDate={this.dateFormat}/>
+              <DatePicker key={82} autoOk={true} value={new Date(endDate.value)} hintText="结束日期"
+                          onChange={(event, newDate) => endDate.onChange(newDate)} formatDate={this.dateFormat}/>
               }
             </div>
-          }>
 
 
-          </ListItem >
-          <ListItem key={9} className={styles.note} zDepth={2} className="hint--top" data-hint="备注" disableKeyboardFocus={true}>
-            <TextField key={90} hintText="备注" floatingLabelText="备注" errorText={note.touched && note.error ? note.error : null} {...note}/>
-          </ListItem>
-          <ListItem key={11} className="hint--top" data-hint="邮箱" leftIcon={<FontIcon className="fa fa-envelope-o" />} disableKeyboardFocus={true}>
-            <TextField key={110} hintText="邮箱" floatingLabelText="邮箱" errorText={email.touched && email.error ? email.error : null} {...email}/>
-          </ListItem>
-          <ListItem key={12} className="hint--top" data-hint="手机" leftIcon={<FontIcon className="fa fa-mobile-phone" />} disableKeyboardFocus={true}>
-            <TextField key={120} hintText="手机" floatingLabelText="手机" errorText={phone.touched && phone.error ? phone.error : null} {...phone}/>
-          </ListItem>
-          {/* <RaisedButton key={15} className={styles.editButton} onClick={logError}><span className="fa fa-pencil"/> logError</RaisedButton>*/}
-          <RaisedButton key={13} disabled={anyError ? true : false} className={styles.editButton} onClick={handleSubmit}><span className="fa fa-pencil"/> 保存</RaisedButton>
-        </List>
+              <div className={styles.buttonGroup1}>
+                <RadioButtonGroup name="costType" style={uiStyles.buttonGroup} valueSelected={entity.priceType}
+                                  onChange={(event, value)=> {
+                   this.props.onChangePriceType(value)}}
+                 >
+                  <RadioButton
+                    value={false}
+                    label="暖租"
+                    style={uiStyles.warmCold}
+                    labelStyle={uiStyles.warmCold}
+                  />
+                  <RadioButton
+                    value={true}
+                    label="冷租"
+                    style={uiStyles.warmCold}
+                    labelStyle={uiStyles.warmCold}
+                  />
+                </RadioButtonGroup>
+              </div>
+            <div className={styles.buttonGroup2}>
+              <RadioButtonGroup name="costType" style={uiStyles.buttonGroup} valueSelected={entity.type}
+                                onChange={(event, value)=> {
+                   this.props.onChangeType(value)}}
+              >
+                <RadioButton
+                  value={false}
+                  label="WG"
+                  style={uiStyles.warmCold}
+                  labelStyle={uiStyles.warmCold}
+                />
+                <RadioButton
+                  value={true}
+                  label="Wohnung/Appartment"
+                  style={uiStyles.warmCold}
+                  labelStyle={uiStyles.warmCold}
+                />
+              </RadioButtonGroup>
+            </div>
+            <div className={styles.rowContainer}>
+              <div className={errorStyle(email)}><i className="fa fa-envelope"/> 邮箱 :</div>
+              <div><TextField key={110}  floatingLabelText=" " errorText={email.touched && email.error ? email.error : null} {...email}/></div>
+            </div>
+            <div className={styles.rowContainer}>
+              <div className={errorStyle(phone)}><i className="fa fa-phone"/> 手机 :</div>
+              <div><TextField key={120}  floatingLabelText=" " errorText={phone.touched && phone.error ? phone.error : null} {...phone}/></div>
+            </div>
+            <div className={styles.submit}>
+              <RaisedButton style={uiStyles.buttonStyle} key={13} disabled={anyError ? true : false} className={styles.editButton} onClick={handleSubmit}><span/> 提交</RaisedButton>
+            </div>
+          </div>
+        </div>
       </form>
-    );
+    )
   }
 }

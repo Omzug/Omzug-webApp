@@ -32,7 +32,8 @@ module.exports = function(Schema, collectionName){
   var ObjectId = Schema.ObjectId;
   return new Schema({
     city :  { type : String, required : true, index: true/*, validate : stringValidator*/},
-    type : {type : Number, required : true},
+    type : {type : Boolean, required : true},
+    priceType : {type : Boolean, required : true},
     price : {type: Number, required : true},
     startDate : {type : Date, required : true},
     title : {type : String, required : true},
@@ -41,14 +42,14 @@ module.exports = function(Schema, collectionName){
 
     location : { type : String/*, validate : stringValidator*/},
     size : { type :Number , required : false},
-    roomNumber : {type :Number, required : false},
+    //roomNumber : {type :Number, required : false},
     caution : { type : Number , required: false},
     endDate : { type : Date, required : false},
     description : { type : String, required : false},
     email : { type : String, required : false, validate : emailValidator},
     phone : { type : String, required : false, validate : phoneValidator},
     note : { type : String, required : false},
-    maximumPerson : { type : Number, required : false} ,
+    //maximumPerson : { type : Number, required : false} ,
     images : {type : Array, required : false},
 
   }, { strict : true, collection : collectionName, timestamps: true});

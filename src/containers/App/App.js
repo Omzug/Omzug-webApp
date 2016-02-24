@@ -131,7 +131,6 @@ export default class App extends Component {
                </LinkContainer>
                } */}
 
-
               {!user &&
               <FlatButton labelStyle={uiStyles.registerButton} eventKey={4} label="注册"
                           linkButton={true} containerElement={<Link to="/register" />}/>
@@ -156,6 +155,7 @@ export default class App extends Component {
             <LinkContainer to="/submit">
               <FlatButton eventKey={6}><span className={rightLi}><i className="fa fa-pencil fa-lg"/>发布房屋</span></FlatButton>
             </LinkContainer>
+
             {/*
             <FlatButton className={styles.aboutUs} eventKey={7}>
               <Link to="/about">

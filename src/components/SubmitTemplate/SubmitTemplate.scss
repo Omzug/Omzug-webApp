@@ -8,9 +8,10 @@
   flex-wrap: wrap;
   justify-content: center;
   .card{
-    width:50%;
+    width:60%;
     height:70%;
-    min-width:500px;
+    align-self: flex-start;
+    min-width:300px;
     flex-grow: 1;
     margin: 0 20px;
     //margin-left: 50px;
@@ -78,4 +79,8 @@
       width: 200px;
     }
   }
+}
+
+.rowContainer{
+  margin-bottom: 60px;
 }
