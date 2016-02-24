@@ -1,28 +1,36 @@
 @import "../../theme/utils.scss";
 @import "../../theme/myHover.scss";
+@import '../../theme/media.scss';
 
-.card{
-  width:50%;
-  height:70%;
-  min-width:300px;
-  flex-grow: 1;
-  margin-left: 50px;
-}
+.container{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  .card{
+    width:50%;
+    height:70%;
+    min-width:500px;
+    flex-grow: 1;
+    margin: 0 20px;
+    //margin-left: 50px;
+  }
 
-.list{
-  align-self: flex-start;
-  padding:50px;
-  width:20%;
-  min-width:300px;
-  flex-grow: 2;
-  margin-top: 70px;
-  margin-right: -30px;
-  margin-left: 20px;
-  .note{
-    margin:0 30px;
-    color:grey;
+  .list{
+    align-self: flex-start;
+    padding:50px;
+    width:20%;
+    min-width:300px;
+    flex-grow: 1;
+    margin-top: 70px;
+    //margin-right: -30px;
+    .note{
+      margin:0 30px;
+      color:grey;
+    }
   }
 }
+
 
 .editButton{
   padding:0;
@@ -43,12 +51,31 @@
   display: inline;
 }
 
-.container{
-  margin-left: 30px;
-  padding-top: 20px;
-
-}
-
 .slider{
   margin-top: -30px ;
+}
+
+//card min-width + list min-width + margin container
+@include max-screen(840px){
+  .container{
+    margin : 0;
+    .card {
+      margin:20px;
+    }
+    .list{
+      max-width: 300px;
+      margin:20px;
+    }
+  }
+}
+
+@include max-screen(540px){
+  .container{
+    .card{
+      min-width: 300px;
+    }
+    .list{
+      width: 200px;
+    }
+  }
 }
