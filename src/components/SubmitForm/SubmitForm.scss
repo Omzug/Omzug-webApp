@@ -16,7 +16,7 @@
     width:30%;
     min-width:350px;
     flex-grow: 1;
-    margin:70px 20px 0 20px;
+    margin:30px 20px 0 20px;
     display: flex;
     flex-flow: row nowrap;
     justify-content: center;
@@ -37,6 +37,7 @@
         margin-bottom: 10px;
         .radioContainer{
           width: 315px;
+          padding-left: 20px;
         }
       }
       .rowContainerCity{
@@ -53,6 +54,7 @@
         flex-flow: row nowrap;
         justify-content: center;
         align-items: center;
+        margin-top: 20px;
       }
       .buttonGroup{
       }
@@ -120,6 +122,7 @@
 
 .editButton{
 
+
 }
 
 
@@ -168,7 +171,7 @@
 .submit{
   margin-top: 35px;
   margin-bottom: 260px;
-  margin-left: 0px;
+  margin-left: 70px;
 }
 
 //card min-width 500 + list min-width 350 + margin container 40 + margin 40 = 830
