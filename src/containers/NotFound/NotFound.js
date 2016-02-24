@@ -5,8 +5,8 @@ export default function NotFound() {
   return (
     <div className="container">
       <Helmet title="- -|||"/>
-      <h1>Doh! 404!</h1>
-      <p>These are <em>not</em> the droids you are looking for!</p>
+      <h1>- -||| 404!</h1>
+      <p>这个页面不存在啊! </p>
     </div>
   );
 }

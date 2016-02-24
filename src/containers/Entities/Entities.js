@@ -35,6 +35,7 @@ function fetchDataDeferred(getState, dispatch) {
     locationId : state.entities.locationId,
     cityList : state.entities.cityList,
     loadingCity : state.entities.loadingCity,
+    column : state.entities.column,
   }),
   {onGetHouseList, onLocationChange, onAppendList, onDeleteHouse, onDisableAppend, onGetCityList}
   //dispatch => bindActionCreators({onGetHouseList}, dispatch)
@@ -106,7 +107,7 @@ export default class Entities extends Component {
     }
 
     return (
-      <div>
+      <div className={styles.entities}>
         <Helmet title="房屋列表"/>
         <div className={styles.listNav}>
           <div className={styles.select}>
@@ -120,7 +121,7 @@ export default class Entities extends Component {
             />
           </div>
 
-          <RaisedButton onClick={this.onLoadListButton} style={{lineHeight: "36px" }}><i className={refreshClassName}/> 更新城市列表</RaisedButton>
+          <RaisedButton className={styles.refreshButton} onClick={this.onLoadListButton} style={{width:"120px", lineHeight: "36px" }}><i className={refreshClassName}/> 更新城市列表</RaisedButton>
         </div>
 
         {loaded &&

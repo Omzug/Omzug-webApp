@@ -22,6 +22,7 @@ const CITY_LIST_FAIL = "Nevermind/entityList/CITY_LIST_FAIL"
 const INIT = "Nevermind/entityList/INIT"
 const INIT_SUCCESS = "Nevermind/entityList/INIT_SUCCESS"
 const INIT_FAIL = "Nevermind/entityList/INIT_FAIL"
+const SET_COLUMN = "Nevermind/entityList/SET_COLUMN"
 
 var update = require('react-addons-update');
 
@@ -32,6 +33,7 @@ const initState = {
   loading :false,
   isEnd : false,
   cityList : [],
+  column : 1,
 };
 
 export default function reducer(state = initState, action = {}) {
@@ -148,6 +150,11 @@ export default function reducer(state = initState, action = {}) {
         ...state,
         locationId : action.id
       }
+    case SET_COLUMN :
+          return {
+            ...state,
+            column : action.number,
+          }
     default : return state;
   }
 }
@@ -229,6 +236,13 @@ export function onDeleteHouse(userId, houseId, index){
       var url = '/deleteHouse/' + userId +  "/" + houseId;
       return client.get(url)
     }
+  }
+}
+
+export function onSetColumn(number){
+  return {
+    type : SET_COLUMN,
+    number : number,
   }
 }
 

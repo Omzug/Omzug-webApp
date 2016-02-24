@@ -7,6 +7,7 @@ import {Carousel} from 'components';
 import { LinkContainer } from 'react-router-bootstrap';
 import {onOpenDialog, onCloseDialog } from 'redux/modules/admin';
 import {onStartEdit} from "redux/modules/entity";
+import {onSetColumn} from 'redux/modules/entities';
 import {connect} from 'react-redux';
 import uiStyle from '../../theme/uiStyles'
 
@@ -17,8 +18,9 @@ var config = require('../../config');
     userId : state.auth.user._id,
     popover : state.admin.popover,
     toDelete : state.admin.toDelete,
+    column : state.entities.column,
   }),
-  {onOpenDialog, onCloseDialog, onStartEdit}
+  {onOpenDialog, onCloseDialog, onStartEdit, onSetColumn}
 )
 export default class List extends Component {
   static propTypes = {
@@ -26,16 +28,50 @@ export default class List extends Component {
     houses : PropTypes.array.isRequired,
     popover : PropTypes.bool,
     toDelete : PropTypes.object,
+    column : PropTypes.number,
 
     onDeleteHouse: PropTypes.func.isRequired,
     onOpenDialog : PropTypes.func.isRequired,
     onCloseDialog : PropTypes.func.isRequired,
     onStartEdit :PropTypes.func.isRequired,
+    onSetColumn : PropTypes.func.isRequired,
   };
 
+  handleResize = (event) => {
+    if(window.innerWidth <= 600){
+      if(this.props.column !== 1)
+        console.log( 'window inner width is', window.innerWidth, 'now set column to 1');
+        this.props.onSetColumn(1)
+    }else if(window.innerWidth <= 1200){
+      if(this.props.column !== 2)
+        console.log( 'window inner width is', window.innerWidth, 'now set column to 2');
+        this.props.onSetColumn(2)
+    }else if(window.innerWidth <= 1800){
+      if(this.props.column !== 3)
+        console.log( 'window inner width is', window.innerWidth, 'now set column to 3');
+      this.props.onSetColumn(3)
+    }else if(window.innerWidth <= 2400){
+      if(this.props.column !== 4)
+        console.log( 'window inner width is', window.innerWidth, 'now set column to 3');
+      this.props.onSetColumn(4)
+    }
+  }
+
+  componentDidMount() {
+    this.handleResize();
+    window.addEventListener('resize', this.handleResize);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.handleResize);
+  }
+
   render(){
+    const margin = 3; //percent
+    const marginPercentage = margin.toString() + "%"
+    var tileWidth = (Math.floor(100 / this.props.column) - margin * 2).toString() + "%";
     const styles = require('./List.scss');
-    const {onDeleteHouse, onOpenDialog, onCloseDialog, toDelete} = this.props;
+    const {onDeleteHouse, onOpenDialog, onCloseDialog, toDelete, column} = this.props;
     const houses = this.props.houses;
 
     var Decorators = [
@@ -74,7 +110,7 @@ export default class List extends Component {
       const iconStyle = {"color" : "white"}
       if(house.owner === this.props.userId){
         return(
-          <span>
+          <span className={styles.buttonGroup}>
             <LinkContainer to={`/entities/${house._id}`}>
               <IconButton iconClassName="fa fa-pencil" onClick={startEdit} iconStyle={iconStyle}/>
             </LinkContainer>
@@ -106,17 +142,42 @@ export default class List extends Component {
       }
     }
 
-    const checkScroll = (event)=>{
-      console.log('now scroll, the evnt is ', event)
+    //title={house.title}
+    //subtitle={<span>by <b className={styles.usernameColor}>{house.username}</b> In
+    //          <b className={styles.cityColor}> {house.city}</b></span>}
+
+    const computeLayouts = (total) => {
+      var layouts = {
+        lg : computeLayout(total, 5),
+        md : computeLayout(total, 3),
+        sm : computeLayout(total, 2),
+        xs : computeLayout(total, 1),
+        xxs : computeLayout(total ,1 )
+      }
+      console.log('layouts is', layouts)
+      return layouts
+    }
+
+    const computeLayout = (total, divider)=>{
+      var layout = [];
+      for(var i = 0; i < total; i ++){
+        var each = { x : i % divider, y : Math.floor(i / divider), w : 1, h: 1, i:i.toString()}
+        console.log('for i = ' + i + " divider = " + divider + " each = " , each)
+        layout.push(each)
+      }
+      return layout
     }
 
     return (
-        <GridList cellHeight={300} padding={50} cols={3} className={styles.gridList} onScroll={checkScroll}>
+      <div className={styles.gridList}>
+        <div className={styles.myList}>
           {houses.map((house, index) => (
             <GridTile
               className={styles.tile}
               key={house._id}
-              style={{"display" : "flex", "alignItems":"center", "justifyContent": "center", minWidth:"300px"}}
+              style={{
+              "display" : "flex", "alignItems":"center", "justifyContent": "center",
+               height: "300px", width : tileWidth, margin : marginPercentage}}
               title={house.title}
               subtitle={<span>by <b className={styles.usernameColor}>{house.username}</b> In
               <b className={styles.cityColor}> {house.city}</b></span>}
@@ -133,17 +194,18 @@ export default class List extends Component {
                     </div>
                   ))
                   :
-                  <div key={998} className={styles.imageContainer}>
+                  <div key={index} className={styles.imageContainer}>
                     <LinkContainer to={`/entities/${house._id}`}>
-                      <img key={999} src={config.iconPath}/>
+                      <img key={index} src={config.iconPath}/>
                     </LinkContainer>
                   </div>
                 }
               </Carousel>
             </GridTile>
-          ))}
-        </GridList>
-
+          ))
+        }
+        </div>
+      </div>
 
     )
   }

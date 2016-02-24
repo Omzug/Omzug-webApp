@@ -3,68 +3,85 @@
 @import "../../theme/color.scss";
 @import "../../theme/media.scss";
 
-.dropDown{
+.entities {
+  .dropDown {
 
-}
-
-.listNav{
-  position : fixed;
-  z-index: 5;
-  padding-top: 5px;
-  top: 60px;
-  width: 100%;
-  margin-left: 20px;
-  background-color: white;
-  padding-bottom: 10px;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  .select{
-    width:400px;
   }
-}
+  .listNav {
+    position: fixed;
+    width:100%;
+    z-index: 5;
+    margin-top: 30px;
+    background-color: white;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+    .select {
+      width: 60%;
+      min-width: 200px;
+      max-width: 400px;
+      margin: 0 30px 0 30px;
+    }
+    .refreshButton {
 
-.gridContainer{
-  margin: 90px 50px 50px 10px;
-  padding-left: 40px;
-  padding-top: -5px;
-  padding-bottom: 100px;
-}
-
-.loading{
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  width :100%;
-  margin : 0 auto;
-  font-size: large;
-  text-align: center;
-  background-color: $grey50;
-  padding-top: 50px;
-  .loadingText{
-    padding : 0 20px;
-    color: $darkBlack
+    }
   }
-}
 
-.regionNoSource{
-  padding-top: 20px;
-  margin-left: 30px;
-  margin-bottom: 435px;
-  font-size: 20px;
+  .gridContainer {
+    width: 100%;
+    padding-top: 120px;
+  }
+
+  .loading {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin: 0 auto;
+    font-size: large;
+    text-align: center;
+    background-color: $grey50;
+    padding-top: 50px;
+    .loadingText {
+      padding: 0 20px;
+      color: $darkBlack
+    }
+  }
+
+  .regionNoSource {
+    padding-top: 20px;
+    margin-left: 30px;
+    margin-bottom: 435px;
+    font-size: 20px;
+  }
 }
 
 @include max-screen(820px){
   .listNav{
-    position: static;
+    margin-top: 20px;
   }
 }
 
 @include max-screen(768px){
-  .listNav{
-    //when user login
+  .entities {
     margin-top: 120px;
-    //when user not login there are 30px blank here, it should be 90px, so we set that in Home.scss
+    .listNav {
+      position: static;
+    }
+    .gridContainer{
+      padding-top: 20px;
+    }
+  }
+}
+
+@include max-screen(449px){
+  .entities {
+    .listNav {
+      .select {
+        margin: 0 30px 20px 30px;
+      }
+    }
   }
 }
