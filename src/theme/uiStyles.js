@@ -5,6 +5,7 @@
 export default {
   inputStyle : {width: "100%"},
   buttonStyle : {height: "50px", "lineHeight": "50px", width:"60px", margin:"30px"},
+  buttonStyleRenew: {width:"130px", lineHeight: "36px" , height:"36px", margin : "30px", textAlign: "center"},
   snackBarBodyStyle : {backgroundColor : "#FF6F6F", width:"20px", textAlign:"center", borderRadius:"20px",marginBottom:"30px"},
   snackBarStyle : {backgroundColor : "#6CC9D5", width:"30px", textAlign:"center", borderRadius:"20px",marginBottom:"30px"},
   snackBarRootStyle : {color : "red" },
