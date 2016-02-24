@@ -10,6 +10,7 @@ import {List} from "components";
 import config from '../../config';
 import Select from 'react-select';
 import Helmet from 'react-helmet';
+import uiStyles from "../../theme/uiStyles";
 import {DropDownMenu, MenuItem,RaisedButton, ThemeManager, ThemeDecorator} from 'material-ui';
 
 import myRawTheme from '../../theme/materialUI.theme';
@@ -121,7 +122,7 @@ export default class Entities extends Component {
             />
           </div>
 
-          <RaisedButton className={styles.refreshButton} onClick={this.onLoadListButton} style={{width:"120px", lineHeight: "36px" }}><i className={refreshClassName}/> 更新城市列表</RaisedButton>
+          <RaisedButton className={styles.refreshButton} onClick={this.onLoadListButton} style={uiStyles.buttonStyleRenew}><i className={refreshClassName}/> 更新城市列表</RaisedButton>
         </div>
 
         {loaded &&

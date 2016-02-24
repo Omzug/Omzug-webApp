@@ -35,8 +35,8 @@ import defaultCityList from '../../constant/cityList';
 @reduxForm({
   form: 'house',
   //later should delete images in fields
-  fields : ['city','location','roomNumber','size','price','caution','startDate','endDate',
-    'description','title','owner','email','phone', 'type','note','maximumPerson', 'images',
+  fields : ['city','location','size','price','caution','startDate','endDate','priceType',
+    'description','title','owner','email','phone', 'type','note', 'images',
     'username'],
   validate : submitValidation,
   //asyncValidate,
@@ -146,42 +146,7 @@ export default class SubmitForm extends Component {
       city.onChange(defaultCityList[value].label)
     }
 
-    /*<List>
-
-     <ListItem key={8} leftIcon={<FontIcon className="fa fa-calendar" />} disableKeyboardFocus={true} children={
-     <div key={83}>
-     {/*every child should have a key, or react give a stupid warnning
-     <DatePicker key={81} autoOk={true} value={new Date(startDate.value)} hintText="开始日期"
-     onChange={(event, newDate) => startDate.onChange(newDate)} formatDate={this.dateFormat}/>
-     <Toggle label="短期" toggled={hasLimit} labelPosition="right" onToggle={(event, isToggled) => {
-     this.props.onToggleLimit(isToggled)
-     if(isToggled){
-     endDate.onChange(new Date())
-     }else{
-     endDate.onChange(null)
-     }
-     }}/>
-     { hasLimit &&
-     <DatePicker key={82} autoOk={true} value={new Date(endDate.value)} hintText="结束日期"
-     onChange={(event, newDate) => endDate.onChange(newDate)} formatDate={this.dateFormat}/>
-     }
-     </div>
-     }>
-
-
-     </ListItem >
-     <ListItem key={9} className={styles.note} zDepth={2} disableKeyboardFocus={true}>
-     <TextField key={90} hintText="备注" floatingLabelText="备注" errorText={note.touched && note.error ? note.error : null} {...note}/>
-     </ListItem>
-     <ListItem key={11} leftIcon={<FontIcon className="fa fa-envelope-o" />} disableKeyboardFocus={true}>
-     <TextField key={110} hintText="邮箱" floatingLabelText="邮箱" errorText={email.touched && email.error ? email.error : null} {...email}/>
-     </ListItem>
-     <ListItem key={12} leftIcon={<FontIcon className="fa fa-mobile-phone" />} disableKeyboardFocus={true}>
-     <TextField key={120} hintText="手机" floatingLabelText="手机" errorText={phone.touched && phone.error ? phone.error : null} {...phone}/>
-     </ListItem>
-     {/* <RaisedButton key={15} className={styles.editButton} onClick={logError}><span className="fa fa-pencil"/> logError</RaisedButton>
-     <RaisedButton key={13} disabled={anyError ? true : false} className={styles.editButton} onClick={handleSubmit}><span/> 提交</RaisedButton>
-     </List>*/
+    const inputStyle = { width : "250px"}
 
     return (
       <form className={styles.container} onSubmit={handleSubmit}>
@@ -220,7 +185,7 @@ export default class SubmitForm extends Component {
         </Card>
 
         <div className={styles.list}>
-          <div>
+          <div className={styles.innerList}>
             <div className={styles.rowContainerCity}>
               <div className={styles.city}><i className="fa fa-location-arrow"/> 城市 :</div>
               <Select
@@ -237,30 +202,29 @@ export default class SubmitForm extends Component {
 
             <div className={styles.rowContainer}>
               <div className={errorStyle(location)}><i className="fa fa-map-marker"/> 地址 :</div>
-              <div><TextField key={20}  floatingLabelText=" " errorText={location.touched && location.error ? location.error : null} {...location}/></div>
+              <div><TextField key={20} style={inputStyle} floatingLabelText=" " errorText={location.touched && location.error ? location.error : null} {...location}/></div>
             </div>
 
             <div className={styles.rowContainer}>
               <div className={errorStyle(size)}><i className="fa fa-square"/> 面积 :</div>
-              <div><TextField key={40}  floatingLabelText=" " errorText={size.touched && size.error ? size.error : null} {...size}/></div>
+              <div><TextField key={40} style={inputStyle} floatingLabelText=" " errorText={size.touched && size.error ? size.error : null} {...size}/></div>
             </div>
 
             <div className={styles.rowContainer}>
               <div className={errorStyle(price)}><i className="fa fa-eur"/> 租金 :</div>
-              <div><TextField key={50}  floatingLabelText=" " errorText={price.touched && price.error ? price.error : null} {...price}/></div>
+              <div><TextField key={50} style={inputStyle} floatingLabelText=" " errorText={price.touched && price.error ? price.error : null} {...price}/></div>
             </div>
 
             <div className={styles.rowContainer}>
               <div className={errorStyle(caution)}><i className="fa fa-lock"/> 押金 :</div>
-              <div><TextField key={60}  floatingLabelText=" " errorText={caution.touched && caution.error ? caution.error : null} {...caution}/></div>
+              <div><TextField key={60} style={inputStyle} floatingLabelText=" " errorText={caution.touched && caution.error ? caution.error : null} {...caution}/></div>
             </div>
 
-            <div className={styles.rowContainer}>
-              <DatePicker key={81} autoOk={true} value={new Date(startDate.value)} hintText="开始日期"
+            {/* the width should be 265px */}
+            <div className={styles.rowContainerDate}>
+              <DatePicker key={81} autoOk={true} value={new Date(startDate.value)} hintText="开始日期" textFieldStyle={uiStyles.datePicker}
                           onChange={(event, newDate) => startDate.onChange(newDate)} formatDate={this.dateFormat}/>
-            </div>
-            <div className={styles.rowContainer}>
-              <Toggle label="短期" toggled={hasLimit} labelPosition="right" onToggle={(event, isToggled) => {
+              <Toggle label="短期" toggled={hasLimit} labelPosition="right" style={uiStyles.toggle} onToggle={(event, isToggled) => {
                  this.props.onToggleLimit(isToggled)
                  if(isToggled){
                  endDate.onChange(new Date())
@@ -268,35 +232,36 @@ export default class SubmitForm extends Component {
                  endDate.onChange(null)
                  }
                  }}/>
-            </div>
-            <div className={styles.rowContainer}>
               { hasLimit &&
-              <DatePicker key={82} autoOk={true} value={new Date(endDate.value)} hintText="结束日期"
+              <DatePicker key={82} autoOk={true} value={new Date(endDate.value)} hintText="结束日期" textFieldStyle={uiStyles.datePicker}
                           onChange={(event, newDate) => endDate.onChange(newDate)} formatDate={this.dateFormat}/>
               }
             </div>
 
-
-              <div className={styles.buttonGroup1}>
-                <RadioButtonGroup name="costType" style={uiStyles.buttonGroup} valueSelected={entity.priceType}
-                                  onChange={(event, value)=> {
-                   this.props.onChangePriceType(value)}}
-                 >
-                  <RadioButton
-                    value={false}
-                    label="暖租"
-                    style={uiStyles.warmCold}
-                    labelStyle={uiStyles.warmCold}
-                  />
-                  <RadioButton
-                    value={true}
-                    label="冷租"
-                    style={uiStyles.warmCold}
-                    labelStyle={uiStyles.warmCold}
-                  />
-                </RadioButtonGroup>
+            <div className={styles.rowContainer}>
+              <div className={styles.radioContainer}>
+              <RadioButtonGroup name="costType" style={uiStyles.buttonGroup} valueSelected={entity.priceType}
+                                onChange={(event, value)=> {
+                 this.props.onChangePriceType(value)}}
+               >
+                <RadioButton
+                  value={false}
+                  label="暖租"
+                  style={uiStyles.warmCold}
+                  labelStyle={uiStyles.warmCold}
+                />
+                <RadioButton
+                  value={true}
+                  label="冷租"
+                  style={uiStyles.warmCold}
+                  labelStyle={uiStyles.warmCold}
+                />
+              </RadioButtonGroup>
               </div>
-            <div className={styles.buttonGroup2}>
+            </div>
+
+            <div className={styles.rowContainer}>
+              <div className={styles.radioContainer}>
               <RadioButtonGroup name="costType" style={uiStyles.buttonGroup} valueSelected={entity.type}
                                 onChange={(event, value)=> {
                    this.props.onChangeType(value)}}
@@ -314,14 +279,15 @@ export default class SubmitForm extends Component {
                   labelStyle={uiStyles.warmCold}
                 />
               </RadioButtonGroup>
+              </div>
             </div>
-            <div className={styles.rowContainer}>
+            <div className={styles.rowContainer + " " + styles.buttonGroup}>
               <div className={errorStyle(email)}><i className="fa fa-envelope"/> 邮箱 :</div>
-              <div><TextField key={110}  floatingLabelText=" " errorText={email.touched && email.error ? email.error : null} {...email}/></div>
+              <div><TextField key={110} style={inputStyle}  floatingLabelText=" " errorText={email.touched && email.error ? email.error : null} {...email}/></div>
             </div>
             <div className={styles.rowContainer}>
               <div className={errorStyle(phone)}><i className="fa fa-phone"/> 手机 :</div>
-              <div><TextField key={120}  floatingLabelText=" " errorText={phone.touched && phone.error ? phone.error : null} {...phone}/></div>
+              <div><TextField key={120} style={inputStyle}  floatingLabelText=" " errorText={phone.touched && phone.error ? phone.error : null} {...phone}/></div>
             </div>
             <div className={styles.submit}>
               <RaisedButton style={uiStyles.buttonStyle} key={13} disabled={anyError ? true : false} className={styles.editButton} onClick={handleSubmit}><span/> 提交</RaisedButton>
