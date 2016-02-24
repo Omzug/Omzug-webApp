@@ -11,7 +11,8 @@
     position: fixed;
     width:100%;
     z-index: 5;
-    margin-top: 30px;
+    padding-top: 20px;
+    padding-bottom: 10px;
     background-color: white;
     display: flex;
     flex-direction: row;
@@ -31,7 +32,7 @@
 
   .gridContainer {
     width: 100%;
-    padding-top: 120px;
+    padding-top: 80px;
   }
 
   .loading {
@@ -70,9 +71,10 @@
 
 @include max-screen(768px){
   .entities {
-    margin-top: 120px;
+    margin-top: 80px;
     .listNav {
       position: static;
+      padding-top: 60px;
     }
     .gridContainer{
       padding-top: 20px;

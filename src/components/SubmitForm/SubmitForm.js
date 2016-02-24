@@ -99,9 +99,10 @@ export default class SubmitForm extends Component {
       } = this.props;
 
     //TODO change it later
-    var anyError = location.error || city.error || roomNumber.error ||size.error || caution.error || startDate.error
-      || endDate.error || description.error || title.error || email.error || phone.error || type.error
-      || note.error || maximumPerson.error ;
+    //var anyError = location.error || size.error || caution.error || startDate.error
+    //  || endDate.error || description.error || title.error || email.error || phone.error || type.error
+    //  || note.error;
+    var anyError = null
 
     var logError = function(){
       console.log("error object is, ", anyError)

@@ -9,14 +9,14 @@
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
+  width:100%;
   .list{
     overflow: visible;
     align-self: flex-start;
-    margin-bottom: -20px;
-    width:20%;
+    width:30%;
     min-width:350px;
     flex-grow: 1;
-    margin-top: 30px;
+    margin:30px 20px 0 20px;
     display: flex;
     flex-flow: row nowrap;
     justify-content: center;
@@ -62,12 +62,12 @@
     }
   }
   .card{
-    width:30%;
+    width:40%;
     height:70%;
-    min-width:300px;
+    min-width:400px;
     flex-grow: 1;
     align-self: flex-start;
-    margin: 30px 0 20px 80px;
+    margin:30px 20px 0 20px;
     .buttonContainer{
       position:absolute;
       right : 100px;
@@ -175,17 +175,22 @@
   margin-left: 70px;
 }
 
-//card min-width + list min-width + margin container
-@include max-screen(840px){
+//card min-width 500 + list min-width 350 + margin container 40 + margin 40 = 830
+@include max-screen(830px){
   .container{
-    margin : 0;
     .card {
-      margin:20px;
+      //margin:20px;
     }
     .list{
-      max-width: 300px;
-      margin:20px;
+      //max-width: 300px;
+      //margin:20px;
     }
+  }
+}
+
+@include max-screen(768px){
+  .container{
+    margin-top: 120px;
   }
 }
 
