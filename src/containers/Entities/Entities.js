@@ -11,6 +11,7 @@ import config from '../../config';
 import Select from 'react-select';
 import Helmet from 'react-helmet';
 import {DropDownMenu, MenuItem,RaisedButton, ThemeManager, ThemeDecorator} from 'material-ui';
+import uiStyles from '../../theme/uiStyles'
 
 import myRawTheme from '../../theme/materialUI.theme';
 
@@ -120,7 +121,7 @@ export default class Entities extends Component {
             />
           </div>
 
-          <RaisedButton onClick={this.onLoadListButton} style={{lineHeight: "36px" }}><i className={refreshClassName}/> 更新城市列表</RaisedButton>
+          <RaisedButton style={uiStyles.buttonStyleRenew} onClick={this.onLoadListButton}><i className={refreshClassName}/> 更新城市列表</RaisedButton>
         </div>
 
         {loaded &&
