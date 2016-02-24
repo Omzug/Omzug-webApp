@@ -21,6 +21,7 @@ export default {
   warmCold:{fontSize:"14px", fontFamily:"Roboto", fontWeight:"300",color:"#484848"},
   buttonGroup : {width :"90px", display: "flex", flexDirection: "row", justifyContent : "flex-start", marginTop : "30px",
   marginLeft:"-22px",color:"grey",fontSize:"12px",marginBottom:"10px"},
-  hintStyle:{fontFamily:"Avenir Next", fontWeight:"400"}
-
+  hintStyle:{fontFamily:"Avenir Next", fontWeight:"400"},
+  datePicker:{width : "90px"},
+  toggle : {width : "85px"},
 }
