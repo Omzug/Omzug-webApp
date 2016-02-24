@@ -167,6 +167,10 @@
   margin-left: 0px;
 }
 
+.rowContainer{
+  margin-bottom: 60px;
+}
+
 //card min-width + list min-width + margin container
 @include max-screen(840px){
   .container{
@@ -192,6 +196,5 @@
   }
 }
 
-.rowContainer{
-  margin-bottom: 60px;
-}
+
+

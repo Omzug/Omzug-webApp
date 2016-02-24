@@ -3,7 +3,7 @@
 @import "../../theme/media";
 .home {
   .container {
-    padding : 150px 100px;
+    padding : 70px 100px 40px 100px;
     width: 100%;
     background: #fff;
     //padding:40px 20px;
@@ -18,10 +18,11 @@
       flex-grow: 1;
       min-width: 213px;
       text-align: left;
-      padding-top: -70px;
+      margin-top: 0px;
       .introduction{
         font-size: 20px;
         padding-left: 20px;
+        margin-top: 0px;
       }
       .humility {
         color: $humility;
@@ -37,6 +38,7 @@
       z-index: 0;
       width:60%;
       flex-grow: 2;
+      margin-left: -30px;
       img{
         min-width: 320px;
         width: 100%;
@@ -46,10 +48,14 @@
   }
 }
 
+@include max-screen(732px) {
+
+}
+
 @include max-screen(509px){
   .home{
     .container{
-      padding: 50px 50px;
+      padding: 80px 50px 50px 50px;
       .foto{
         padding-left: -50px;
       }

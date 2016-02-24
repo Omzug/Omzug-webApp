@@ -7,6 +7,7 @@
     flex-direction: row;
     flex-wrap: nowrap;
     justify-content: center;
+    margin-bottom: -90px;
   }
   input {
     width:100%;
@@ -25,8 +26,10 @@
     width: 40%;
     min-width: 256px;
     max-width: 500px;
-    padding-left: 80px;
+    padding-left: 120px;
+    padding-top: 55px;
     .registerTitle{
+      margin-bottom: -20px;
     }
     .raisedButton{
       display: flex;
@@ -40,6 +43,7 @@
     min-width: 384px;
     margin-top: 80px;
     padding : 20px;
+    margin-right: 15px;
     img{
       max-width:100%;
     }
