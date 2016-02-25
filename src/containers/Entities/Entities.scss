@@ -85,6 +85,11 @@
   }
 }
 
+@include max-screen(600px){
+  .gridContainer{
+    margin-top: 20px;
+  }
+}
 @include max-screen(449px){
   .entities {
     .listNav {
