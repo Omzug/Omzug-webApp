@@ -16,7 +16,7 @@
     width:30%;
     min-width:350px;
     flex-grow: 1;
-    margin:30px 20px 0 20px;
+    margin:30px 20px 0 -80px;
     display: flex;
     flex-flow: row nowrap;
     justify-content: center;
@@ -67,7 +67,7 @@
     min-width:400px;
     flex-grow: 1;
     align-self: flex-start;
-    margin:30px 20px 0 20px;
+    margin:30px 80px 0 80px;
     .buttonContainer{
       position:absolute;
       right : 100px;
@@ -194,7 +194,7 @@
   }
 }
 
-@include max-screen(540px){
+@include max-screen(849px){
   .container{
     .card{
       min-width: 300px;

@@ -24,4 +24,5 @@ export default {
   hintStyle:{fontFamily:"Avenir Next", fontWeight:"400"},
   datePicker:{width : "90px"},
   toggle : {width : "85px"},
+  cardText:{ marginTop:"-20px"}
 }
