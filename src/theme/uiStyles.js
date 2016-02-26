@@ -5,7 +5,7 @@
 export default {
   inputStyle : {width: "100%"},
   buttonStyle : {height: "50px", "lineHeight": "50px", width:"60px", margin:"30px"},
-  buttonStyleRenew: {width:"130px", lineHeight: "36px" , height:"36px", margin : "0 30px", textAlign: "center"},
+  buttonStyleRenew: {width:"130px", lineHeight: "36px" , height:"36px", margin : "60px 0 0 0", textAlign: "center"},
   snackBarBodyStyle : {backgroundColor : "#FF6F6F", width:"20px", textAlign:"center", borderRadius:"20px",marginBottom:"30px"},
   snackBarStyle : {backgroundColor : "#6CC9D5", width:"30px", textAlign:"center", borderRadius:"20px",marginBottom:"30px"},
   snackBarRootStyle : {color : "red" },
@@ -24,4 +24,5 @@ export default {
   hintStyle:{fontFamily:"Avenir Next", fontWeight:"400"},
   datePicker:{width : "90px"},
   toggle : {width : "85px"},
+  cardText:{ marginTop:"-20px"}
 }

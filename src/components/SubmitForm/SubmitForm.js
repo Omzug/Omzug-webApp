@@ -187,7 +187,7 @@ export default class SubmitForm extends Component {
               {/* directly display the require error here since it hard to find */}
             <TextField key={201} hintText="标题" floatingLabelText="标题" errorText={title.touched && title.error ? title.error : null} {...title}/>
           </CardTitle>
-          <CardText>
+          <CardText style={uiStyles.cardText}>
               <textarea key={202} className={"form-control " + styles.textArea} rows="8" placeholder="填写一些具体介绍吧" {...description}/>
           </CardText>
         </Card>
