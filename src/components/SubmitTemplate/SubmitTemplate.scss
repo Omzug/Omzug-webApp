@@ -75,6 +75,12 @@
   }
 }
 
+@include max-screen(768px){
+  .container{
+    margin-top: 120px;
+  }
+}
+
 @include max-screen(540px){
   .container{
     .card{

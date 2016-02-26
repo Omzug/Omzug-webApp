@@ -7,7 +7,7 @@ import Helmet from 'react-helmet';
 import { isLoaded as isInfoLoaded, load as loadInfo } from 'redux/modules/info';
 import { isLoaded as isAuthLoaded, load as loadAuth, logout, clearLoginError } from 'redux/modules/auth';
 import { onAddData } from 'redux/modules/admin';
-import { onGetHouseList} from 'redux/modules/entities'
+import { onGetHouseList, onGetCityList, onLocationChange, onNewSubmit} from 'redux/modules/entities'
 //import { InfoBar } from 'components';
 import { pushState } from 'redux-router';
 import connectData from 'helpers/connectData';
@@ -38,7 +38,7 @@ function fetchData(getState, dispatch) {
     locationId : state.entities.locationId,
     cityList : state.entities.cityList,
   }),
-  {logout, clearLoginError, pushState, onGetHouseList, onAddData})
+  {logout, clearLoginError, pushState, onGetHouseList, onAddData, onGetCityList, onLocationChange, onNewSubmit})
 export default class App extends Component {
   static propTypes = {
     children: PropTypes.object.isRequired,
@@ -52,7 +52,10 @@ export default class App extends Component {
     pushState: PropTypes.func.isRequired,
     clearLoginError: PropTypes.func.isRequired,
     onGetHouseList : PropTypes.func.isRequired,
+    onGetCityList : PropTypes.func.isRequired,
     onAddData : PropTypes.func.isRequired,
+    onLocationChange : PropTypes.func.isRequired,
+    onNewSubmit : PropTypes.func.isRequired,
   };
 
   static contextTypes = {
@@ -73,7 +76,17 @@ export default class App extends Component {
     if(!this.props.createData && nextProps.createData){
       this.props.pushState(null, '/entities/' + nextProps.createData._id)
       // refresh the main list
-      this.props.onGetHouseList(this.props.locationId, this.props.cityList)
+      console.log('cityList is', this.props.cityList, 'the searching object is', nextProps.createData.city)
+      if(!this.props.cityList.some(function(cityObject){
+          return cityObject.city === nextProps.createData.city
+        })){
+        console.log('cannot find the submit city , now refresh the list')
+        this.props.onNewSubmit(null);//also change locationId here
+      }else{
+        console.log('find the submit city , now only refresh the current list')
+        this.props.onGetHouseList(this.props.locationId, this.props.cityList)
+      }
+
       //refresh admin list
       if(this.props.adminLoaded){
         this.props.onAddData(nextProps.createData)

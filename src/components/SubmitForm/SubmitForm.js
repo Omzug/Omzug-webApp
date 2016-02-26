@@ -7,7 +7,7 @@ import {connect} from 'react-redux';
 import {reduxForm} from 'redux-form';
 
 import {onEndEdit, onAddImage, onChangeSlide,
-  onDeleteImage, onToggleLimit, onChangeType, onChangePriceType} from "redux/modules/entity";
+  onDeleteImage, onToggleLimit, onChangeType, onChangePriceType, onLogError} from "redux/modules/entity";
 //import Slider from 'nuka-carousel';
 import {Carousel} from 'components';
 import submitValidation from './submitValidation'
@@ -29,7 +29,7 @@ import defaultCityList from '../../constant/cityList';
     cachedImages : state.entity.cachedImages,
     currentSlide : state.entity.currentSlide,
   }),
-  {onEndEdit, onAddImage, onChangeSlide, onDeleteImage, onToggleLimit, onChangeType, onChangePriceType}
+  {onEndEdit, onAddImage, onChangeSlide, onDeleteImage, onToggleLimit, onChangeType, onChangePriceType, onLogError}
 )
 
 @reduxForm({
@@ -51,6 +51,7 @@ export default class SubmitForm extends Component {
     onChangeSlide : PropTypes.func.isRequired,
     onToggleLimit : PropTypes.func.isRequired,
     onChangeType : PropTypes.func.isRequired,
+    onLogError : PropTypes.func.isRequired,
     onChangePriceType : PropTypes.func.isRequired,
     cachedImages: PropTypes.array,
     currentSlide : PropTypes.number,
@@ -86,8 +87,8 @@ export default class SubmitForm extends Component {
     require('../../theme/react-select.css')
     const styles = require('./SubmitForm.scss');
     const {
-      fields: {location,city,roomNumber,size,price,caution,startDate,endDate,
-        description,title,owner,email,phone,type,note,maximumPerson,images},
+      fields: {location,city,size,price,caution,startDate,endDate,
+        description,title,owner,email,phone,type,note,priceType,images},
       entity,
       hasLimit,
       currentSlide,
@@ -97,17 +98,6 @@ export default class SubmitForm extends Component {
       submitting,
       //asyncValidating
       } = this.props;
-
-    //TODO change it later
-    //var anyError = location.error || size.error || caution.error || startDate.error
-    //  || endDate.error || description.error || title.error || email.error || phone.error || type.error
-    //  || note.error;
-    var anyError = null
-
-    var logError = function(){
-      console.log("error object is, ", anyError)
-    }
-
 
     var Decorators = [
       {component: React.createClass({render() {
@@ -149,8 +139,25 @@ export default class SubmitForm extends Component {
 
     const inputStyle = { width : "250px"}
 
+    const validateSubmit = (data)=> {
+      var fields = this.props.fields;
+      console.log('fields is', fields)
+      var anyError = []
+      for (var property in fields){
+        if(fields.hasOwnProperty(property)){
+          if(fields[property].error){
+            anyError.push(property )
+          }
+        }
+      }
+      if(anyError.length){
+        return this.props.onLogError("未填写" + anyError.join(", "));
+      }
+      handleSubmit(data)
+    }
+
     return (
-      <form className={styles.container} onSubmit={handleSubmit}>
+      <form className={styles.container} onSubmit={validateSubmit}>
 
         <Card className={styles.card}>
           <div className={styles.buttonContainer}>
@@ -178,7 +185,7 @@ export default class SubmitForm extends Component {
           </CardMedia>
           <CardTitle>
               {/* directly display the require error here since it hard to find */}
-            <TextField key={201} hintText="标题" floatingLabelText="标题" errorText={title.error ? title.error : null} {...title}/>
+            <TextField key={201} hintText="标题" floatingLabelText="标题" errorText={title.touched && title.error ? title.error : null} {...title}/>
           </CardTitle>
           <CardText style={uiStyles.cardText}>
               <textarea key={202} className={"form-control " + styles.textArea} rows="8" placeholder="填写一些具体介绍吧" {...description}/>
@@ -241,18 +248,21 @@ export default class SubmitForm extends Component {
 
             <div className={styles.rowContainer}>
               <div className={styles.radioContainer}>
-              <RadioButtonGroup name="costType" style={uiStyles.buttonGroup} valueSelected={entity.priceType}
+              <RadioButtonGroup name="costType" style={uiStyles.buttonGroup}
+                                valueSelected={priceType.value == null ? null : priceType.value.toString()}
                                 onChange={(event, value)=> {
-                 this.props.onChangePriceType(value)}}
+                 var boolean = value === "true"
+                 console.log('change value is', value)
+                 priceType.onChange(boolean)}}
                >
                 <RadioButton
-                  value={false}
+                  value="false"
                   label="暖租"
                   style={uiStyles.warmCold}
                   labelStyle={uiStyles.warmCold}
                 />
                 <RadioButton
-                  value={true}
+                  value="true"
                   label="冷租"
                   style={uiStyles.warmCold}
                   labelStyle={uiStyles.warmCold}
@@ -263,18 +273,20 @@ export default class SubmitForm extends Component {
 
             <div className={styles.rowContainer}>
               <div className={styles.radioContainer}>
-              <RadioButtonGroup name="costType" style={uiStyles.buttonGroup} valueSelected={entity.type}
+              <RadioButtonGroup name="costType" style={uiStyles.buttonGroup}
+                                valueSelected={type.value == null ? null : type.value.toString()}
                                 onChange={(event, value)=> {
-                   this.props.onChangeType(value)}}
+                   var boolean = value === "true"
+                   type.onChange(boolean)}}
               >
                 <RadioButton
-                  value={false}
+                  value="false"
                   label="WG"
                   style={uiStyles.warmCold}
                   labelStyle={uiStyles.warmCold}
                 />
                 <RadioButton
-                  value={true}
+                  value="true"
                   label="Wohnung/Appartment"
                   style={uiStyles.warmCold}
                   labelStyle={uiStyles.warmCold}
@@ -291,7 +303,7 @@ export default class SubmitForm extends Component {
               <div><TextField key={120} style={inputStyle}  floatingLabelText=" " errorText={phone.touched && phone.error ? phone.error : null} {...phone}/></div>
             </div>
             <div className={styles.submit}>
-              <RaisedButton style={uiStyles.buttonStyle} key={13} disabled={anyError ? true : false} className={styles.editButton} onClick={handleSubmit}><span/> 提交</RaisedButton>
+              <RaisedButton style={uiStyles.buttonStyle} key={13} className={styles.editButton} onClick={validateSubmit}><span/> 提交</RaisedButton>
             </div>
           </div>
         </div>

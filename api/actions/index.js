@@ -10,3 +10,4 @@ export submit from './submit';
 export deleteHouse from './deleteHouse';
 export cityList from './cityList';
 export initList from './initList';
+export newCity from './newCity';

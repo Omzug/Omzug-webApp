@@ -10,6 +10,7 @@ var fs = require('fs');
 var aws = require('../lib/aws');
 var tmpPath = require('../lib/config').tmpPath;
 var awsPrefix = require('../lib/config').awsPrefix;
+var urlencode = require('urlencode');
 
 function upload(file, callback){
   console.log('file success upload: ', file)
@@ -30,6 +31,10 @@ function processImageAddress(path){
   var relativePath = paths[paths.length - 2] + "/" + paths[paths.length - 1]
   console.log('we get new path is', relativePath)
   return relativePath
+}
+
+function normalizeName(name){
+  return urlencode(name)
 }
 
 export default function submit(req, params) {
@@ -134,6 +139,10 @@ export default function submit(req, params) {
       })
     };
 
+    function compressImages(){
+
+    }
+
     function uploadImage(house, files, callback) {
       if(files.length == 0){
         return callback(null, house, files)
@@ -150,7 +159,7 @@ export default function submit(req, params) {
           }else{
             console.log("here we get data is", data)
             // TODO should process it into address
-            const path = awsPrefix + house.username + '/' + file.name;
+            const path = awsPrefix + house.username + '/' + normalizeName(file.name);
             console.log('the adding images path is ', path)
             house.images = house.images.concat(path)
             finished ++

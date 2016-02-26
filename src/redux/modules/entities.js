@@ -23,6 +23,9 @@ const INIT = "Nevermind/entityList/INIT"
 const INIT_SUCCESS = "Nevermind/entityList/INIT_SUCCESS"
 const INIT_FAIL = "Nevermind/entityList/INIT_FAIL"
 const SET_COLUMN = "Nevermind/entityList/SET_COLUMN"
+const REFRESH_ALL = "Nevermind/entityList/REFRESH_ALL"
+const REFRESH_ALL_SUCCESS = "Nevermind/entityList/REFRESH_ALL_SUCCESS"
+const REFRESH_ALL_FAIL = "Nevermind/entityList/REFRESH_ALL_FAIL"
 
 var update = require('react-addons-update');
 
@@ -110,6 +113,31 @@ export default function reducer(state = initState, action = {}) {
             loadingCity : false,
             error : action.error
           }
+    case REFRESH_ALL:
+          return {
+            ...state,
+            loading: true,
+            loadingCity : true
+          }
+    case REFRESH_ALL_SUCCESS:
+          return {
+            ...state,
+            loading: false,
+            list: action.result.houseList,
+            error: null,
+            isEnd : action.result.isEnd,
+            loadingCity : false,
+            cityList : processCityList(action.result.cityList),
+            locationId : null,
+          }
+    case REFRESH_ALL_FAIL :
+      return {
+        ...state,
+        loadingCity : false,
+        loading: false,
+        list: [],
+        error: action.error,
+      }
     case INIT :
           return {
             ...state,
@@ -251,6 +279,16 @@ export function onGetCityList(){
     types: [CITY_LIST, CITY_LIST_SUCCESS, CITY_LIST_FAIL],
     promise : (client) => {
       var url = '/cityList';
+      return client.get(url)
+    }
+  }
+}
+
+export function onNewSubmit(){
+  return {
+    types : [REFRESH_ALL, REFRESH_ALL_SUCCESS, REFRESH_ALL_FAIL],
+    promise : (client) => {
+      var url ='/newCity'
       return client.get(url)
     }
   }
