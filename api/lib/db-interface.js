@@ -296,6 +296,7 @@ DI.getAll = function(type, query, skipNumber, resolve, reject){
       // notice that page start from 0
       queryObject
         .sort({'createdAt' : -1})
+        .select({ owner: 1, _id: 1, title :1 , price : 1, city :1 , username : 1,images :1 })
         .skip(skipNumber)
         .limit(expectTotalNumber-skipNumber)
         .exec('find', function(err, result){

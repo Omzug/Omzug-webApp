@@ -2,8 +2,6 @@
  * Created by hanwencheng on 1/9/16.
  */
 import DB from '../lib/db-interface.js';
-var createId = require('../lib/model.js').createId
-
 
 export default function listHause(req, params) {
   const skip = req.query.skip;

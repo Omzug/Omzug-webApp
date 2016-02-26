@@ -21,7 +21,7 @@ const DELETE_IMAGE = "Nevermind/entity/DELETE_IMAGE";
 const CHANGE_SLIDE = "Nevermind/entity/CHANGE_SLIDE";
 const SUBMIT_NEW_SUCCESS = "Nevermind/entity/SUBMIT_NEW_SUCCESS";
 const CLEAR_MESSAGE = "Nevermind/entity/CLEAR_MESSAGE";
-const IMAGE_ERROR = "Nevermind/entity/IMAGE_ERROR";
+const LOG_ERROR = "Nevermind/entity/LOG_ERROR";
 const INIT_ENTITY = "Nevermind/entity/INIT_ENTITY";
 const TOGGLE = "Nevermind/entity/TOGGLE";
 const CHANGE_TYPE = "Nevermind/entity/CHANGE_TYPE";
@@ -136,10 +136,10 @@ export default function reducer(state = initState, action){
             submitError : action.error,
             cachedImages : [],
           }
-    case IMAGE_ERROR :
+    case LOG_ERROR :
           return {
             ...state,
-            feedback : action.imageError
+            feedback : action.error
           }
     case CLEAR:
       return initState;
@@ -212,12 +212,12 @@ export default function reducer(state = initState, action){
     case CHANGE_TYPE:
           return {
             ...state,
-            data : update(state.data, {type : {$set : action.value},})
+            data : update(state.data, {type : {$set : action.value}})
           }
     case CHANGE_PRICE_TYPE:
       return {
         ...state,
-        data : update(state.data, {priceType : {$set : action.value},})
+        data : update(state.data, {priceType : {$set : action.value}})
       }
     default :
       return state;
@@ -306,8 +306,8 @@ export function onSubmit(data, images, entityId, ownerId){
   const imageError = checkImage(images)
   if(imageError){
     return {
-      type : IMAGE_ERROR,
-      imageError : imageError,
+      type : LOG_ERROR,
+      error : imageError,
     }
   }
   return {
@@ -322,14 +322,21 @@ export function onSubmitNew(data, images){
   const imageError = checkImage(images)
   if(imageError){
     return {
-      type : IMAGE_ERROR,
-      imageError : imageError,
+      type : LOG_ERROR,
+      error : imageError,
     }
   }
   return {
     cached : data,
     types: [SUBMIT, SUBMIT_NEW_SUCCESS, SUBMIT_FAIL],
     promise: (client) => client.post('./submit', generalizeParameter(data, images))
+  }
+}
+
+export function onLogError(error){
+  return {
+    type :LOG_ERROR,
+    error : error
   }
 }
 

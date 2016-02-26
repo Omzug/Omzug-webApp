@@ -11,17 +11,16 @@ const submitValidation = createValidator({
   price: [required, integer],
   startDate : [required],
   title : [required],
+  priceType : [required],
 
   description: [],
   location: [],
-  roomNumber: [integer],
   size : [integer],
   caution: [integer],
   endDate : [],
   email : [email],
   phone : [phoneNumber],
   note : [],
-  maximumPerson : [integer],
   images : [],
 });
 export default memoize(10)(submitValidation);
