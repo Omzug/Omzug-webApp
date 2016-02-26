@@ -111,8 +111,8 @@ export default class Entity extends Component {
         }
 
         <Snackbar
-          open={feedback}
-          message={feedback}
+          open={ feedback != null}
+          message={ feedback != null ? feedback : ""}
           autoHideDuration={4000}
           bodyStyle={uiStyles.snackBarStyle}
           onRequestClose={(reason) => {
