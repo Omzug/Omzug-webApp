@@ -8,33 +8,44 @@
   flex-wrap: wrap;
   justify-content: center;
   .card{
-    width:60%;
+    width:45%;
     height:70%;
     align-self: flex-start;
-    min-width:300px;
+    min-width:450px;
     flex-grow: 1;
-    margin: 0 20px;
+    margin:30px 20px 0 80px;
     //margin-left: 50px;
   }
 
   .list{
     align-self: flex-start;
     padding:50px;
-    width:20%;
-    min-width:300px;
+    width:30%;
+    min-width:350px;
     flex-grow: 1;
-    margin-top: 70px;
+    margin:30px 0px 0 0px;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
     //margin-right: -30px;
+    .innerList{
+      display: flex;
+      flex-flow: column nowrap;
+      justify-content: center;
+      align-items: center;
+    }
     .note{
       margin:0 30px;
       color:grey;
+
     }
   }
 }
 
 
+
 .editButton{
-  padding:0;
+
 }
 
 
@@ -58,26 +69,39 @@
 
 
 .rowContainer{
+  width: 100%;
   margin-bottom: 60px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
 }
 
 //card min-width + list min-width + margin container
-@include max-screen(840px){
+@include max-screen(900px){
   .container{
     margin : 0;
     .card {
       margin:20px;
     }
     .list{
-      max-width: 300px;
-      margin:20px;
+
     }
   }
 }
 
+@include max-screen(1730px){
+  .cardText{
+    width:54%;
+
+  }
+}
 @include max-screen(768px){
   .container{
     margin-top: 120px;
+  }
+  .cardText{
+    width:57%;
   }
 }
 
@@ -88,8 +112,28 @@
     }
     .list{
       width: 200px;
+      padding-top: 10px;
     }
   }
 }
 
 
+@include max-screen(414px){
+  .cardTitle{
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: row;
+    margin-left:-50px;
+  }
+
+  .cardText{
+    overflow: visible;
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    margin-left: -60px;
+    width:100%;
+    padding:0 10px;
+  }
+
+}
