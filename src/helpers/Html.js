@@ -34,6 +34,7 @@ export default class Html extends Component {
           {head.script.toComponent()}
 
           <link rel="shortcut icon" href="/favicon.ico" />
+          <meta name="google-site-verification" content="hiXT2JAkm4CDKFcVaj4_JlME-JbkYPlww1EQu8dZUtA" />
           <meta name="viewport" content="width=device-width, initial-scale=1" />
           {/* styles (will be present only in production with webpack extract text plugin) */}
           {Object.keys(assets.styles).map((style, key) =>
