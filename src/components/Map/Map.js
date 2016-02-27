@@ -25,10 +25,6 @@ export default class SimpleMapPage extends Component {
     }
     return (
       <GoogleMap
-        bootstrapURLKeys={{
-          key: apiKey,
-          language: 'de',
-        }}
         defaultCenter={this.props.center}
         defaultZoom={this.props.zoom}>
         <MapMarker lat={59.955413} lng={30.337844} text={'A'} /* Kreyser Avrora */ />
