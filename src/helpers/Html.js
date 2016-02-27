@@ -2,7 +2,7 @@ import React, {Component, PropTypes} from 'react';
 import ReactDOM from 'react-dom/server';
 import serialize from 'serialize-javascript';
 import Helmet from 'react-helmet';
-
+import ga from 'react-google-analytics';
 /**
  * Wrapper component containing HTML metadata and boilerplate tags.
  * Used in server-side code only to wrap the string output of the
@@ -19,11 +19,16 @@ export default class Html extends Component {
     store: PropTypes.object
   }
 
+
+
   render() {
     const {assets, component, store} = this.props;
     const content = component ? ReactDOM.renderToString(component) : '';
     const head = Helmet.rewind();
+    const GAInitiailizer = ga.Initializer;
 
+    ga('create', 'UA-60973146-2', 'auto');
+    ga('send', 'pageview');
     return (
       <html lang="en-us">
         <head>
@@ -33,6 +38,7 @@ export default class Html extends Component {
           {head.link.toComponent()}
           {head.script.toComponent()}
 
+          <GAInitiailizer />
           <link rel="shortcut icon" href="/favicon.ico" />
           <meta name="google-site-verification" content="hiXT2JAkm4CDKFcVaj4_JlME-JbkYPlww1EQu8dZUtA" />
           <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -41,16 +47,6 @@ export default class Html extends Component {
             <link href={assets.styles[style]} key={key} media="screen, projection"
                   rel="stylesheet" type="text/css" charSet="UTF-8"/>
           )}
-          <script>
-            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-          })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-            ga('create', 'UA-60973146-2', 'auto');
-            ga('send', 'pageview');
-
-          </script>
 
           {/* (will be present only in development mode) */}
           {/* outputs a <style/> tag with all bootstrap styles + App.scss + it could be CurrentPage.scss. */}

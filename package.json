@@ -117,6 +117,7 @@
     "react-bootstrap": "^0.28.1",
     "react-dom": "^0.14.7",
     "react-dropzone": "^3.3.2",
+    "react-google-analytics": "^0.2.0",
     "react-grid-layout": "^0.10.8",
     "react-helmet": "^2.2.0",
     "react-inline-css": "^2.0.0",
