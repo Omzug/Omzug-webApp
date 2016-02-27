@@ -2,7 +2,7 @@
  * Created by hanwencheng on 2/27/16.
  */
 
-import React, {PropTypes, Component} from 'react/addons';
+import React, {PropTypes, Component} from 'react';
 
 export default class MapMarker extends Component {
   static propTypes = {
