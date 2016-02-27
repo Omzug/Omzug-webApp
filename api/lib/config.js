@@ -13,7 +13,7 @@ module.exports = {
   userCollectionName : 'user',
   houseCollectionName : 'house',
   sessionAge : 1 * 24 * 60 * 60 * 1000,
-  pageSize : 6,
+  pageSize : 9,
   awsFolder : "photos",
   awsExpire : 60,
   awsBucket : awsBucketName,
