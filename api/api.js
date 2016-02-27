@@ -8,10 +8,13 @@ import PrettyError from 'pretty-error';
 import http from 'http';
 import SocketIo from 'socket.io';
 import DB from './lib/db-interface.js';
+import sitemap from './lib/sitemap.js';
 const MongoStore = require('connect-mongo')(session);
 
 var mongoModel = require('./lib/model.js')
 var mongoConnection = mongoModel.initMongoDb()
+
+
 
 const pretty = new PrettyError();
 const app = express();
@@ -30,6 +33,16 @@ app.use(session({
 }));
 app.use(bodyParser.json());
 
+//add sitemap
+app.get('/sitemap.xml', function(req, res) {
+  sitemap.toXML( function (err, xml) {
+    if (err) {
+      return res.status(500).end();
+    }
+    res.header('Content-Type', 'application/xml');
+    res.send( xml );
+  });
+});
 
 app.use((req, res) => {
   console.log("get request :", req.url)
