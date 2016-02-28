@@ -106,8 +106,11 @@ export default class SubmitTemplate extends Component {
 
             <CardActions>
               <FlatButton style={uiStyles.actionButton} onClick={this.props.onContactOpen}><span className="fa fa-envelope"/> 联系房主</FlatButton>
+              <FlatButton style={uiStyles.actionButton}
+                          className={styles.button} onClick={this.props.onContactOpen}><span className="fa fa-share"/> 分享</FlatButton>
+
+            <div className={styles.dialog}>
               <Dialog
-                title={entity.username + "的联系方式"}
                 actions={
                 <div>
                   <FlatButton onClick={this.props.onContactClose} className={styles.hvrBuzzOut}>
@@ -121,12 +124,14 @@ export default class SubmitTemplate extends Component {
                 open={contactOpen}
                 onRequestClose={this.props.onContactClose}
               >
-                <List className={styles.dialog}>
-                  <ListItem className="hint--top" data-hint="邮箱" primaryText={entity.email} leftIcon={<FontIcon className="fa fa-envelope-o" />} />
-                  <ListItem className="hint--top" data-hint="手机" primaryText={entity.phone} leftIcon={<FontIcon className="fa fa-mobile-phone" />} />
-                </List>
+                <div className={styles.contactInfo}>
+                  <div className={styles.infoTitle}> {entity.username}的联系方式:</div>
+                  <div className={styles.infoListMail}> <i className="fa fa-envelope-o" />  邮箱:  {entity.email} </div>
+                  <div className={styles.infoListPhone}> <i className="fa fa-phone" />  手机:  {entity.phone} </div>
+                </div>
               </Dialog>
-              <FlatButton style={uiStyles.actionButton} className={styles.button} onClick={this.props.onContactOpen}><span className="fa fa-share"/> 分享</FlatButton>
+            </div>
+
             </CardActions>
           </Card>
           <div className={styles.map}>
