@@ -106,8 +106,8 @@ export default class SubmitTemplate extends Component {
 
             <CardActions>
               <FlatButton style={uiStyles.actionButton} onClick={this.props.onContactOpen}><span className="fa fa-envelope"/> 联系房主</FlatButton>
-              <FlatButton style={uiStyles.actionButton}
-                          className={styles.button} onClick={this.props.onContactOpen}><span className="fa fa-share"/> 分享</FlatButton>
+              {/*<FlatButton style={uiStyles.actionButton}
+                          className={styles.button} onClick={this.props.onContactOpen}><span className="fa fa-share"/> 分享</FlatButton>*/}
 
             <div className={styles.dialog}>
               <Dialog
@@ -126,8 +126,8 @@ export default class SubmitTemplate extends Component {
               >
                 <div className={styles.contactInfo}>
                   <div className={styles.infoTitle}> {entity.username}的联系方式:</div>
-                  <div className={styles.infoListMail}> <i className="fa fa-envelope-o" />  邮箱:  {entity.email} </div>
-                  <div className={styles.infoListPhone}> <i className="fa fa-phone" />  手机:  {entity.phone} </div>
+                  <div className={styles.infoListMail}> <i className="fa fa-envelope-o" />  邮箱: &nbsp; {entity.email} </div>
+                  <div className={styles.infoListPhone}> <i className="fa fa-phone" />  手机: &nbsp; {entity.phone} </div>
                 </div>
               </Dialog>
             </div>
@@ -140,13 +140,13 @@ export default class SubmitTemplate extends Component {
         </div>
         <div className={styles.list}>
           <div className={styles.innerList}>
-            <div className={styles.rowContainer}><i className="fa fa-location-arrow"/> 城市 :  {entity.city}</div>
-            <div className={styles.rowContainer}><i className="fa fa-map-marker"/> 地址 :  {entity.location}</div>
-            <div className={styles.rowContainer}><i className="fa fa-square"/> 面积 :  {entity.size} m²</div>
-            <div className={styles.rowContainer}><i className="fa fa-cube"/> 类型 :  {entity.type ? "WG" : "Wohnung/Apartment"}</div>
-            <div className={styles.rowContainer}><i className="fa fa-eur"/> 租金 : {entity.priceType ? "暖租" : "冷租"}  {entity.price} Eur  </div>
-            <div className={styles.rowContainer}><i className="fa fa-lock"/> 押金 :  {entity.caution} Eur</div>
-            <div className={styles.rowContainer}><i className="fa fa-calendar"/> 租期 : {formatDate(entity.startDate)} -- {entity.endDate ? "无期限" : formatDate(entity.startDate) } </div>
+            <div className={styles.rowContainer}><i className="fa fa-location-arrow"/> 城市 : &nbsp; {entity.city}</div>
+            <div className={styles.rowContainer}><i className="fa fa-map-marker"/>地址 : &nbsp; {entity.location}</div>
+            <div className={styles.rowContainer}><i className="fa fa-square"/> 面积 : &nbsp; {entity.size} &nbsp;m²</div>
+            <div className={styles.rowContainer}><i className="fa fa-cube"/> 类型 : &nbsp; {entity.type ? "WG" : "Wohnung/Apartment"}</div>
+            <div className={styles.rowContainer}><i className="fa fa-eur"/> 租金 : &nbsp;{(entity.priceType ? "暖租" : "冷租" ) + ' ' + entity.price} &nbsp; Eur</div>
+            <div className={styles.rowContainer}><i className="fa fa-lock"/> 押金 : &nbsp; {entity.caution} &nbsp;Eur</div>
+            <div className={styles.rowContainer}><i className="fa fa-calendar"/> 租期 : &nbsp;{formatDate(entity.startDate)} &nbsp;-- &nbsp;{entity.endDate ? "无期限" : formatDate(entity.startDate) } </div>
             {userId && userId == entity.owner &&
             <RaisedButton style={uiStyles.buttonStyleEdit} key={12} className={styles.editButton} onClick={this.props.onStartEdit}><span
               className="fa fa-pencil"/> 编辑</RaisedButton>
