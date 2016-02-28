@@ -138,7 +138,7 @@ export default class List extends Component {
           </span>
         )
       }else{
-        return <IconButton iconClassName="fa fa-hand-o-right fa-4x" iconStyle={iconStyle}/>
+        return
       }
     }
 
