@@ -8,7 +8,7 @@ import uiStyles from '../../theme/uiStyles';
 
 import {onContactOpen, onContactClose, onStartEdit} from "redux/modules/entity";
 
-import {Carousel} from 'components';
+import {Carousel, Map} from 'components';
 import {RaisedButton, FlatButton, FontIcon, Paper, Dialog, Card, CardActions,
   CardHeader, CardMedia, CardTitle, CardText, List, ListItem, Divider} from 'material-ui'
 
@@ -77,57 +77,62 @@ export default class SubmitTemplate extends Component {
 
     return (
       <div className={styles.container}>
-        <Card style={uiStyles.card} className={styles.card + " " + styles.hvrGlow}>
-          {/*
-          <CardHeader
-            title="房子的标题"
-            subtitle="房子的副标题"
-            avatar="http://lorempixel.com/100/100/nature/"
-          />
-          */}
-          <CardMedia style={uiStyles.CardMedia}>
-            <div>
-              <Carousel className={styles.slider} decorators={Decorators} framePadding="50px" width="100%" slidesToShow={1}>
-                {entity.images.length >= 1 && entity.images.map(address => (<div className={styles.imageContainer}><img src={address}/></div>))}
-                {cachedImages.length >= 1 && cachedImages.map(file => <div className={styles.imageContainer}><img src={window.URL.createObjectURL(file)}/></div>)}
-                {entity.images.length == 0 && cachedImages.length == 0 &&  <div className={styles.imageContainer}><img src={config.noImagePath}/></div>}
-              </Carousel>
-            </div>
-          </CardMedia>
-          <div className={styles.cardTitle}>
-            <div><CardTitle style={uiStyles.CardTitle} title={entity.title} subtitle={"by " + entity.username} /></div>
-          </div>
-          <div className={styles.cardText}>
-            <div><CardText style={uiStyles.CardText}>
-              {entity.description}
-            </CardText></div>
-          </div>
-
-          <CardActions>
-            <FlatButton style={uiStyles.actionButton} onClick={this.props.onContactOpen}><span className="fa fa-envelope"/> 联系房主</FlatButton>
-            <Dialog
-              title={entity.username + "的联系方式"}
-              actions={
+        <div className={styles.card}>
+          <Card style={uiStyles.card}>
+            {/*
+            <CardHeader
+              title="房子的标题"
+              subtitle="房子的副标题"
+              avatar="http://lorempixel.com/100/100/nature/"
+            />
+            */}
+            <CardMedia style={uiStyles.CardMedia}>
               <div>
-                <FlatButton onClick={this.props.onContactClose} className={styles.hvrBuzzOut}>
-                  <span className="fa fa-child"/>
-                  <span>  </span>OK
-                </FlatButton>
+                <Carousel className={styles.slider} decorators={Decorators} framePadding="50px" width="100%" slidesToShow={1}>
+                  {entity.images.length >= 1 && entity.images.map(address => (<div className={styles.imageContainer}><img src={address}/></div>))}
+                  {cachedImages.length >= 1 && cachedImages.map(file => <div className={styles.imageContainer}><img src={window.URL.createObjectURL(file)}/></div>)}
+                  {entity.images.length == 0 && cachedImages.length == 0 &&  <div className={styles.imageContainer}><img src={config.noImagePath}/></div>}
+                </Carousel>
               </div>
-              }
+            </CardMedia>
+            <div className={styles.cardTitle}>
+              <div><CardTitle style={uiStyles.CardTitle} title={entity.title} subtitle={"by " + entity.username} /></div>
+            </div>
+            <div className={styles.cardText}>
+              <div><CardText style={uiStyles.CardText}>
+                {entity.description}
+              </CardText></div>
+            </div>
 
-              modal={false}
-              open={contactOpen}
-              onRequestClose={this.props.onContactClose}
-            >
-              <List className={styles.dialog}>
-                <ListItem className="hint--top" data-hint="邮箱" primaryText={entity.email} leftIcon={<FontIcon className="fa fa-envelope-o" />} />
-                <ListItem className="hint--top" data-hint="手机" primaryText={entity.phone} leftIcon={<FontIcon className="fa fa-mobile-phone" />} />
-              </List>
-            </Dialog>
-            <FlatButton style={uiStyles.actionButton} className={styles.button} onClick={this.props.onContactOpen}><span className="fa fa-share"/> 分享</FlatButton>
-          </CardActions>
-        </Card>
+            <CardActions>
+              <FlatButton style={uiStyles.actionButton} onClick={this.props.onContactOpen}><span className="fa fa-envelope"/> 联系房主</FlatButton>
+              <Dialog
+                title={entity.username + "的联系方式"}
+                actions={
+                <div>
+                  <FlatButton onClick={this.props.onContactClose} className={styles.hvrBuzzOut}>
+                    <span className="fa fa-child"/>
+                    <span>  </span>OK
+                  </FlatButton>
+                </div>
+                }
+
+                modal={false}
+                open={contactOpen}
+                onRequestClose={this.props.onContactClose}
+              >
+                <List className={styles.dialog}>
+                  <ListItem className="hint--top" data-hint="邮箱" primaryText={entity.email} leftIcon={<FontIcon className="fa fa-envelope-o" />} />
+                  <ListItem className="hint--top" data-hint="手机" primaryText={entity.phone} leftIcon={<FontIcon className="fa fa-mobile-phone" />} />
+                </List>
+              </Dialog>
+              <FlatButton style={uiStyles.actionButton} className={styles.button} onClick={this.props.onContactOpen}><span className="fa fa-share"/> 分享</FlatButton>
+            </CardActions>
+          </Card>
+          <div className={styles.map}>
+            <Map/>
+          </div>
+        </div>
         <div className={styles.list}>
           <div className={styles.innerList}>
             <div className={styles.rowContainer}><i className="fa fa-location-arrow"/> 城市 :  {entity.city}</div>

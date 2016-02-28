@@ -14,6 +14,7 @@ import connectData from 'helpers/connectData';
 import config from '../../config';
 import {FlatButton, FontIcon} from 'material-ui';
 import uiStyles from '../../theme/uiStyles';
+import ga from 'react-google-analytics';
 
 // it must be enabled before react 1.0 for material ui
 
@@ -107,7 +108,8 @@ export default class App extends Component {
     const {user} = this.props;
     const styles = require('./App.scss');
     const rightLi = styles.links + " " + styles.hvrBuzzOut;
-
+    ga('create', 'UA-60973146-2', 'auto');
+    ga('send', 'pageview');
 
     return (
       <div className={styles.app}>

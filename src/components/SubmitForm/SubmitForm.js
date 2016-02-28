@@ -162,7 +162,10 @@ export default class SubmitForm extends Component {
         <Card className={styles.card}>
           <div className={styles.buttonContainer}>
             { currentSlide <= calculateNumber() - 1 &&
-          <IconButton iconClassName="fa fa-times-circle fa-5x hint--bottom" data-hint="删除该图片" onClick={this.onDeleteButton}/>}
+            <IconButton iconClassName="fa fa-times-circle fa-2x" tooltip="删除该图片"  touch={true}
+                        style={{"width" : "60px", "height": "60px"}}
+                        iconStyle = {{"fontSize" : "30px"}}
+                        tooltipPosition="top" onClick={this.onDeleteButton}/>}
           </div>
           <CardMedia>
             <Carousel key={211} className={styles.slider}

@@ -2,21 +2,23 @@
 @import "../../theme/utils.scss";
 @import "../../theme/media";
 .home {
+  width : 100%;
   .container {
     padding : 70px 100px 40px 100px;
     width: 100%;
+    min-width: 320px;
     background: #fff;
     //padding:40px 20px;
     color: black;
     display: flex;
     flex-direction: row;
+    display:-webkit-flex;
     flex-wrap: wrap;
     justify-content: center;
     .description {
       z-index: 1;
       width:40%;
-      flex-grow: 1;
-      min-width: 213px;
+      flex : 4 0 213px;
       text-align: left;
       margin-top: 0px;
       .introduction{
@@ -37,12 +39,11 @@
     .foto{
       z-index: 0;
       width:60%;
-      flex-grow: 2;
+      flex : 6 0 320px;
       margin-left: -30px;
       img{
-        min-width: 320px;
-        width: 100%;
         height:auto;
+        max-width:100%;
       }
     }
   }

@@ -2,7 +2,7 @@ import React, {Component, PropTypes} from 'react';
 import ReactDOM from 'react-dom/server';
 import serialize from 'serialize-javascript';
 import Helmet from 'react-helmet';
-
+import ga from 'react-google-analytics';
 /**
  * Wrapper component containing HTML metadata and boilerplate tags.
  * Used in server-side code only to wrap the string output of the
@@ -19,10 +19,13 @@ export default class Html extends Component {
     store: PropTypes.object
   }
 
+
+
   render() {
     const {assets, component, store} = this.props;
     const content = component ? ReactDOM.renderToString(component) : '';
     const head = Helmet.rewind();
+    const GAInitiailizer = ga.Initializer;
 
     return (
       <html lang="en-us">
@@ -33,7 +36,9 @@ export default class Html extends Component {
           {head.link.toComponent()}
           {head.script.toComponent()}
 
+          <GAInitiailizer />
           <link rel="shortcut icon" href="/favicon.ico" />
+          <meta name="google-site-verification" content="hiXT2JAkm4CDKFcVaj4_JlME-JbkYPlww1EQu8dZUtA" />
           <meta name="viewport" content="width=device-width, initial-scale=1" />
           {/* styles (will be present only in production with webpack extract text plugin) */}
           {Object.keys(assets.styles).map((style, key) =>
