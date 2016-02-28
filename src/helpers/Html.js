@@ -27,8 +27,6 @@ export default class Html extends Component {
     const head = Helmet.rewind();
     const GAInitiailizer = ga.Initializer;
 
-    ga('create', 'UA-60973146-2', 'auto');
-    ga('send', 'pageview');
     return (
       <html lang="en-us">
         <head>
