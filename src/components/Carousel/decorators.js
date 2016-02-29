@@ -57,7 +57,7 @@ const DefaultDecorators = [
         var indexes = this.getIndexes(self.props.slideCount, self.props.slidesToScroll);
         return (
           <ul style={self.getListStyles()}>
-            {
+            { self.props.slideCount > 1 &&
               indexes.map(function(index) {
                 return (
                   <li style={self.getListItemStyles()} key={index}>
