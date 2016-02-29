@@ -120,7 +120,7 @@ export default function reducer(state = initState, action){
             submitting :false,
             //data : action.result.data,
             cached : null,
-            feedback : "发布成功,ID是" + action.result.data._id,
+            feedback : "发布成功",
             //this id should be a string
             createData : action.result.data,
             loaded: true,
