@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/server';
 import serialize from 'serialize-javascript';
 import Helmet from 'react-helmet';
 import ga from 'react-google-analytics';
+const GAInitiailizer = ga.Initializer;
 /**
  * Wrapper component containing HTML metadata and boilerplate tags.
  * Used in server-side code only to wrap the string output of the
@@ -25,7 +26,6 @@ export default class Html extends Component {
     const {assets, component, store} = this.props;
     const content = component ? ReactDOM.renderToString(component) : '';
     const head = Helmet.rewind();
-    const GAInitiailizer = ga.Initializer;
 
     return (
       <html lang="en-us">

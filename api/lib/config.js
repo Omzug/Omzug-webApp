@@ -19,6 +19,7 @@ module.exports = {
   awsBucket : awsBucketName,
   awsPrefix : 'https://s3.eu-central-1.amazonaws.com/' + awsBucketName + '/photos/',
   tmpPath : './tmp',
+  googleMapKey : 'AIzaSyA7ZTgeyDPxcVEjsa6IuTH41k__n954cU4',
 
   errors : {
     SchemaCannotFind : 'SchemaCannotFind: schema can not be find, please check again',
