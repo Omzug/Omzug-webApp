@@ -178,7 +178,7 @@ export default class SubmitForm extends Component {
                 <div className={styles.imageContainer}>
                   <DropZone onDrop={this.onDrop}>
                     <div className={styles.inner}>
-                      <span className={styles.boxFont}>请点击选择图片或者将图片拖动到框中</span>
+                      <span className={styles.boxFont}>请点击选择图片或者将图片拖动到框中,最多上传三张图片</span>
                       <span className={styles.boxFont + " fa fa-plus-circle fa-5x"}/>
                     </div>
                   </DropZone>
