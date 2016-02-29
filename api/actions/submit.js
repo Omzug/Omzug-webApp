@@ -86,6 +86,9 @@ export default function submit(req, params) {
           // normalize file into array
           for(var fileName in files){
             if(files.hasOwnProperty(fileName)){
+              //TODO maybe delete later, fix bugs in xinyue's computer
+              if(files[fileName].name == 'undefined')
+                files[fileName].name = fileName;
               filesArray.push(files[fileName])
             }
           }
