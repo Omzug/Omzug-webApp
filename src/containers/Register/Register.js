@@ -45,7 +45,7 @@ export default class Register extends Component{
           message={loginError}
           autoHideDuration={4000}
           style={uiStyles.snackBarRootStyle}
-          bodyStyle={uiStyles.snackBarBodyStyle}
+          bodyStyle={uiStyles.snackBarRegisterStyle}
           onRequestClose={(reason) => {
             console.log("error popout should cleared now because : " + reason);
             this.props.clearLoginError();
