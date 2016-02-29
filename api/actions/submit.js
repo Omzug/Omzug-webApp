@@ -104,22 +104,28 @@ export default function submit(req, params) {
     }
 
     function calculateLocation(house, files, callback){
+
       if(house.location != null){
         var location = house.location + " " + house.city
         geocode(location, function(err, resultObject){
+          console.log('map result object in api is,', resultObject)
           if(!err){
-            if(resultObject.status == 'OK' && results[0] != null){
-              var location = results[0].geometry.location
-              house.geometry = [
-                location.lat(),
-                location.lng(),
-              ]
+            if(resultObject.status == 'OK' && resultObject.results.length){
+              var location = resultObject.results[0].geometry.location
+              console.log('house geometry is', location);
+              house.lat = location.lat
+              house.lng = location.lng
+              callback(null, house, files)
+            }else{
+              callback(null, house, files)
             }
+          }else{
+            callback(null, house, files)
           }
         })
+      }else{
+        callback(null, house, files)
       }
-      //what ever the result is coded
-      return callback(null, house, files)
     }
 
     function compareImages(house, files, callback) {

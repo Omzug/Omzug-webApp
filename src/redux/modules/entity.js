@@ -4,12 +4,6 @@
 var update = require('react-addons-update');
 import {validateImage} from '../../utils/validation';
 var config = require('../../config');
-var GoogleMapsAPI = require('googlemaps');
-var publicConfig = {
-  key: config.googleMapKey,
-  secure:             true, // use https
-};
-var gmAPI = new GoogleMapsAPI(publicConfig)
 
 const LOAD = 'Nevermind/entity/LOAD';
 const LOAD_SUCCESS = 'Nevermind/entity/LOAD_SUCCESS';
@@ -51,7 +45,8 @@ const initState = {
     owner : null,
     username : null,
 
-    geometry : [],
+    lat : null,
+    lng : null,
     location: null,
     size : null,
     caution: null,

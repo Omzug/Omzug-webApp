@@ -35,4 +35,7 @@ function geocode(address, callback){
   }, callback);
 }
 
+geocode("121, Curtain Road, EC2A 3AD, London UK", function(err, results){
+  console.log("map err is:" , err, "and result is ", results.results[0].geometry.location)
+})
 export {geocode}
