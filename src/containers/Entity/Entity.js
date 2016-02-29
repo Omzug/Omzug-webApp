@@ -75,6 +75,8 @@ export default class Entity extends Component {
     data.images = this.props.entity.images
     // here we define a _id for update in database
     data._id = this.props.entityId
+
+    //TODO complete the entity here
     const images = this.props.cachedImages
     this.props.onSubmit(data, images, this.props.entityId);
     console.log("submit now with data:" , data)

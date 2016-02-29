@@ -15,6 +15,7 @@ module.exports = Object.assign({
   port: process.env.PORT,
   apiHost: process.env.APIHOST || 'localhost',
   apiPort: process.env.APIPORT,
+  googleMapKey : 'AIzaSyC4gQqD5iZsmbmknKIYR42sTfjcd8pl4aw',
   limitImageSize : 5,
   pageSize : 9,
   iconPath : 'https://s3.eu-central-1.amazonaws.com/omzug.com/favicon/apple-icon.png',

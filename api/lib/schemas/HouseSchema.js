@@ -40,7 +40,9 @@ module.exports = function(Schema, collectionName){
     owner : {type : ObjectId, required : true},
     username : {type : String, required : true},
 
-    location : { type : String/*, validate : stringValidator*/},
+    location : {type : String, required : false},
+    lat : { type : Number, required : false /*, validate : stringValidator*/},
+    lng : { type : Number , required : false},
     size : { type :Number , required : false},
     //roomNumber : {type :Number, required : false},
     caution : { type : Number , required: false},

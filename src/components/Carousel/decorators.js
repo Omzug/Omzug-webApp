@@ -1,15 +1,16 @@
 'use strict';
 
 import React from 'react';
+const styles = require('../List/List.scss');
 
 const DefaultDecorators = [
   {
     component: React.createClass({
       render() {
         return (
-          <button
-            style={this.getButtonStyles(this.props.currentSlide === 0)}
-            onClick={this.props.previousSlide}>PREV</button>
+          <div className={styles.arrowContainer} onClick={this.props.previousSlide}>
+            <i className={styles.arrowIcon + " fa fa-angle-double-left fa-2x"}/>
+          </div>
         )
       },
       getButtonStyles(disabled) {
@@ -24,15 +25,15 @@ const DefaultDecorators = [
         }
       }
     }),
-    position: 'CenterLeft'
+    position: 'CenterLeft',style: {height: "100%"}
   },
   {
     component: React.createClass({
       render() {
         return (
-          <button
-            style={this.getButtonStyles(this.props.currentSlide + this.props.slidesToScroll >= this.props.slideCount)}
-            onClick={this.props.nextSlide}>NEXT</button>
+          <div className={styles.arrowContainer} onClick={this.props.nextSlide}>
+            <i className={styles.arrowIcon + " fa fa-angle-double-right fa-2x"}/>
+          </div>
         )
       },
       getButtonStyles(disabled) {
@@ -47,7 +48,7 @@ const DefaultDecorators = [
         }
       }
     }),
-    position: 'CenterRight'
+    position: 'CenterRight', style: {height: "100%"}
   },
   {
     component: React.createClass({
@@ -106,7 +107,7 @@ const DefaultDecorators = [
         }
       }
     }),
-    position: 'BottomCenter'
+    position: 'TopCenter'
   }
 ];
 

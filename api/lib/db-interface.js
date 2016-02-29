@@ -9,6 +9,7 @@ const config = require('./config.js')
 const logger = require('./logger.js').logger
 const async = require('async')
 const aws = require('./aws')
+const googleMap = require('./googleMap');
 
 const houseCollectionName = config.houseCollectionName;
 const userCollectionName = config.userCollectionName;
