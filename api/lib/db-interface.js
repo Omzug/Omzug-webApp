@@ -55,29 +55,12 @@ DI.init = function () {
   //setInterval(self.intervalSaveTxs, batchInsertInterval);
 
   this.initialized = true;
-  insert();
-  this.getCityList(function(result){
-    console.log('cityList is : ', result)
-  }, function(err){
-    console.log(err)
-  });
 };
 
 function insert(){
   var objectId = createId("56a2a61b6dcc58c80d18bec5");
-  var house1 = new House({
+  var house1 = new User({
     id : 12321,
-    city: "stuttgart",
-    owner: objectId,
-    startDate : new Date(),
-    type : 1,
-    title : "i got an idea",
-    price : 860,
-
-    images : [
-      "http://media.zenfs.com/en-US/video/video.pd2upload.com/video.yahoofinance.com@fc01f40d-8f4e-3cbc-9d8f-a7b9e79d95fd_FULL.jpg",
-      "http://g-ecx.images-amazon.com/images/G/01/img15/pet-products/small-tiles/23695_pets_vertical_store_dogs_small_tile_8._CB312176604_.jpg",
-    ]
   })
   var house2 = new House({
     id : 12333,
@@ -96,6 +79,29 @@ function insert(){
   //TODO
   console.log("test the length with string validator")
     console.log(/d{6,1024}/.test("iamfi"),/d{6,1024}/.test("iamfine"), /d{6,1024}/.test("iamfin"))
+}
+
+function fixBug(){
+  var testUser = new User({
+    username : "numberTwo",
+    password : '00020',
+    email : "numberTwo@test.com"
+  });
+
+  DI.save('user', testUser, function(result){
+    console.log("result is", result)
+  },function(error){
+    console.log(" error is", error.msg)
+  });
+
+  //var promise = testUser.save();
+  //promise.then(function(result, error) {
+  //  console.log("result is", result, " error is", error)
+  //}).end();
+  //
+  //promise.then(undefined, function(err){
+  //  console.log('error is', err)
+  //})
 }
 
 function test(){
@@ -156,15 +162,13 @@ DI.save = function(type, data, resolve, reject){
     },
     function(schema, callback){
       var neu = new schema(data)
-      // NOTICE : Mongoose save does not has exec function, itself is a promise!
-      var promise = neu.save();
-      promise.then(function(result) {
+      neu.save(function(err, result) {
+        if(err){
+          return callback({msg : LOGTITLE + Errors.DataBaseFailed + err.message })
+        }
         logSuccess(type, result)
         callback(null, result)
-      }).end();
-      promise.then(undefined, function(err){
-        callback({msg : LOGTITLE + Errors.DataBaseFailed + err })
-      })
+      });
     }
   ]
 

@@ -24,7 +24,7 @@
     width:100%;
     height:500px;
     margin-top: 30px;
-    padding:0px 140px 100px 0px;
+    padding:0px 170px 130px 0px;
   }
   .list{
     align-self: flex-start;
@@ -51,7 +51,24 @@
   }
 }
 
-
+.carousel {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  .imageContainer {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: center;
+    img {
+      max-height: 500px;
+      max-width: 100%;
+    }
+  }
+}
 
 .editButton{
 
@@ -83,9 +100,6 @@
   display: inline;
 }
 
-.slider{
-  margin-top: -30px ;
-}
 
 
 .rowContainer{
@@ -178,5 +192,68 @@
   }
   .dialog{
     padding: 10px 10px;
+  }
+}
+
+@include max-screen(1280px){
+  .carousel {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    .imageContainer {
+      display: flex;
+      align-items: center;
+      flex-direction: row;
+      justify-content: center;
+      img {
+        max-height: 400px;
+        max-width: 100%;
+      }
+    }
+  }
+}
+
+@include max-screen(414px){
+  .carousel {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    .imageContainer {
+      display: flex;
+      align-items: center;
+      flex-direction: row;
+      justify-content: center;
+      img {
+        max-height: 200px;
+        max-width: 100%;
+      }
+    }
+  }
+}
+
+@include max-screen(320px){
+  .carousel {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    .imageContainer {
+      display: flex;
+      align-items: center;
+      flex-direction: row;
+      justify-content: center;
+      img {
+        max-height: 170px;
+        max-width: 100%;
+      }
+    }
   }
 }

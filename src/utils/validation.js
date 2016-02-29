@@ -17,6 +17,7 @@ export function required(value) {
 
 export function minLength(min) {
   return value => {
+    console.log('length  is', value.length);
     if (!isEmpty(value) && value.length < min) {
       return `Must be at least ${min} characters`;
     }

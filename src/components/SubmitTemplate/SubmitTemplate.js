@@ -88,7 +88,7 @@ export default class SubmitTemplate extends Component {
             */}
             <CardMedia style={uiStyles.CardMedia}>
               <div>
-                <Carousel className={styles.slider} decorators={Decorators} framePadding="50px" width="100%" slidesToShow={1}>
+                <Carousel className={styles.carousel} decorators={Decorators} framePadding="32px" width="100%" slidesToShow={1}>
                   {entity.images.length >= 1 && entity.images.map(address => (<div className={styles.imageContainer}><img src={address}/></div>))}
                   {cachedImages.length >= 1 && cachedImages.map(file => <div className={styles.imageContainer}><img src={window.URL.createObjectURL(file)}/></div>)}
                   {entity.images.length == 0 && cachedImages.length == 0 &&  <div className={styles.imageContainer}><img src={config.noImagePath}/></div>}
@@ -146,7 +146,7 @@ export default class SubmitTemplate extends Component {
             <div className={styles.rowContainer}><i className="fa fa-map-marker"/>地址 : &nbsp; {entity.location}</div>
             <div className={styles.rowContainer}><i className="fa fa-square"/> 面积 : &nbsp; {entity.size} &nbsp;m²</div>
             <div className={styles.rowContainer}><i className="fa fa-cube"/> 类型 : &nbsp; {entity.type ? "WG" : "Wohnung/Apartment"}</div>
-            <div className={styles.rowContainer}><i className="fa fa-eur"/> 租金 : &nbsp;{(entity.priceType ? "暖租" : "冷租" ) + ' ' + entity.price} &nbsp; Eur</div>
+            <div className={styles.rowContainer}><i className="fa fa-eur"/> 租金 : &nbsp;{(entity.priceType ? "冷租" : "暖租" ) + ' ' + entity.price} &nbsp; Eur</div>
             <div className={styles.rowContainer}><i className="fa fa-lock"/> 押金 : &nbsp; {entity.caution} &nbsp;Eur</div>
             <div className={styles.rowContainer}><i className="fa fa-calendar"/> 租期 : &nbsp;{formatDate(entity.startDate)} &nbsp;-- &nbsp;{entity.endDate ? "无期限" : formatDate(entity.startDate) } </div>
             {userId && userId == entity.owner &&
