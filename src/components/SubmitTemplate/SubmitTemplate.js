@@ -88,7 +88,7 @@ export default class SubmitTemplate extends Component {
             */}
             <CardMedia style={uiStyles.CardMedia}>
               <div>
-                <Carousel className={styles.slider} decorators={Decorators} framePadding="50px" width="100%" slidesToShow={1}>
+                <Carousel className={styles.carousel} decorators={Decorators} framePadding="32px" width="100%" slidesToShow={1}>
                   {entity.images.length >= 1 && entity.images.map(address => (<div className={styles.imageContainer}><img src={address}/></div>))}
                   {cachedImages.length >= 1 && cachedImages.map(file => <div className={styles.imageContainer}><img src={window.URL.createObjectURL(file)}/></div>)}
                   {entity.images.length == 0 && cachedImages.length == 0 &&  <div className={styles.imageContainer}><img src={config.noImagePath}/></div>}
