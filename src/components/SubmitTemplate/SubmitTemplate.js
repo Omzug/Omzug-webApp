@@ -134,9 +134,11 @@ export default class SubmitTemplate extends Component {
 
             </CardActions>
           </Card>
-          <div className={styles.map}>
-            <Map/>
-          </div>
+          { entity.geometry.length > 0 &&
+            <div className={styles.map}>
+              <Map geometry={entity.geometry}/>
+            </div>
+          }
         </div>
         <div className={styles.list}>
           <div className={styles.innerList}>

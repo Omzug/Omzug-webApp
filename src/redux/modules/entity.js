@@ -3,6 +3,13 @@
  */
 var update = require('react-addons-update');
 import {validateImage} from '../../utils/validation';
+var config = require('../../config');
+var GoogleMapsAPI = require('googlemaps');
+var publicConfig = {
+  key: config.googleMapKey,
+  secure:             true, // use https
+};
+var gmAPI = new GoogleMapsAPI(publicConfig)
 
 const LOAD = 'Nevermind/entity/LOAD';
 const LOAD_SUCCESS = 'Nevermind/entity/LOAD_SUCCESS';
@@ -26,6 +33,7 @@ const INIT_ENTITY = "Nevermind/entity/INIT_ENTITY";
 const TOGGLE = "Nevermind/entity/TOGGLE";
 const CHANGE_TYPE = "Nevermind/entity/CHANGE_TYPE";
 const CHANGE_PRICE_TYPE = "Nevermind/entity/CHANGE_PRICE_TYPE";
+const CALCULATE_GEOMETRY = "Nevermind/entity/CALCULATE_GEOMETRY";
 
 const initState = {
   loaded: false,
@@ -43,6 +51,7 @@ const initState = {
     owner : null,
     username : null,
 
+    geometry : [],
     location: null,
     size : null,
     caution: null,
@@ -219,6 +228,18 @@ export default function reducer(state = initState, action){
         ...state,
         data : update(state.data, {priceType : {$set : action.value}})
       }
+    case CALCULATE_GEOMETRY:
+      //TODO
+      //gmAPI.geocode({
+      //  "address": address,
+      //  //"components": "components=country:GB",
+      //  //"bounds":     "55,-1|54,1",
+      //  //"language":   "en",
+      //  "region":     "de"
+      //}, callback);
+          return {
+            ...state,
+          }
     default :
       return state;
   }
@@ -255,6 +276,12 @@ export function onStartEdit(){
 export  function onEndEdit(){
   return {
     type : END_EDIT
+  }
+}
+
+export function onCalculateGeometry(location, city){
+  return {
+    type : CALCULATE_GEOMETRY,
   }
 }
 

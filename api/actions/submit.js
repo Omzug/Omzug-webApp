@@ -11,6 +11,7 @@ var aws = require('../lib/aws');
 var tmpPath = require('../lib/config').tmpPath;
 var awsPrefix = require('../lib/config').awsPrefix;
 var urlencode = require('urlencode');
+import {geocode} from '../lib/googleMap';
 
 function upload(file, callback){
   console.log('file success upload: ', file)
@@ -62,6 +63,7 @@ export default function submit(req, params) {
 
     var steps = [
       parseRequest,
+      calculateLocation,
       compareImages,
       deleteImages,
       uploadImage,
@@ -99,6 +101,25 @@ export default function submit(req, params) {
           callback(null, house, filesArray)
         }
       })
+    }
+
+    function calculateLocation(house, files, callback){
+      if(house.location != null){
+        var location = house.location + " " + house.city
+        geocode(location, function(err, resultObject){
+          if(!err){
+            if(resultObject.status == 'OK' && results[0] != null){
+              var location = results[0].geometry.location
+              house.geometry = [
+                location.lat(),
+                location.lng(),
+              ]
+            }
+          }
+        })
+      }
+      //what ever the result is coded
+      return callback(null, house, files)
     }
 
     function compareImages(house, files, callback) {

@@ -41,6 +41,7 @@ module.exports = function(Schema, collectionName){
     username : {type : String, required : true},
 
     location : { type : String/*, validate : stringValidator*/},
+    geometry : { type : Array, required : false },
     size : { type :Number , required : false},
     //roomNumber : {type :Number, required : false},
     caution : { type : Number , required: false},

@@ -183,7 +183,7 @@ export default class List extends Component {
               <b className={styles.cityColor}> {house.city}</b></span>}
               actionIcon={renderIcon(house, index)}
             >
-              <Carousel key={house._id} decorators={Decorators} className={styles.carousel} width={"100%"}
+              <Carousel key={house._id} className={styles.carousel} width={"100%"}
                         initialSlideHight={300} initialSlideWidth={500}>
                 { house.images && house.images.length ?
                   house.images.map((address, index) => (

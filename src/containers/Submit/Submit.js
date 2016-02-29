@@ -56,6 +56,7 @@ export default class Submit extends Component{
     // default we don't set _id property, then do the create in database
     data.owner = this.props.user._id
     data.username = this.props.user.username
+    data.geometry = []
     const images = this.props.cachedImages
     this.props.onSubmitNew(data, images);
     console.log("submit now with data:" , data)
