@@ -28,6 +28,7 @@ const TOGGLE = "Nevermind/entity/TOGGLE";
 const CHANGE_TYPE = "Nevermind/entity/CHANGE_TYPE";
 const CHANGE_PRICE_TYPE = "Nevermind/entity/CHANGE_PRICE_TYPE";
 const CALCULATE_GEOMETRY = "Nevermind/entity/CALCULATE_GEOMETRY";
+const CHANGE_SEARCH_VALUE = "Nevermind/entity/CHANGE_SEARCH_VALUE";
 
 const initState = {
   loaded: false,
@@ -57,6 +58,7 @@ const initState = {
     note : null,
     images:[],
   },
+  searchValue : "",
   hasLimit : false,
   cachedImages:[],
   currentSlide: 0,
@@ -235,6 +237,11 @@ export default function reducer(state = initState, action){
           return {
             ...state,
           }
+    case CHANGE_SEARCH_VALUE:
+          return {
+            ...state,
+            searchValue : action.value
+          }
     default :
       return state;
   }
@@ -405,6 +412,13 @@ export function onChangePriceType(value){
 export function onChangeType(value){
   return {
     type : CHANGE_TYPE,
+    value : value,
+  }
+}
+
+export function onChangeSearchValue(value){
+  return {
+    type : CHANGE_SEARCH_VALUE,
     value : value,
   }
 }

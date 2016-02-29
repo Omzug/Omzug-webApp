@@ -19,7 +19,7 @@ export default class MapMarker extends Component {
     const styles = require('./MapMarker.scss')
     return (
       <div className={styles.marker}>
-        {this.props.text}
+        <i className="fa fa-map-marker"/>
       </div>
     );
   }

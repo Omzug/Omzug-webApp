@@ -6,11 +6,11 @@ import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import uiStyles from '../../theme/uiStyles';
 
-import {onContactOpen, onContactClose, onStartEdit} from "redux/modules/entity";
+import {onContactOpen, onContactClose, onStartEdit, onChangeSearchValue} from "redux/modules/entity";
 
 import {Carousel, Map} from 'components';
 import {RaisedButton, FlatButton, FontIcon, Paper, Dialog, Card, CardActions,
-  CardHeader, CardMedia, CardTitle, CardText, List, ListItem, Divider} from 'material-ui'
+  CardHeader, CardMedia, CardTitle, CardText, List, ListItem, Divider, TextField} from 'material-ui'
 
 var config = require('../../config');
 
@@ -20,8 +20,9 @@ var config = require('../../config');
     contactOpen : state.entity.contactOpen,
     cachedImages : state.entity.cachedImages,
     userId : state.auth.user._id,
+    searchValue : state.entity.searchValue,
   }),
-  {onContactOpen, onContactClose, onStartEdit}
+  {onContactOpen, onContactClose, onStartEdit, onChangeSearchValue}
 )
 export default class SubmitTemplate extends Component {
   static propTypes = {
@@ -29,10 +30,12 @@ export default class SubmitTemplate extends Component {
     contactOpen : PropTypes.bool,
     cachedImages: PropTypes.array,
     userId : PropTypes.string,
+    searchValue :PropTypes.string,
 
     onContactOpen : PropTypes.func.isRequired,
     onContactClose : PropTypes.func.isRequired,
     onStartEdit : PropTypes.func.isRequired,
+    onChangeSearchValue : PropTypes.func.isRequired,
 
     nextSlide :PropTypes.func,
     previousSlide : PropTypes.func,
@@ -43,7 +46,11 @@ export default class SubmitTemplate extends Component {
     const image1 = require('./a1.jpg');
     const image2 = require('./b1.jpg');
     const image3 = require('./c1.jpg');
-    const {entity, contactOpen, cachedImages, userId} = this.props;
+    const {entity, contactOpen, cachedImages, userId, searchValue} = this.props;
+
+    function capitalizeFirstLetter(string) {
+      return string[0].toUpperCase() + string.slice(1);
+    }
 
     var Decorators = [
       {component: React.createClass({render() {
@@ -62,8 +69,8 @@ export default class SubmitTemplate extends Component {
         position: 'CenterRight', style: {height: "100%"}},
     ];
 
-    const pickerStyle ={
-      display:'inline'
+    const handleSearchButtonClick = (event) => {
+      console.log('now search !')
     }
 
     const formatDate = (dateString) =>
@@ -135,14 +142,29 @@ export default class SubmitTemplate extends Component {
             </CardActions>
           </Card>
           { entity.lat && entity.lng &&
-            <div className={styles.map}>
-              <Map geometry={[entity.lat, entity.lng]}/>
+            <div className={styles.mapContainer}>
+              {/*<div className={styles.searchBar}>
+                <div className={styles.searchInput}>
+                  <TextField hintText="查询距离" value={searchValue}
+                             onChange={(event) => {
+                             //can't show value here
+                    console.log('event is', event, 'value is', event.target)
+                    this.props.onChangeSearchValue(value);
+                  }}/>
+                </div>
+                <div className={styles.searchButton}>
+                <RaisedButton label="确定" onClick={handleSearchButtonClick}/>
+                </div>
+              </div>*/}
+              <div className={styles.map}>
+                <Map geometry={[entity.lat, entity.lng]}/>
+              </div>
             </div>
           }
         </div>
         <div className={styles.list}>
           <div className={styles.innerList}>
-            <div className={styles.rowContainer}><i className="fa fa-location-arrow"/> 城市 : &nbsp; {entity.city}</div>
+            <div className={styles.rowContainer}><i className="fa fa-location-arrow"/> 城市 : &nbsp; {capitalizeFirstLetter(entity.city)}</div>
             <div className={styles.rowContainer}><i className="fa fa-map-marker"/>地址 : &nbsp; {entity.location}</div>
             <div className={styles.rowContainer}><i className="fa fa-square"/> 面积 : &nbsp; {entity.size} &nbsp;m²</div>
             <div className={styles.rowContainer}><i className="fa fa-cube"/> 类型 : &nbsp; {entity.type ? "WG" : "Wohnung/Apartment"}</div>
@@ -157,38 +179,6 @@ export default class SubmitTemplate extends Component {
 
 
         </div>
-
-        {/*<List className={styles.list}>
-          <ListItem key={1} className="hint--top" data-hint="城市" primaryText={entity.city} leftIcon={<FontIcon className="fa fa-map-marker" />} />
-          <ListItem key={2} className="hint--top" data-hint="地址" primaryText={entity.location} leftIcon={<FontIcon className="fa fa-map" />} />
-          <ListItem key={3} className="hint--top" data-hint="房间数" primaryText={entity.roomNumber} leftIcon={<FontIcon className="fa fa-codepen" />} />
-          <ListItem key={4} className="hint--top" data-hint="面积" primaryText={entity.size}  leftIcon={<FontIcon className="fa fa-th" />}/>
-          <ListItem key={5} className="hint--top" data-hint="租金" primaryText={entity.price}  leftIcon={<FontIcon className="fa fa-euro" />}/>
-          <ListItem key={6} className="hint--top" data-hint="押金" primaryText={entity.caution}  leftIcon={<FontIcon className="fa fa-money" />}/>
-          <ListItem key={7} className="hint--top" data-hint="最多人数" primaryText={entity.maximumPerson}  leftIcon={<FontIcon className="fa fa-child" />}/>
-          <ListItem key={8} className="hint--top" data-hint="类型" primaryText={entity.type? "整套出租" : "单间"}  leftIcon={<FontIcon className="fa fa-home" />}/>
-          <ListItem key={9} leftIcon={<FontIcon className="fa fa-calendar" />} children={
-          <div>
-            <p className="hint--top" data-hint="开始日期">{formatDate(entity.startDate)}</p>
-            <br/>
-            <p className="hint--top" data-hint="结束日期">{entity.endDate? formatDate(entity.endDate): "无限制"}</p>
-          </div>
-          }>
-          </ListItem>
-
-
-
-          {entity.note &&
-            <ListItem key={11} className={styles.note} zDepth={2} className="hint--top" data-hint="备注">
-              <p className={styles.note}>{entity.note}</p>
-            </ListItem>
-          }
-
-          {userId && userId == entity.owner &&
-          <RaisedButton key={12} className={styles.editButton} onClick={this.props.onStartEdit}><span
-            className="fa fa-pencil"/> 编辑</RaisedButton>
-          }
-        </List>*/}
       </div>
     );
   }
