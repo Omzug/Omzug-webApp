@@ -8,6 +8,7 @@
   flex-wrap: wrap;
   justify-content: center;
   .card{
+    background-color: white;
     width:45%;
     height:70%;
     display: flex;
@@ -17,7 +18,54 @@
     min-width:450px;
     flex-grow: 1;
     margin:30px 20px 0 80px;
-    //margin-left: 50px;
+    .cardMedia{
+      box-shadow: 0 0 25px rgba(0, 0, 0, 0.06);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      width: 100%;
+    }
+    .carousel {
+      height: 100%;
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      .imageContainer {
+        display: flex;
+        align-items: center;
+        flex-direction: row;
+        justify-content: center;
+        img {
+          max-height: 466.5px;
+          max-width: 100%;
+        }
+      }
+    }
+    .cardTitle{
+      display: flex;
+      justify-content: flex-start;
+      flex-direction: column;
+      margin-top: 0px;
+      margin-left: 60px;
+      .cardTitleTitle{
+        font-size: 20px;
+        margin-bottom: 10px;
+      }
+
+    }
+    .cardText{
+      display: flex;
+      justify-content: flex-start;
+      flex-direction: row;
+      margin-top: 20px;
+      padding-left: 60px;
+
+      width: 65%;
+      line-height: 1.9em;
+    }
+
   }
 
   .map{
@@ -51,24 +99,7 @@
   }
 }
 
-.carousel {
-  height: 100%;
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  .imageContainer {
-    display: flex;
-    align-items: center;
-    flex-direction: row;
-    justify-content: center;
-    img {
-      max-height: 500px;
-      max-width: 100%;
-    }
-  }
-}
+
 
 .editButton{
 
@@ -111,87 +142,10 @@
   align-items: center;
 }
 
-//card min-width + list min-width + margin container
-@include max-screen(900px){
-  .container{
-    margin : 0;
-    .card {
-      margin:20px;
-    }
-    .list{
-
-    }
-  }
-}
-
-@include max-screen(1024px){
-  .map{
-    display: none;
-  }
-  .infoTitle{
-    font-size: 16px;
-    margin-bottom: 15px;
-    margin-top: 10px;
-  }
-  .contactInfo{
-    font-size: 14px;
-  }
-  .infoListMail{
-    padding:20px 0 15px 20px;
-
-  }
-  .infoListPhone{
-    padding:20px 0px 7px 20px;
-  }
-
-}
 @include max-screen(1730px){
   .cardText{
     width:54%;
 
-  }
-}
-@include max-screen(768px){
-  .container{
-    margin-top: 120px;
-  }
-  .cardText{
-    width:57%;
-  }
-}
-
-@include max-screen(540px){
-  .container{
-    .card{
-      min-width: 300px;
-    }
-    .list{
-      width: 200px;
-      padding-top: 10px;
-    }
-  }
-}
-
-
-@include max-screen(414px){
-  .cardTitle{
-    display: flex;
-    justify-content: flex-start;
-    flex-direction: row;
-    margin-left:-50px;
-  }
-
-  .cardText{
-    overflow: visible;
-    display: flex;
-    justify-content: center;
-    flex-direction: row;
-    margin-left: -60px;
-    width:100%;
-    padding:0 10px;
-  }
-  .dialog{
-    padding: 10px 10px;
   }
 }
 
@@ -216,44 +170,106 @@
   }
 }
 
-@include max-screen(414px){
-  .carousel {
-    height: 100%;
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    .imageContainer {
-      display: flex;
-      align-items: center;
-      flex-direction: row;
-      justify-content: center;
-      img {
-        max-height: 200px;
-        max-width: 100%;
-      }
+@include max-screen(1024px){
+
+  .infoTitle{
+    font-size: 16px;
+    margin-bottom: 15px;
+    margin-top: 10px;
+  }
+  .contactInfo{
+    font-size: 14px;
+  }
+  .infoListMail{
+    padding:20px 0 15px 20px;
+
+  }
+  .infoListPhone{
+    padding:20px 0px 7px 20px;
+  }
+}
+
+//card min-width + list min-width + margin container
+@include max-screen(900px){
+  .container{
+    margin : 0;
+    .card {
+      margin:20px;
+    }
+    .list{
+
     }
   }
 }
 
-@include max-screen(320px){
-  .carousel {
-    height: 100%;
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    .imageContainer {
-      display: flex;
-      align-items: center;
-      flex-direction: row;
-      justify-content: center;
-      img {
-        max-height: 170px;
-        max-width: 100%;
+@include max-screen(768px){
+  .container{
+    margin-top: 120px;
+
+    .cardText{
+      width:57%;
+      }
+    .map{
+      display: none;
+      }
+
+  }
+}
+
+
+@include max-screen(540px){
+  .container{
+    .card{
+      min-width: 300px;
+    }
+    .list{
+      width: 200px;
+      padding-top: 10px;
+    }
+  }
+}
+
+@include max-screen(414px){
+  .container{
+    .card{
+      .carousel {
+        .imageContainer {
+          img {
+            max-height: 200px;
+            max-width: 100%;
+          }
+        }
+      }
+      .cardTitle{
+        margin-left:30px;
+        margin-top: -10px;
+      }
+
+      .cardText{
+        width:100%;
+        padding:0 30px;
       }
     }
   }
+  .dialog{
+    padding: 10px 10px;
+  }
+
+}
+
+@include max-screen(320px){
+  .container {
+    .card {
+      .carousel {
+        .imageContainer {
+          img {
+            max-height: 170px;
+            max-width: 100%;
+          }
+        }
+      }
+    }
+  }
+
+
 }
