@@ -11,9 +11,7 @@ import config from '../../config';
 import Select from 'react-select';
 import Helmet from 'react-helmet';
 import uiStyles from "../../theme/uiStyles";
-import {DropDownMenu, MenuItem,RaisedButton, ThemeManager, ThemeDecorator} from 'material-ui';
-
-import myRawTheme from '../../theme/materialUI.theme';
+import {DropDownMenu, MenuItem,RaisedButton} from 'material-ui';
 
 function fetchDataDeferred(getState, dispatch) {
   if (!isLoaded(getState())) {
@@ -23,7 +21,6 @@ function fetchDataDeferred(getState, dispatch) {
 
 }
 
-//@ThemeDecorator(ThemeManager.getMuiTheme(myRawTheme))
 @connectData(null, fetchDataDeferred)
 
 @connect(
