@@ -22,10 +22,10 @@ module.exports = {
   googleMapKey : 'AIzaSyA7ZTgeyDPxcVEjsa6IuTH41k__n954cU4',
 
   errors : {
-    SchemaCannotFind : 'SchemaCannotFind: schema can not be find, please check again',
-    DataBaseFailed : 'DataBaseFailed: database meet error',
-    AuthFailed : 'Authentication Error',
-    NotFound : 'the item not found in database',
+    SchemaCannotFind : 'SchemaCannotFind: schema can not be find, please check again:',
+    DataBaseFailed : 'DataBaseFailed: database meet error:',
+    AuthFailed : 'Authentication Error:',
+    NotFound : 'the item not found in database:',
   },
 
   logOptions : {

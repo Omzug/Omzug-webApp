@@ -15,8 +15,7 @@
     flex-flow: column wrap;
     justify-content: center;
     align-self: flex-start;
-    min-width:450px;
-    flex-grow: 1;
+    flex : 4 0 320px;
     margin:30px 20px 0 80px;
     .cardMedia{
       box-shadow: 0 0 25px rgba(0, 0, 0, 0.06);
@@ -24,6 +23,9 @@
       flex-direction: column;
       justify-content: center;
       width: 100%;
+    }
+    .cardPhoto{
+
     }
     .carousel {
       height: 100%;
@@ -67,19 +69,37 @@
     }
 
   }
-
-  .map{
-    width:100%;
-    height:500px;
-    margin-top: 30px;
-    padding:0px 170px 130px 0px;
+  .mapContainer{
+    padding-top: 20px;
+    width : 100%;
+    display: flex;
+    flex-flow: column wrap;
+    align-items: center;
+    justify-content: center;
+    .searchBar{
+      width :100%;
+      display: flex;
+      flex-flow: row wrap;
+      justify-content: space-around;
+      align-items: center;
+      .searchInput{
+        width : 40%;
+      }
+      .searchButton{
+        width : 40%;
+      }
+    }
+    .map{
+      width:100%;
+      height:400px;
+    }
   }
+
   .list{
     align-self: flex-start;
-    padding:50px;
-    width:30%;
-    min-width:350px;
-    flex-grow: 1;
+    padding:50px 0;
+    width:40%;
+    flex: 3 0 250px;
     margin:30px 0px 0 0px;
     display: flex;
     flex-flow: row nowrap;
@@ -132,7 +152,6 @@
 }
 
 
-
 .rowContainer{
   width: 100%;
   margin-bottom: 60px;
@@ -145,23 +164,12 @@
 @include max-screen(1730px){
   .cardText{
     width:54%;
-
   }
 }
 
 @include max-screen(1280px){
   .carousel {
-    height: 100%;
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
     .imageContainer {
-      display: flex;
-      align-items: center;
-      flex-direction: row;
-      justify-content: center;
       img {
         max-height: 400px;
         max-width: 100%;

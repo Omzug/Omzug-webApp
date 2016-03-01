@@ -57,7 +57,7 @@ const DefaultDecorators = [
         var indexes = this.getIndexes(self.props.slideCount, self.props.slidesToScroll);
         return (
           <ul style={self.getListStyles()}>
-            {
+            { self.props.slideCount > 1 &&
               indexes.map(function(index) {
                 return (
                   <li style={self.getListItemStyles()} key={index}>
@@ -103,7 +103,7 @@ const DefaultDecorators = [
           padding: 10,
           outline: 0,
           fontSize: 24,
-          opacity: active ? 1 : 0.5
+          opacity: active ? 1 : 0.4
         }
       }
     }),
