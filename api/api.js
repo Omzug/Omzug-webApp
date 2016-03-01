@@ -34,7 +34,7 @@ app.use(session({
 app.use(bodyParser.json());
 
 //add sitemap
-app.get('/sitemap.xml', function(req, res) {
+app.get('/sitemap', function(req, res) {
   sitemap.toXML( function (err, xml) {
     if (err) {
       return res.status(500).end();
