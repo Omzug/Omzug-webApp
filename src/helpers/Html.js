@@ -2,8 +2,6 @@ import React, {Component, PropTypes} from 'react';
 import ReactDOM from 'react-dom/server';
 import serialize from 'serialize-javascript';
 import Helmet from 'react-helmet';
-import ga from 'react-google-analytics';
-const GAInitiailizer = ga.Initializer;
 /**
  * Wrapper component containing HTML metadata and boilerplate tags.
  * Used in server-side code only to wrap the string output of the
@@ -35,8 +33,6 @@ export default class Html extends Component {
           {head.meta.toComponent()}
           {head.link.toComponent()}
           {head.script.toComponent()}
-
-          <GAInitiailizer />
           <link rel="shortcut icon" href="/favicon.ico" />
           <meta name="google-site-verification" content="hiXT2JAkm4CDKFcVaj4_JlME-JbkYPlww1EQu8dZUtA" />
           <meta name="viewport" content="width=device-width, initial-scale=1" />

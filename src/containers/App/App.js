@@ -15,6 +15,7 @@ import config from '../../config';
 import {FlatButton, FontIcon} from 'material-ui';
 import uiStyles from '../../theme/uiStyles';
 import ga from 'react-google-analytics';
+const GAInitiailizer = ga.Initializer;
 
 // it must be enabled before react 1.0 for material ui
 
@@ -114,6 +115,7 @@ export default class App extends Component {
     return (
       <div className={styles.app}>
         <Helmet {...config.app.head}/>
+        <GAInitiailizer />
         <div className={styles.navbar}>
           <div className={styles.left}>
             <div className={styles.logoContainer}>
