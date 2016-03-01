@@ -29,6 +29,7 @@ const CHANGE_TYPE = "Nevermind/entity/CHANGE_TYPE";
 const CHANGE_PRICE_TYPE = "Nevermind/entity/CHANGE_PRICE_TYPE";
 const CALCULATE_GEOMETRY = "Nevermind/entity/CALCULATE_GEOMETRY";
 const CHANGE_SEARCH_VALUE = "Nevermind/entity/CHANGE_SEARCH_VALUE";
+const SUBMIT_NEW_FAIL = "Nevermind/entity/SUBMIT_NEW_FAIL";
 
 const initState = {
   loaded: false,
@@ -138,9 +139,14 @@ export default function reducer(state = initState, action){
             data : originData,
             cached :null,
             feedback : action.error,
-            // TODO this error is not used, or change to boolean?
-            submitError : action.error,
             cachedImages : [],
+          }
+    case SUBMIT_NEW_FAIL:
+          return {
+            ...state,
+            submitting : false,
+            cached :null,
+            feedback : action.error,
           }
     case LOG_ERROR :
           return {
@@ -357,7 +363,7 @@ export function onSubmitNew(data, images){
   }
   return {
     cached : data,
-    types: [SUBMIT, SUBMIT_NEW_SUCCESS, SUBMIT_FAIL],
+    types: [SUBMIT, SUBMIT_NEW_SUCCESS, SUBMIT_NEW_FAIL],
     promise: (client) => client.post('./submit', generalizeParameter(data, images))
   }
 }

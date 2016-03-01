@@ -14,7 +14,7 @@ export default class SimpleMapPage extends Component {
 
   static defaultProps = {
     center: {lat: 59.938043, lng: 30.337157},
-    zoom: 12,
+    zoom: 13,
     greatPlaceCoords: {lat: 59.724465, lng: 30.080121}
   };
 
