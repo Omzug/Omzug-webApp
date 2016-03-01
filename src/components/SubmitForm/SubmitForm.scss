@@ -90,9 +90,6 @@
       height:100%;
       //vertical center
       align-items: center;
-      .boxFont{
-        vertical-align: center;
-      }
       .inner{
         display: flex;
         flex-direction: row;
@@ -102,6 +99,12 @@
         height:100%;
         //vertical center
         align-items: center;
+        .innerText{
+          flex : 1 0 100px;
+        }
+        .innerFont{
+          flex : 1 0 60px;
+        }
       }
     }
     .textArea{
