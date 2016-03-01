@@ -119,7 +119,7 @@ export default class Entities extends Component {
             />
           </div>
 
-          <RaisedButton className={styles.refreshButton} onClick={this.onLoadListButton} style={uiStyles.buttonStyleRenew}><i className={refreshClassName}/> 更新城市列表</RaisedButton>
+          <RaisedButton className={styles.refreshButton} onClick={this.onLoadListButton} style={uiStyles.buttonStyleRenewCityList}><i className={refreshClassName}/> 更新城市列表</RaisedButton>
         </div>
 
         {loaded &&

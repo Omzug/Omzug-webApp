@@ -85,15 +85,8 @@ export default class SubmitTemplate extends Component {
     return (
       <div className={styles.container}>
         <div className={styles.card}>
-          <Card style={uiStyles.card}>
-            {/*
-            <CardHeader
-              title="房子的标题"
-              subtitle="房子的副标题"
-              avatar="http://lorempixel.com/100/100/nature/"
-            />
-            */}
-            <CardMedia style={uiStyles.CardMedia}>
+
+            <div className={styles.cardMedia}>
               <div>
                 <Carousel className={styles.carousel} decorators={Decorators} framePadding="32px" width="100%" slidesToShow={1}>
                   {entity.images.length >= 1 && entity.images.map(address => (<div className={styles.imageContainer}><img src={address}/></div>))}
@@ -101,46 +94,49 @@ export default class SubmitTemplate extends Component {
                   {entity.images.length == 0 && cachedImages.length == 0 &&  <div className={styles.imageContainer}><img src={config.noImagePath}/></div>}
                 </Carousel>
               </div>
-            </CardMedia>
+
+
             <div className={styles.cardTitle}>
-              <div><CardTitle style={uiStyles.CardTitle} title={entity.title} subtitle={"by " + entity.username} /></div>
+              <div className={styles.cardTitleTitle}>{entity.title}</div>
+              <div className={styles.cardTitleUsername}>by {entity.username}</div>
             </div>
             <div className={styles.cardText}>
-              <div><CardText style={uiStyles.CardText}>
-                {entity.description}
-              </CardText></div>
+              {entity.description}
             </div>
 
-            <CardActions>
-              <FlatButton style={uiStyles.actionButton} onClick={this.props.onContactOpen}><span className="fa fa-envelope"/> 联系房主</FlatButton>
-              {/*<FlatButton style={uiStyles.actionButton}
-                          className={styles.button} onClick={this.props.onContactOpen}><span className="fa fa-share"/> 分享</FlatButton>*/}
 
-            <div className={styles.dialog}>
-              <Dialog
-                actions={
-                <div>
-                  <FlatButton onClick={this.props.onContactClose} className={styles.hvrBuzzOut}>
-                    <span className="fa fa-child"/>
-                    <span>  </span>OK
-                  </FlatButton>
-                </div>
-                }
+            <div className={styles.cardActions}>
+              <div className={styles.contactHost}>
+                <FlatButton style={uiStyles.actionButton} onClick={this.props.onContactOpen}><span className="fa fa-envelope"/> 联系房主</FlatButton>
+              </div>
 
-                modal={false}
-                open={contactOpen}
-                onRequestClose={this.props.onContactClose}
-              >
-                <div className={styles.contactInfo}>
-                  <div className={styles.infoTitle}> {entity.username}的联系方式:</div>
-                  <div className={styles.infoListMail}> <i className="fa fa-envelope-o" />  邮箱: &nbsp; {entity.email} </div>
-                  <div className={styles.infoListPhone}> <i className="fa fa-phone" />  手机: &nbsp; {entity.phone} </div>
-                </div>
-              </Dialog>
+              <div className={styles.dialog}>
+                <Dialog
+                  actions={
+                  <div>
+                    <FlatButton onClick={this.props.onContactClose} className={styles.hvrBuzzOut}>
+                      <span className="fa fa-child"/>
+                      <span>  </span>OK
+                    </FlatButton>
+                  </div>
+                  }
+
+                  modal={false}
+                  open={contactOpen}
+                  onRequestClose={this.props.onContactClose}
+                >
+                  <div className={styles.contactInfo}>
+                    <div className={styles.infoTitle}> {entity.username}的联系方式:</div>
+                    <div className={styles.infoListMail}> <i className="fa fa-envelope-o" />  邮箱: &nbsp; {entity.email} </div>
+                    <div className={styles.infoListPhone}> <i className="fa fa-phone" />  手机: &nbsp; {entity.phone} </div>
+                  </div>
+                </Dialog>
+              </div>
+
             </div>
+          </div>
 
-            </CardActions>
-          </Card>
+
           { entity.lat && entity.lng &&
             <div className={styles.mapContainer}>
               {/*<div className={styles.searchBar}>
@@ -176,9 +172,6 @@ export default class SubmitTemplate extends Component {
               className="fa fa-pencil"/> 编辑</RaisedButton>
             }
           </div>
-
-
-        </div>
       </div>
     );
   }
