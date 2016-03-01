@@ -72,7 +72,7 @@ export default class Chat extends Component {
             : <li key={`chat.msg.${msg.id}`}>{msg.from}: {msg.text}</li>
           })}
           </ul>
-          <form className="login-form" onSubmit={this.handleSubmit}>
+          <form className={"login-form " + styles.loginForm} onSubmit={this.handleSubmit}>
             <div className={styles.inputGroup}>
               <input className={styles.input} type="text" ref="message" placeholder="Enter your message"
                value={this.state.message}
