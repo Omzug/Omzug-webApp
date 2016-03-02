@@ -1,6 +1,16 @@
 @import "../../theme/variables.scss";
 @import "../../theme/utils.scss";
 @import "../../theme/media";
+
+//in big screen
+$secondFotoSize : 400px;
+$secondTextSize : 400px;
+$thirdFotoSize : 400px;
+$thirdTextSize : 400px;
+
+//in small screen
+$paddingTop : 50px;
+
 .home {
   width : 100%;
   .container {
@@ -47,8 +57,131 @@
       }
     }
   }
+
+  //=================second container===============
+  .secondContainer{
+    flex-wrap: wrap;
+    //min-width: 320px;
+    background-color: #fafafa;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    padding-bottom: 130px;
+    padding-top: 200px;
+    margin-top: 180px;
+    .foto1{
+      flex: 1 0 $secondFotoSize;
+      width: 53%;
+      img{
+        margin-left: 40px;
+        width:100%;
+        height:100%;
+      }
+    }
+    .text1{
+      align-self: center;
+      flex: 1 0 $secondTextSize;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      line-height: 2.25em;
+      width:38%;
+      padding:0 120px;
+      font-family: "Avenir Next", "Lantinghei SC", Arial, sans-serif;
+      font-weight: 400;
+      letter-spacing: 1px;
+      .h4{
+        text-align: center;
+      }
+      .responsiveDesign{
+        margin-top: 30px;
+      }
+    }
+  }
+
+  //=================third container===============
+  .thirdContainer{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 120px;
+    margin-bottom: 180px;
+    width: 100%;
+    .text2{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      line-height: 2.1em;
+      width:35%;
+      padding:0 0px;
+      font-family: "Avenir Next", "Lantinghei SC", Arial, sans-serif;
+      font-weight: 400;
+      letter-spacing: 1px;
+      .tech{
+        margin-top: 30px;
+      }
+
+    }
+    .foto2{
+      //display: flex;
+      //align-items: center;
+      //flex-direction: column;
+      width: 40%;
+      img{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        max-width:100%;
+        height:auto;
+        margin-top: 50px;
+      }
+    }
+
+  }
 }
 
+@include max-screen($secondFotoSize + $secondTextSize){
+  .home{
+    .secondContainer{
+      margin: $paddingTop 0;
+      padding: $paddingTop 0;
+      .text1{
+
+      }
+      .foto1{
+        padding : 0 10px $paddingTop 10px;
+      }
+    }
+  }
+}
+
+@include max-screen(786px){
+  .home{
+    .secondContainer{
+      .foto1{
+        img{
+          margin-left: 0;
+          padding:0 50px;
+        }
+
+      }
+      .text1{
+        min-width: 180px;
+        width: 100%;
+        padding:40px 180px;
+        .responsiveDesign{
+          margin-top: 20px;
+        }
+      }
+    }
+    .thirdContainer{
+      .text2{
+        width:55%;
+
+      }
+    }
+  }
+}
 @include max-screen(732px) {
 
 }
@@ -59,6 +192,100 @@
       padding: 80px 50px 50px 50px;
       .foto{
         padding-left: -50px;
+      }
+    }
+  }
+}
+
+@include max-screen(414px){
+  .home{
+    .container{
+      .foto{
+        img{
+          padding-left: 70px;
+        }
+      }
+    }
+    .secondContainer{
+      .foto1{
+        img{
+          padding: 0 20px;
+        }
+      }
+      .text1{
+        padding:0 45px;
+        h4{
+        }
+        .responsiveDesign{
+
+        }
+      }
+    }
+    .thirdContainer{
+      margin-bottom: 160px;
+      .text2{
+        width:75%;
+        margin-top: -50px;
+        h4{
+
+        }
+        .tech{
+
+        }
+      }
+      .foto2{
+        width:70%;
+      }
+    }
+  }
+}
+
+@include max-screen(375px){
+  .home{
+    .container{
+      .foto{
+        img{
+          padding-left: 50px;
+        }
+      }
+    }
+    .thirdContainer{
+      .text2{
+        width:80%;
+      }
+      .foto2{
+        width:75%;
+      }
+    }
+  }
+}
+
+@include max-screen(320px){
+  .home{
+    .container{
+      .foto{
+        img{
+          padding-left: 30px;
+        }
+      }
+    }
+    .secondContainer{
+      .foto1{
+        img{
+        padding: 0 50px;
+        }
+      }
+      .text1{
+        padding: 0 60px;
+      }
+    }
+    .thirdContainer{
+      .text2{
+        margin-top: -60px;
+        width:85%;
+      }
+      .foto2{
+
       }
     }
   }
