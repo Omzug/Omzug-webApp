@@ -78,14 +78,14 @@ export default class App extends Component {
     if(!this.props.createData && nextProps.createData){
       this.props.pushState(null, '/entities/' + nextProps.createData._id)
       // refresh the main list
-      console.log('cityList is', this.props.cityList, 'the searching object is', nextProps.createData.city)
+      //console.log('cityList is', this.props.cityList, 'the searching object is', nextProps.createData.city)
       if(!this.props.cityList.some(function(cityObject){
           return cityObject.city === nextProps.createData.city
         })){
-        console.log('cannot find the submit city , now refresh the list')
+        //console.log('cannot find the submit city , now refresh the list')
         this.props.onNewSubmit(null);//also change locationId here
       }else{
-        console.log('find the submit city , now only refresh the current list')
+        //console.log('find the submit city , now only refresh the current list')
         this.props.onGetHouseList(this.props.locationId, this.props.cityList)
       }
 
@@ -97,7 +97,7 @@ export default class App extends Component {
   }
 
   handleClick = (e) => {
-    console.log("click", e);
+    //console.log("click", e);
   }
 
   handleLogout = (event) => {

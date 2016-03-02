@@ -41,19 +41,19 @@ export default class List extends Component {
   handleResize = (event) => {
     if(window.innerWidth <= 600){
       if(this.props.column !== 1)
-        console.log( 'window inner width is', window.innerWidth, 'now set column to 1');
+        //console.log( 'window inner width is', window.innerWidth, 'now set column to 1');
         this.props.onSetColumn(1)
     }else if(window.innerWidth <= 1200){
       if(this.props.column !== 2)
-        console.log( 'window inner width is', window.innerWidth, 'now set column to 2');
+        //console.log( 'window inner width is', window.innerWidth, 'now set column to 2');
         this.props.onSetColumn(2)
     }else if(window.innerWidth <= 1800){
       if(this.props.column !== 3)
-        console.log( 'window inner width is', window.innerWidth, 'now set column to 3');
+        //console.log( 'window inner width is', window.innerWidth, 'now set column to 3');
       this.props.onSetColumn(3)
     }else if(window.innerWidth <= 2400){
       if(this.props.column !== 4)
-        console.log( 'window inner width is', window.innerWidth, 'now set column to 3');
+        //console.log( 'window inner width is', window.innerWidth, 'now set column to 4');
       this.props.onSetColumn(4)
     }
   }
@@ -138,7 +138,6 @@ export default class List extends Component {
         xs : computeLayout(total, 1),
         xxs : computeLayout(total ,1 )
       }
-      console.log('layouts is', layouts)
       return layouts
     }
 

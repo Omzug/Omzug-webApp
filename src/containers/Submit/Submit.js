@@ -78,7 +78,6 @@ export default class Submit extends Component{
           autoHideDuration={4000}
           bodyStyle={uiStyles.snackBarStyleBlue}
           onRequestClose={(reason) => {
-            console.log("error popout should cleared now because : " + reason);
             this.props.onClearMessage();
           }}
         />

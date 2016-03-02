@@ -34,7 +34,7 @@ class _ApiClient {
           }
           if (data) {
             //request.field('data', data)
-            console.log('data is',data)
+            //console.log('data is',data)
             for(var property in data){
               if(data.hasOwnProperty(property)){
                 request.field(property , data[property])

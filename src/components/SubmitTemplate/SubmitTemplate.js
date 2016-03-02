@@ -61,7 +61,7 @@ export default class SubmitTemplate extends Component {
     }
 
     const handleSearchButtonClick = (event) => {
-      console.log('now search !')
+
     }
 
     const formatDate = (dateString) =>

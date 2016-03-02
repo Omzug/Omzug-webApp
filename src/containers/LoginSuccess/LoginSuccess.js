@@ -29,10 +29,6 @@ class LoginSuccess extends Component {
           <ul>
             { user._id &&
             <li> id : {user._id}</li>}
-
-            {
-              user && console.log("in LoginSuccess we get user is: ", user)
-            }
             { user.email &&
             <li> email : {user.email}</li>}
             <li> createdAt : {user.createdAt.toString()}</li>

@@ -20,7 +20,7 @@ const asyncValidate = (value, dispatch) => {
   }
 
   return new Promise((resolve, reject) => {
-    console.log('sync validate value is disable now.')
+    //console.log('sync validate value is disable now.')
     resolve()
   })
 }

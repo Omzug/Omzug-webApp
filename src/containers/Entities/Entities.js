@@ -66,7 +66,7 @@ export default class Entities extends Component {
     }
     if(this.props.locationId != value){
       this.props.onLocationChange(value);
-      console.log('now the value of select is',value)
+      //console.log('now the value of select is',value)
       this.props.onGetHouseList(value, this.props.cityList)
     }
   }
@@ -83,7 +83,7 @@ export default class Entities extends Component {
       //temporary disable append util we get result
       if(!this.props.loading && !this.props.isEnd){
         this.props.onDisableAppend();
-        console.log('now appending to list')
+        //console.log('now appending to list')
         this.props.onAppendList(this.props.locationId, this.props.cityList, this.props.entities.length);
       }
     }

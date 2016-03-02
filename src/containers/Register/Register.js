@@ -46,7 +46,6 @@ export default class Register extends Component{
           autoHideDuration={4000}
           bodyStyle={uiStyles.snackBarStyleRed}
           onRequestClose={(reason) => {
-            console.log("error popout should cleared now because : " + reason);
             this.props.clearLoginError();
           }}
         />

@@ -141,7 +141,7 @@ export default class SubmitForm extends Component {
 
     const validateSubmit = (data)=> {
       var fields = this.props.fields;
-      console.log('fields is', fields)
+      //console.log('fields is', fields)
       var anyError = []
       for (var property in fields){
         if(fields.hasOwnProperty(property)){
