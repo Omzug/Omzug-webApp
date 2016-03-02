@@ -26,7 +26,7 @@ export default class Home extends Component {
           </div>
         </div>
         <div className={styles.secondContainer}>
-          <div className={styles.screenShot1}>
+          <div className={styles.foto1}>
             <img src="https://41.media.tumblr.com/ecc9d7da97c423c39d5442e5875c224f/tumblr_o3f26ziBSs1vn5ujpo1_1280.png"/>
           </div>
           <div className={styles.text1}>
@@ -50,10 +50,10 @@ export default class Home extends Component {
             </div>
             <div>
               <p className={styles.tech}>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                我们采用了最新最可靠的互联网技术,从零开始搭建起这个平台。我们希望打造一个纯净的,简单易用的网站应用</p>
+                我们采用了最新的互联网技术,从零开始搭建起这个平台。我们希望打造一个纯净的,简单易用的网站应用</p>
             </div>
           </div>
-          <div className={styles.icons}>
+          <div className={styles.foto2}>
             <img src="https://s3.eu-central-1.amazonaws.com/omzug.com/gif/iconsnew.png"/>
           </div>
         </div>
