@@ -9,7 +9,8 @@ import {onContactOpen, onContactClose, onStartEdit, onChangeSearchValue} from "r
 import {onSetContactError} from 'redux/modules/error';
 import {Carousel, Map} from 'components';
 import {RaisedButton, FlatButton, FontIcon, Paper, Dialog, Card, CardActions,
-  CardHeader, CardMedia, CardTitle, CardText, List, ListItem, Divider, TextField} from 'material-ui'
+  CardHeader, CardMedia, CardTitle, CardText, List, ListItem, Divider, TextField} from 'material-ui';
+import {capitalizeFirstLetter} from '../../utils/help';
 
 var config = require('../../config');
 
@@ -47,10 +48,6 @@ export default class SubmitTemplate extends Component {
     const image2 = require('./b1.jpg');
     const image3 = require('./c1.jpg');
     const {entity, contactOpen, cachedImages, user, searchValue} = this.props;
-
-    function capitalizeFirstLetter(string) {
-      return string[0].toUpperCase() + string.slice(1);
-    }
 
     const onContactClick = (event) => {
       if(user){

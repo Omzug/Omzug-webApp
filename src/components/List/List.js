@@ -8,6 +8,7 @@ import { LinkContainer } from 'react-router-bootstrap';
 import {onOpenDialog, onCloseDialog } from 'redux/modules/admin';
 import {onStartEdit} from "redux/modules/entity";
 import {onSetColumn} from 'redux/modules/entities';
+import {capitalizeFirstLetter} from '../../utils/help';
 
 import {connect} from 'react-redux';
 import uiStyles from '../../theme/uiStyles'
@@ -162,8 +163,15 @@ export default class List extends Component {
               "display" : "flex", "alignItems":"center", "justifyContent": "center",
                height: "300px", width : tileWidth, margin : marginPercentage}}
               title={house.title}
-              subtitle={<span>by <b className={styles.usernameColor}>{house.username}</b> In
-              <b className={styles.cityColor}> {house.city}</b></span>}
+              subtitle={
+                house.username == "weibo"
+                ?
+                <span>from  新浪微博&nbsp;<i className={"fa fa-weibo " + styles.red}/> in <b className={styles.cityColor}> {capitalizeFirstLetter(house.city)}</b> </span>
+                :
+                <span>
+                  by <b className={styles.usernameColor}>{house.username}</b> In <b className={styles.cityColor}> {capitalizeFirstLetter(house.city)}</b>
+                </span>
+              }
               actionIcon={renderIcon(house, index)}
             >
               <Carousel key={house._id} className={styles.carousel} width={"100%"}
