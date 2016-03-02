@@ -2,16 +2,16 @@
  * Created by hanwencheng on 1/10/16.
  */
 
-const LOAD = 'Nevermind/admin/LOAD';
-const LOAD_SUCCESS = 'Nevermind/admin/LOAD_SUCCESS';
-const LOAD_FAIL = 'Nevermind/admin/LOAD_FAIL';
-const CLEAR = 'Nevermind/admin/CLEAR';
-const DELETE_HOUSE = 'Nevermind/admin/DELETE_HOUSE'
-const DELETE_HOUSE_SUCCESS = 'Nevermind/admin/DELETE_HOUSE_SUCCESS'
-const DELETE_HOUSE_FAIL = 'Nevermind/admin/DELETE_HOUSE_FAIL'
-const OPEN_DIALOG = 'Nevermind/admin/OPEN_DIALOG';
-const CLOSE_DIALOG = 'Nevermind/admin/CLOSE_DIALOG';
-const ADD_DATA = 'Nevermind/admin/ADD_DATA';
+const LOAD = 'omzug/admin/LOAD';
+const LOAD_SUCCESS = 'omzug/admin/LOAD_SUCCESS';
+const LOAD_FAIL = 'omzug/admin/LOAD_FAIL';
+const CLEAR = 'omzug/admin/CLEAR';
+const DELETE_HOUSE = 'omzug/admin/DELETE_HOUSE'
+const DELETE_HOUSE_SUCCESS = 'omzug/admin/DELETE_HOUSE_SUCCESS'
+const DELETE_HOUSE_FAIL = 'omzug/admin/DELETE_HOUSE_FAIL'
+const OPEN_DIALOG = 'omzug/admin/OPEN_DIALOG';
+const CLOSE_DIALOG = 'omzug/admin/CLOSE_DIALOG';
+const ADD_DATA = 'omzug/admin/ADD_DATA';
 
 var update = require('react-addons-update');
 

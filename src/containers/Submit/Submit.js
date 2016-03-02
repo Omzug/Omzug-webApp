@@ -76,7 +76,7 @@ export default class Submit extends Component{
           open={feedback !== null}
           message={feedback == null ? "" : feedback}
           autoHideDuration={4000}
-          bodyStyle={uiStyles.snackBarStyle}
+          bodyStyle={uiStyles.snackBarStyleBlue}
           onRequestClose={(reason) => {
             console.log("error popout should cleared now because : " + reason);
             this.props.onClearMessage();

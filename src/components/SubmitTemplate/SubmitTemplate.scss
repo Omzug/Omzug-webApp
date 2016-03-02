@@ -2,122 +2,129 @@
 @import "../../theme/myHover.scss";
 @import '../../theme/media.scss';
 
-.container{
+.container {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
-  .card{
-    background-color: white;
-    width:45%;
-    height:70%;
+}
+.containerBeforeLogin{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.card{
+  background-color: white;
+  width:45%;
+  height:70%;
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: center;
+  align-self: flex-start;
+  flex : 4 0 320px;
+  margin:30px 20px 0 80px;
+  .cardMedia{
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.06);
     display: flex;
-    flex-flow: column wrap;
+    flex-direction: column;
     justify-content: center;
-    align-self: flex-start;
-    flex : 4 0 320px;
-    margin:30px 20px 0 80px;
-    .cardMedia{
-      box-shadow: 0 0 25px rgba(0, 0, 0, 0.06);
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      width: 100%;
-    }
-    .cardPhoto{
-
-    }
-    .carousel {
-      height: 100%;
-      width: 100%;
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      justify-content: center;
-      .imageContainer {
-        display: flex;
-        align-items: center;
-        flex-direction: row;
-        justify-content: center;
-        img {
-          max-height: 466.5px;
-          max-width: 100%;
-        }
-      }
-    }
-    .cardTitle{
-      display: flex;
-      justify-content: flex-start;
-      flex-direction: column;
-      margin-top: 0px;
-      margin-left: 60px;
-      .cardTitleTitle{
-        font-size: 20px;
-        margin-bottom: 10px;
-      }
-
-    }
-    .cardText{
-      display: flex;
-      justify-content: flex-start;
-      flex-direction: row;
-      margin-top: 20px;
-      padding-left: 60px;
-
-      width: 65%;
-      line-height: 1.9em;
-    }
+    width: 100%;
+  }
+  .cardPhoto{
 
   }
-  .mapContainer{
-    padding-top: 20px;
-    width : 100%;
+  .carousel {
+    height: 100%;
+    width: 100%;
     display: flex;
-    flex-flow: column wrap;
+    flex-direction: row;
     align-items: center;
     justify-content: center;
-    .searchBar{
-      width :100%;
+    .imageContainer {
       display: flex;
-      flex-flow: row wrap;
-      justify-content: space-around;
       align-items: center;
-      .searchInput{
-        width : 40%;
+      flex-direction: row;
+      justify-content: center;
+      img {
+        max-height: 466.5px;
+        max-width: 100%;
       }
-      .searchButton{
-        width : 40%;
-      }
-    }
-    .map{
-      width:100%;
-      height:400px;
     }
   }
-
-  .list{
-    align-self: flex-start;
-    padding:50px 0;
-    width:40%;
-    flex: 3 0 250px;
-    margin:30px 0px 0 0px;
+  .cardTitle{
     display: flex;
-    flex-flow: row nowrap;
-    justify-content: center;
-    //margin-right: -30px;
-    .innerList{
-      display: flex;
-      flex-flow: column nowrap;
-      justify-content: center;
-      align-items: center;
+    justify-content: flex-start;
+    flex-direction: column;
+    margin-top: 0px;
+    margin-left: 60px;
+    .cardTitleTitle{
+      font-size: 20px;
+      margin-bottom: 10px;
     }
-    .note{
-      margin:0 30px;
-      color:grey;
 
+  }
+  .cardText{
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: row;
+    margin-top: 20px;
+    padding-left: 60px;
+
+    width: 65%;
+    line-height: 1.9em;
+  }
+
+}
+.mapContainer{
+  padding-top: 20px;
+  width : 100%;
+  display: flex;
+  flex-flow: column wrap;
+  align-items: center;
+  justify-content: center;
+  .searchBar{
+    width :100%;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around;
+    align-items: center;
+    .searchInput{
+      width : 40%;
     }
+    .searchButton{
+      width : 40%;
+    }
+  }
+  .map{
+    width:100%;
+    height:400px;
   }
 }
+
+.list{
+  align-self: flex-start;
+  padding:50px 0;
+  width:40%;
+  flex: 3 0 250px;
+  margin:30px 0px 0 0px;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  //margin-right: -30px;
+  .innerList{
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+  }
+  .note{
+    margin:0 30px;
+    color:grey;
+
+  }
+}
+
 
 
 
@@ -201,64 +208,66 @@
 @include max-screen(900px){
   .container{
     margin : 0;
-    .card {
-      margin:20px;
-    }
-    .list{
+  }
+  .containerBeforeLogin{
+    margin: 0;
+  }
+  .card {
+    margin:20px;
+  }
+  .list{
 
-    }
   }
 }
 
 @include max-screen(768px){
   .container{
     margin-top: 120px;
-
-    .cardText{
-      width:57%;
-      }
-    .map{
-      display: none;
-      }
-
   }
+  .containerBeforeLogin{
+    margin-top: 60px;
+  }
+  .cardText{
+    width:57%;
+  }
+  .map{
+    display: none;
+  }
+
 }
 
 
 @include max-screen(540px){
-  .container{
-    .card{
-      min-width: 300px;
-    }
-    .list{
-      width: 200px;
-      padding-top: 10px;
-    }
+  .card{
+    min-width: 300px;
+  }
+  .list{
+    width: 200px;
+    padding-top: 10px;
   }
 }
 
 @include max-screen(414px){
-  .container{
-    .card{
-      .carousel {
-        .imageContainer {
-          img {
-            max-height: 200px;
-            max-width: 100%;
-          }
+  .card{
+    .carousel {
+      .imageContainer {
+        img {
+          max-height: 200px;
+          max-width: 100%;
         }
       }
-      .cardTitle{
-        margin-left:30px;
-        margin-top: -10px;
-      }
+    }
+    .cardTitle{
+      margin-left:30px;
+      margin-top: -10px;
+    }
 
-      .cardText{
-        width:100%;
-        padding:0 30px;
-      }
+    .cardText{
+      width:100%;
+      padding:0 30px;
     }
   }
+
   .dialog{
     padding: 10px 10px;
   }
@@ -266,18 +275,14 @@
 }
 
 @include max-screen(320px){
-  .container {
-    .card {
-      .carousel {
-        .imageContainer {
-          img {
-            max-height: 170px;
-            max-width: 100%;
-          }
+  .card {
+    .carousel {
+      .imageContainer {
+        img {
+          max-height: 170px;
+          max-width: 100%;
         }
       }
     }
   }
-
-
 }

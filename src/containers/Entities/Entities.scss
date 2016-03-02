@@ -19,17 +19,30 @@
     justify-content: center;
     align-items: flex-end;
     flex-wrap: wrap;
-    .select {
-      width: 60%;
-      min-width: 200px;
-      max-width: 400px;
-      margin: 0 30px 0 30px;
-    }
-    .refreshButton {
+  }
 
+  .listNavBeforeLogin{
+    position: fixed;
+    width:100%;
+    z-index: 5;
+    margin-top: -20px;
+    padding-bottom: 10px;
+    background-color: white;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-end;
+    flex-wrap: wrap;
+  }
 
+  .select {
+    width: 60%;
+    min-width: 200px;
+    max-width: 400px;
+    margin: 0 30px 0 30px;
+  }
+  .refreshButton {
 
-    }
   }
 
   .gridContainer {
@@ -69,6 +82,9 @@
   .listNav{
     margin-top: 20px;
   }
+  .listNavBeforeLogin{
+
+  }
 }
 
 @include max-screen(768px){
@@ -77,6 +93,10 @@
     .listNav {
       position: static;
       padding-top: 60px;
+    }
+    .listNavBeforeLogin{
+      position : static;
+      margin-top: -80px;
     }
     .gridContainer{
       margin-top: -20px;
@@ -90,12 +110,19 @@
     margin-top: 20px;
   }
 }
+
+@include max-screen(474px){
+  .entities{
+    .listNavBeforeLogin{
+      margin-top: 0;
+    }
+  }
+}
+
 @include max-screen(449px){
   .entities {
-    .listNav {
-      .select {
-        margin: 0 30px 0px 30px;
-      }
+    .select {
+      margin: 0 30px 0px 30px;
     }
     .gridContainer{
       margin-top: -30px;

@@ -34,12 +34,14 @@ function fetchDataDeferred(getState, dispatch) {
     cityList : state.entities.cityList,
     loadingCity : state.entities.loadingCity,
     column : state.entities.column,
+    user : state.auth.user,
   }),
   {onGetHouseList, onLocationChange, onAppendList, onDeleteHouse, onDisableAppend, onGetCityList}
   //dispatch => bindActionCreators({onGetHouseList}, dispatch)
 )
 export default class Entities extends Component {
   static propTypes = {
+    user : PropTypes.object,
     entities : PropTypes.array,
     error: PropTypes.string,
     loading: PropTypes.bool,
@@ -104,10 +106,12 @@ export default class Entities extends Component {
       refreshClassName += ' fa-spin';
     }
 
+    const listNavClass = this.props.user ? styles.listNav : styles.listNavBeforeLogin;
+
     return (
       <div className={styles.entities}>
         <Helmet title="房屋列表"/>
-        <div className={styles.listNav}>
+        <div className={listNavClass}>
           <div className={styles.select}>
             <Select
               name="selectCity"
@@ -125,7 +129,7 @@ export default class Entities extends Component {
         {loaded &&
         <div className={styles.gridContainer}>
           { houses.length ?
-            <List houses={this.props.entities} onDeleteHouse={this.props.onDeleteHouse}/>
+            <List houses={this.props.entities} user={this.props.user} onDeleteHouse={this.props.onDeleteHouse}/>
              :
             <div className={styles.regionNoSource}><p>Ooops! 这个地区暂时没可用的房源!</p></div>}
         </div>

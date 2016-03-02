@@ -9,6 +9,7 @@ import entities from './modules/entities';
 import entity from './modules/entity'
 import submit from './modules/submit'
 import admin from './modules/admin'
+import error from './modules/error'
 
 export default combineReducers({
   router: routerStateReducer,
@@ -19,4 +20,5 @@ export default combineReducers({
   entity,
   submit,
   admin,
+  error,
 });

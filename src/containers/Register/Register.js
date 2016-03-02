@@ -41,11 +41,10 @@ export default class Register extends Component{
       <div className={styles.registerPage}>
         <Helmet title="注册"/>
         <Snackbar
-          open={loginError}
-          message={loginError}
+          open={loginError != null}
+          message={loginError != null ? loginError : ""}
           autoHideDuration={4000}
-          style={uiStyles.snackBarRootStyle}
-          bodyStyle={uiStyles.snackBarRegisterStyle}
+          bodyStyle={uiStyles.snackBarStyleRed}
           onRequestClose={(reason) => {
             console.log("error popout should cleared now because : " + reason);
             this.props.clearLoginError();

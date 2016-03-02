@@ -6,6 +6,7 @@ import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {isLoaded, onLoad, onClear, onSubmit, onClearMessage} from "redux/modules/entity"
+import {onClearContactError} from 'redux/modules/error';
 import connectData from 'helpers/connectData';
 import { SubmitForm } from 'components';
 import { SubmitTemplate } from 'components';
@@ -38,8 +39,9 @@ function checkState(getState, dispatch){
     loadedId : state.entity.loadedId,
     feedback : state.entity.feedback,
     entityId : state.router.params.entityId,
+    contactError : state.error.contactError,
   }),
-  {onLoad, onClear, onSubmit, onClearMessage}
+  {onLoad, onClear, onSubmit, onClearMessage, onClearContactError}
 )
 export default class Entity extends Component {
 
@@ -59,6 +61,7 @@ export default class Entity extends Component {
     entityId : PropTypes.string,
 
     //editStart: PropTypes.func.isRequired,
+    onClearContactError : PropTypes.func.isRequired,
     onClear : PropTypes.func.isRequired,
     onLoad: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
@@ -90,7 +93,7 @@ export default class Entity extends Component {
     //})
 
   render(){
-    const {entity, error, loading, onClear, editing, onLoad, feedback} = this.props;
+    const {loading, editing, feedback, contactError} = this.props;
 
     // for test case
     const test = false;
@@ -102,6 +105,14 @@ export default class Entity extends Component {
       refreshClassName += ' fa-spin';
     }
     const styles = require('./Entity.scss');
+    const getError = () =>{
+      if(feedback != null)
+        return feedback
+      if(contactError != null)
+        return contactError
+      //else
+      return ""
+    }
 
     return (
       <div>
@@ -113,13 +124,14 @@ export default class Entity extends Component {
         }
 
         <Snackbar
-          open={ feedback != null}
-          message={ feedback != null ? feedback : ""}
+          open={ feedback != null || contactError != null}
+          message={ getError()}
           autoHideDuration={4000}
-          bodyStyle={uiStyles.snackBarStyle}
+          bodyStyle={uiStyles.snackBarStyleRed}
           onRequestClose={(reason) => {
             console.log("error popout should cleared now because : " + reason);
             this.props.onClearMessage();
+            this.props.onClearContactError();
           }}
         />
       </div>

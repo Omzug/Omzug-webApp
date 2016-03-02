@@ -1,18 +1,18 @@
-const LOAD = 'delocate/auth/LOAD';
-const LOAD_SUCCESS = 'delocate/auth/LOAD_SUCCESS';
-const LOAD_FAIL = 'delocate/auth/LOAD_FAIL';
-const LOGIN = 'delocate/auth/LOGIN';
-const LOGIN_SUCCESS = 'delocate/auth/LOGIN_SUCCESS';
-const LOGIN_FAIL = 'delocate/auth/LOGIN_FAIL';
-const LOGOUT = 'delocate/auth/LOGOUT';
-const LOGOUT_SUCCESS = 'delocate/auth/LOGOUT_SUCCESS';
-const LOGOUT_FAIL = 'delocate/auth/LOGOUT_FAIL';
+const LOAD = 'omzug/auth/LOAD';
+const LOAD_SUCCESS = 'omzug/auth/LOAD_SUCCESS';
+const LOAD_FAIL = 'omzug/auth/LOAD_FAIL';
+const LOGIN = 'omzug/auth/LOGIN';
+const LOGIN_SUCCESS = 'omzug/auth/LOGIN_SUCCESS';
+const LOGIN_FAIL = 'omzug/auth/LOGIN_FAIL';
+const LOGOUT = 'omzug/auth/LOGOUT';
+const LOGOUT_SUCCESS = 'omzug/auth/LOGOUT_SUCCESS';
+const LOGOUT_FAIL = 'omzug/auth/LOGOUT_FAIL';
 
-const CHECK = 'delocate/auth/CHECK';
-const CHECK_SUCCESS = 'delocate/auth/CHECK_SUCCESS';
-const CHECK_FAIL = 'delocate/auth/CHECK_FAIL';
+const CHECK = 'omzug/auth/CHECK';
+const CHECK_SUCCESS = 'omzug/auth/CHECK_SUCCESS';
+const CHECK_FAIL = 'omzug/auth/CHECK_FAIL';
 
-const CLEAR_LOGIN_ERROR = 'delocate/auth/CLEAR_LOGIN_ERROR';
+const CLEAR_LOGIN_ERROR = 'omzug/auth/CLEAR_LOGIN_ERROR';
 
 const initialState = {
   loaded: false,
