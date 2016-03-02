@@ -130,9 +130,6 @@ export default class App extends Component {
                   <div className={styles.headerSchrift}>
                     {config.app.title}
                   </div>
-                  {/*<div className={styles.nebenSchrift}>
-                    {config.app.description}
-                  </div>*/}
                 </div>
               </LinkContainer>
             </div>
@@ -141,12 +138,6 @@ export default class App extends Component {
               {!user &&
               <FlatButton eventKey={2} linkButton={true} containerElement={<Link to="/login" />} label="登录"/>
               }
-
-              {/*{user &&
-               <LinkContainer to="/logout">
-               <FlatButton eventKey={3} onClick={this.handleLogout}>登出</FlatButton>
-               </LinkContainer>
-               } */}
 
               {!user &&
               <FlatButton labelStyle={uiStyles.registerButton} eventKey={4} label="注册"
@@ -172,22 +163,6 @@ export default class App extends Component {
             <LinkContainer to="/submit">
               <FlatButton eventKey={6}><span className={rightLi}><i className="fa fa-pencil fa-lg"/>发布房屋</span></FlatButton>
             </LinkContainer>
-
-            {/*
-            <FlatButton className={styles.aboutUs} eventKey={7}>
-              <Link to="/about">
-              <span className={rightLi}><i className="fa fa-child fa-lg"/>关于我们</span>
-              </Link>
-            </FlatButton>
-
-
-            <FlatButton className={styles.aboutUs} eventKey={7}
-                        linkButton={true} containerElement={<Link to="/chat" />}
-                        label="关于我们"
-                        icon={
-                            <FontIcon className="fa fa-child" />
-                        }/>
-                        */}
 
             <LinkContainer to="/logout">
               <FlatButton eventKey={8} onClick={this.handleLogout}><span className={rightLi}><i className="fa fa-sign-out fa-lg" /> 登出</span></FlatButton>

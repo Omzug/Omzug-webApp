@@ -75,23 +75,6 @@ export default class List extends Component {
     const {onDeleteHouse, onOpenDialog, onCloseDialog, toDelete, column} = this.props;
     const houses = this.props.houses;
 
-    var Decorators = [
-      {component: React.createClass({render() {
-        return (
-          <div className={styles.arrowContainer} onClick={this.props.previousSlide}>
-            <i className={styles.arrowIcon + " fa fa-angle-double-left fa-2x"}/>
-          </div>)}
-      }),
-        position: 'CenterLeft', style: {height: "100%"}},
-      {component: React.createClass({render() {
-        return (
-          <div className={styles.arrowContainer} onClick={this.props.nextSlide}>
-            <i className={styles.arrowIcon + " fa fa-angle-double-right fa-2x"}/>
-          </div>)}
-      }),
-        position: 'CenterRight', style: {height: "100%"}},
-    ];
-
     const deleteHouse = (event) => {
       onCloseDialog(event);
       if(toDelete){
