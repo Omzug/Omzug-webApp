@@ -8,14 +8,14 @@ import { LinkContainer } from 'react-router-bootstrap';
 import {onOpenDialog, onCloseDialog } from 'redux/modules/admin';
 import {onStartEdit} from "redux/modules/entity";
 import {onSetColumn} from 'redux/modules/entities';
+
 import {connect} from 'react-redux';
-import uiStyle from '../../theme/uiStyles'
+import uiStyles from '../../theme/uiStyles'
 
 var config = require('../../config');
 
 @connect(
   state => ({
-    userId : state.auth.user._id,
     popover : state.admin.popover,
     toDelete : state.admin.toDelete,
     column : state.entities.column,
@@ -24,11 +24,12 @@ var config = require('../../config');
 )
 export default class List extends Component {
   static propTypes = {
-    userId : PropTypes.string.isRequired,
-    houses : PropTypes.array.isRequired,
+    houses : PropTypes.array,
     popover : PropTypes.bool,
     toDelete : PropTypes.object,
     column : PropTypes.number,
+    //from parent
+    user : PropTypes.object,
 
     onDeleteHouse: PropTypes.func.isRequired,
     onOpenDialog : PropTypes.func.isRequired,
@@ -94,7 +95,7 @@ export default class List extends Component {
     const deleteHouse = (event) => {
       onCloseDialog(event);
       if(toDelete){
-        onDeleteHouse(this.props.userId, toDelete.house._id, toDelete.index)
+        onDeleteHouse(this.props.user._id, toDelete.house._id, toDelete.index)
       }
     }
 
@@ -108,7 +109,7 @@ export default class List extends Component {
 
     const renderIcon = (house, index) => {
       const iconStyle = {"color" : "white"}
-      if(house.owner === this.props.userId){
+      if(this.props.user && house.owner === this.props.user._id){
         return(
           <span className={styles.buttonGroup}>
             <LinkContainer to={`/entities/${house._id}`}>
@@ -126,7 +127,7 @@ export default class List extends Component {
                   label="删除"
                   keyboardFocused={true}
                   onClick={deleteHouse}
-                  labelStyle={uiStyle.dialogConfirmStyle}
+                  labelStyle={uiStyles.dialogConfirmStyle}
                 />,
               ]}
               modal={false}

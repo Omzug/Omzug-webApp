@@ -5,30 +5,31 @@ var update = require('react-addons-update');
 import {validateImage} from '../../utils/validation';
 var config = require('../../config');
 
-const LOAD = 'Nevermind/entity/LOAD';
-const LOAD_SUCCESS = 'Nevermind/entity/LOAD_SUCCESS';
-const LOAD_FAIL = 'Nevermind/entity/LOAD_FAIL';
-const SUBMIT = 'Nevermind/entity/SUBMIT';
-const SUBMIT_SUCCESS = 'Nevermind/entity/SUBMIT_SUCCESS';
-const SUBMIT_FAIL = 'Nevermind/entity/SUBMIT_FAIL';
-const CLEAR = 'Nevermind/entity/CLEAR'
-const OPEN_CONTACT = "Nevermind/entity/OPEN_CONTACT";
-const CLOSE_CONTACT = "Nevermind/entity/CLOSE_CONTACT";
-const START_EDIT = "Nevermind/entity/START_EDIT";
-const END_EDIT = "Nevermind/entity/END_EDIT";
-const CACHE_DATA = "Nevermind/entity/CACHE_DATA";
-const ADD_IMAGE = "Nevermind/entity/ADD_IMAGE";
-const DELETE_IMAGE = "Nevermind/entity/DELETE_IMAGE";
-const CHANGE_SLIDE = "Nevermind/entity/CHANGE_SLIDE";
-const SUBMIT_NEW_SUCCESS = "Nevermind/entity/SUBMIT_NEW_SUCCESS";
-const CLEAR_MESSAGE = "Nevermind/entity/CLEAR_MESSAGE";
-const LOG_ERROR = "Nevermind/entity/LOG_ERROR";
-const INIT_ENTITY = "Nevermind/entity/INIT_ENTITY";
-const TOGGLE = "Nevermind/entity/TOGGLE";
-const CHANGE_TYPE = "Nevermind/entity/CHANGE_TYPE";
-const CHANGE_PRICE_TYPE = "Nevermind/entity/CHANGE_PRICE_TYPE";
-const CALCULATE_GEOMETRY = "Nevermind/entity/CALCULATE_GEOMETRY";
-const CHANGE_SEARCH_VALUE = "Nevermind/entity/CHANGE_SEARCH_VALUE";
+const LOAD = 'omzug/entity/LOAD';
+const LOAD_SUCCESS = 'omzug/entity/LOAD_SUCCESS';
+const LOAD_FAIL = 'omzug/entity/LOAD_FAIL';
+const SUBMIT = 'omzug/entity/SUBMIT';
+const SUBMIT_SUCCESS = 'omzug/entity/SUBMIT_SUCCESS';
+const SUBMIT_FAIL = 'omzug/entity/SUBMIT_FAIL';
+const CLEAR = 'omzug/entity/CLEAR'
+const OPEN_CONTACT = "omzug/entity/OPEN_CONTACT";
+const CLOSE_CONTACT = "omzug/entity/CLOSE_CONTACT";
+const START_EDIT = "omzug/entity/START_EDIT";
+const END_EDIT = "omzug/entity/END_EDIT";
+const CACHE_DATA = "omzug/entity/CACHE_DATA";
+const ADD_IMAGE = "omzug/entity/ADD_IMAGE";
+const DELETE_IMAGE = "omzug/entity/DELETE_IMAGE";
+const CHANGE_SLIDE = "omzug/entity/CHANGE_SLIDE";
+const SUBMIT_NEW_SUCCESS = "omzug/entity/SUBMIT_NEW_SUCCESS";
+const CLEAR_MESSAGE = "omzug/entity/CLEAR_MESSAGE";
+const LOG_ERROR = "omzug/entity/LOG_ERROR";
+const INIT_ENTITY = "omzug/entity/INIT_ENTITY";
+const TOGGLE = "omzug/entity/TOGGLE";
+const CHANGE_TYPE = "omzug/entity/CHANGE_TYPE";
+const CHANGE_PRICE_TYPE = "omzug/entity/CHANGE_PRICE_TYPE";
+const CALCULATE_GEOMETRY = "omzug/entity/CALCULATE_GEOMETRY";
+const CHANGE_SEARCH_VALUE = "omzug/entity/CHANGE_SEARCH_VALUE";
+const SUBMIT_NEW_FAIL = "omzug/entity/SUBMIT_NEW_FAIL";
 
 const initState = {
   loaded: false,
@@ -138,9 +139,14 @@ export default function reducer(state = initState, action){
             data : originData,
             cached :null,
             feedback : action.error,
-            // TODO this error is not used, or change to boolean?
-            submitError : action.error,
             cachedImages : [],
+          }
+    case SUBMIT_NEW_FAIL:
+          return {
+            ...state,
+            submitting : false,
+            cached :null,
+            feedback : action.error,
           }
     case LOG_ERROR :
           return {
@@ -357,7 +363,7 @@ export function onSubmitNew(data, images){
   }
   return {
     cached : data,
-    types: [SUBMIT, SUBMIT_NEW_SUCCESS, SUBMIT_FAIL],
+    types: [SUBMIT, SUBMIT_NEW_SUCCESS, SUBMIT_NEW_FAIL],
     promise: (client) => client.post('./submit', generalizeParameter(data, images))
   }
 }

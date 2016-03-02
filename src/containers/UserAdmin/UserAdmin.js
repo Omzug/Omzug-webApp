@@ -65,9 +65,13 @@ export default class Entities extends Component {
     return (
       <div>
         <Helmet title="我的发布"/>
+        {loaded && houses.length &&
         <div className={styles.listNav}>
-          <RaisedButton onClick={this.loadList} style={{lineHeight: "36px" }}><i className={refreshClassName}/> 刷新</RaisedButton>
+          <RaisedButton onClick={this.loadList} style={{lineHeight: "36px" }}>
+            <i className={refreshClassName}/>刷新
+          </RaisedButton>
         </div>
+        }
 
         {loaded &&
         <div className={styles.gridContainer}>

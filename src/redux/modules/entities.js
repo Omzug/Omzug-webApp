@@ -2,30 +2,30 @@
  * Created by hanwencheng on 1/6/16.
  */
 
-const LOAD = 'Nevermind/entityList/LOAD';
-const LOAD_SUCCESS = 'Nevermind/entityList/LOAD_SUCCESS';
-const LOAD_FAIL = 'Nevermind/entityList/LOAD_FAIL';
-const CLEAR = 'Nevermind/entityList/CLEAR'
-const CHANGE_LOCATION = "Nevermind/entityList/CHANGE_LOCATION"
-const DELETE_HOUSE = 'Nevermind/entityList/DELETE_HOUSE'
-const DELETE_HOUSE_SUCCESS = 'Nevermind/entityList/DELETE_HOUSE_SUCCESS'
-const DELETE_HOUSE_FAIL = 'Nevermind/entityList/DELETE_HOUSE_FAIL'
+const LOAD = 'omzug/entityList/LOAD';
+const LOAD_SUCCESS = 'omzug/entityList/LOAD_SUCCESS';
+const LOAD_FAIL = 'omzug/entityList/LOAD_FAIL';
+const CLEAR = 'omzug/entityList/CLEAR'
+const CHANGE_LOCATION = "omzug/entityList/CHANGE_LOCATION"
+const DELETE_HOUSE = 'omzug/entityList/DELETE_HOUSE'
+const DELETE_HOUSE_SUCCESS = 'omzug/entityList/DELETE_HOUSE_SUCCESS'
+const DELETE_HOUSE_FAIL = 'omzug/entityList/DELETE_HOUSE_FAIL'
 
-const APPEND_SUCCESS = "Nevermind/entityList/APPEND_SUCCESS"
-const APPEND_FAIL = "Nevermind/entityList/APPEND_FAIL"
-const DISABLE_APPEND = "Nevermind/entityList/DISABLE_APPEND"
+const APPEND_SUCCESS = "omzug/entityList/APPEND_SUCCESS"
+const APPEND_FAIL = "omzug/entityList/APPEND_FAIL"
+const DISABLE_APPEND = "omzug/entityList/DISABLE_APPEND"
 
-const CITY_LIST = "Nevermind/entityList/CITY_LIST"
-const CITY_LIST_SUCCESS = "Nevermind/entityList/CITY_LIST_SUCCESS"
-const CITY_LIST_FAIL = "Nevermind/entityList/CITY_LIST_FAIL"
+const CITY_LIST = "omzug/entityList/CITY_LIST"
+const CITY_LIST_SUCCESS = "omzug/entityList/CITY_LIST_SUCCESS"
+const CITY_LIST_FAIL = "omzug/entityList/CITY_LIST_FAIL"
 
-const INIT = "Nevermind/entityList/INIT"
-const INIT_SUCCESS = "Nevermind/entityList/INIT_SUCCESS"
-const INIT_FAIL = "Nevermind/entityList/INIT_FAIL"
-const SET_COLUMN = "Nevermind/entityList/SET_COLUMN"
-const REFRESH_ALL = "Nevermind/entityList/REFRESH_ALL"
-const REFRESH_ALL_SUCCESS = "Nevermind/entityList/REFRESH_ALL_SUCCESS"
-const REFRESH_ALL_FAIL = "Nevermind/entityList/REFRESH_ALL_FAIL"
+const INIT = "omzug/entityList/INIT"
+const INIT_SUCCESS = "omzug/entityList/INIT_SUCCESS"
+const INIT_FAIL = "omzug/entityList/INIT_FAIL"
+const SET_COLUMN = "omzug/entityList/SET_COLUMN"
+const REFRESH_ALL = "omzug/entityList/REFRESH_ALL"
+const REFRESH_ALL_SUCCESS = "omzug/entityList/REFRESH_ALL_SUCCESS"
+const REFRESH_ALL_FAIL = "omzug/entityList/REFRESH_ALL_FAIL"
 
 var update = require('react-addons-update');
 

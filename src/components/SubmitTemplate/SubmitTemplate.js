@@ -5,9 +5,8 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import uiStyles from '../../theme/uiStyles';
-
 import {onContactOpen, onContactClose, onStartEdit, onChangeSearchValue} from "redux/modules/entity";
-
+import {onSetContactError} from 'redux/modules/error';
 import {Carousel, Map} from 'components';
 import {RaisedButton, FlatButton, FontIcon, Paper, Dialog, Card, CardActions,
   CardHeader, CardMedia, CardTitle, CardText, List, ListItem, Divider, TextField} from 'material-ui'
@@ -19,19 +18,20 @@ var config = require('../../config');
     entity: state.entity.data,
     contactOpen : state.entity.contactOpen,
     cachedImages : state.entity.cachedImages,
-    userId : state.auth.user._id,
+    user : state.auth.user,
     searchValue : state.entity.searchValue,
   }),
-  {onContactOpen, onContactClose, onStartEdit, onChangeSearchValue}
+  {onContactOpen, onContactClose, onStartEdit, onChangeSearchValue, onSetContactError}
 )
 export default class SubmitTemplate extends Component {
   static propTypes = {
     entity: PropTypes.object,
     contactOpen : PropTypes.bool,
     cachedImages: PropTypes.array,
-    userId : PropTypes.string,
+    user : PropTypes.object,
     searchValue :PropTypes.string,
 
+    onSetContactError : PropTypes.func.isRequired,
     onContactOpen : PropTypes.func.isRequired,
     onContactClose : PropTypes.func.isRequired,
     onStartEdit : PropTypes.func.isRequired,
@@ -46,10 +46,18 @@ export default class SubmitTemplate extends Component {
     const image1 = require('./a1.jpg');
     const image2 = require('./b1.jpg');
     const image3 = require('./c1.jpg');
-    const {entity, contactOpen, cachedImages, userId, searchValue} = this.props;
+    const {entity, contactOpen, cachedImages, user, searchValue} = this.props;
 
     function capitalizeFirstLetter(string) {
       return string[0].toUpperCase() + string.slice(1);
+    }
+
+    const onContactClick = (event) => {
+      if(user){
+        this.props.onContactOpen()
+      }else{
+        this.props.onSetContactError();
+      }
     }
 
     var Decorators = [
@@ -82,8 +90,10 @@ export default class SubmitTemplate extends Component {
       return day + '/' + month + '/' + year;
     }
 
+    const containerClass = this.props.user ? styles.container : styles.containerBeforeLogin;
+
     return (
-      <div className={styles.container}>
+      <div className={containerClass}>
         <div className={styles.card}>
 
           <div className={styles.cardMedia}>
@@ -107,7 +117,7 @@ export default class SubmitTemplate extends Component {
 
             <div className={styles.cardActions}>
               <div className={styles.contactHost}>
-                <FlatButton style={uiStyles.actionButton} onClick={this.props.onContactOpen}><span className="fa fa-envelope"/> 联系房主</FlatButton>
+                <FlatButton style={uiStyles.actionButton} onClick={onContactClick}><span className="fa fa-envelope"/> 联系房主</FlatButton>
               </div>
 
               <div className={styles.dialog}>
@@ -158,14 +168,14 @@ export default class SubmitTemplate extends Component {
         </div>
         <div className={styles.list}>
           <div className={styles.innerList}>
-            <div className={styles.rowContainer}><i className="fa fa-location-arrow"/> <font>城市 :</font> &nbsp; &nbsp;{entity.city ? capitalizeFirstLetter(entity.city) : ""}</div>
+            <div className={styles.rowContainer}><i className="fa fa-location-arrow"/> 城市 : &nbsp;&nbsp;  {entity.city ? capitalizeFirstLetter(entity.city) : ""}</div>
             <div className={styles.rowContainer}><i className="fa fa-map-marker"/>地址 : &nbsp;&nbsp;  {entity.location}</div>
             <div className={styles.rowContainer}><i className="fa fa-square"/> 面积 : &nbsp;&nbsp;  {entity.size ?  entity.size + " m²" : "未指定"}</div>
-            <div className={styles.rowContainer}><i className="fa fa-cube"/> 类型 : &nbsp; &nbsp; {entity.type ? "WG" : "Wohnung/Apartment"}</div>
+            <div className={styles.rowContainer}><i className="fa fa-cube"/> 类型 : &nbsp;&nbsp;  {entity.type ? "WG" : "Wohnung/Apartment"}</div>
             <div className={styles.rowContainer}><i className="fa fa-eur"/> 租金 : &nbsp;&nbsp; {(entity.priceType ? "冷租" : "暖租" ) + ' ' + entity.price} &nbsp; Eur</div>
-            <div className={styles.rowContainer}><i className="fa fa-lock"/> 押金 : &nbsp; &nbsp; {entity.caution ? entity.caution + " Eur" : "未指定"} </div>
+            <div className={styles.rowContainer}><i className="fa fa-lock"/> 押金 : &nbsp;&nbsp;  {entity.caution ? entity.caution + " Eur" : "未指定"} </div>
             <div className={styles.rowContainer}><i className="fa fa-calendar"/> 租期 : &nbsp;&nbsp; {formatDate(entity.startDate)} &nbsp;-- &nbsp;{entity.endDate ? "无期限" : formatDate(entity.startDate) } </div>
-            {userId && userId == entity.owner &&
+            {user && user._id && user._id == entity.owner &&
             <RaisedButton style={uiStyles.buttonStyleEdit} key={12} className={styles.editButton} onClick={this.props.onStartEdit}><span
               className="fa fa-pencil"/> 编辑</RaisedButton>
             }
