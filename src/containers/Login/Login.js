@@ -35,9 +35,9 @@ export default class Login extends Component {
   }
 
   handleSubmit = () => {
-    console.log("submit now with error " + this.props.fields.email.error || this.props.fields.password.error ? true : loggingIn)
+    //console.log("submit now with error " + this.props.fields.email.error || this.props.fields.password.error ? true : loggingIn)
     this.props.login(this.props.fields.email.value, this.props.fields.password.value);
-    console.log("submit now with user: " +  this.props.fields.email.value,  this.props.fields.password.value)
+    //console.log("submit now with user: " +  this.props.fields.email.value,  this.props.fields.password.value)
   }
 
   handleKeyPress = (event) => {
@@ -45,7 +45,7 @@ export default class Login extends Component {
       this.handleSubmit();
     }
   }
-  
+
   render() {
     const {
       fields: {email, password},

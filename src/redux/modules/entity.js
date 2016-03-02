@@ -200,7 +200,7 @@ export default function reducer(state = initState, action){
     case ADD_IMAGE:
       // once only one image as input
       const images = update(state.cachedImages, {$push: [action.image]})
-      console.log('after update the cachedImages are', images)
+      //console.log('after update the cachedImages are', images)
       return {
         ...state,
         cachedImages: images,
@@ -294,7 +294,7 @@ export function onCalculateGeometry(location, city){
 }
 
 export function onAddImage(image){
-  console.log('in onAddImage images are', image)
+  //console.log('in onAddImage images are', image)
   return {
     type : ADD_IMAGE,
     image : image,
@@ -322,10 +322,7 @@ function generalizeParameter(data, images){
       data : data,
       files : images,
     }
-  //}else{
-  //  submitData = data
-  //}
-  console.log('submit data in web is: ', submitData)
+  //console.log('submit data in web is: ', submitData)
   return submitData;
 }
 /**
@@ -434,7 +431,6 @@ export function onLoad(number){
     types: [LOAD, LOAD_SUCCESS, LOAD_FAIL],
     promise: (client) => {
       const url = '/house/' + number
-      console.log('request url is', url)
       return client.get(url)
     } // params not used, just shown as demonstration
   };

@@ -16,7 +16,7 @@ import Helmet from 'react-helmet';
 
 function fetchDataDeferred(getState, dispatch) {
   if (!isLoaded(getState())) {
-    console.log("nothing load, after load we get state:" + getState().router.params.entityId )
+    //console.log("nothing load, after load we get state:" + getState().router.params.entityId )
     return dispatch(onLoad(getState().router.params.entityId));
   }
 }
@@ -129,7 +129,6 @@ export default class Entity extends Component {
           autoHideDuration={4000}
           bodyStyle={uiStyles.snackBarStyleRed}
           onRequestClose={(reason) => {
-            console.log("error popout should cleared now because : " + reason);
             this.props.onClearMessage();
             this.props.onClearContactError();
           }}

@@ -27,7 +27,6 @@ export default class SimpleMapPage extends Component {
     if(process.env.NODE_ENV === "production"){
       apiKey = "AIzaSyC4gQqD5iZsmbmknKIYR42sTfjcd8pl4aw";
     }
-    console.log('geometry is : ',  this.props.geometry)
     //if(entity.location != null){
     //  var request = {
     //    address: entity.location + " " + entity.city,
@@ -50,8 +49,8 @@ export default class SimpleMapPage extends Component {
         defaultZoom={this.props.zoom}
         onGoogleApiLoaded={({map, maps}) => {
           var geocoder = new maps.Geocoder()
-          console.log('geocoder is', geocoder)
-          console.log('map is', map, 'maps is ', maps)
+          //console.log('geocoder is', geocoder)
+          //console.log('map is', map, 'maps is ', maps)
           }
         }
       >

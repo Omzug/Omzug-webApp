@@ -78,14 +78,14 @@ export default class App extends Component {
     if(!this.props.createData && nextProps.createData){
       this.props.pushState(null, '/entities/' + nextProps.createData._id)
       // refresh the main list
-      console.log('cityList is', this.props.cityList, 'the searching object is', nextProps.createData.city)
+      //console.log('cityList is', this.props.cityList, 'the searching object is', nextProps.createData.city)
       if(!this.props.cityList.some(function(cityObject){
           return cityObject.city === nextProps.createData.city
         })){
-        console.log('cannot find the submit city , now refresh the list')
+        //console.log('cannot find the submit city , now refresh the list')
         this.props.onNewSubmit(null);//also change locationId here
       }else{
-        console.log('find the submit city , now only refresh the current list')
+        //console.log('find the submit city , now only refresh the current list')
         this.props.onGetHouseList(this.props.locationId, this.props.cityList)
       }
 
@@ -97,7 +97,7 @@ export default class App extends Component {
   }
 
   handleClick = (e) => {
-    console.log("click", e);
+    //console.log("click", e);
   }
 
   handleLogout = (event) => {
@@ -130,9 +130,6 @@ export default class App extends Component {
                   <div className={styles.headerSchrift}>
                     {config.app.title}
                   </div>
-                  {/*<div className={styles.nebenSchrift}>
-                    {config.app.description}
-                  </div>*/}
                 </div>
               </LinkContainer>
             </div>
@@ -141,12 +138,6 @@ export default class App extends Component {
               {!user &&
               <FlatButton eventKey={2} linkButton={true} containerElement={<Link to="/login" />} label="登录"/>
               }
-
-              {/*{user &&
-               <LinkContainer to="/logout">
-               <FlatButton eventKey={3} onClick={this.handleLogout}>登出</FlatButton>
-               </LinkContainer>
-               } */}
 
               {!user &&
               <FlatButton labelStyle={uiStyles.registerButton} eventKey={4} label="注册"
@@ -172,22 +163,6 @@ export default class App extends Component {
             <LinkContainer to="/submit">
               <FlatButton eventKey={6}><span className={rightLi}><i className="fa fa-pencil fa-lg"/>发布房屋</span></FlatButton>
             </LinkContainer>
-
-            {/*
-            <FlatButton className={styles.aboutUs} eventKey={7}>
-              <Link to="/about">
-              <span className={rightLi}><i className="fa fa-child fa-lg"/>关于我们</span>
-              </Link>
-            </FlatButton>
-
-
-            <FlatButton className={styles.aboutUs} eventKey={7}
-                        linkButton={true} containerElement={<Link to="/chat" />}
-                        label="关于我们"
-                        icon={
-                            <FontIcon className="fa fa-child" />
-                        }/>
-                        */}
 
             <LinkContainer to="/logout">
               <FlatButton eventKey={8} onClick={this.handleLogout}><span className={rightLi}><i className="fa fa-sign-out fa-lg" /> 登出</span></FlatButton>

@@ -9,7 +9,8 @@ import {onContactOpen, onContactClose, onStartEdit, onChangeSearchValue} from "r
 import {onSetContactError} from 'redux/modules/error';
 import {Carousel, Map} from 'components';
 import {RaisedButton, FlatButton, FontIcon, Paper, Dialog, Card, CardActions,
-  CardHeader, CardMedia, CardTitle, CardText, List, ListItem, Divider, TextField} from 'material-ui'
+  CardHeader, CardMedia, CardTitle, CardText, List, ListItem, Divider, TextField} from 'material-ui';
+import {capitalizeFirstLetter} from '../../utils/help';
 
 var config = require('../../config');
 
@@ -48,10 +49,6 @@ export default class SubmitTemplate extends Component {
     const image3 = require('./c1.jpg');
     const {entity, contactOpen, cachedImages, user, searchValue} = this.props;
 
-    function capitalizeFirstLetter(string) {
-      return string[0].toUpperCase() + string.slice(1);
-    }
-
     const onContactClick = (event) => {
       if(user){
         this.props.onContactOpen()
@@ -60,25 +57,8 @@ export default class SubmitTemplate extends Component {
       }
     }
 
-    var Decorators = [
-      {component: React.createClass({render() {
-        return (
-          <div className={styles.arrowContainer1} onClick={this.props.previousSlide}>
-            <i className={styles.arrowIcon + " fa fa-angle-double-left fa-2x"}/>
-          </div>)}
-      }),
-        position: 'CenterLeft', style: {height: "100%"}},
-      {component: React.createClass({render() {
-        return (
-          <div className={styles.arrowContainer1} onClick={this.props.nextSlide}>
-            <i className={styles.arrowIcon + " fa fa-angle-double-right fa-2x"}/>
-          </div>)}
-      }),
-        position: 'CenterRight', style: {height: "100%"}},
-    ];
-
     const handleSearchButtonClick = (event) => {
-      console.log('now search !')
+
     }
 
     const formatDate = (dateString) =>
@@ -98,7 +78,7 @@ export default class SubmitTemplate extends Component {
 
           <div className={styles.cardMedia}>
             <div className={styles.cardPhoto}>
-              <Carousel className={styles.carousel} decorators={Decorators} framePadding="32px" width="100%" slidesToShow={1}>
+              <Carousel className={styles.carousel} framePadding="32px" width="100%" slidesToShow={1}>
                 {entity.images.length >= 1 && entity.images.map(address => (<div className={styles.imageContainer}><img src={address}/></div>))}
                 {cachedImages.length >= 1 && cachedImages.map(file => <div className={styles.imageContainer}><img src={window.URL.createObjectURL(file)}/></div>)}
                 {entity.images.length == 0 && cachedImages.length == 0 &&  <div className={styles.imageContainer}><img src={config.noImagePath}/></div>}
@@ -107,7 +87,12 @@ export default class SubmitTemplate extends Component {
 
             <div className={styles.cardTitle}>
               <div className={styles.cardTitleTitle}>{entity.title ? entity.title : ""}</div>
-              <div className={styles.cardTitleUsername}>by {entity.username? entity.username : ""}</div>
+              {entity.username == "weibo"
+                ?
+                <div className={styles.cardTitleUsername}>from 新浪微博&nbsp;<i className={"fa fa-weibo"}/></div>
+                :
+                <div className={styles.cardTitleUsername}>by {entity.username ? entity.username : ""}</div>
+              }
             </div>
 
             <div className={styles.cardText}>

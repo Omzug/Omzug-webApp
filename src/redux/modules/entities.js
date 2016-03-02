@@ -28,6 +28,7 @@ const REFRESH_ALL_SUCCESS = "omzug/entityList/REFRESH_ALL_SUCCESS"
 const REFRESH_ALL_FAIL = "omzug/entityList/REFRESH_ALL_FAIL"
 
 var update = require('react-addons-update');
+import {capitalizeFirstLetter} from '../../utils/help';
 
 const initState = {
   list :[],
@@ -185,10 +186,6 @@ export default function reducer(state = initState, action = {}) {
           }
     default : return state;
   }
-}
-
-function capitalizeFirstLetter(string) {
-  return string[0].toUpperCase() + string.slice(1);
 }
 
 function processCityList(cityList){

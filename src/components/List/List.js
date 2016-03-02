@@ -8,6 +8,7 @@ import { LinkContainer } from 'react-router-bootstrap';
 import {onOpenDialog, onCloseDialog } from 'redux/modules/admin';
 import {onStartEdit} from "redux/modules/entity";
 import {onSetColumn} from 'redux/modules/entities';
+import {capitalizeFirstLetter} from '../../utils/help';
 
 import {connect} from 'react-redux';
 import uiStyles from '../../theme/uiStyles'
@@ -41,19 +42,19 @@ export default class List extends Component {
   handleResize = (event) => {
     if(window.innerWidth <= 600){
       if(this.props.column !== 1)
-        console.log( 'window inner width is', window.innerWidth, 'now set column to 1');
+        //console.log( 'window inner width is', window.innerWidth, 'now set column to 1');
         this.props.onSetColumn(1)
     }else if(window.innerWidth <= 1200){
       if(this.props.column !== 2)
-        console.log( 'window inner width is', window.innerWidth, 'now set column to 2');
+        //console.log( 'window inner width is', window.innerWidth, 'now set column to 2');
         this.props.onSetColumn(2)
     }else if(window.innerWidth <= 1800){
       if(this.props.column !== 3)
-        console.log( 'window inner width is', window.innerWidth, 'now set column to 3');
+        //console.log( 'window inner width is', window.innerWidth, 'now set column to 3');
       this.props.onSetColumn(3)
     }else if(window.innerWidth <= 2400){
       if(this.props.column !== 4)
-        console.log( 'window inner width is', window.innerWidth, 'now set column to 3');
+        //console.log( 'window inner width is', window.innerWidth, 'now set column to 4');
       this.props.onSetColumn(4)
     }
   }
@@ -74,23 +75,6 @@ export default class List extends Component {
     const styles = require('./List.scss');
     const {onDeleteHouse, onOpenDialog, onCloseDialog, toDelete, column} = this.props;
     const houses = this.props.houses;
-
-    var Decorators = [
-      {component: React.createClass({render() {
-        return (
-          <div className={styles.arrowContainer} onClick={this.props.previousSlide}>
-            <i className={styles.arrowIcon + " fa fa-angle-double-left fa-2x"}/>
-          </div>)}
-      }),
-        position: 'CenterLeft', style: {height: "100%"}},
-      {component: React.createClass({render() {
-        return (
-          <div className={styles.arrowContainer} onClick={this.props.nextSlide}>
-            <i className={styles.arrowIcon + " fa fa-angle-double-right fa-2x"}/>
-          </div>)}
-      }),
-        position: 'CenterRight', style: {height: "100%"}},
-    ];
 
     const deleteHouse = (event) => {
       onCloseDialog(event);
@@ -155,7 +139,6 @@ export default class List extends Component {
         xs : computeLayout(total, 1),
         xxs : computeLayout(total ,1 )
       }
-      console.log('layouts is', layouts)
       return layouts
     }
 
@@ -180,8 +163,15 @@ export default class List extends Component {
               "display" : "flex", "alignItems":"center", "justifyContent": "center",
                height: "300px", width : tileWidth, margin : marginPercentage}}
               title={house.title}
-              subtitle={<span>by <b className={styles.usernameColor}>{house.username}</b> In
-              <b className={styles.cityColor}> {house.city}</b></span>}
+              subtitle={
+                house.username == "weibo"
+                ?
+                <span>from  新浪微博&nbsp;<i className={"fa fa-weibo"}/> in <b className={styles.cityColor}> {capitalizeFirstLetter(house.city)}</b> </span>
+                :
+                <span>
+                  by <b className={styles.usernameColor}>{house.username}</b> In <b className={styles.cityColor}> {capitalizeFirstLetter(house.city)}</b>
+                </span>
+              }
               actionIcon={renderIcon(house, index)}
             >
               <Carousel key={house._id} className={styles.carousel} width={"100%"}
