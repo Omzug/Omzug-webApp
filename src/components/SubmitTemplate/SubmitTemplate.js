@@ -158,13 +158,13 @@ export default class SubmitTemplate extends Component {
         </div>
         <div className={styles.list}>
           <div className={styles.innerList}>
-            <div className={styles.rowContainer}><i className="fa fa-location-arrow"/> 城市 : &nbsp; {entity.city ? capitalizeFirstLetter(entity.city) : ""}</div>
-            <div className={styles.rowContainer}><i className="fa fa-map-marker"/>地址 : &nbsp; {entity.location}</div>
-            <div className={styles.rowContainer}><i className="fa fa-square"/> 面积 : &nbsp; {entity.size ?  entity.size + " m²" : "未指定"}</div>
-            <div className={styles.rowContainer}><i className="fa fa-cube"/> 类型 : &nbsp; {entity.type ? "WG" : "Wohnung/Apartment"}</div>
-            <div className={styles.rowContainer}><i className="fa fa-eur"/> 租金 : &nbsp;{(entity.priceType ? "冷租" : "暖租" ) + ' ' + entity.price} &nbsp; Eur</div>
-            <div className={styles.rowContainer}><i className="fa fa-lock"/> 押金 : &nbsp; {entity.caution ? entity.caution + " Eur" : "未指定"} </div>
-            <div className={styles.rowContainer}><i className="fa fa-calendar"/> 租期 : &nbsp;{formatDate(entity.startDate)} &nbsp;-- &nbsp;{entity.endDate ? "无期限" : formatDate(entity.startDate) } </div>
+            <div className={styles.rowContainer}><i className="fa fa-location-arrow"/> <font>城市 :</font> &nbsp; &nbsp;{entity.city ? capitalizeFirstLetter(entity.city) : ""}</div>
+            <div className={styles.rowContainer}><i className="fa fa-map-marker"/>地址 : &nbsp;&nbsp;  {entity.location}</div>
+            <div className={styles.rowContainer}><i className="fa fa-square"/> 面积 : &nbsp;&nbsp;  {entity.size ?  entity.size + " m²" : "未指定"}</div>
+            <div className={styles.rowContainer}><i className="fa fa-cube"/> 类型 : &nbsp; &nbsp; {entity.type ? "WG" : "Wohnung/Apartment"}</div>
+            <div className={styles.rowContainer}><i className="fa fa-eur"/> 租金 : &nbsp;&nbsp; {(entity.priceType ? "冷租" : "暖租" ) + ' ' + entity.price} &nbsp; Eur</div>
+            <div className={styles.rowContainer}><i className="fa fa-lock"/> 押金 : &nbsp; &nbsp; {entity.caution ? entity.caution + " Eur" : "未指定"} </div>
+            <div className={styles.rowContainer}><i className="fa fa-calendar"/> 租期 : &nbsp;&nbsp; {formatDate(entity.startDate)} &nbsp;-- &nbsp;{entity.endDate ? "无期限" : formatDate(entity.startDate) } </div>
             {userId && userId == entity.owner &&
             <RaisedButton style={uiStyles.buttonStyleEdit} key={12} className={styles.editButton} onClick={this.props.onStartEdit}><span
               className="fa fa-pencil"/> 编辑</RaisedButton>
