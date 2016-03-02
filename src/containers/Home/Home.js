@@ -3,6 +3,7 @@ import { Link } from 'react-router';
 import {RaisedButton} from 'material-ui';
 import config from '../../config';
 import Helmet from 'react-helmet';
+import uiStyles from '../../theme/uiStyles';
 
 export default class Home extends Component {
   render() {
@@ -18,14 +19,16 @@ export default class Home extends Component {
             {/*<div className={styles.title}><h4></h4></div>*/}
             <div className={styles.introduction}><h4>{config.app.introduction}<br /><br />
               {config.app.introductionEn}</h4></div>
-            <div className={styles.startButton}>
-              <RaisedButton linkButton={true} containerElement={<Link to="/main" />} label="Get Started"/>
-            </div>
+
             {/*<div><img className={styles.bulb} src="http://www.endlessicons.com/wp-content/uploads/2012/09/light-bulb-icon-614x460.png"/></div>*/}
           </div>
-
-          <div className={styles.foto}>
-            <img id="h" src="https://49.media.tumblr.com/936d938e81a488e380316352a6c3eefe/tumblr_o2tghkrmXz1qkfs2lo1_1280.gif"/>
+          <div className={styles.fotoContainer}>
+            <div className={styles.foto}>
+              <a href="/main"><img id="h" src="https://49.media.tumblr.com/936d938e81a488e380316352a6c3eefe/tumblr_o2tghkrmXz1qkfs2lo1_1280.gif" /></a>
+            </div>
+            <div className={styles.startButton}>
+              <RaisedButton style={uiStyles.buttonStyleGetStarted} linkButton={true} containerElement={<Link to="/main" />} label="Get Started"/>
+            </div>
           </div>
         </div>
 
