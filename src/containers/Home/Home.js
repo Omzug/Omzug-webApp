@@ -12,7 +12,7 @@ export default class Home extends Component {
 
     return (
       <div className={styles.home}>
-        <Helmet title="主页"/>
+        <Helmet title="首页"/>
         <div className={styles.container}>
           <div className={styles.description}>
             {/*<div className={styles.title}><h4></h4></div>*/}
@@ -40,9 +40,7 @@ export default class Home extends Component {
               <div>
                 <p className={styles.responsiveDesign}>
                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                  为在德国的中国留学生提供简易美观的租房平台。为在德国的中国留学生提供简易美观的租房平台。
-                  为在德国的中国留学生提供简易美观的租房平台。
-                  为在德国的中国留学生提供简易美观的租房平台。
+                  短期回国出租,或者是寻找长期学生宿舍,还是毕业后换新住所,都可以在这里寻找
                 </p>
             </div>
           </div>
@@ -54,7 +52,7 @@ export default class Home extends Component {
             </div>
             <div>
               <p className={styles.tech}>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                我们采用了最新的互联网技术,从零开始搭建起这个平台。我们希望打造一个纯净的,简单易用的网站应用</p>
+                采用最新最热门的互联网技术,从零开始搭建,打造一个纯净,简单,易用的信息平台</p>
             </div>
           </div>
           <div className={styles.foto2}>
