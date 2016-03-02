@@ -36,19 +36,27 @@ $paddingTop : 50px;
         padding-left: 20px;
         margin-top: 0px;
       }
-      .startButton{
-
-      }
     }
-    .foto{
-      z-index: 0;
+    .fotoContainer{
       width:60%;
-      flex : 6 0 320px;
-      margin-left: -30px;
-      img{
-        height:auto;
-        max-width:100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      .foto{
+        z-index: 0;
+        //width:60%;
+        flex : 6 0 320px;
+        margin-left: -30px;
+        img{
+          height:auto;
+          max-width:100%;
+        }
       }
+      .startButton{
+        margin-top: 30px;
+        padding-left: 80px;
+      }
+
     }
   }
 
@@ -151,6 +159,14 @@ $paddingTop : 50px;
 
 @include max-screen(786px){
   .home{
+    .container{
+      .fotoContainer{
+        width:100%;
+        .startButton{
+          margin-left: -80px;
+        }
+      }
+    }
     .secondContainer{
       .foto1{
         img{
@@ -194,11 +210,21 @@ $paddingTop : 50px;
 @include max-screen(414px){
   .home{
     .container{
-      .foto{
-        img{
-          padding-left: 70px;
+      .fotoContainer{
+        .foto{
+          img{
+            margin-top: 20px;
+            margin-bottom: 20px;
+            padding-left: 70px;
+          }
+        }
+        .startButton{
+          margin-top: -110px;
+          margin-left: -70px;
+          margin-bottom: -50px;
         }
       }
+
     }
     .secondContainer{
       .foto1{
@@ -237,11 +263,18 @@ $paddingTop : 50px;
 @include max-screen(375px){
   .home{
     .container{
-      .foto{
-        img{
-          padding-left: 50px;
+      .fotoContainer{
+        .foto{
+          img{
+            padding-left: 50px;
+          }
         }
+        .startButton{
+          margin-top: -130px;
+        }
+
       }
+
     }
     .thirdContainer{
       .text2{
@@ -257,11 +290,23 @@ $paddingTop : 50px;
 @include max-screen(320px){
   .home{
     .container{
-      .foto{
-        img{
-          padding-left: 30px;
+      padding:80px 20px 50px 20px;
+      .description{
+        .introduction{
         }
       }
+      .fotoContainer{
+        .startButton{
+          margin-top: -90px;
+        }
+        .foto{
+          img{
+            padding-left: 30px;
+          }
+        }
+
+      }
+
     }
     .secondContainer{
       .foto1{
@@ -279,7 +324,7 @@ $paddingTop : 50px;
         width:85%;
       }
       .foto2{
-
+        width:80%;
       }
     }
   }
