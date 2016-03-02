@@ -166,7 +166,7 @@ export default class List extends Component {
               subtitle={
                 house.username == "weibo"
                 ?
-                <span>from  新浪微博&nbsp;<i className={"fa fa-weibo " + styles.red}/> in <b className={styles.cityColor}> {capitalizeFirstLetter(house.city)}</b> </span>
+                <span>from  新浪微博&nbsp;<i className={"fa fa-weibo"}/> in <b className={styles.cityColor}> {capitalizeFirstLetter(house.city)}</b> </span>
                 :
                 <span>
                   by <b className={styles.usernameColor}>{house.username}</b> In <b className={styles.cityColor}> {capitalizeFirstLetter(house.city)}</b>
