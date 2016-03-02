@@ -43,7 +43,7 @@ export default class Home extends Component {
               <div>
                 <p className={styles.responsiveDesign}>
                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                  短期回国出租,或者是寻找长期学生宿舍,还是毕业后换新住所,都可以在这里寻找
+                  短期回国出租,或者是寻找长期学生宿舍,还是毕业后换新住所,都可以在这里发布或者搜索
                 </p>
             </div>
           </div>
