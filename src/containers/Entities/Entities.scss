@@ -83,7 +83,7 @@
     right: 15px;
     z-index: 1000;
     .upArrow{
-      color: black;
+      color: cadetblue;
     }
   }
 }
@@ -140,11 +140,19 @@
 @include max-screen(474px){
   .entities{
     .listNavBeforeLogin{
-      margin-top: 0;
+      margin-bottom: 30px;
+      margin-top: -20px;
+      .refreshButton{
+        margin-top: -30px;
+      }
+
     }
     .listNav{
       margin-bottom: 30px;
-      margin-top: -30px;
+      margin-top: -20px;
+      .refreshButton{
+        margin-top: -30px;
+      }
     }
   }
 }
