@@ -136,7 +136,7 @@ export default class Entities extends Component {
         {loaded &&
         <div className={styles.gridContainer}>
           { houses.length ?
-            <List houses={this.props.entities} user={this.props.user} onDeleteHouse={this.props.onDeleteHouse}/>
+            <List houses={this.props.entities} onDeleteHouse={this.props.onDeleteHouse}/>
              :
             <div className={styles.regionNoSource}><p>Ooops! 这个地区暂时没可用的房源!</p></div>}
         </div>
