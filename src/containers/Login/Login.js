@@ -55,7 +55,6 @@ export default class Login extends Component {
 
     const inputStyle = uiStyles.inputStyle;
     const buttonStyle = uiStyles.buttonStyle;
-    const popupStyle = { color : "#ff0000"};
     const anyError = email.error || password.error;
 
     const getError = ()=> {
@@ -93,7 +92,7 @@ export default class Login extends Component {
                 </div>
               </div>
               <div className={styles.raisedButton}>
-              <RaisedButton style style={buttonStyle} onClick={this.handleSubmit}>
+              <RaisedButton style style={buttonStyle} disabled={anyError ? true : false} onClick={this.handleSubmit}>
                 {loggingIn ?
                   <span className="fa fa-spin fa-refresh"/>
                   :
@@ -105,7 +104,7 @@ export default class Login extends Component {
                 open={loginError != null || loadError != null}
                 message={getError()}
                 autoHideDuration={4000}
-                bodyStyle={popupStyle}
+                bodyStyle={uiStyles.snackBarStyleRed}
                 onRequestClose={(reason) => {
                   this.props.clearLoginError();
                 }}

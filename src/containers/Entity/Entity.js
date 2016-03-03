@@ -127,9 +127,8 @@ export default class Entity extends Component {
           open={ feedback != null || contactError != null}
           message={ getError()}
           autoHideDuration={4000}
-          bodyStyle={uiStyles.snackBarStyleRed}
+          bodyStyle={uiStyles.snackBarStyleBlue}
           onRequestClose={(reason) => {
-            console.log("error popout should cleared now because : " + reason);
             this.props.onClearMessage();
             this.props.onClearAllError();
           }}

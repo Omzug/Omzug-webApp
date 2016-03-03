@@ -1,6 +1,5 @@
 const CLEAR_ERROR = 'omzug/error/CLEAR_ERROR';
 const SET_ERROR = 'omzug/error/SET_ERROR';
-const SET_MORE_IMAGE_ERROR = 'omzug/error/SET_ERROR';
 
 const initialState = {
   hasError : false,

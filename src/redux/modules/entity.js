@@ -3,6 +3,7 @@
  */
 var update = require('react-addons-update');
 import {validateImage} from '../../utils/validation';
+import strings from '../../constant/strings';
 var config = require('../../config');
 
 const LOAD = 'omzug/entity/LOAD';
@@ -100,7 +101,7 @@ export default function reducer(state = initState, action){
         data : action.cached,
         editing : false,
         currentSlide : 0,
-        feedback : "now submitting, please wait"
+        feedback : strings.submitting,
       }
     case SUBMIT_SUCCESS:
           //state.cachedImages.forEach(function(image){
@@ -114,7 +115,7 @@ export default function reducer(state = initState, action){
             submitting : false,
             //data : cachedData,
             cached : null,
-            feedback : "更新成功",
+            feedback : strings.editSuccess,
           }
     case SUBMIT_NEW_SUCCESS:
       //only add a new createData property here
@@ -123,7 +124,7 @@ export default function reducer(state = initState, action){
             submitting :false,
             //data : action.result.data,
             cached : null,
-            feedback : "发布成功",
+            feedback : strings.submitSuccess,
             //this id should be a string
             createData : action.result.data,
             loaded: true,
