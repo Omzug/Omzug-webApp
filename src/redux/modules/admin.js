@@ -12,8 +12,10 @@ const DELETE_HOUSE_FAIL = 'omzug/admin/DELETE_HOUSE_FAIL'
 const OPEN_DIALOG = 'omzug/admin/OPEN_DIALOG';
 const CLOSE_DIALOG = 'omzug/admin/CLOSE_DIALOG';
 const ADD_DATA = 'omzug/admin/ADD_DATA';
+const CLEAR_DELETE_FEEDBACK = "omzug/admin/CLEAR_DELETE_FEEDBACK"
 
 var update = require('react-addons-update');
+import strings from '../../constant/strings';
 
 const initState = {
   list :[],
@@ -56,7 +58,7 @@ export default function reducer(state = initState, action = {}) {
           return {
             ...state,
             deleting : false,
-            deleteFeedback : "成功删除,所有相关的图片也已删除",
+            deleteFeedback : strings.deleteSuccess,
             // index start from 0
             list : update(state.list, {$splice : [[action.index, 1]]})
           }
@@ -64,7 +66,7 @@ export default function reducer(state = initState, action = {}) {
           return {
             ...state,
             deleting : false,
-            deleteFeedback : "删除失败" + action.error,
+            deleteFeedback : strings.deleteError + action.error,
           }
     case OPEN_DIALOG :
           return {
@@ -88,6 +90,11 @@ export default function reducer(state = initState, action = {}) {
           list : updated
         }
     }
+    case CLEAR_DELETE_FEEDBACK:
+      return {
+        ...state,
+        deleteFeedback : null,
+      }
     case CLEAR:
       return {
         initState
@@ -135,6 +142,12 @@ export function onAddData(data){
   return {
     type : ADD_DATA,
     data : data
+  }
+}
+
+export function onClearDeleteFeedback(){
+  return {
+    type : CLEAR_DELETE_FEEDBACK,
   }
 }
 

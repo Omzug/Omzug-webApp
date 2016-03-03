@@ -29,7 +29,8 @@ function deleteImage(path){
 function processImageAddress(path){
   console.log('process address is', path)
   var paths = path.split("/")
-  var relativePath = paths[paths.length - 2] + "/" + paths[paths.length - 1]
+  //var relativePath = paths[paths.length - 2] + "/" + paths[paths.length - 1]
+  var relativePath = paths[paths.length - 1]
   console.log('we get new path is', relativePath)
   return relativePath
 }
@@ -155,8 +156,10 @@ export default function submit(req, params) {
       if(deleteFiles.length <= 0)
         return callback(null, house, files)
 
+
       deleteFiles.forEach(function(imageAddress){
-        aws.delete(processImageAddress(imageAddress), function(err, result){
+        aws.delete(house.username , processImageAddress(imageAddress), function(err, result){
+          console.log('finished is ', finished, 'err is', err, 'result is ', result)
           if(err){
             callback(err)
           }else{

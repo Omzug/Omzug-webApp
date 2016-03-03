@@ -53,13 +53,14 @@ export default function deleteHouse(req, params){
       house.images.some(function(imageAddress){
         const address = imageAddress.split("/")
         console.log('file name is', address[address.length - 1])
-        return aws.delete(house.username, address[address.length - 1], function(err, data){
+        return aws.delete(house.username, address[address.length - 1], function(err, result){
+          console.log('delete house result is', result)
           if(err) {
             callback(err)
             return true;
           }else{
             finished ++
-            console.log(finished + ' image is successfully deleted')
+            console.log(finished + ' image is successfully deleted with result' , result)
             if(finished == house.images.length){
               callback(null, house)
             }

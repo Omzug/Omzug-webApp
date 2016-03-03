@@ -59,6 +59,7 @@ export default class Entity extends Component {
     loadedId : PropTypes.string,
     feedback : PropTypes.string,
     entityId : PropTypes.string,
+    contactError : PropTypes.string,
 
     //editStart: PropTypes.func.isRequired,
     onClearAllError : PropTypes.func.isRequired,
@@ -124,7 +125,7 @@ export default class Entity extends Component {
         }
 
         <Snackbar
-          open={ feedback != null || contactError != null}
+          open={feedback != null || contactError != null}
           message={ getError()}
           autoHideDuration={4000}
           bodyStyle={uiStyles.snackBarStyleBlue}

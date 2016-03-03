@@ -4,14 +4,14 @@
 
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
-import {isLoaded, onLoad, onLocationChange, onDeleteHouse} from 'redux/modules/admin';
+import {isLoaded, onLoad, onLocationChange, onDeleteHouse, onClearDeleteFeedback} from 'redux/modules/admin';
 import {bindActionCreators} from 'redux';
 import connectData from 'helpers/connectData';
 import {List} from "components";
 import Helmet from 'react-helmet';
 import uiStyles from '../../theme/uiStyles';
 import { Link } from 'react-router';
-import {FlatButton, FontIcon} from 'material-ui';
+import {FlatButton, FontIcon, Snackbar} from 'material-ui';
 
 import {DropDownMenu, MenuItem,RaisedButton} from 'material-ui';
 
@@ -33,8 +33,9 @@ function fetchDataDeferred(getState, dispatch) {
     loading: state.admin.loading,
     loaded: state.admin.loaded,
     locationId : state.admin.locationId,
+    deleteFeedback : state.admin.deleteFeedback,
   }),
-  {onLoad, onLocationChange, onDeleteHouse}
+  {onLoad, onLocationChange, onDeleteHouse, onClearDeleteFeedback}
 )
 export default class Entities extends Component {
   static propTypes = {
@@ -44,10 +45,12 @@ export default class Entities extends Component {
     locationId : PropTypes.number,
     loaded :PropTypes.bool,
     userId : PropTypes.string,
+    deleteFeedback : PropTypes.string,
 
     onDeleteHouse : PropTypes.func.isRequired,
     onLoad: PropTypes.func.isRequired,
     onLocationChange: PropTypes.func.isRequired,
+    onClearDeleteFeedback : PropTypes.func.isRequired,
   };
 
   loadList = (event) => {
@@ -57,7 +60,7 @@ export default class Entities extends Component {
 
   render() {
     const styles = require('./UserAdmin.scss');
-    const {loaded, error, loading, onLoad} = this.props;
+    const {loaded, error, loading, deleteFeedback} = this.props;
     const houses = this.props.entities;
 
     let refreshClassName = 'fa fa-refresh';
@@ -99,6 +102,16 @@ export default class Entities extends Component {
           {' '}
           {error}
         </div>}
+
+        <Snackbar
+          open={deleteFeedback != null}
+          message={ deleteFeedback != null ? deleteFeedback : null}
+          autoHideDuration={4000}
+          bodyStyle={uiStyles.snackBarStyleBlue}
+          onRequestClose={(reason) => {
+            this.props.onClearDeleteFeedback()
+          }}
+        />
       </div>
     );
   }
