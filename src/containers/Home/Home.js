@@ -38,7 +38,7 @@ export default class Home extends Component {
           </div>
           <div className={styles.text1}>
               <div>
-                <h4>Features and Details</h4>
+                <h4>Design and Details</h4>
               </div>
               <div>
                 <p className={styles.responsiveDesign}>
