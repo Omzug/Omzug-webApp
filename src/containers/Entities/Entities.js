@@ -3,7 +3,8 @@
  */
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
-import {isLoaded, onGetHouseList, onLocationChange, onAppendList, onDeleteHouse,onDisableAppend, onGetCityList, onInit} from 'redux/modules/entities';
+import {isLoaded, onGetHouseList, onLocationChange, onClearDeleteFeedback,
+  onAppendList, onDeleteHouse,onDisableAppend, onGetCityList, onInit} from 'redux/modules/entities';
 import {bindActionCreators} from 'redux';
 import connectData from 'helpers/connectData';
 import {List} from "components";
@@ -11,7 +12,8 @@ import config from '../../config';
 import Select from 'react-select';
 import Helmet from 'react-helmet';
 import uiStyles from "../../theme/uiStyles";
-import {DropDownMenu, MenuItem,RaisedButton} from 'material-ui';
+import {DropDownMenu, MenuItem,RaisedButton, Snackbar} from 'material-ui';
+import strings from '../../constant/strings'
 
 function fetchDataDeferred(getState, dispatch) {
   if (!isLoaded(getState())) {
@@ -35,8 +37,9 @@ function fetchDataDeferred(getState, dispatch) {
     loadingCity : state.entities.loadingCity,
     column : state.entities.column,
     user : state.auth.user,
+    deleteFeedback : state.entities.deleteFeedback,
   }),
-  {onGetHouseList, onLocationChange, onAppendList, onDeleteHouse, onDisableAppend, onGetCityList}
+  {onGetHouseList, onLocationChange, onAppendList, onDeleteHouse, onDisableAppend, onGetCityList, onClearDeleteFeedback}
   //dispatch => bindActionCreators({onGetHouseList}, dispatch)
 )
 export default class Entities extends Component {
@@ -50,7 +53,9 @@ export default class Entities extends Component {
     isEnd : PropTypes.bool,
     cityList : PropTypes.array,
     loadingCity : PropTypes.bool,
+    deleteFeedback : PropTypes.string,
 
+    onClearDeleteFeedback : PropTypes.func.isRequired,
     onDisableAppend : PropTypes.func.isRequired,
     onDeleteHouse : PropTypes.func.isRequired,
     onGetHouseList: PropTypes.func.isRequired,
@@ -105,7 +110,7 @@ export default class Entities extends Component {
   render() {
     require('../../theme/react-select.css')
     const styles = require('./Entities.scss');
-    const {loaded, error, loading, locationId} = this.props;
+    const {loaded, error, loading, locationId, deleteFeedback} = this.props;
     const houses = this.props.entities;//TODO
 
     let refreshClassName = 'fa fa-refresh';
@@ -125,8 +130,8 @@ export default class Entities extends Component {
               options={this.props.cityList}
               value={locationId === null || !this.props.cityList.length ? "" : this.props.cityList[locationId].label}
               onChange={this.onSelectChange}
-              noResultsText={"数据库里暂无这里的房屋信息"}
-              placeholder={"选择您所在的城市"}
+              noResultsText={strings.selectNoResults}
+              placeholder={strings.selectPlaceholder}
             />
           </div>
           <div className={styles.refreshButton}>
@@ -139,7 +144,7 @@ export default class Entities extends Component {
         {loaded &&
         <div className={styles.gridContainer}>
           { houses.length ?
-            <List houses={this.props.entities} user={this.props.user} onDeleteHouse={this.props.onDeleteHouse}/>
+            <List houses={this.props.entities} onDeleteHouse={this.props.onDeleteHouse}/>
              :
             <div className={styles.regionNoSource}><p>Ooops! 这个地区暂时没可用的房源!</p></div>}
         </div>
@@ -161,6 +166,16 @@ export default class Entities extends Component {
         <div className={styles.upArrowContainer} onClick={this.onUpArrowClick}>
           <i className={"fa fa-arrow-up fa-2x " + styles.upArrow}/>
         </div>
+
+        <Snackbar
+          open={deleteFeedback != null}
+          message={ deleteFeedback != null ? deleteFeedback : null}
+          autoHideDuration={4000}
+          bodyStyle={uiStyles.snackBarStyleBlue}
+          onRequestClose={(reason) => {
+            this.props.onClearDeleteFeedback()
+          }}
+        />
       </div>
     );
   }

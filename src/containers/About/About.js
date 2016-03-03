@@ -11,7 +11,6 @@ export default class About extends Component {
 
   render() {
     const {showKitten} = this.state;
-    const kitten = require('./kitten.jpg');
     const styles = require('./About.scss');
     return (
       <div className={styles.container}>

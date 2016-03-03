@@ -14,6 +14,8 @@ const CHECK_FAIL = 'omzug/auth/CHECK_FAIL';
 
 const CLEAR_LOGIN_ERROR = 'omzug/auth/CLEAR_LOGIN_ERROR';
 
+import strings from '../../constant/strings';
+
 const initialState = {
   loaded: false,
   loginError: null,
@@ -57,7 +59,7 @@ export default function reducer(state = initialState, action = {}) {
         ...state,
         loggingIn: false,
         user: null,
-        loginError: action.error
+        loginError: {error : strings.loginFailError}
       };
     case LOGOUT:
       return {
@@ -124,10 +126,15 @@ export function check(email){
 }
 
 export function login(email, password) {
-  if(!email || !password){
+  if(!email){
     return {
       type: LOGIN_FAIL,
-      error : "please enter your email and password",
+      error : strings.missEmailError,
+    }
+  }else if(!password){
+    return {
+      type: LOGIN_FAIL,
+      error : strings.missPasswordError,
     }
   }
   return {

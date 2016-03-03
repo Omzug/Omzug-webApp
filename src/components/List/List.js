@@ -20,6 +20,7 @@ var config = require('../../config');
     popover : state.admin.popover,
     toDelete : state.admin.toDelete,
     column : state.entities.column,
+    user: state.auth.user,
   }),
   {onOpenDialog, onCloseDialog, onStartEdit, onSetColumn}
 )

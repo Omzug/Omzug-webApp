@@ -12,6 +12,7 @@ import connectData from 'helpers/connectData';
 import {isLoaded, onLoad, onClear, onInitEntity, onSubmitNew, onClearMessage} from "redux/modules/entity"
 import {Snackbar} from 'material-ui';
 import uiStyles from "../../theme/uiStyles";
+import {onClearAllError} from 'redux/modules/error';
 
 function initSubmit(getState, dispatch){
   var state = getState()
@@ -25,8 +26,9 @@ function initSubmit(getState, dispatch){
     cachedImages : state.entity.cachedImages,
     feedback : state.entity.feedback,
     user : state.auth.user,
+    imageError : state.error.error,
   }),
-  {initialize, onInitEntity, onSubmitNew, onClearMessage}
+  {initialize, onInitEntity, onSubmitNew, onClearMessage, onClearAllError}
 )
 
 @connectData(
@@ -39,7 +41,9 @@ export default class Submit extends Component{
     onInitEntity : PropTypes.func.isRequired,
     onSubmitNew : PropTypes.func.isRequired,
     onClearMessage : PropTypes.func.isRequired,
+    onClearAllError : PropTypes.func.isRequired,
 
+    imageError : PropTypes.string,
     user : PropTypes.object,
     feedback : PropTypes.string,
     entity: PropTypes.object,
@@ -65,20 +69,31 @@ export default class Submit extends Component{
   }
 
   render(){
-    const {feedback} = this.props;
+    const {feedback, imageError} = this.props;
     const styles = require('./Submit.scss');
+
+    const getError = () =>{
+      if(feedback != null)
+        return feedback
+      if(imageError != null)
+        return imageError
+      //else
+      return ""
+    }
+
     return (
       <div>
         <Helmet title="发布房源"/>
         <SubmitForm onSubmit={this.handleSubmit}/>
 
         <Snackbar
-          open={feedback !== null}
-          message={feedback == null ? "" : feedback}
+          open={ feedback != null || imageError != null}
+          message={getError()}
           autoHideDuration={4000}
           bodyStyle={uiStyles.snackBarStyleBlue}
           onRequestClose={(reason) => {
             this.props.onClearMessage();
+            this.props.onClearAllError();
           }}
         />
       </div>

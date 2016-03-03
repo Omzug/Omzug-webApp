@@ -573,7 +573,9 @@ const Carousel = React.createClass({
     var spacingOffset = this.props.cellSpacing * this.countChildren(this.props.children);
     return {
       position: 'relative',
-      display: 'block',
+      justifyContent: 'center',
+      alignItems : 'center',
+      display: 'flex',
       top: this.getTweeningValue('top'),
       left: this.getTweeningValue('left'),
       margin: this.props.vertical ? (this.props.cellSpacing / 2) * -1 + 'px 0px'

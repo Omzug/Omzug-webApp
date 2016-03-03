@@ -1,8 +1,7 @@
 @import "../../theme/media.scss";
 
 .gridContainer{
-  margin: 120px 50px 50px 10px;
-  padding-left: 35px;
+  padding: 80px 0px 50px 0px;
 }
 
 .listNav{
@@ -45,9 +44,8 @@
     padding-top: 120px;
   }
   .gridContainer{
-    margin-top: 20px;
+    padding-top: 0;
     .noHouseYet{
-
     }
   }
 }

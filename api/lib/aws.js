@@ -6,6 +6,7 @@ var AWS = require('aws-sdk');
 var config = require('./config')
 AWS.config.update({region : 'eu-central-1'})
 var fs = require('fs')
+var urlencode = require('urlencode');
 
 var s3 = new AWS.S3({params: {Bucket: config.awsBucket}});
 
@@ -35,6 +36,9 @@ var deleteParams = function(username, filename){
 console.log('aws endpoint is' , s3.endpoint);
 
 const deleteObject = function(username, filename, callback){
+  console.log('delete filename are ', filename)
+  filename = urlencode.decode(filename)
+  console.log('docoded filename is ', filename)
   s3.deleteObject(deleteParams(username, filename), callback)
 }
 

@@ -26,9 +26,11 @@ const SET_COLUMN = "omzug/entityList/SET_COLUMN"
 const REFRESH_ALL = "omzug/entityList/REFRESH_ALL"
 const REFRESH_ALL_SUCCESS = "omzug/entityList/REFRESH_ALL_SUCCESS"
 const REFRESH_ALL_FAIL = "omzug/entityList/REFRESH_ALL_FAIL"
+const CLEAR_DELETE_FEEDBACK = "omzug/entityList/CLEAR_DELETE_FEEDBACK"
 
 var update = require('react-addons-update');
 import {capitalizeFirstLetter} from '../../utils/help';
+import strings from '../../constant/strings';
 
 const initState = {
   list :[],
@@ -38,6 +40,7 @@ const initState = {
   isEnd : false,
   cityList : [],
   column : 1,
+  deleteFeedback : null,
 };
 
 export default function reducer(state = initState, action = {}) {
@@ -65,7 +68,7 @@ export default function reducer(state = initState, action = {}) {
       return {
         ...state,
         deleting : false,
-        deleteFeedback : "成功删除,所有相关的图片也已删除",
+        deleteFeedback : strings.deleteSuccess,
         // index start from 0
         list : update(state.list, {$splice : [[action.index, 1]]})
       }
@@ -73,7 +76,7 @@ export default function reducer(state = initState, action = {}) {
       return {
         ...state,
         deleting : false,
-        deleteFeedback : "删除失败" + action.error,
+        deleteFeedback : strings.deleteError + action.error,
       }
     case APPEND_SUCCESS:
           return {
@@ -184,6 +187,11 @@ export default function reducer(state = initState, action = {}) {
             ...state,
             column : action.number,
           }
+    case CLEAR_DELETE_FEEDBACK:
+          return {
+            ...state,
+            deleteFeedback : null,
+          }
     default : return state;
   }
 }
@@ -288,6 +296,12 @@ export function onNewSubmit(){
       var url ='/newCity'
       return client.get(url)
     }
+  }
+}
+
+export function onClearDeleteFeedback(){
+  return {
+    type : CLEAR_DELETE_FEEDBACK,
   }
 }
 

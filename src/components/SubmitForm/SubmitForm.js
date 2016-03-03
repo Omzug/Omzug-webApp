@@ -13,6 +13,8 @@ import {Carousel} from 'components';
 import submitValidation from './submitValidation'
 import uiStyles from '../../theme/uiStyles'
 import Select from 'react-select';
+import strings from '../../constant/strings';
+import {onSetError} from 'redux/modules/error';
 
 import {TextField, FontIcon, RaisedButton, Card, MenuItem,
   IconButton, CardMedia, CardTitle, CardText, List, ListItem, SelectField,
@@ -29,7 +31,7 @@ import defaultCityList from '../../constant/cityList';
     cachedImages : state.entity.cachedImages,
     currentSlide : state.entity.currentSlide,
   }),
-  {onEndEdit, onAddImage, onChangeSlide, onDeleteImage, onToggleLimit, onChangeType, onChangePriceType, onLogError}
+  {onEndEdit, onAddImage, onChangeSlide, onDeleteImage, onToggleLimit, onChangeType, onChangePriceType, onLogError, onSetError}
 )
 
 @reduxForm({
@@ -53,6 +55,7 @@ export default class SubmitForm extends Component {
     onChangeType : PropTypes.func.isRequired,
     onLogError : PropTypes.func.isRequired,
     onChangePriceType : PropTypes.func.isRequired,
+    onSetError : PropTypes.func.isRequired,
     cachedImages: PropTypes.array,
     currentSlide : PropTypes.number,
     hasLimit : PropTypes.bool,
@@ -71,12 +74,20 @@ export default class SubmitForm extends Component {
     return day + '/' + month + '/' + year;
   }
 
-  onDrop = (file) => {
-    if(Array.isArray(file)){
-      console.log("files are array, we use the first element", file)
-      file = file[0];
+  calculateNumber = ()=> {
+    return this.props.entity.images.length + this.props.cachedImages.length
+  }
+
+  onDrop = (files) => {
+    if(!Array.isArray(files)){
+      files = [files];
+    }else{
+      if(files.length + this.calculateNumber()> 3){
+        files = files.slice(0, 3 - this.calculateNumber())
+        this.props.onSetError(strings.maxNumberImageError);
+      }
     }
-    this.props.onAddImage(file);
+    this.props.onAddImage(files);
   }
 
   onDeleteButton = () => {
@@ -120,10 +131,6 @@ export default class SubmitForm extends Component {
       display:'inline'
     }
 
-    var calculateNumber = ()=> {
-      return entity.images.length + cachedImages.length
-    }
-
     const errorStyle = (value) =>{
       const withOutError = styles.withOutError
       const withError = " "+ styles.withError
@@ -161,11 +168,11 @@ export default class SubmitForm extends Component {
 
         <Card className={styles.card}>
           <div className={styles.buttonContainer}>
-            { currentSlide <= calculateNumber() - 1 &&
-            <IconButton iconClassName="fa fa-times-circle" tooltip=""  touch={true}
+            { currentSlide <= this.calculateNumber() - 1 &&
+            <IconButton iconClassName="fa fa-times-circle" tooltip={strings.deleteImageTooltip}  touch={true}
                         style={{"width" : "60px", "height": "60px"}}
                         iconStyle = {{"fontSize" : "30px"}}
-                        tooltipPosition="top" onClick={this.onDeleteButton}/>}
+                        tooltipPosition="top-center" onClick={this.onDeleteButton}/>}
           </div>
           <CardMedia>
             <Carousel key={211} className={styles.slider}
@@ -174,7 +181,7 @@ export default class SubmitForm extends Component {
                       onChange={this.props.onChangeSlide}>
               {entity.images && entity.images.length >= 1 && entity.images.map( address =><div className={styles.imageContainer}><img src={address}/></div>)}
               {cachedImages && cachedImages.length >= 1 && cachedImages.map(file => <div className={styles.imageContainer}><img src={window.URL.createObjectURL(file)}/></div>)}
-              {calculateNumber() < 3 &&
+              {this.calculateNumber() < 3 &&
                 <div className={styles.imageContainer}>
                   <DropZone onDrop={this.onDrop}>
                     <div className={styles.inner}>
@@ -209,8 +216,8 @@ export default class SubmitForm extends Component {
                 options={defaultCityList}
                 value={city.value === null ? "" : city.value}
                 onChange={onCityChange}
-                noResultsText={"暂时不支持你选择的地区,请选择附近的城市"}
-                placeholder={"选择所在的城市"}
+                noResultsText={strings.selectNoResultsSubmit}
+                placeholder={strings.selectPlaceholderSubmit}
                 ignoreAccents={false}
               />
             </div>
