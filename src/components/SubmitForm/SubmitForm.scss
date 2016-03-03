@@ -81,6 +81,7 @@
       //background-color: $darkBlack ;
       //}
     }
+
     .dropBox{
       display: flex;
       flex-direction: row;
@@ -205,6 +206,16 @@
     }
     .list{
       width: 200px;
+    }
+  }
+}
+@include max-screen(414px)
+{
+  .container{
+    .card{
+      .cardTitle{
+          margin-top: -50px;
+      }
     }
   }
 }
