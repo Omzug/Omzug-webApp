@@ -23,7 +23,7 @@ export default class About extends Component {
             "Omzug"来源于德文"搬家"这个单词"Umzug".</p>
           </div>
           <div>
-             <p className={styles.cnText}> 我们想为在德国留学的中国学生提供一个美观方便的租房平台。</p>
+             <p className={styles.cnText}> 有感于在德国租房的困难,我们想为在德国留学的中国学生提供一个方便美观的租房平台。</p>
           </div>
           <div className={styles.enText}>
             <p>
