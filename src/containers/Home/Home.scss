@@ -34,7 +34,7 @@ $paddingTop : 50px;
       .introduction{
         font-size: 20px;
         padding-left: 20px;
-        margin-top: 0px;
+        margin-top: -70px;
       }
     }
     .fotoContainer{
@@ -160,6 +160,11 @@ $paddingTop : 50px;
 @include max-screen(786px){
   .home{
     .container{
+      .description{
+        .introduction{
+          margin-top: 0px;
+        }
+      }
       .fotoContainer{
         width:100%;
         .startButton{
