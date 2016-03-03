@@ -9,6 +9,9 @@ import {bindActionCreators} from 'redux';
 import connectData from 'helpers/connectData';
 import {List} from "components";
 import Helmet from 'react-helmet';
+import uiStyles from '../../theme/uiStyles';
+import { Link } from 'react-router';
+import {FlatButton, FontIcon} from 'material-ui';
 
 import {DropDownMenu, MenuItem,RaisedButton} from 'material-ui';
 
@@ -65,7 +68,7 @@ export default class Entities extends Component {
     return (
       <div>
         <Helmet title="我的发布"/>
-        {loaded && houses.length &&
+        {loaded && houses.length > 0 &&
         <div className={styles.listNav}>
           <RaisedButton onClick={this.loadList} style={{lineHeight: "36px" }}>
             <i className={refreshClassName}/>刷新
@@ -78,7 +81,15 @@ export default class Entities extends Component {
           { houses.length ?
             <List houses={this.props.entities} onDeleteHouse={this.props.onDeleteHouse}/>
             :
-            <div className={styles.noHouseYet}><p>Ooops! 您还没有发布任何房源!</p></div>}
+            <div className={styles.noHouseYet}>
+              <div className={styles.textHint}>
+                <p>Ooops! 您还没有发布任何房源。</p>
+              </div>
+              <div className={styles.raisedButton}>
+                <RaisedButton linkButton={true} containerElement={<Link to="/submit" />} label="开始发布我的第一个房屋"/>
+              </div>
+            </div>
+          }
         </div>
         }
 
