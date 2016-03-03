@@ -1,36 +1,36 @@
-const CLEAR_CONTACT_ERROR = 'omzug/error/CLEAR_CONTACT_ERROR';
-const SET_CONTACT_ERROR = 'omzug/error/SET_CONTACT_ERROR';
+const CLEAR_ERROR = 'omzug/error/CLEAR_ERROR';
+const SET_ERROR = 'omzug/error/SET_ERROR';
+const SET_MORE_IMAGE_ERROR = 'omzug/error/SET_ERROR';
 
 const initialState = {
-  contactError : null,
+  hasError : false,
+  error : null,
 }
 
 export default function info(state = initialState, action = {}) {
   switch (action.type){
-    case CLEAR_CONTACT_ERROR:
+    case CLEAR_ERROR:
+          return initialState
+    case SET_ERROR :
           return {
             ...state,
-            contactError : null
-          }
-    case SET_CONTACT_ERROR :
-          return {
-            ...state,
-            contactError : action.error
+            hasError : true,
+            error : action.error
           }
     default:
       return state
   }
 }
 
-export function onClearContactError() {
+export function onClearAllError() {
   return {
-    type : CLEAR_CONTACT_ERROR,
+    type : CLEAR_ERROR,
   }
 }
 
-export function onSetContactError(){
+export function onSetError(errorString){
   return {
-    type : SET_CONTACT_ERROR,
-    error : "嘿嘿,请登录"
+    type : SET_ERROR,
+    error : errorString,
   }
 }

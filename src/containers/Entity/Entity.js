@@ -6,7 +6,7 @@ import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {isLoaded, onLoad, onClear, onSubmit, onClearMessage} from "redux/modules/entity"
-import {onClearContactError} from 'redux/modules/error';
+import {onClearAllError} from 'redux/modules/error';
 import connectData from 'helpers/connectData';
 import { SubmitForm } from 'components';
 import { SubmitTemplate } from 'components';
@@ -16,7 +16,7 @@ import Helmet from 'react-helmet';
 
 function fetchDataDeferred(getState, dispatch) {
   if (!isLoaded(getState())) {
-    //console.log("nothing load, after load we get state:" + getState().router.params.entityId )
+    console.log("nothing load, after load we get state:" + getState().router.params.entityId )
     return dispatch(onLoad(getState().router.params.entityId));
   }
 }
@@ -39,9 +39,9 @@ function checkState(getState, dispatch){
     loadedId : state.entity.loadedId,
     feedback : state.entity.feedback,
     entityId : state.router.params.entityId,
-    contactError : state.error.contactError,
+    contactError : state.error.error,
   }),
-  {onLoad, onClear, onSubmit, onClearMessage, onClearContactError}
+  {onLoad, onClear, onSubmit, onClearMessage, onClearAllError}
 )
 export default class Entity extends Component {
 
@@ -61,7 +61,7 @@ export default class Entity extends Component {
     entityId : PropTypes.string,
 
     //editStart: PropTypes.func.isRequired,
-    onClearContactError : PropTypes.func.isRequired,
+    onClearAllError : PropTypes.func.isRequired,
     onClear : PropTypes.func.isRequired,
     onLoad: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
@@ -129,8 +129,9 @@ export default class Entity extends Component {
           autoHideDuration={4000}
           bodyStyle={uiStyles.snackBarStyleRed}
           onRequestClose={(reason) => {
+            console.log("error popout should cleared now because : " + reason);
             this.props.onClearMessage();
-            this.props.onClearContactError();
+            this.props.onClearAllError();
           }}
         />
       </div>

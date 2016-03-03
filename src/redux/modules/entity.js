@@ -199,7 +199,7 @@ export default function reducer(state = initState, action){
           }
     case ADD_IMAGE:
       // once only one image as input
-      const images = update(state.cachedImages, {$push: [action.image]})
+      const images = update(state.cachedImages, {$push: action.images})
       //console.log('after update the cachedImages are', images)
       return {
         ...state,
@@ -293,11 +293,11 @@ export function onCalculateGeometry(location, city){
   }
 }
 
-export function onAddImage(image){
+export function onAddImage(images){
   //console.log('in onAddImage images are', image)
   return {
     type : ADD_IMAGE,
-    image : image,
+    images : images,
   }
 }
 

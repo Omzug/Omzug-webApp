@@ -13,6 +13,8 @@ import {Carousel} from 'components';
 import submitValidation from './submitValidation'
 import uiStyles from '../../theme/uiStyles'
 import Select from 'react-select';
+import strings from '../../constant/strings';
+import {onSetError} from 'redux/modules/error';
 
 import {TextField, FontIcon, RaisedButton, Card, MenuItem,
   IconButton, CardMedia, CardTitle, CardText, List, ListItem, SelectField,
@@ -29,7 +31,7 @@ import defaultCityList from '../../constant/cityList';
     cachedImages : state.entity.cachedImages,
     currentSlide : state.entity.currentSlide,
   }),
-  {onEndEdit, onAddImage, onChangeSlide, onDeleteImage, onToggleLimit, onChangeType, onChangePriceType, onLogError}
+  {onEndEdit, onAddImage, onChangeSlide, onDeleteImage, onToggleLimit, onChangeType, onChangePriceType, onLogError, onSetError}
 )
 
 @reduxForm({
@@ -53,6 +55,7 @@ export default class SubmitForm extends Component {
     onChangeType : PropTypes.func.isRequired,
     onLogError : PropTypes.func.isRequired,
     onChangePriceType : PropTypes.func.isRequired,
+    onSetError : PropTypes.func.isRequired,
     cachedImages: PropTypes.array,
     currentSlide : PropTypes.number,
     hasLimit : PropTypes.bool,
@@ -71,12 +74,16 @@ export default class SubmitForm extends Component {
     return day + '/' + month + '/' + year;
   }
 
-  onDrop = (file) => {
-    if(Array.isArray(file)){
-      console.log("files are array, we use the first element", file)
-      file = file[0];
+  onDrop = (files) => {
+    if(!Array.isArray(files)){
+      files = [files];
+    }else{
+      if(files.length > 3){
+        files = files.slice(0,3)
+        this.props.onSetError(strings.maxNumberImageError);
+      }
     }
-    this.props.onAddImage(file);
+    this.props.onAddImage(files);
   }
 
   onDeleteButton = () => {

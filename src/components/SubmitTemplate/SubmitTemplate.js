@@ -6,12 +6,12 @@ import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import uiStyles from '../../theme/uiStyles';
 import {onContactOpen, onContactClose, onStartEdit, onChangeSearchValue} from "redux/modules/entity";
-import {onSetContactError} from 'redux/modules/error';
+import {onSetError} from 'redux/modules/error';
 import {Carousel, Map} from 'components';
 import {RaisedButton, FlatButton, FontIcon, Paper, Dialog, Card, CardActions,
   CardHeader, CardMedia, CardTitle, CardText, List, ListItem, Divider, TextField} from 'material-ui';
 import {capitalizeFirstLetter} from '../../utils/help';
-
+import strings from '../../constant/strings';
 var config = require('../../config');
 
 @connect(
@@ -22,7 +22,7 @@ var config = require('../../config');
     user : state.auth.user,
     searchValue : state.entity.searchValue,
   }),
-  {onContactOpen, onContactClose, onStartEdit, onChangeSearchValue, onSetContactError}
+  {onContactOpen, onContactClose, onStartEdit, onChangeSearchValue, onSetError}
 )
 export default class SubmitTemplate extends Component {
   static propTypes = {
@@ -32,7 +32,7 @@ export default class SubmitTemplate extends Component {
     user : PropTypes.object,
     searchValue :PropTypes.string,
 
-    onSetContactError : PropTypes.func.isRequired,
+    onSetError : PropTypes.func.isRequired,
     onContactOpen : PropTypes.func.isRequired,
     onContactClose : PropTypes.func.isRequired,
     onStartEdit : PropTypes.func.isRequired,
@@ -53,12 +53,8 @@ export default class SubmitTemplate extends Component {
       if(user){
         this.props.onContactOpen()
       }else{
-        this.props.onSetContactError();
+        this.props.onSetError(strings.requireLoginError);
       }
-    }
-
-    const handleSearchButtonClick = (event) => {
-
     }
 
     const formatDate = (dateString) =>
