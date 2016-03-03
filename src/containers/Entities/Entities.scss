@@ -73,6 +73,18 @@
     margin-bottom: 435px;
     font-size: 20px;
   }
+
+  .upArrowContainer{
+    display: none;
+    border:1px solid black;
+    cursor: pointer;
+    position: fixed;
+    bottom: 30px;
+    right: 50px;
+    .upArrow{
+      color: #00acc1;
+    }
+  }
 }
 
 @include max-screen(820px){
@@ -106,8 +118,13 @@
 }
 
 @include max-screen(600px){
-  .gridContainer{
-    margin-top: 20px;
+  .entities{
+    .gridContainer{
+      margin-top: 20px;
+    }
+    .upArrowContainer{
+      display: block;
+    }
   }
 }
 

@@ -88,6 +88,13 @@ export default class Entities extends Component {
       }
     }
   }
+
+  onUpArrowClick = (event) => {
+    if(window){
+      window.scrollTo(0 , 100);
+    }
+  }
+
   componentDidMount(){
     window.addEventListener('scroll', this.handleScroll)
   }
@@ -147,6 +154,10 @@ export default class Entities extends Component {
           <p className={styles.loadingText}> Loading Now</p>
           <p><i className="fa fa-spin fa-refresh fa-4x"/></p>
         </div>}
+
+        <div className={styles.upArrowContainer} onClick={this.onUpArrowClick}>
+          <i className={"fa fa-arrow-up fa-2x " + styles.upArrow}/>
+        </div>
       </div>
     );
   }
