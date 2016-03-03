@@ -38,12 +38,12 @@ export default class Home extends Component {
           </div>
           <div className={styles.text1}>
               <div>
-                <h4>Responsive Webdesign</h4>
+                <h4>Features and Details</h4>
               </div>
               <div>
                 <p className={styles.responsiveDesign}>
                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                  短期回国出租,或者是寻找长期学生宿舍,还是毕业后换新住所,都可以在这里发布或者搜索
+                 简洁的设计和细节的打磨，我们的目标是创造自然、直觉的用户体验。
                 </p>
             </div>
           </div>
@@ -55,7 +55,7 @@ export default class Home extends Component {
             </div>
             <div>
               <p className={styles.tech}>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                采用最新最热门的互联网技术,从零开始搭建,打造一个纯净,简单,易用的信息平台</p>
+                采用最新的互联网技术,从零开始搭建,为大家打造一个纯净、简单、易用的信息平台。</p>
             </div>
           </div>
           <div className={styles.foto2}>
