@@ -18,11 +18,25 @@
 }
 
 .noHouseYet{
-  margin-left: 70px;
-  font-size: 20px;
-  margin-top: 90px;
-  padding-top: 20px;
-  margin-bottom: 440px;
+  margin-top: 140px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  .textHint{
+    font-size: 20px;
+    }
+  .raisedButton{
+    margin-top: 30px;
+    margin-bottom: 250px;
+  }
+
+
+
+  //margin-left: 70px;
+  //font-size: 20px;
+  //margin-top: 90px;
+  //padding-top: 20px;
+  //margin-bottom: 440px;
 }
 
 @include max-screen(768px){
@@ -32,5 +46,41 @@
   }
   .gridContainer{
     margin-top: 20px;
+    .noHouseYet{
+
+    }
+  }
+}
+
+@include max-screen(414px){
+  .gridContainer{
+    .noHouseYet{
+      .raisedButton{
+        margin-bottom: 200px;
+      }
+    }
+  }
+}
+
+@include max-screen(375px){
+  .gridContainer{
+    .noHouseYet{
+      .textHint{
+        font-size: 18px;
+      }
+    }
+  }
+}
+
+@include max-screen(370px){
+  .gridContainer{
+    .noHouseYet{
+      .textHint{
+        font-size: 15px;
+      }
+      .raisedButton{
+        margin-bottom: 100px;
+      }
+    }
   }
 }
