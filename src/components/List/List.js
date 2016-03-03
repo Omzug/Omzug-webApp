@@ -170,7 +170,8 @@ export default class List extends Component {
                 <span>from  新浪微博&nbsp;<i className={"fa fa-weibo"}/> in <b className={styles.cityColor}> {capitalizeFirstLetter(house.city)}</b> </span>
                 :
                 <span>
-                  by <b className={styles.usernameColor}>{house.username}</b> In <b className={styles.cityColor}> {capitalizeFirstLetter(house.city)}</b>
+                  by <b className={styles.usernameColor}>{house.username}</b> In <b className={styles.cityColor}>
+                  {capitalizeFirstLetter(house.city)}</b> 2016.3.3
                 </span>
               }
               actionIcon={renderIcon(house, index)}

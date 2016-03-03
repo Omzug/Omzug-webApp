@@ -158,7 +158,7 @@ export default class SubmitForm extends Component {
         }
       }
       if(anyError.length){
-        return this.props.onLogError("未填写" + anyError.join(", "));
+        return this.props.onLogError("未填写"  + anyError.join(", "));
       }
       handleSubmit(data)
     }
@@ -185,7 +185,7 @@ export default class SubmitForm extends Component {
                 <div className={styles.imageContainer}>
                   <DropZone onDrop={this.onDrop}>
                     <div className={styles.inner}>
-                      <div className={styles.innerText}>{strings.addImageHint}</div>
+                      <div className={styles.innerText}>请点击选择图片或将图片拖动到框中,<font color="#FF6F6F">最多上传<b><font>3</font></b>张图片</font></div>
                       <div className={styles.innerFont}>
                         <span className="fa fa-plus-circle fa-5x"/>
                       </div>
@@ -195,10 +195,12 @@ export default class SubmitForm extends Component {
               }
             </Carousel>
           </CardMedia>
-          <CardTitle>
-              {/* directly display the require error here since it hard to find */}
-            <TextField key={201} hintText="标题" floatingLabelText="标题" errorText={title.touched && title.error ? title.error : null} {...title}/>
-          </CardTitle>
+          <div className={styles.cardTitle}>
+            <CardTitle>
+                {/* directly display the require error here since it hard to find */}
+              <TextField key={201} hintText="标题" floatingLabelText="标题" errorText={title.touched && title.error ? title.error : null} {...title}/>
+            </CardTitle>
+          </div>
           <CardText style={uiStyles.cardText}>
               <textarea key={202} className={"form-control " + styles.textArea} rows="8" placeholder="填写一些具体介绍吧" {...description}/>
           </CardText>

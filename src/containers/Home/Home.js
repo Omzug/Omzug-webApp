@@ -34,7 +34,7 @@ export default class Home extends Component {
 
         <div className={styles.secondContainer}>
           <div className={styles.foto1}>
-            <img src="https://41.media.tumblr.com/ecc9d7da97c423c39d5442e5875c224f/tumblr_o3f26ziBSs1vn5ujpo1_1280.png"/>
+            <img src="https://s3.eu-central-1.amazonaws.com/omzug.com/gif/verybig2+1500.png"/>
           </div>
           <div className={styles.text1}>
               <div>

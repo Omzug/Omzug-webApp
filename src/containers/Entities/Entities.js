@@ -134,8 +134,11 @@ export default class Entities extends Component {
               placeholder={strings.selectPlaceholder}
             />
           </div>
-
-          <RaisedButton className={styles.refreshButton} onClick={this.onLoadListButton} style={uiStyles.buttonStyleRenewCityList}><i className={refreshClassName}/> 更新城市列表</RaisedButton>
+          <div className={styles.refreshButton}>
+            <RaisedButton onClick={this.onLoadListButton} style={uiStyles.buttonStyleRenewCityList}><i className={refreshClassName}/>
+              更新城市列表
+            </RaisedButton>
+          </div>
         </div>
 
         {loaded &&

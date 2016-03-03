@@ -42,6 +42,7 @@
     margin: 0 30px 0 30px;
   }
   .refreshButton {
+    margin-bottom:0px ;
 
   }
 
@@ -76,13 +77,18 @@
 
   .upArrowContainer{
     display: none;
-    border:1px solid black;
     cursor: pointer;
     position: fixed;
-    bottom: 30px;
-    right: 50px;
+    bottom: 15px;
+    right: 15px;
+    z-index: 10;
     .upArrow{
-      color: #00acc1;
+      padding: 7px;
+      color: black;
+      box-shadow:  0px 4px 12px 0px rgba(162,162,162,0.50);
+      border-radius: 50%;
+      background-color: #fafafa;
+      opacity: 0.6;
     }
   }
 }
@@ -93,6 +99,9 @@
   }
   .listNav{
     margin-top: 20px;
+    .refreshButton{
+
+      }
   }
   .listNavBeforeLogin{
 
@@ -105,6 +114,9 @@
     .listNav {
       position: static;
       padding-top: 60px;
+      .refreshButton{
+
+      }
     }
     .listNavBeforeLogin{
       position : static;
@@ -113,6 +125,7 @@
     .gridContainer{
       margin-top: -20px;
       padding-top: 0;
+
     }
   }
 }
@@ -124,6 +137,7 @@
     }
     .upArrowContainer{
       display: block;
+
     }
   }
 }
@@ -131,7 +145,19 @@
 @include max-screen(474px){
   .entities{
     .listNavBeforeLogin{
-      margin-top: 0;
+      margin-bottom: 30px;
+      margin-top: -20px;
+      .refreshButton{
+        margin-top: -30px;
+      }
+
+    }
+    .listNav{
+      margin-bottom: 30px;
+      margin-top: -20px;
+      .refreshButton{
+        margin-top: -30px;
+      }
     }
   }
 }
