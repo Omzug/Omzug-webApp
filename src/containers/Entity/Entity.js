@@ -10,6 +10,7 @@ import {onClearAllError} from 'redux/modules/error';
 import connectData from 'helpers/connectData';
 import { SubmitForm } from 'components';
 import { SubmitTemplate } from 'components';
+import { NotFound } from 'containers';
 import uiStyles from "../../theme/uiStyles";
 import {Snackbar} from 'material-ui';
 import Helmet from 'react-helmet';
@@ -31,6 +32,7 @@ function checkState(getState, dispatch){
 )
 @connect(
   state => ({
+    loadError : state.entity.loadError,
     entity: state.entity.data,
     cachedImages : state.entity.cachedImages,
     error: state.entity.error,
@@ -60,6 +62,7 @@ export default class Entity extends Component {
     feedback : PropTypes.string,
     entityId : PropTypes.string,
     contactError : PropTypes.string,
+    loadError : PropTypes.string,
 
     //editStart: PropTypes.func.isRequired,
     onClearAllError : PropTypes.func.isRequired,
@@ -115,14 +118,21 @@ export default class Entity extends Component {
       return ""
     }
 
+    const renderMain = () => {
+      if(this.props.loadError){
+        return <NotFound/>
+      }else if(editing){
+        return <SubmitForm onSubmit={this.handleSubmit} />
+      }else{
+        return <SubmitTemplate />
+      }
+    }
+
     return (
       <div>
         <Helmet title="房屋"/>
-        {editing ?
-          <SubmitForm onSubmit={this.handleSubmit} />
-           :
-          <SubmitTemplate />
-        }
+
+        {renderMain()}
 
         <Snackbar
           open={feedback != null || contactError != null}

@@ -31,10 +31,11 @@ const CHANGE_PRICE_TYPE = "omzug/entity/CHANGE_PRICE_TYPE";
 const CALCULATE_GEOMETRY = "omzug/entity/CALCULATE_GEOMETRY";
 const CHANGE_SEARCH_VALUE = "omzug/entity/CHANGE_SEARCH_VALUE";
 const SUBMIT_NEW_FAIL = "omzug/entity/SUBMIT_NEW_FAIL";
+const CLEAR_LOAD_ERROR = "omzug/entity/CLEAR_LOAD_ERROR"
 
 const initState = {
   loaded: false,
-  saveError: {},
+  loadError: null,
   editing : false,
   contactOpen : false,
   data : {
@@ -73,7 +74,8 @@ export default function reducer(state = initState, action){
     case LOAD:
       return {
         ...state,
-        loading: true
+        loading: true,
+        loadError : null,
       };
     case LOAD_SUCCESS:
       return {
@@ -82,14 +84,15 @@ export default function reducer(state = initState, action){
         loaded: true,
         loadedId : action.result._id,
         data: update(state.data, {$merge : action.result}),
-        error: null
+        error: null,
+        loadError : null,
       };
     case LOAD_FAIL:
       return {
         ...state,
         loading: false,
         loaded: false,
-        data: null,
+        loadError: action.error,
         error: action.error
       };
     case SUBMIT:
@@ -249,6 +252,11 @@ export default function reducer(state = initState, action){
           return {
             ...state,
             searchValue : action.value
+          }
+    case CLEAR_LOAD_ERROR:
+          return {
+            ...state,
+            loadError : null,
           }
     default :
       return state;
@@ -431,6 +439,12 @@ export function onChangeSearchValue(value){
   return {
     type : CHANGE_SEARCH_VALUE,
     value : value,
+  }
+}
+
+export function onClearLoadError(){
+  return {
+    type : CLEAR_LOAD_ERROR,
   }
 }
 

@@ -2,6 +2,7 @@ import React from 'react';
 import {IndexRoute, Route} from 'react-router';
 import {pushState} from 'redux-router'
 import { isLoaded as isAuthLoaded, load as loadAuth } from 'redux/modules/auth';
+import {onClearLoadError} from 'redux/modules/entity'
 import {onClear as clearEntity} from 'redux/modules/entity';
 import config from './config.js'
 import {
@@ -66,6 +67,10 @@ export default (store) => {
     //console.log('next state is', nextState.params, typeof nextState.params.entityId,
     //  "\n loadedId :", entityNow.loadedId, typeof entityNow.loadedId)
     //only clear cache if the id is not the same as before
+    console.log('load error is', entityNow.loadError)
+    if(entityNow.loadError){
+      store.dispatch(onClearLoadError())
+    }
     if(entityNow.loaded && entityNow.loadedId !== nextState.params.entityId) {
       //console.log('should be cleared')
       store.dispatch(clearEntity())
