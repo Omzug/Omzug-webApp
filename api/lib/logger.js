@@ -32,7 +32,8 @@ var timestampFn = function() {
 
 var logOptions = config.logOptions;
 
-var level = logOptions.level;
+var level = process.env.NODE_ENV === "production" ? logOptions.level : logOptions.debugLevel;
+var consoleLevel = process.env.NODE_ENV === "production" ? "warn" : "info"
 var filename = logOptions.filename;
 var fileSize = logOptions.filesize;
 var fileCount = logOptions.filecount;
@@ -41,7 +42,7 @@ var noLogFlag = logOptions.noLogFlag;
 var logger = new winston.Logger({
   transports: [
     new winston.transports.Console({
-      level : "warn",
+      level : consoleLevel,
       prettyPrint: true,
       colorize: true,
       timestamp: timestampFn,

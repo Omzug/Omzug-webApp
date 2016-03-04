@@ -482,10 +482,5 @@ function findSchema(type, callback){
 }
 
 function logSuccess(type, result){
-  if(process.env.NODE_ENV != "production"){
-    logger.info(LOGTITLE + 'information ' + type + ' successfully processed :' + result)
-  }else{
-    logger.info(LOGTITLE + 'information ' + type + ' successfully processed')
-  }
-
+    logger.debug(LOGTITLE + 'information ' + type + ' successfully processed :' + result)
 }

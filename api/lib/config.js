@@ -29,6 +29,7 @@ module.exports = {
   },
 
   logOptions : {
+    "debugLevel" : "debug",
     "level": "info",
     "filename": "./logs/omzug",
     "filesize": "10000000",
