@@ -6,6 +6,7 @@ const async = require('async')
 import DB from '../lib/db-interface.js';
 var aws = require('../lib/aws');
 var createId = require('../lib/model.js').createId
+import {logger} from '../lib/logger';
 
 export default function deleteHouse(req, params){
   // mongodb id is 24 digits hex code
@@ -14,7 +15,7 @@ export default function deleteHouse(req, params){
   const LackParameterError = 'request error : does not have enough parameter'
   const WrongRequestError = 'request error : parameter does not qualified'
 
-  console.log('get request in deleteHouse.js with params: ', params )
+  logger.debug('get request in deleteHouse.js with params: ', params )
   return new Promise((resolve, reject) => {
     const steps = [
       validateParams,
@@ -52,15 +53,14 @@ export default function deleteHouse(req, params){
         return callback(null, house)
       house.images.some(function(imageAddress){
         const address = imageAddress.split("/")
-        console.log('file name is', address[address.length - 1])
+        logger.debug('file name is', address[address.length - 1])
         return aws.delete(house.username, address[address.length - 1], function(err, result){
-          console.log('delete house result is', result)
           if(err) {
             callback(err)
             return true;
           }else{
             finished ++
-            console.log(finished + ' image is successfully deleted with result' , result)
+            logger.debug(finished + ' image is successfully deleted with address ' + imageAddress )
             if(finished == house.images.length){
               callback(null, house)
             }
@@ -79,14 +79,13 @@ export default function deleteHouse(req, params){
     }
 
     async.waterfall(steps, function(err, result){
-      console.log("err and house is", err, result)
       if(err){
+        logger.error("err in deleteHouse is", err)
         if(err.msg) {
           reject(err.msg)
         }else if(typeof err == "string"){
           reject(err)
         }else{
-          console.log("we got error object: " , err)
           reject('submit internal error', err.toString())
         }
       }else {

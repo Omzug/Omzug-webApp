@@ -4,6 +4,10 @@
       "name": "omzug",
       "script": "./bin/server.js",
       "instances"  : 0,
+      "error_file" : "err.omzug.log",
+      "out_file"   : "out.omzug.log",
+      "merge_logs" : true,
+      "log_date_format" : "YYYY-MM-DD HH:mm ZZ",
       "exec_mode"  : "cluster_mode",
       "env": {
         "NODE_ENV": "production",

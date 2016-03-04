@@ -6,7 +6,7 @@ import {clearLoginError, login} from 'redux/modules/auth';
 import loginValidation from './loginValidation';
 import {TextField, RaisedButton, Snackbar} from 'material-ui';
 import uiStyles from '../../theme/uiStyles';
-
+import imageAddress from '../../constant/imageAddress'
 @connect(
   state => ({
     user: state.auth.user,
@@ -112,7 +112,7 @@ export default class Login extends Component {
             </form>
           </div>
           <div className={styles.loginPic}>
-            <img src="https://41.media.tumblr.com/41dcb11625dd4c9511934e514871ec16/tumblr_o2tlx3t0R61qkfs2lo1_1280.jpg"/>
+            <img src={imageAddress.loginImage}/>
           </div>
         </div>
         }

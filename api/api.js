@@ -10,6 +10,8 @@ import SocketIo from 'socket.io';
 import DB from './lib/db-interface.js';
 import sitemap from './lib/sitemap.js';
 const MongoStore = require('connect-mongo')(session);
+import {logger} from './lib/logger';
+
 
 var mongoModel = require('./lib/model.js')
 var mongoConnection = mongoModel.initMongoDb()
@@ -45,7 +47,7 @@ app.get('/sitemap', function(req, res) {
 });
 
 app.use((req, res) => {
-  console.log("get request :", req.url)
+  logger.info("get request :", req.url)
   const splittedUrlPath = req.url.split('?')[0].split('/').slice(1);
 
   const {action, params} = mapUrl(actions, splittedUrlPath);
@@ -62,7 +64,7 @@ app.use((req, res) => {
         if (reason && reason.redirect) {
           res.redirect(reason.redirect);
         } else {
-          console.error('API ERROR:', pretty.render(reason));
+          logger.error('API ERROR:', pretty.render(reason));
           res.status(reason.status || 500).json(reason);
         }
       });
@@ -79,10 +81,10 @@ let messageIndex = 0;
 if (config.apiPort) {
   const runnable = app.listen(config.apiPort, (err) => {
     if (err) {
-      console.error(err);
+      logger.error(err);
     }
-    console.info('----\n==> 🌎  API is running on port %s', config.apiPort);
-    console.info('==> 💻  Send requests to http://%s:%s', config.apiHost, config.apiPort);
+    logger.info('----\n==> 🌎  API is running on port %s', config.apiPort);
+    logger.info('==> 💻  Send requests to http://%s:%s', config.apiHost, config.apiPort);
   });
 
   io.on('connection', (socket) => {
@@ -107,5 +109,5 @@ if (config.apiPort) {
   });
   io.listen(runnable);
 } else {
-  console.error('==>     ERROR: No PORT environment variable has been specified');
+  logger.error('==>     ERROR: No PORT environment variable has been specified');
 }

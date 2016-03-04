@@ -200,6 +200,7 @@ export default function reducer(state = initState, action){
           }
     case ADD_IMAGE:
       // once only one image as input
+      //console.log('the initial cached images are', state.cachedImages)
       const images = update(state.cachedImages, {$push: action.images})
       //console.log('after update the cachedImages are', images)
       return {
@@ -318,11 +319,17 @@ export function onLoadInit(){
 function generalizeParameter(data, images){
   var submitData;
   data.city = data.city.toLowerCase();
+  if(data.email==""|| (data.email && data.email.trim()=="")) {
+    data.email=null
+  }
+  if(data.phone==""|| (data.phone && data.phone.trim()=="")) {
+    data.phone=null
+  }
   //if(images.length > 0){
-    submitData = {
-      data : data,
-      files : images,
-    }
+  submitData = {
+    data : data,
+    files : images,
+  }
   //console.log('submit data in web is: ', submitData)
   return submitData;
 }

@@ -47,9 +47,13 @@
 }
 
 @include max-screen(768px){
+  .container {
+    margin-top: 60px;
+  }
+
   .text{
     width:60%;
-    margin-top: 120px;
+    margin-top: 60px;
     margin-bottom:70px;
   }
 }
@@ -63,17 +67,17 @@
 
 @include max-screen(414px){
   .text{
-    margin-top: 20px;
+    margin-top: 80px;
     margin-bottom: 30px;
   }
 }
 @include max-screen(375px){
   .text{
-    margin-top: -10px;
+    margin-top: 80px;
   }
 }
 @include max-screen(320px){
   .text{
-    margin-top: -40px;
+    margin-top: 80px;
   }
 }

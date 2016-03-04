@@ -10,6 +10,7 @@ import {RegisterForm} from 'components';
 import {register, clearLoginError} from 'redux/modules/auth';
 import {Snackbar} from 'material-ui';
 import uiStyles from "../../theme/uiStyles";
+import imageAddress from '../../constant/imageAddress'
 
 @connect(
   state => ({
@@ -58,7 +59,7 @@ export default class Register extends Component{
 
 
         <div className ={styles.registerPic}>
-          <img src="https://41.media.tumblr.com/3c41788b9aaedab70a03cc286521aa88/tumblr_o2tdluSTeD1qkfs2lo1_1280.jpg"/></div>
+          <img src={imageAddress.registerImage}/></div>
         </div>
       </div>
     )

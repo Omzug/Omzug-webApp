@@ -4,6 +4,7 @@ import {RaisedButton} from 'material-ui';
 import config from '../../config';
 import Helmet from 'react-helmet';
 import uiStyles from '../../theme/uiStyles';
+import imageAddress from '../../constant/imageAddress'
 
 export default class Home extends Component {
   render() {
@@ -20,11 +21,10 @@ export default class Home extends Component {
             <div className={styles.introduction}><h4>{config.app.introduction}<br /><br />
               {config.app.introductionEn}</h4></div>
 
-            {/*<div><img className={styles.bulb} src="http://www.endlessicons.com/wp-content/uploads/2012/09/light-bulb-icon-614x460.png"/></div>*/}
           </div>
           <div className={styles.fotoContainer}>
             <div className={styles.foto}>
-              <a href="/main"><img id="h" src="https://49.media.tumblr.com/936d938e81a488e380316352a6c3eefe/tumblr_o2tghkrmXz1qkfs2lo1_1280.gif" /></a>
+              <a href="/main"><img src={imageAddress.mainImage} /></a>
             </div>
             <div className={styles.startButton}>
               <RaisedButton style={uiStyles.buttonStyleGetStarted} linkButton={true} containerElement={<Link to="/main" />} label="Get Started"/>
@@ -34,7 +34,7 @@ export default class Home extends Component {
 
         <div className={styles.secondContainer}>
           <div className={styles.foto1}>
-            <img src="https://s3.eu-central-1.amazonaws.com/omzug.com/gif/verybig2+1500.png"/>
+            <img src={imageAddress.featureImage}/>
           </div>
           <div className={styles.text1}>
               <div>
@@ -59,7 +59,7 @@ export default class Home extends Component {
             </div>
           </div>
           <div className={styles.foto2}>
-            <img src="https://s3.eu-central-1.amazonaws.com/omzug.com/gif/iconsnew.png"/>
+            <img src={imageAddress.technologyImage}/>
           </div>
         </div>
 

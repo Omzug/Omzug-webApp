@@ -10,37 +10,17 @@ var fs = require('fs');
 var aws = require('../lib/aws');
 var tmpPath = require('../lib/config').tmpPath;
 var awsPrefix = require('../lib/config').awsPrefix;
-var urlencode = require('urlencode');
 import {geocode} from '../lib/googleMap';
-
-function upload(file, callback){
-  console.log('file success upload: ', file)
-  callback(null, file)
-}
-
-function get(name){
-  console.log('success get the file')
-}
-
-function deleteImage(path){
-  console.log('now delete image')
-}
+import {logger} from '../lib/logger';
 
 function processImageAddress(path){
-  console.log('process address is', path)
   var paths = path.split("/")
-  //var relativePath = paths[paths.length - 2] + "/" + paths[paths.length - 1]
   var relativePath = paths[paths.length - 1]
-  console.log('we get new path is', relativePath)
   return relativePath
 }
 
-function normalizeName(name){
-  return urlencode(name)
-}
-
 export default function submit(req, params) {
-  console.log('in api submit.js we get request is', params)
+  logger.debug('in api submit.js we get request is', params)
 
     //1. compare address array and the database
     //先增加后减少的情况,做判断
@@ -56,11 +36,25 @@ export default function submit(req, params) {
   form.uploadDir = tmpPath;
   form.keepExtensions = true;
 
+  form.on('fileBegin', function(field, file) {
+    logger.debug('file name is', file.name)
+  })
+
+  var filesArray = []
+  form.on('file', function(name, file) {
+    var nameArray = file.path.split('/');
+    var replaceName = nameArray[nameArray.length - 1];
+    // upload_xxx.jpg -->omzug_xxx.jpg
+    replaceName = 'omzug-' + replaceName.slice(7)
+
+    file.name = replaceName
+    filesArray.push(file);
+  })
+
   return new Promise((resolve, reject) => {
 
     var house;
     var deleteFiles = [];
-    var addFiles = [];
 
     var steps = [
       parseRequest,
@@ -74,27 +68,16 @@ export default function submit(req, params) {
 
     function parseRequest(callback) {
       form.parse(req, function (err, fields, files) {
-        var filesArray = [];
         if (err) {
           callback(err)
         } else {
-          console.log("files are ", files)
+          logger.debug("received files are ", filesArray.length + " element array")
           for(var item in fields){
             if(fields.hasOwnProperty(item) && fields[item] == "null")
               delete fields[item];
           }
           house = Object.assign({}, fields)
-          console.log('copied house object is', house)
-
-          // normalize file into array
-          for(var fileName in files){
-            if(files.hasOwnProperty(fileName)){
-              //TODO maybe delete later, fix bugs in xinyue's computer
-              if(files[fileName].name == 'undefined')
-                files[fileName].name = fileName;
-              filesArray.push(files[fileName])
-            }
-          }
+          logger.trace('copied house object is', house)
 
           // normalize images, only these two situation
           if(house.images == ''){
@@ -112,11 +95,11 @@ export default function submit(req, params) {
       if(house.location != null){
         var location = house.location + " " + house.city
         geocode(location, function(err, resultObject){
-          console.log('map result object in api is,', resultObject)
+          logger.trace('map result object in api is,', resultObject)
           if(!err){
             if(resultObject.status == 'OK' && resultObject.results.length){
               var location = resultObject.results[0].geometry.location
-              console.log('house geometry is', location);
+              logger.debug('house geometry is', location);
               house.lat = location.lat
               house.lng = location.lng
               callback(null, house, files)
@@ -159,7 +142,7 @@ export default function submit(req, params) {
 
       deleteFiles.forEach(function(imageAddress){
         aws.delete(house.username , processImageAddress(imageAddress), function(err, result){
-          console.log('finished is ', finished, 'err is', err, 'result is ', result)
+          logger.trace('finished is ', finished, 'err is', err, 'result is ', result)
           if(err){
             callback(err)
           }else{
@@ -183,17 +166,16 @@ export default function submit(req, params) {
       var finished = 0
 
       files.some(function(file){
-        console.log('start upload with file ', file.name)
+        logger.debug('start upload with file ', file.name)
         aws.upload(file, house.username, function (err, data) {
           if (err) {
-            console.log('we get error', err)
             callback(err)
             return true
           }else{
-            console.log("here we get data is", data)
+            logger.trace("here we get data is", data)
             // TODO should process it into address
-            const path = awsPrefix + house.username + '/' + normalizeName(file.name);
-            console.log('the adding images path is ', path)
+            const path = awsPrefix + house.username + '/' + file.name;
+            logger.trace('the adding images path is ', path)
             house.images = house.images.concat(path)
             finished ++
             if(finished == files.length) {
@@ -215,7 +197,7 @@ export default function submit(req, params) {
             callback(err)
             return true
           }
-          console.log('successful delete file', file.name)
+          logger.debug('successful delete file', file.name)
           deleted++
           if(deleted == files.length){
             callback(null, house)
@@ -229,19 +211,17 @@ export default function submit(req, params) {
       if(params.length == 0){
         // this case is new submit
         DB.save("house", house, function(result){
-          console.log('insert new house in our database with:', result.data)
+          logger.trace('insert new house in our database')
           callback(null, result.data)
         }, function(err){
-          console.log('err in insert new house in database :', err)
           callback(err)
         })
       }else{
         // this case is update existed house
         DB.update('house', {_id : house._id}, house, function(result){
-          console.log('update house in our database with: ', result.data)
+          logger.trace('update house in our database: ')
           callback(null, result.data)
         }, function(err){
-          console.log('err in update house in database : ', err)
           callback(err)
         })
       }
@@ -249,14 +229,13 @@ export default function submit(req, params) {
     }
 
     async.waterfall(steps, function(err, result){
-      console.log("err and house is", err, result)
       if(err){
+        logger.error("we got error in submit is " , err)
         if(err.msg) {
           reject(err.msg)
         }else if(typeof err == "string"){
           reject(err)
         }else{
-          console.log("we got error object: " , err)
           reject('submit internal error')
         }
       }else {

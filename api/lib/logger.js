@@ -32,30 +32,32 @@ var timestampFn = function() {
 
 var logOptions = config.logOptions;
 
-var level = logOptions.level;
+var level = process.env.NODE_ENV === "production" ? logOptions.level : logOptions.debugLevel;
+var consoleLevel = process.env.NODE_ENV === "production" ? "warn" : "info"
 var filename = logOptions.filename;
 var fileSize = logOptions.filesize;
 var fileCount = logOptions.filecount;
-var noLogFlag = logOptions.noLogFlag;
+//var noLogFlag = logOptions.noLogFlag;
 
 var logger = new winston.Logger({
   transports: [
     new winston.transports.Console({
+      level : consoleLevel,
       prettyPrint: true,
       colorize: true,
       timestamp: timestampFn,
       handleExceptions: true
     }),
     //TODO disable file logger at the moment
-    //new winston.transports.DailyRotateFile({
-    //  level: level,
-    //  filename: filename,
-    //  datePattern: '.yyyy-MM-dd.log',
-    //  timestamp: timestampFn,
-    //  maxsize: fileSize,
-    //  maxFiles: fileCount,
-    //  json: false
-    //})
+    new (require('winston-daily-rotate-file'))({
+      level: level,
+      filename: filename,
+      datePattern: '.yyyy-MM-dd.log',
+      timestamp: timestampFn,
+      maxsize: fileSize,
+      maxFiles: fileCount,
+      json: false
+    })
   ]
 });
 
@@ -68,10 +70,19 @@ var levelMap = {
   'warn': 1,
   'verbose': 2,
   'info': 3,
-  'debug': 4
+  'debug': 4,
+  'trace' : 5,
 }
 
 var levelNumber = levelMap[level];
+
+var logTrace = logger.trace;
+
+logger.trace = function() {
+  if (levelNumber > 4) {
+    logTrace.apply(logger, arguments);
+  }
+};
 
 var logDebug = logger.debug;
 
@@ -103,5 +114,4 @@ logger.error = function() {
   logError.apply(logger, arguments);
 };
 
-exports.logger = logger;
-exports.loggerStream = loggerStream;
+export {logger, loggerStream}

@@ -16,14 +16,18 @@ var UserSchema = require('./schemas/UserSchema.js')(Schema, userCollectionName);
 //Init database Models
 var initMongoDb = function(){
   if(!inited){
-    var link = "mongodb://" + config.host + '/' + config.databaseName;
-    mongoose.connect( link , { server : { poolSize : 10}});
-    // var link = "mongodb://" + options.host + "/" + options.database;
-    // mongoose.connect( link , {
-    //     server : { poolSize : 100},
-    //     user: options.user,
-    //     pass: options.password
-    // }); // TODO change the authentication
+    var link
+    if(process.env.NODE_ENV === "production") {
+      link = "mongodb://" + config.host + "/" + config.databaseName;
+      mongoose.connect(link, {
+        server: {poolSize: 100},
+        user: config.dbUser,
+        pass: config.dbPassword
+      });
+    }else {
+      link = "mongodb://" + config.host + '/' + config.databaseName;
+      mongoose.connect(link, {server: {poolSize: 10}});
+    }
     inited = true
   }
   return mongoose.connection;

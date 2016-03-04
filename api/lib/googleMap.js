@@ -4,8 +4,9 @@
 
 var GoogleMapsAPI = require('googlemaps');
 var config = require('./config');
+import {logger} from './logger';
 
-console.log('key is', config.googleMapKey)
+logger.info('key is', config.googleMapKey)
 var publicConfig = {
   key: config.googleMapKey,
   //stagger_time:       1000,
@@ -36,6 +37,6 @@ function geocode(address, callback){
 }
 
 geocode("121, Curtain Road, EC2A 3AD, London UK", function(err, results){
-  console.log("map err is:" , err, "and result is ", results.results[0].geometry.location)
+  logger.debug("map err is:" , err, "and result is ", results.results[0].geometry.location)
 })
 export {geocode}

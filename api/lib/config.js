@@ -9,6 +9,8 @@ if(process.env.NODE_ENV === "production"){
 module.exports = {
   host : 'localhost:27017',
   databaseName: 'omzug',
+  dbUser : 'omzug',
+  dbPassword : '010702hanwen',
   //please list the collection names one by one
   userCollectionName : 'user',
   houseCollectionName : 'house',
@@ -29,9 +31,10 @@ module.exports = {
   },
 
   logOptions : {
+    "debugLevel" : "debug",
     "level": "info",
     "filename": "./logs/omzug",
-    "filesize": "1000000",
+    "filesize": "10000000",
     "filecount": "100"
   }
 }

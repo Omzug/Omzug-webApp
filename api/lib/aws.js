@@ -6,7 +6,7 @@ var AWS = require('aws-sdk');
 var config = require('./config')
 AWS.config.update({region : 'eu-central-1'})
 var fs = require('fs')
-var urlencode = require('urlencode');
+import {logger} from './logger';
 
 var s3 = new AWS.S3({params: {Bucket: config.awsBucket}});
 
@@ -33,12 +33,10 @@ var deleteParams = function(username, filename){
   }
 }
 
-console.log('aws endpoint is' , s3.endpoint);
+logger.info('aws endpoint is' , s3.endpoint);
 
 const deleteObject = function(username, filename, callback){
-  console.log('delete filename are ', filename)
-  filename = urlencode.decode(filename)
-  console.log('docoded filename is ', filename)
+  logger.debug('delete filename are ', filename)
   s3.deleteObject(deleteParams(username, filename), callback)
 }
 
@@ -47,15 +45,6 @@ const upload = function(file, username, callback){
     if (err) callback(err);
     s3.putObject(putParams(file, data, username), callback);
   })
-}
-
-const get = function(path, callback){
-  s3.getObject(getParams(path), callback)
-}
-
-var callback = function(err, data){
-  if(err) console.log(err, err.stack);
-  console.log(data);
 }
 
 module.exports.upload = upload;

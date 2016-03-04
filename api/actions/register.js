@@ -4,6 +4,7 @@
 
 import DB from '../lib/db-interface.js';
 const async = require('async')
+import {logger} from '../lib/logger'
 
 export default function register(req) {
   /**
@@ -58,7 +59,7 @@ export default function register(req) {
       function(callback){
         DB.save("user", req.body, function(data){
           req.session.user = {name : username}
-          console.log("data.data is", data.data)
+          logger.trace("data.data is", data.data)
           callback(null, data.data)
         }, function(err){
           return callback(err.msg)

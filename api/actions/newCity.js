@@ -3,11 +3,12 @@
  */
 
 import DB from '../lib/db-interface.js';
+import {logger} from '../lib/logger'
 const async = require('async')
 
 export default function newCity(req, params) {
 
-  console.log('in city list we receive params are', params)
+  logger.trace('in city list we receive params are', params)
   return new Promise((resolve, reject)=>{
 
     const steps = [

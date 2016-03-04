@@ -21,7 +21,7 @@ export default {
   card: {backgroundColor: "white", boxShadow: "0 0 25px rgba(0, 0, 0, 0.06)"},
   registerForm: {width:"400px"},
   labelStyle : { fontFamily:"Avenir Next",fontWeight:"400"},
-  warmCold:{fontSize:"14px", fontFamily:"Roboto", fontWeight:"300",color:"#484848"},
+  warmCold:{fontSize:"14px", fontFamily: "Futura", fontWeight:"400",color:"#484848"},
   buttonGroup : {width :"90px", display: "flex", flexDirection: "row", justifyContent : "flex-start", marginTop : "30px",
   marginLeft:"-22px",color:"grey",fontSize:"12px",marginBottom:"10px"},
   hintStyle:{fontFamily:"Avenir Next", fontWeight:"400"},
