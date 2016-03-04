@@ -10,7 +10,7 @@ export default function getHouse(req, params) {
   var houseId = createId(params[0])
   return new Promise((resolve, reject) => {
     DB.get('house', {_id : houseId}, function(result){
-      console.log('we get result here is', result)
+      console.log('we get house with result ', houseId )
       return resolve(result.data)
     }, function(err){
       return resolve(err.msg)

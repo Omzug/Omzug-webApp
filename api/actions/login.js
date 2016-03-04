@@ -12,9 +12,8 @@ export default function login(req) {
   return new Promise((resolve, reject)=>{
     DB.userLogin(req.body.email, req.body.password,
       function(data){
-        console.log('success login with data', data)
         req.session.user = data.data;
-        console.log('the user session information is', req.session)
+        //console.log('the user session information is', req.session)
         // data is the message
         return resolve(data.data);
       },

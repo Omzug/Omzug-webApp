@@ -36,7 +36,6 @@ console.log('aws endpoint is' , s3.endpoint);
 
 const deleteObject = function(username, filename, callback){
   console.log('delete filename are ', filename)
-  console.log('docoded filename is ', filename)
   s3.deleteObject(deleteParams(username, filename), callback)
 }
 
@@ -45,15 +44,6 @@ const upload = function(file, username, callback){
     if (err) callback(err);
     s3.putObject(putParams(file, data, username), callback);
   })
-}
-
-const get = function(path, callback){
-  s3.getObject(getParams(path), callback)
-}
-
-var callback = function(err, data){
-  if(err) console.log(err, err.stack);
-  console.log(data);
 }
 
 module.exports.upload = upload;

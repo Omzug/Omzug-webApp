@@ -54,13 +54,12 @@ export default function deleteHouse(req, params){
         const address = imageAddress.split("/")
         console.log('file name is', address[address.length - 1])
         return aws.delete(house.username, address[address.length - 1], function(err, result){
-          console.log('delete house result is', result)
           if(err) {
             callback(err)
             return true;
           }else{
             finished ++
-            console.log(finished + ' image is successfully deleted with result' , result)
+            console.log(finished + ' image is successfully deleted with address ' + imageAddress )
             if(finished == house.images.length){
               callback(null, house)
             }
@@ -79,14 +78,13 @@ export default function deleteHouse(req, params){
     }
 
     async.waterfall(steps, function(err, result){
-      console.log("err and house is", err, result)
       if(err){
+        console.error("err in deleteHouse is", err)
         if(err.msg) {
           reject(err.msg)
         }else if(typeof err == "string"){
           reject(err)
         }else{
-          console.log("we got error object: " , err)
           reject('submit internal error', err.toString())
         }
       }else {

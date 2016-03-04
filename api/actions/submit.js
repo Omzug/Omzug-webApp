@@ -94,7 +94,7 @@ export default function submit(req, params) {
       if(house.location != null){
         var location = house.location + " " + house.city
         geocode(location, function(err, resultObject){
-          console.log('map result object in api is,', resultObject)
+          //console.log('map result object in api is,', resultObject)
           if(!err){
             if(resultObject.status == 'OK' && resultObject.results.length){
               var location = resultObject.results[0].geometry.location
@@ -141,7 +141,7 @@ export default function submit(req, params) {
 
       deleteFiles.forEach(function(imageAddress){
         aws.delete(house.username , processImageAddress(imageAddress), function(err, result){
-          console.log('finished is ', finished, 'err is', err, 'result is ', result)
+          //console.log('finished is ', finished, 'err is', err, 'result is ', result)
           if(err){
             callback(err)
           }else{
@@ -168,14 +168,13 @@ export default function submit(req, params) {
         console.log('start upload with file ', file.name)
         aws.upload(file, house.username, function (err, data) {
           if (err) {
-            console.log('we get error', err)
             callback(err)
             return true
           }else{
-            console.log("here we get data is", data)
+            //console.log("here we get data is", data)
             // TODO should process it into address
             const path = awsPrefix + house.username + '/' + file.name;
-            console.log('the adding images path is ', path)
+            //console.log('the adding images path is ', path)
             house.images = house.images.concat(path)
             finished ++
             if(finished == files.length) {
@@ -211,19 +210,17 @@ export default function submit(req, params) {
       if(params.length == 0){
         // this case is new submit
         DB.save("house", house, function(result){
-          console.log('insert new house in our database with:', result.data)
+          //console.log('insert new house in our database')
           callback(null, result.data)
         }, function(err){
-          console.log('err in insert new house in database :', err)
           callback(err)
         })
       }else{
         // this case is update existed house
         DB.update('house', {_id : house._id}, house, function(result){
-          console.log('update house in our database with: ', result.data)
+          //console.log('update house in our database: ')
           callback(null, result.data)
         }, function(err){
-          console.log('err in update house in database : ', err)
           callback(err)
         })
       }
@@ -231,14 +228,13 @@ export default function submit(req, params) {
     }
 
     async.waterfall(steps, function(err, result){
-      console.log("err and house is", err, result)
       if(err){
+        console.error("we got error in submit is " , err)
         if(err.msg) {
           reject(err.msg)
         }else if(typeof err == "string"){
           reject(err)
         }else{
-          console.log("we got error object: " , err)
           reject('submit internal error')
         }
       }else {

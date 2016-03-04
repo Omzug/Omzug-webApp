@@ -6,7 +6,6 @@ import DB from '../lib/db-interface.js';
 
 export default function check(req) {
 
-  console.log('get request query is', req.query)
   /**
    * req.body
    * {

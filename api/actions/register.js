@@ -58,7 +58,7 @@ export default function register(req) {
       function(callback){
         DB.save("user", req.body, function(data){
           req.session.user = {name : username}
-          console.log("data.data is", data.data)
+          //console.log("data.data is", data.data)
           callback(null, data.data)
         }, function(err){
           return callback(err.msg)

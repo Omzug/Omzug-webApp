@@ -133,15 +133,15 @@ function test(){
   DI.get('user', {username : 'numberTwo'}, function(result){
     DI.update('user', {username : 'numberTwo'}, {password: "000100"},
       function(result) {
-        console.log(' update success ', result)
+        console.log('database update success '/*, result*/)
       },
       function(err){
-        console.log('err ', err)
+        console.error('err ', err)
       }
     )
   },
   function(err){
-    console.log('err ', err)
+    console.error('err ', err)
   })
 
 }
@@ -370,7 +370,7 @@ DI.getAllNoLimit = function(type, query, resolve, reject){
  * @param reject promise error
  */
 DI.userLogin =function(email, password, resolve, reject){
-  console.log("query info is", email, password)
+  //console.log("query info is", email, password)
   User.findOne({email : email}, function(err, user) {
 
     if (err) {
