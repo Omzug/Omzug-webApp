@@ -11,6 +11,7 @@
   justify-content: center;
   width:100%;
   .list{
+    max-width: 100%;
     overflow: visible;
     align-self: flex-start;
     width:30%;
@@ -62,6 +63,7 @@
     }
   }
   .card{
+    max-width: 100%;
     width:45%;
     height:70%;
     min-width:450px;

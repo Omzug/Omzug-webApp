@@ -80,7 +80,6 @@ export default class SubmitForm extends Component {
 
   onDrop = (files) => {
     if(!Array.isArray(files)){
-      console.log('files are :', files)
       files = [files];
     }else{
       if(files.length + this.calculateNumber()> 3){

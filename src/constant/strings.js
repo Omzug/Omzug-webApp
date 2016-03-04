@@ -17,7 +17,7 @@ const strings = {
   selectNoResults : "暂无该地区的房源",
   selectPlaceholderSubmit :  "选择所在的城市",
   selectNoResultsSubmit : "暂不支持选择的地区,请选择附近的城市",
-  deleteSuccess : "成功删除,所有相关的图片也已删除",
+  deleteSuccess : "已成功删除",
   deleteError : "删除失败",
 }
 

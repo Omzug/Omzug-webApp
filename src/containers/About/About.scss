@@ -56,13 +56,24 @@
 
 @include max-screen(530px){
   .text{
-    width:80%;
+    width:87%;
   }
 }
+
 
 @include max-screen(414px){
   .text{
     margin-top: 20px;
     margin-bottom: 30px;
+  }
+}
+@include max-screen(375px){
+  .text{
+    margin-top: -10px;
+  }
+}
+@include max-screen(320px){
+  .text{
+    margin-top: -40px;
   }
 }

@@ -283,6 +283,13 @@ $paddingTop : 50px;
       }
 
     }
+    .secondContainer{
+      .foto1{
+        img{
+          padding: 0 10px;
+        }
+      }
+    }
     .thirdContainer{
       .text2{
         width:80%;
@@ -318,7 +325,7 @@ $paddingTop : 50px;
     .secondContainer{
       .foto1{
         img{
-        padding: 0 20px;
+        padding: 0 10px;
         }
       }
       .text1{

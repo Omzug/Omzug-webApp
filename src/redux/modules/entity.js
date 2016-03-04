@@ -200,9 +200,9 @@ export default function reducer(state = initState, action){
           }
     case ADD_IMAGE:
       // once only one image as input
-      console.log('the initial cached images are', state.cachedImages)
+      //console.log('the initial cached images are', state.cachedImages)
       const images = update(state.cachedImages, {$push: action.images})
-      console.log('after update the cachedImages are', images)
+      //console.log('after update the cachedImages are', images)
       return {
         ...state,
         cachedImages: images,
