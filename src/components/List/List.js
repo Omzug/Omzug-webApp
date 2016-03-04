@@ -110,7 +110,6 @@ export default class List extends Component {
                 />,
                 <FlatButton
                   label="删除"
-                  keyboardFocused={true}
                   onClick={deleteHouse}
                   labelStyle={uiStyles.dialogConfirmStyle}
                 />,
