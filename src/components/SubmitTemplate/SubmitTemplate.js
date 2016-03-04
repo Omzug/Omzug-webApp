@@ -68,6 +68,26 @@ export default class SubmitTemplate extends Component {
 
     const containerClass = this.props.user ? styles.container : styles.containerBeforeLogin;
 
+    const renderWeiboName = () => {
+      if(entity.description){
+        var descriptionArray = entity.description.split("&&")
+        if(descriptionArray.length < 3){
+          return entity.description
+        }else{
+          var originalText = descriptionArray[0]
+          var weiboName = descriptionArray[1]
+          var weiboId = descriptionArray[2]
+          var weiboLink = "www.weibo.com/p/" + weiboId
+
+          return <span>
+                  {originalText}<span><i className="fa fa-weibo"/><a href={weiboLink} target="_blank">{weiboName}</a></span>
+                </span>
+        }
+      }else{
+        return ""
+      }
+    }
+
     return (
       <div className={containerClass}>
         <div className={styles.card}>
@@ -92,7 +112,7 @@ export default class SubmitTemplate extends Component {
             </div>
 
             <div className={styles.cardText}>
-              {entity.description ? entity.description : ""}
+              {renderWeiboName()}
             </div>
 
 
