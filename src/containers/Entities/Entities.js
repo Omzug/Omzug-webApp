@@ -169,7 +169,7 @@ export default class Entities extends Component {
 
         <Snackbar
           open={deleteFeedback != null}
-          message={ deleteFeedback != null ? deleteFeedback : null}
+          message={ deleteFeedback != null ? deleteFeedback : ""}
           autoHideDuration={4000}
           bodyStyle={uiStyles.snackBarStyleBlue}
           onRequestClose={(reason) => {

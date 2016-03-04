@@ -10,33 +10,12 @@ var fs = require('fs');
 var aws = require('../lib/aws');
 var tmpPath = require('../lib/config').tmpPath;
 var awsPrefix = require('../lib/config').awsPrefix;
-var urlencode = require('urlencode');
 import {geocode} from '../lib/googleMap';
 
-function upload(file, callback){
-  console.log('file success upload: ', file)
-  callback(null, file)
-}
-
-function get(name){
-  console.log('success get the file')
-}
-
-function deleteImage(path){
-  console.log('now delete image')
-}
-
 function processImageAddress(path){
-  console.log('process address is', path)
   var paths = path.split("/")
-  //var relativePath = paths[paths.length - 2] + "/" + paths[paths.length - 1]
   var relativePath = paths[paths.length - 1]
-  console.log('we get new path is', relativePath)
   return relativePath
-}
-
-function normalizeName(name){
-  return urlencode(name)
 }
 
 export default function submit(req, params) {
@@ -56,11 +35,25 @@ export default function submit(req, params) {
   form.uploadDir = tmpPath;
   form.keepExtensions = true;
 
+  form.on('fileBegin', function(field, file) {
+    console.log('file name is', file.name)
+  })
+
+  var filesArray = []
+  form.on('file', function(name, file) {
+    var nameArray = file.path.split('/');
+    var replaceName = nameArray[nameArray.length - 1];
+    // upload_xxx.jpg -->omzug_xxx.jpg
+    replaceName = 'omzug-' + replaceName.slice(7)
+
+    file.name = replaceName
+    filesArray.push(file);
+  })
+
   return new Promise((resolve, reject) => {
 
     var house;
     var deleteFiles = [];
-    var addFiles = [];
 
     var steps = [
       parseRequest,
@@ -74,27 +67,16 @@ export default function submit(req, params) {
 
     function parseRequest(callback) {
       form.parse(req, function (err, fields, files) {
-        var filesArray = [];
         if (err) {
           callback(err)
         } else {
-          console.log("files are ", files)
+          console.log("received files are ", filesArray.length + " element array")
           for(var item in fields){
             if(fields.hasOwnProperty(item) && fields[item] == "null")
               delete fields[item];
           }
           house = Object.assign({}, fields)
-          console.log('copied house object is', house)
-
-          // normalize file into array
-          for(var fileName in files){
-            if(files.hasOwnProperty(fileName)){
-              //TODO maybe delete later, fix bugs in xinyue's computer
-              if(files[fileName].name == 'undefined')
-                files[fileName].name = fileName;
-              filesArray.push(files[fileName])
-            }
-          }
+          //console.log('copied house object is', house)
 
           // normalize images, only these two situation
           if(house.images == ''){
@@ -192,7 +174,7 @@ export default function submit(req, params) {
           }else{
             console.log("here we get data is", data)
             // TODO should process it into address
-            const path = awsPrefix + house.username + '/' + normalizeName(file.name);
+            const path = awsPrefix + house.username + '/' + file.name;
             console.log('the adding images path is ', path)
             house.images = house.images.concat(path)
             finished ++
