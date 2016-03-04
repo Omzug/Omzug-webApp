@@ -72,7 +72,8 @@ export default class SubmitForm extends Component {
     const month = date.getMonth() + 1;
     const day = date.getDate();
     const year = date.getFullYear();
-    return day + '/' + month + '/' + year;
+    return year + "." + month + "." + day
+    //return day + '/' + month + '/' + year;
   }
 
   calculateNumber = ()=> {
