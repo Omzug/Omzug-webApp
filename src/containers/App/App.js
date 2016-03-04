@@ -85,7 +85,7 @@ export default class App extends Component {
         //console.log('cannot find the submit city , now refresh the list')
         this.props.onNewSubmit(null);//also change locationId here
       }else{
-        //console.log('find the submit city , now only refresh the current list')
+        console.log('find the submit city , now only refresh the current list')
         this.props.onGetHouseList(this.props.locationId, this.props.cityList)
       }
 
