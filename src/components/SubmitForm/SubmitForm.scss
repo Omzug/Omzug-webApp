@@ -15,8 +15,7 @@
     overflow: visible;
     align-self: flex-start;
     width:30%;
-    min-width:350px;
-    flex-grow: 1;
+    flex : 1 0 350px;
     margin:30px 0px 0 0px;
     display: flex;
     flex-flow: row nowrap;
@@ -65,9 +64,8 @@
   .card{
     max-width: 100%;
     width:45%;
+    flex : 1 0 450px;
     height:70%;
-    min-width:450px;
-    flex-grow: 1;
     align-self: flex-start;
     position:relative;
     margin:30px 20px 0 80px;
@@ -84,32 +82,28 @@
       //}
     }
 
-    .dropBox{
+    .inner{
       display: flex;
       flex-direction: row;
-      //horizontal center
+      flex-wrap: wrap;
       justify-content: center;
+      align-items: center;
+
       width: 100%;
       height:100%;
       //vertical center
-      align-items: center;
-      .inner{
+      .innerText{
+        flex : 1 0 100px;
+      }
+      .innerFont{
         display: flex;
-        flex-direction: row;
-        //horizontal center
         justify-content: center;
-        width: 100%;
-        height:100%;
-        //vertical center
+        flex-flow: row nowrap;
         align-items: center;
-        .innerText{
-          flex : 1 0 100px;
-        }
-        .innerFont{
-          flex : 1 0 60px;
-        }
+        flex : 1 0 60px;
       }
     }
+
     .textArea{
 
     }
@@ -182,11 +176,15 @@
   margin-left: 70px;
 }
 
-//card min-width 500 + list min-width 350 + margin container 40 + margin 40 = 830
+//card min-width 450 + list min-width 350 + margin container 100 + margin 0 = 900
+//card min-width 390 + list min-width 350 + margin container 160 + margin 0 = 900
 @include max-screen(900px){
   .container{
     .card {
-      margin-right: 80px;
+      //margin-right: 80px;
+      //min-with
+      margin : 30px 80px 0 80px;
+      flex: 1 0 390px;
     }
     .list{
       //max-width: 300px;
@@ -197,37 +195,67 @@
 
 @include max-screen(768px){
   .container{
+    .card{
+      .cardTitle{
+        margin-top: -50px;
+      }
+    }
     margin-top: 120px;
   }
 }
 
-@include max-screen(849px){
+//card min-width 390  + margin container 160 + margin 0 = 550
+//card min-width 490  + margin container 60 + margin 0 = 550
+@include max-screen(600px){
   .container{
-    .card{
-      min-width: 300px;
+    .card {
+      margin : 30px 30px 0 30px;
+      flex: 1 0 200px;
     }
     .list{
-      width: 200px;
-    }
-  }
-}
-@include max-screen(414px)
-{
-  .container{
-    .card{
-      .cardTitle{
-          margin-top: -50px;
-      }
+      //max-width: 300px;
+      //margin:20px;
     }
   }
 }
 
-@include max-screen(375px){
-  .card{
-    padding: 0px 20px;
-  }
-  .list{
-    padding:0px 40px 0 40px;
+//slider fixed margin 50 * 2 = 100, so min width is 200 + 100 + 20 = 320
+@include max-screen(400px){
+  .container {
+    .card {
+      margin: 30px 10px 0 10px;
+      flex: 1 0 200px;
+    }
   }
 }
+
+//@include max-screen(849px){
+//  .container{
+//    .card{
+//      min-width: 300px;
+//    }
+//    .list{
+//      //width: 200px;
+//    }
+//  }
+//}
+//@include max-screen(414px)
+//{
+//  .container{
+//    .card{
+//      .cardTitle{
+//          margin-top: -50px;
+//      }
+//    }
+//  }
+//}
+//
+//@include max-screen(375px){
+//  .card{
+//    padding: 0px 20px;
+//  }
+//  .list{
+//    padding:0px 40px 0 40px;
+//  }
+//}
 
