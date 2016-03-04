@@ -9,6 +9,8 @@ if(process.env.NODE_ENV === "production"){
 module.exports = {
   host : 'localhost:27017',
   databaseName: 'omzug',
+  dbUser : 'omzug',
+  dbPassword : '010702hanwen',
   //please list the collection names one by one
   userCollectionName : 'user',
   houseCollectionName : 'house',
