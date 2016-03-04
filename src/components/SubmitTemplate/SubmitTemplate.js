@@ -68,6 +68,26 @@ export default class SubmitTemplate extends Component {
 
     const containerClass = this.props.user ? styles.container : styles.containerBeforeLogin;
 
+    const renderWeiboName = () => {
+      if(entity.description){
+        var descriptionArray = entity.description.split("&&")
+        if(descriptionArray.length < 3){
+          return entity.description
+        }else{
+          var originalText = descriptionArray[0]
+          var weiboName = descriptionArray[1]
+          var weiboId = descriptionArray[2]
+          var weiboLink = "www.weibo.com/p/" + weiboId
+
+          return <span>
+                  {originalText}<span><i className="fa fa-weibo"/><a href={weiboLink} target="_blank">{weiboName}</a></span>
+                </span>
+        }
+      }else{
+        return ""
+      }
+    }
+
     return (
       <div className={containerClass}>
         <div className={styles.card}>
@@ -92,7 +112,7 @@ export default class SubmitTemplate extends Component {
             </div>
 
             <div className={styles.cardText}>
-              {entity.description ? entity.description : ""}
+              {renderWeiboName()}
             </div>
 
 
@@ -155,7 +175,7 @@ export default class SubmitTemplate extends Component {
             <div className={styles.rowContainer}><i className="fa fa-cube"/> 类型 : &nbsp;&nbsp;  {entity.type ? "WG" : "Wohnung/Apartment"}</div>
             <div className={styles.rowContainer}><i className="fa fa-eur"/> 租金 : &nbsp;&nbsp; {(entity.priceType ? "冷租" : "暖租" ) + ' ' + entity.price} &nbsp; Eur</div>
             <div className={styles.rowContainer}><i className="fa fa-lock"/> 押金 : &nbsp;&nbsp;  {entity.caution ? entity.caution + " Eur" : "未指定"} </div>
-            <div className={styles.rowContainer}><i className="fa fa-calendar"/> 租期 : &nbsp;&nbsp; {formatDate(entity.startDate)} &nbsp;-- &nbsp;{entity.endDate ? "无期限" : formatDate(entity.startDate) } </div>
+            <div className={styles.rowContainer}><i className="fa fa-calendar"/> 租期 : &nbsp;&nbsp; {formatDate(entity.startDate)} &nbsp;-- &nbsp;{entity.endDate ? formatDate(entity.endDate) : "无期限"  } </div>
             {user && user._id && user._id == entity.owner &&
             <RaisedButton style={uiStyles.buttonStyleEdit} key={12} className={styles.editButton} onClick={this.props.onStartEdit}><span
               className="fa fa-pencil"/> 编辑</RaisedButton>

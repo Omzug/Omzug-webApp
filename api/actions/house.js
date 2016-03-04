@@ -14,7 +14,8 @@ export default function getHouse(req, params) {
       logger.debug('we get house with result ', houseId )
       return resolve(result.data)
     }, function(err){
-      return resolve(err.msg)
+      logger.error('we got error is, ', err)
+      return reject(err.msg)
     })
   });
 }

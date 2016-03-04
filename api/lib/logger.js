@@ -33,7 +33,7 @@ var timestampFn = function() {
 var logOptions = config.logOptions;
 
 var level = process.env.NODE_ENV === "production" ? logOptions.level : logOptions.debugLevel;
-var consoleLevel = process.env.NODE_ENV === "production" ? "warn" : "info"
+var consoleLevel = process.env.NODE_ENV === "production" ? "warn" : "debug"
 var filename = logOptions.filename;
 var fileSize = logOptions.filesize;
 var fileCount = logOptions.filecount;
