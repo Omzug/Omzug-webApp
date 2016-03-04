@@ -6,7 +6,6 @@ var House = mongoModel.House
 var User = mongoModel.User
 var createId = mongoModel.createId
 const config = require('./config.js')
-const logger = require('./logger.js').logger
 const async = require('async')
 const aws = require('./aws')
 const googleMap = require('./googleMap');
@@ -18,6 +17,8 @@ const LOGTITLE = '[DB] ';
 
 const TYPES = [userCollectionName, houseCollectionName]
 const SCHEMAS = [User, House]
+
+import {logger} from './logger';
 
 module.exports = new DatabaseInterface();
 
@@ -481,5 +482,10 @@ function findSchema(type, callback){
 }
 
 function logSuccess(type, result){
-  logger.info(LOGTITLE + 'information ' + type + ' successfully processed :' + result)
+  if(process.env.NODE_ENV != "production"){
+    logger.info(LOGTITLE + 'information ' + type + ' successfully processed :' + result)
+  }else{
+    logger.info(LOGTITLE + 'information ' + type + ' successfully processed')
+  }
+
 }
