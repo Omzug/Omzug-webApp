@@ -41,6 +41,7 @@ var noLogFlag = logOptions.noLogFlag;
 var logger = new winston.Logger({
   transports: [
     new winston.transports.Console({
+      level : "warn",
       prettyPrint: true,
       colorize: true,
       timestamp: timestampFn,
@@ -68,10 +69,19 @@ var levelMap = {
   'warn': 1,
   'verbose': 2,
   'info': 3,
-  'debug': 4
+  'debug': 4,
+  'trace' : 5,
 }
 
 var levelNumber = levelMap[level];
+
+var logTrace = logger.trace;
+
+logger.trace = function() {
+  if (levelNumber > 4) {
+    logTrace.apply(logger, arguments);
+  }
+};
 
 var logDebug = logger.debug;
 

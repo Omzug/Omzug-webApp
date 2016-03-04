@@ -78,8 +78,8 @@ function insert(){
   })
 
   //TODO
-  console.log("test the length with string validator")
-    console.log(/d{6,1024}/.test("iamfi"),/d{6,1024}/.test("iamfine"), /d{6,1024}/.test("iamfin"))
+  logger.info("test the length with string validator")
+    logger.info(/d{6,1024}/.test("iamfi"),/d{6,1024}/.test("iamfine"), /d{6,1024}/.test("iamfin"))
 }
 
 function fixBug(){
@@ -90,18 +90,18 @@ function fixBug(){
   });
 
   DI.save('user', testUser, function(result){
-    console.log("result is", result)
+    logger.debug("test save result is", result)
   },function(error){
-    console.log(" error is", error.msg)
+    logger.debug(" test save error is", error.msg)
   });
 
   //var promise = testUser.save();
   //promise.then(function(result, error) {
-  //  console.log("result is", result, " error is", error)
+  //  logger.trace("result is", result, " error is", error)
   //}).end();
   //
   //promise.then(undefined, function(err){
-  //  console.log('error is', err)
+  //  logger.trace('error is', err)
   //})
 }
 
@@ -121,28 +121,28 @@ function test(){
     // test a matching password
     user.comparePassword('0009000', function(err, isMatch) {
       if (err) throw err;
-      console.log('[DB-TEST] 0009000:', isMatch); // -> Password123: true
+      logger.debug('[DB-TEST] 0009000:', isMatch); // -> Password123: true
     });
 
     // test a failing password
     user.comparePassword('0001000', function(err, isMatch) {
       if (err) throw err;
-      console.log('[DB-TEST] 0001000:', isMatch); // -> 123Password: false
+      logger.debug('[DB-TEST] 0001000:', isMatch); // -> 123Password: false
     });
   });
 
   DI.get('user', {username : 'numberTwo'}, function(result){
     DI.update('user', {username : 'numberTwo'}, {password: "000100"},
       function(result) {
-        console.log('database update success '/*, result*/)
+        logger.debug('database update success '/*, result*/)
       },
       function(err){
-        console.error('err ', err)
+        logger.error('err ', err)
       }
     )
   },
   function(err){
-    console.error('err ', err)
+    logger.error('err ', err)
   })
 
 }
@@ -371,7 +371,7 @@ DI.getAllNoLimit = function(type, query, resolve, reject){
  * @param reject promise error
  */
 DI.userLogin =function(email, password, resolve, reject){
-  //console.log("query info is", email, password)
+  logger.trace("query info is", email, password)
   User.findOne({email : email}, function(err, user) {
 
     if (err) {
@@ -412,7 +412,7 @@ DI.delete = function(type, query, resolve, reject){
 
   //result is a big object with a lot of attributes
   async.waterfall(steps,function(err, result){
-    //console.log('err is ',err, " result is :", result)
+    logger.trace('err is ',err, " result is :", result)
     if(err){
       reject(err)
     }else {

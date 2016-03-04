@@ -1,4 +1,5 @@
 import DB from '../lib/db-interface.js';
+import {logger} from '../lib/logger'
 
 export default function login(req) {
 
@@ -13,7 +14,7 @@ export default function login(req) {
     DB.userLogin(req.body.email, req.body.password,
       function(data){
         req.session.user = data.data;
-        //console.log('the user session information is', req.session)
+        logger.trace('the user session information is', req.session)
         // data is the message
         return resolve(data.data);
       },

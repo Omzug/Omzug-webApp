@@ -31,7 +31,7 @@ module.exports = {
   logOptions : {
     "level": "info",
     "filename": "./logs/omzug",
-    "filesize": "1000000",
+    "filesize": "10000000",
     "filecount": "100"
   }
 }
