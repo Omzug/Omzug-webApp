@@ -8,7 +8,6 @@
       "out_file"   : "out.omzug.log",
       "merge_logs" : true,
       "log_date_format" : "YYYY-MM-DD HH:mm ZZ",
-      "exec_mode"  : "cluster_mode",
       "env": {
         "NODE_ENV": "production",
         "PORT": 8080,
@@ -21,7 +20,6 @@
       "name": "omzug_api",
       "script": "./bin/api.js",
       "instances"  : 0,
-      "exec_mode"  : "cluster_mode",
       "env": {
         "NODE_ENV": "production",
         "APIPORT": 3030,
