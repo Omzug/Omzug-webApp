@@ -5,6 +5,7 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {reduxForm} from 'redux-form';
+import {capitalizeFirstLetter} from '../../utils/help';
 
 import {onEndEdit, onAddImage, onChangeSlide,
   onDeleteImage, onToggleLimit, onChangeType, onChangePriceType, onLogError} from "redux/modules/entity";
@@ -141,7 +142,7 @@ export default class SubmitForm extends Component {
       if(value === ""){
         return city.onChange(null)
       }
-      city.onChange(defaultCityList[value].label)
+      city.onChange(capitalizeFirstLetter(defaultCityList[value].label))
     }
 
     const inputStyle = { width : "250px"}
