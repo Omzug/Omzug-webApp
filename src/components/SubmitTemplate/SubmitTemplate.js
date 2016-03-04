@@ -105,7 +105,7 @@ export default class SubmitTemplate extends Component {
               <div className={styles.cardTitleTitle}>{entity.title ? entity.title : ""}</div>
               {entity.username == "weibo"
                 ?
-                <div className={styles.cardTitleUsername}>from 新浪微博&nbsp;<i className={"fa fa-weibo"}/></div>
+                <div className={styles.cardTitleUsername}>from <a href="http://www.weibo.com/omzug" target="_blank">新浪微博</a>&nbsp;<i className={"fa fa-weibo"}/></div>
                 :
                 <div className={styles.cardTitleUsername}>by {entity.username ? entity.username : ""}</div>
               }
