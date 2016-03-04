@@ -50,6 +50,7 @@ module.exports = function(Schema, collectionName){
     description : { type : String, required : false},
     email : { type : String, required : false, validate : emailValidator},
     phone : { type : String, required : false, validate : phoneValidator},
+    wechat : {type : String, required : false},
     note : { type : String, required : false},
     //maximumPerson : { type : Number, required : false} ,
     images : {type : Array, required : false},

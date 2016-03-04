@@ -77,7 +77,7 @@ export default class SubmitTemplate extends Component {
           var originalText = descriptionArray[0]
           var weiboName = descriptionArray[1]
           var weiboId = descriptionArray[2]
-          var weiboLink = "www.weibo.com/p/" + weiboId
+          var weiboLink = "http://www.weibo.com/p/" + weiboId
 
           return <span>
                   {originalText}<span><i className="fa fa-weibo"/><a href={weiboLink} target="_blank">{weiboName}</a></span>
@@ -139,6 +139,7 @@ export default class SubmitTemplate extends Component {
                   <div className={styles.contactInfo}>
                     <div className={styles.infoTitle}> {entity.username ? entity.username : ""}的联系方式:</div>
                     <div className={styles.infoListMail}> <i className="fa fa-envelope-o" />  邮箱: &nbsp; {entity.email ? entity.email : ""} </div>
+                    <div className={styles.infoListWechat}> <i className="fa fa-wechat" />  微信: &nbsp; {entity.wechat ? entity.wechat : ""} </div>
                     <div className={styles.infoListPhone}> <i className="fa fa-phone" />  手机: &nbsp; {entity.phone ? entity.phone : ""} </div>
                   </div>
                 </Dialog>

@@ -39,7 +39,7 @@ import defaultCityList from '../../constant/cityList';
   form: 'house',
   //later should delete images in fields
   fields : ['city','location','size','price','caution','startDate','endDate','priceType',
-    'description','title','owner','email','phone', 'type','note', 'images',
+    'description','title','owner','email','phone', 'type','note', 'images', 'wechat',
     'username'],
   validate : submitValidation,
   //asyncValidate,
@@ -100,7 +100,7 @@ export default class SubmitForm extends Component {
     const styles = require('./SubmitForm.scss');
     const {
       fields: {location,city,size,price,caution,startDate,endDate,
-        description,title,owner,email,phone,type,note,priceType,images},
+        description,title,owner,email,phone,type,note,priceType,images, wechat},
       entity,
       hasLimit,
       currentSlide,
@@ -316,6 +316,10 @@ export default class SubmitForm extends Component {
             <div className={styles.rowContainer}>
               <div className={errorStyle(phone)}><i className="fa fa-phone"/> 手机 :</div>
               <div><TextField key={120} style={inputStyle}  floatingLabelText=" " errorText={phone.touched && phone.error ? phone.error : null} {...phone}/></div>
+            </div>
+            <div className={styles.rowContainer}>
+              <div className={errorStyle(wechat)}><i className="fa fa-wechat"/> 微信 :</div>
+              <div><TextField key={130} style={inputStyle}  floatingLabelText=" " errorText={wechat.touched && wechat.error ? wechat.error : null} {...wechat}/></div>
             </div>
             <div className={styles.submit}>
               <RaisedButton style={uiStyles.buttonStyle} key={13} className={styles.editButton} onClick={validateSubmit}><span/> 提交</RaisedButton>
