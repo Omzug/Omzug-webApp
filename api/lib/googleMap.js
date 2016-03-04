@@ -28,7 +28,7 @@ var gmAPI = new GoogleMapsAPI(publicConfig)
 
 function geocode(address, callback){
   gmAPI.geocode({
-    "address": address,
+    "address": address + ' Germany',
     //"components": "components=country:GB",
     //"bounds":     "55,-1|54,1",
     //"language":   "en",
