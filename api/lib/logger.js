@@ -37,7 +37,7 @@ var consoleLevel = process.env.NODE_ENV === "production" ? "warn" : "info"
 var filename = logOptions.filename;
 var fileSize = logOptions.filesize;
 var fileCount = logOptions.filecount;
-var noLogFlag = logOptions.noLogFlag;
+//var noLogFlag = logOptions.noLogFlag;
 
 var logger = new winston.Logger({
   transports: [
