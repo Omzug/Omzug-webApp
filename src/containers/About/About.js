@@ -7,8 +7,6 @@ export default class About extends Component {
     showKitten: false
   }
 
-  handleToggleKitten = () => this.setState({showKitten: !this.state.showKitten});
-
   render() {
     const {showKitten} = this.state;
     const styles = require('./About.scss');
@@ -26,10 +24,10 @@ export default class About extends Component {
           </div>
           <div className={styles.enText}>
             <p>
-            Omzug is a website created in 2016 by <a href="http://hanwencheng.com">Hanwen Cheng </a>
+            Omzug is a website application created in 2016 by <a href="http://hanwencheng.com">Hanwen Cheng </a>
                from Uni Stuttgart
             and <a href="http://janeschara.tumblr.com">Xinyue Yang</a> from Kunsthochschule Berlin-Weissensee.
-            It aims to provide a renting platform for chinese students in Germany.
+            It aims to provide a renting platform for Chinese students in Germany.
           </p>
           </div>
         </div>
