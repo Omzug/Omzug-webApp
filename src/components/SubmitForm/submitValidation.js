@@ -22,5 +22,6 @@ const submitValidation = createValidator({
   phone : [phoneNumber],
   note : [],
   images : [],
+  wechat : [],
 });
 export default memoize(10)(submitValidation);

@@ -1,10 +1,9 @@
 /**
  * Created by hanwencheng on 3/3/16.
  */
-
 const strings = {
   requireLoginError : "嘿嘿,请登录",
-  maxNumberImageError : "最多支持上传三张图片",
+  maxNumberImageError : "最多支持上传五张图片",
   editSuccess : "更新成功",
   submitSuccess : "发布成功",
   submitting : "提交中...",

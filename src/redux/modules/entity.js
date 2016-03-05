@@ -51,6 +51,7 @@ const initState = {
 
     lat : null,
     lng : null,
+    wechat: null,
     location: null,
     size : null,
     caution: null,

@@ -21,6 +21,7 @@ import {TextField, FontIcon, RaisedButton, Card, MenuItem,
   IconButton, CardMedia, CardTitle, CardText, List, ListItem, SelectField,
   DatePicker, Toggle, RadioButton, RadioButtonGroup} from 'material-ui';
 
+import config from '../../config'
 import DropZone from 'react-dropzone'
 import defaultCityList from '../../constant/cityList';
 
@@ -39,7 +40,7 @@ import defaultCityList from '../../constant/cityList';
   form: 'house',
   //later should delete images in fields
   fields : ['city','location','size','price','caution','startDate','endDate','priceType',
-    'description','title','owner','email','phone', 'type','note', 'images',
+    'description','title','owner','email','phone', 'type','note', 'images', 'wechat',
     'username'],
   validate : submitValidation,
   //asyncValidate,
@@ -72,7 +73,8 @@ export default class SubmitForm extends Component {
     const month = date.getMonth() + 1;
     const day = date.getDate();
     const year = date.getFullYear();
-    return day + '/' + month + '/' + year;
+    return year + "." + month + "." + day
+    //return day + '/' + month + '/' + year;
   }
 
   calculateNumber = ()=> {
@@ -83,8 +85,8 @@ export default class SubmitForm extends Component {
     if(!Array.isArray(files)){
       files = [files];
     }else{
-      if(files.length + this.calculateNumber()> 3){
-        files = files.slice(0, 3 - this.calculateNumber())
+      if(files.length + this.calculateNumber()> config.limitImageNumber){
+        files = files.slice(0, config.limitImageNumber - this.calculateNumber())
         this.props.onSetError(strings.maxNumberImageError);
       }
     }
@@ -100,7 +102,7 @@ export default class SubmitForm extends Component {
     const styles = require('./SubmitForm.scss');
     const {
       fields: {location,city,size,price,caution,startDate,endDate,
-        description,title,owner,email,phone,type,note,priceType,images},
+        description,title,owner,email,phone,type,note,priceType,images, wechat},
       entity,
       hasLimit,
       currentSlide,
@@ -115,14 +117,14 @@ export default class SubmitForm extends Component {
       {component: React.createClass({render() {
         return (
           <div className={styles.arrowContainer1} onClick={this.props.previousSlide}>
-            <i className={styles.arrowIcon + " fa fa-angle-double-left fa-2x"}/>
+            <i className={styles.arrowIcon + " fa fa-angle-left fa-2x"}/>
           </div>)}
       }),
         position: 'CenterLeft', style: {height: "100%"}},
       {component: React.createClass({render() {
         return (
           <div className={styles.arrowContainer1} onClick={this.props.nextSlide}>
-            <i className={styles.arrowIcon + " fa fa-angle-double-right fa-2x"}/>
+            <i className={styles.arrowIcon + " fa fa-angle-right fa-2x"}/>
           </div>)}
       }),
         position: 'CenterRight', style: {height: "100%"}},
@@ -182,11 +184,11 @@ export default class SubmitForm extends Component {
                       onChange={this.props.onChangeSlide}>
               {entity.images && entity.images.length >= 1 && entity.images.map( address =><div className={styles.imageContainer}><img src={address}/></div>)}
               {cachedImages && cachedImages.length >= 1 && cachedImages.map(file => <div className={styles.imageContainer}><img src={window.URL.createObjectURL(file)}/></div>)}
-              {this.calculateNumber() < 3 &&
+              {this.calculateNumber() < config.limitImageNumber &&
                 <div className={styles.imageContainer}>
                   <DropZone onDrop={this.onDrop}>
                     <div className={styles.inner}>
-                      <div className={styles.innerText}>请点击选择图片或将图片拖动到框中,<font color="#FF6F6F">最多上传<b><font>3</font></b>张图片</font></div>
+                      <div className={styles.innerText}>请点击选择图片或将图片拖动到框中,<font color="#FF6F6F">最多上传<b><font>{config.limitImageNumber}</font></b>张图片</font></div>
                       <div className={styles.innerFont}>
                         <span className="fa fa-plus-circle fa-5x"/>
                       </div>
@@ -316,6 +318,10 @@ export default class SubmitForm extends Component {
             <div className={styles.rowContainer}>
               <div className={errorStyle(phone)}><i className="fa fa-phone"/> 手机 :</div>
               <div><TextField key={120} style={inputStyle}  floatingLabelText=" " errorText={phone.touched && phone.error ? phone.error : null} {...phone}/></div>
+            </div>
+            <div className={styles.rowContainer}>
+              <div className={errorStyle(wechat)}><i className="fa fa-wechat"/> 微信 :</div>
+              <div><TextField key={130} style={inputStyle}  floatingLabelText=" " errorText={wechat.touched && wechat.error ? wechat.error : null} {...wechat}/></div>
             </div>
             <div className={styles.submit}>
               <RaisedButton style={uiStyles.buttonStyle} key={13} className={styles.editButton} onClick={validateSubmit}><span/> 提交</RaisedButton>

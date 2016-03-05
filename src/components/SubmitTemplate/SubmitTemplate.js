@@ -44,10 +44,24 @@ export default class SubmitTemplate extends Component {
 
   render() {
     const styles = require('./SubmitTemplate.scss');
-    const image1 = require('./a1.jpg');
-    const image2 = require('./b1.jpg');
-    const image3 = require('./c1.jpg');
     const {entity, contactOpen, cachedImages, user, searchValue} = this.props;
+
+    var Decorators = [
+      {component: React.createClass({render() {
+        return (
+          <div className={styles.arrowContainer1} onClick={this.props.previousSlide}>
+            <i className={styles.arrowIcon + " fa fa-angle-left fa-2x"}/>
+          </div>)}
+      }),
+        position: 'CenterLeft', style: {height: "100%"}},
+      {component: React.createClass({render() {
+        return (
+          <div className={styles.arrowContainer1} onClick={this.props.nextSlide}>
+            <i className={styles.arrowIcon + " fa fa-angle-right fa-2x"}/>
+          </div>)}
+      }),
+        position: 'CenterRight', style: {height: "100%"}},
+    ];
 
     const onContactClick = (event) => {
       if(user){
@@ -63,7 +77,8 @@ export default class SubmitTemplate extends Component {
       const month = date.getMonth() + 1;
       const day = date.getDate();
       const year = date.getFullYear();
-      return day + '/' + month + '/' + year;
+      return year + "." + month + "." + day
+      //return day + '/' + month + '/' + year;
     }
 
     const containerClass = this.props.user ? styles.container : styles.containerBeforeLogin;
@@ -77,7 +92,7 @@ export default class SubmitTemplate extends Component {
           var originalText = descriptionArray[0]
           var weiboName = descriptionArray[1]
           var weiboId = descriptionArray[2]
-          var weiboLink = "www.weibo.com/p/" + weiboId
+          var weiboLink = "http://www.weibo.com/p/" + weiboId
 
           return <span>
                   {originalText}<span><i className="fa fa-weibo"/><a href={weiboLink} target="_blank">{weiboName}</a></span>
@@ -94,7 +109,7 @@ export default class SubmitTemplate extends Component {
 
           <div className={styles.cardMedia}>
             <div className={styles.cardPhoto}>
-              <Carousel className={styles.carousel} framePadding="32px" width="100%" slidesToShow={1}>
+              <Carousel className={styles.carousel} decorators={Decorators} framePadding="32px" width="100%" slidesToShow={1}>
                 {entity.images.length >= 1 && entity.images.map(address => (<div className={styles.imageContainer}><img src={address}/></div>))}
                 {cachedImages.length >= 1 && cachedImages.map(file => <div className={styles.imageContainer}><img src={window.URL.createObjectURL(file)}/></div>)}
                 {entity.images.length == 0 && cachedImages.length == 0 &&  <div className={styles.imageContainer}><img src={config.noImagePath}/></div>}
@@ -105,7 +120,7 @@ export default class SubmitTemplate extends Component {
               <div className={styles.cardTitleTitle}>{entity.title ? entity.title : ""}</div>
               {entity.username == "weibo"
                 ?
-                <div className={styles.cardTitleUsername}>from 新浪微博&nbsp;<i className={"fa fa-weibo"}/></div>
+                <div className={styles.cardTitleUsername}>from <a href="http://www.weibo.com/omzug" target="_blank">新浪微博</a>&nbsp;<i className={"fa fa-weibo"}/></div>
                 :
                 <div className={styles.cardTitleUsername}>by {entity.username ? entity.username : ""}</div>
               }
@@ -139,6 +154,7 @@ export default class SubmitTemplate extends Component {
                   <div className={styles.contactInfo}>
                     <div className={styles.infoTitle}> {entity.username ? entity.username : ""}的联系方式:</div>
                     <div className={styles.infoListMail}> <i className="fa fa-envelope-o" />  邮箱: &nbsp; {entity.email ? entity.email : ""} </div>
+                    <div className={styles.infoListWechat}> <i className="fa fa-wechat" />  微信: &nbsp; {entity.wechat ? entity.wechat : ""} </div>
                     <div className={styles.infoListPhone}> <i className="fa fa-phone" />  手机: &nbsp; {entity.phone ? entity.phone : ""} </div>
                   </div>
                 </Dialog>
