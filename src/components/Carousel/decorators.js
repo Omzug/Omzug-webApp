@@ -84,7 +84,7 @@ const DefaultDecorators = [
         return {
           position: 'relative',
           margin: 0,
-          top: 10,
+          top: 0,
           padding: 0
         }
       },
@@ -103,7 +103,7 @@ const DefaultDecorators = [
           padding: 5,
           outline: 0,
           fontSize: 24,
-          opacity: active ? 1 : 0.5
+          opacity: active ? 0.06 : 0.19
         }
       }
     }),
