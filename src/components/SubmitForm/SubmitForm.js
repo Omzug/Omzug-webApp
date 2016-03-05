@@ -226,13 +226,12 @@ export default class SubmitForm extends Component {
             </div>
 
             <div className={styles.rowContainer}>
-              <div className={errorStyle(location)}><i className="fa fa-map-marker"/> 地址 :</div>
-              <div><TextField key={20} style={inputStyle} floatingLabelText=" " errorText={location.touched && location.error ? location.error : null} {...location}/></div>
+              <div><TextField key={20} style={inputStyle} floatingLabelText="标题" errorText={title.touched && title.error ? title.error : null} {...title}/></div>
             </div>
 
             <div className={styles.rowContainer}>
               <div className={errorStyle(size)}><i className="fa fa-square"/> 面积 :</div>
-              <div><TextField key={40} style={inputStyle} floatingLabelText=" " errorText={size.touched && size.error ? size.error : null} {...size}/></div>
+              <div><TextField key={40} style={inputStyle} floatingLabelText="面积" errorText={size.touched && size.error ? size.error : null} {...size}/></div>
             </div>
 
             <div className={styles.rowContainer}>

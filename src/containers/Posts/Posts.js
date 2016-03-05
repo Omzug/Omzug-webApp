@@ -6,24 +6,44 @@
  * Created by hanwencheng on 2/10/16.
  */
 import React, {Component, PropTypes} from 'react';
-import {GridList, GridTile, Dialog, IconButton, FlatButton} from 'material-ui';
+import {GridList, GridTile, Dialog, IconButton, FlatButton, TextField} from 'material-ui';
+import {reduxForm} from 'redux-form';
 import {Carousel} from 'components';
 import { LinkContainer } from 'react-router-bootstrap';
-import {onOpenDialog, onCloseDialog , onSetColumn, onStartEdit, onDeletePost} from 'redux/modules/posts';
-import {capitalizeFirstLetter} from '../../utils/help';
+import {onOpenDialog, onCloseDialog , onSetColumn, onStartEdit, onDeletePost, onCityChange} from 'redux/modules/posts';
 import {connect} from 'react-redux';
+import postValidation from './postValidation'
 
 import uiStyles from '../../theme/uiStyles'
 var config = require('../../config');
+import cityList from '../../constant/cityList'
+import strings from '../../constant/strings'
+
+@reduxForm({
+  form: 'post',
+  //later should delete images in fields
+  fields : [  'city', 'title' , 'description', 'startDate','email','phone','wechat'],
+  validate : postValidation,
+})
 
 @connect(
   state => ({
+    posts: state.posts.list,
     popover : state.posts.popover,
     toDelete : state.posts.toDelete,
     column : state.posts.column,
+    error: state.posts.error,
+    loading: state.posts.loading,
+    loaded: state.posts.loaded,
+    editing : state.posts.editing,
+
     user: state.auth.user,
+    isEnd : state.posts.isEnd,
+    loadingCity : state.posts.loadingCity,
+    locationId : state.posts.locationId,
+    deleteFeedback : state.entities.deleteFeedback,
   }),
-  {onOpenDialog, onCloseDialog, onStartEdit, onSetColumn}
+  {onOpenDialog, onCloseDialog, onStartEdit, onSetColumn, onCityChange}
 )
 export default class List extends Component {
   static propTypes = {
@@ -32,7 +52,15 @@ export default class List extends Component {
     toDelete : PropTypes.object,
     column : PropTypes.number,
     //from parent
+    editing : PropTypes.bool,
     user : PropTypes.object,
+    isEnd : PropTypes.bool,
+    loadingCity : PropTypes.bool,
+    locationId : PropTypes.number,
+    deleteFeedback : PropTypes.string,
+    error: PropTypes.string,
+    loading: PropTypes.bool,
+    loaded :PropTypes.bool,
 
     onDeletePost: PropTypes.func.isRequired,
     onOpenDialog : PropTypes.func.isRequired,
@@ -76,7 +104,13 @@ export default class List extends Component {
     var tileWidth = (Math.floor(100 / this.props.column) - margin * 2).toString() + "%";
     const styles = require('./Posts.scss');
     const {onDeleteHouse, onOpenDialog, onCloseDialog, toDelete, column} = this.props;
-    const posts = this.props.posts;
+    const {posts, user,
+      fields: {city,description, email,phone, wechat},
+      } = this.props;
+
+    const cities = cityList.map(function(cityObject){
+      return cityObject.label
+    })
 
     const deleteHouse = (event) => {
       onCloseDialog(event);
@@ -128,30 +162,81 @@ export default class List extends Component {
       }
     }
 
-    const computeLayouts = (total) => {
-      var layouts = {
-        lg : computeLayout(total, 5),
-        md : computeLayout(total, 3),
-        sm : computeLayout(total, 2),
-        xs : computeLayout(total, 1),
-        xxs : computeLayout(total ,1 )
+    const onCityChange =(value)=>{
+      if(value === ""){
+        return city.onChange(null)
       }
-      return layouts
+      city.onChange(cities[value])
     }
 
-    const computeLayout = (total, divider)=>{
-      var layout = [];
-      for(var i = 0; i < total; i ++){
-        var each = { x : i % divider, y : Math.floor(i / divider), w : 1, h: 1, i:i.toString()}
-        console.log('for i = ' + i + " divider = " + divider + " each = " , each)
-        layout.push(each)
-      }
-      return layout
-    }
+    const listNavClass = this.props.user ? styles.listNav : styles.listNavBeforeLogin;
+    const inputStyle250Width = { width : "250px"}
 
     return (
       <div className={styles.gridList}>
+        <Helmet title="求房列表"/>
+        <div className={listNavClass}>
+          <div className={styles.select}>
+            <Select
+              name="selectCity"
+              options={cities}
+              value={locationId === null || !cities.length ? "" : cities[locationId]}
+              onChange={this.onSelectChange}
+              noResultsText={strings.selectNoResults}
+              placeholder={strings.selectPlaceholder}
+            />
+          </div>
+        </div>
         <div className={styles.myList}>
+          <GridTile
+            className={styles.tile}
+            key={this.props.user ? user._id : "newPost"}
+            style={{
+              "display" : "flex", "alignItems":"center", "justifyContent": "center",
+               height: "300px", width : tileWidth, margin : marginPercentage}}
+          >
+            <div className={styles.dialog}>
+              <Dialog
+                actions={
+                  <div>
+                    <FlatButton onClick={this.props.onContactClose} className={styles.hvrBuzzOut}>
+                      <span className="fa fa-child"/>
+                      <span>  </span>OK
+                    </FlatButton>
+                  </div>
+                  }
+
+                modal={false}
+                open={contactOpen}
+                onRequestClose={this.props.onContactClose}
+              >
+                <div className={styles.rowContainerCity}>
+                  <div className={styles.city}><i className="fa fa-location-arrow"/> 城市 :</div>
+                  <Select
+                    className={styles.select}
+                    name="selectPostCity"
+                    options={cities}
+                    value={city.value === null ? "" : city.value}
+                    onChange={onCityChange}
+                    noResultsText={strings.selectNoResultsSubmit}
+                    placeholder={strings.selectPlaceholderSubmit}
+                    ignoreAccents={false}
+                  />
+                </div>
+
+                <div className={styles.rowContainer}>
+                  <div><TextField key={23} style={inputStyle250Width} hintText="手机" {...phone}/></div>
+                </div>
+                <div className={styles.rowContainer}>
+                  <div><TextField key={24} style={inputStyle250Width} hintText="邮箱" {...email}/></div>
+                </div>
+                <div className={styles.rowContainer}>
+                  <div><TextField key={25} style={inputStyle250Width} hintText="微信" {...wechat}/></div>
+                </div>
+              </Dialog>
+            </div>
+
+          </GridTile>
           {posts.map((post, index) => (
             <GridTile
               className={styles.tile}
@@ -163,11 +248,11 @@ export default class List extends Component {
               subtitle={
                 post.username == "weibo"
                 ?
-                <span>from  新浪微博&nbsp;<i className={"fa fa-weibo"}/> in <b className={styles.cityColor}> {capitalizeFirstLetter(post.city)}</b> </span>
+                <span>from  新浪微博&nbsp;<i className={"fa fa-weibo"}/> in <b className={styles.cityColor}> {post.city}</b> </span>
                 :
                 <span>
                   by <b className={styles.usernameColor}>{post.username}</b> In <b className={styles.cityColor}>
-                  {capitalizeFirstLetter(post.city)}</b>
+                  {post.city}</b>
                 </span>
               }
               actionIcon={renderIcon(post, index)}

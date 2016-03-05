@@ -29,7 +29,6 @@ module.exports = function(Schema, collectionName){
   var ObjectId = Schema.ObjectId;
   return new Schema({
     city :  { type : String, required : true, index: true/*, validate : stringValidator*/},
-    title : {type : String, required : true},
     username : {type : String, required : true},
     description : { type : String, required : true},
 
