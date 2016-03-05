@@ -7,6 +7,7 @@ export default class About extends Component {
     showKitten: false
   }
 
+/*<a href="http://hanwencheng.com">程翰文</a>和<a href="http://janeschara.tumblr.com">杨鑫玥</a>*/
   render() {
     const {showKitten} = this.state;
     const styles = require('./About.scss');
@@ -15,8 +16,7 @@ export default class About extends Component {
         <Helmet title="关于我们"/>
         <div className={styles.text}>
           <div>
-            <p className={styles.cnText}>Omzug由来自斯图加特大学和柏林白湖艺术学院的学生
-            <a href="http://hanwencheng.com">程翰文</a>和<a href="http://janeschara.tumblr.com">杨鑫玥</a>于2016年在德国柏林创建。
+            <p className={styles.cnText}>Omzug由来自斯图加特大学和柏林白湖艺术学院的学生于2016年在德国柏林创建。
             "Omzug"来源于德文"搬家"这个单词"Umzug".</p>
           </div>
           <div>
@@ -24,9 +24,8 @@ export default class About extends Component {
           </div>
           <div className={styles.enText}>
             <p>
-            Omzug is a website application created in 2016 by <a href="http://hanwencheng.com">Hanwen Cheng </a>
-               from Uni Stuttgart
-            and <a href="http://janeschara.tumblr.com">Xinyue Yang</a> from Kunsthochschule Berlin-Weissensee.
+            Omzug is a website application created in 2016 by students from Uni Stuttgart
+            and Kunsthochschule Berlin-Weissensee.
             It aims to provide a renting platform for Chinese students in Germany.
           </p>
           </div>
