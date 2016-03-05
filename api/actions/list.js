@@ -4,6 +4,8 @@
 import DB from '../lib/db-interface.js';
 import {logger} from '../lib/logger'
 
+import urlencode from 'urlencode';
+
 export default function listHause(req, params) {
   const skip = req.query.skip;
   logger.trace("req skip is", skip)
@@ -22,7 +24,7 @@ export default function listHause(req, params) {
   }
 
   const getCity = function(cityName){
-    logger.trace('now query city', cityName)
+    logger.debug('now query city', cityName)
     return new Promise((resolve, reject) => {
       DB.getAll('house', {city : cityName}, skipNumber, function(result){
         return resolve(result)
@@ -50,9 +52,9 @@ export default function listHause(req, params) {
 
   switch(params[0]) {
     case "city" :
-      return params[1] ? getCity(params[1]) : getAll()
+      return params[1] ? getCity(urlencode.decode(params[1])) : getAll()
     case "user" :
-      return params[1] ? getUser(params[1]) : getAll()
+      return params[1] ? getUser(urlencode.decode(params[1])) : getAll()
     default :
       return getAll()
   }
