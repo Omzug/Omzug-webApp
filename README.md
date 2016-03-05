@@ -21,4 +21,13 @@ Please make sure use at least node v5.0
 
 3. use pm2 : pm2 start ecosystem.json
 
+# How to contribute
+
+1. create new branch
+
+2. develop 
+
+3. send pull request
+
+4. (better after pull request merged, then may ) update from develop
 
