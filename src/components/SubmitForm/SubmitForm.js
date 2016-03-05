@@ -117,14 +117,14 @@ export default class SubmitForm extends Component {
       {component: React.createClass({render() {
         return (
           <div className={styles.arrowContainer1} onClick={this.props.previousSlide}>
-            <i className={styles.arrowIcon + " fa fa-angle-double-left fa-2x"}/>
+            <i className={styles.arrowIcon + " fa fa-angle-left fa-2x"}/>
           </div>)}
       }),
         position: 'CenterLeft', style: {height: "100%"}},
       {component: React.createClass({render() {
         return (
           <div className={styles.arrowContainer1} onClick={this.props.nextSlide}>
-            <i className={styles.arrowIcon + " fa fa-angle-double-right fa-2x"}/>
+            <i className={styles.arrowIcon + " fa fa-angle-right fa-2x"}/>
           </div>)}
       }),
         position: 'CenterRight', style: {height: "100%"}},

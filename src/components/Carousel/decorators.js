@@ -9,7 +9,7 @@ const DefaultDecorators = [
       render() {
         return (
           <div className={styles.arrowContainer} onClick={this.props.previousSlide}>
-            <i className={styles.arrowIcon + " fa fa-angle-double-left fa-2x"}/>
+            <i className={styles.arrowIcon + " fa fa-angle-left fa-2x"}/>
           </div>
         )
       },
@@ -32,7 +32,7 @@ const DefaultDecorators = [
       render() {
         return (
           <div className={styles.arrowContainer} onClick={this.props.nextSlide}>
-            <i className={styles.arrowIcon + " fa fa-angle-double-right fa-2x"}/>
+            <i className={styles.arrowIcon + " fa fa-angle-right fa-2x"}/>
           </div>
         )
       },
