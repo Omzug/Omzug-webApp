@@ -21,6 +21,7 @@ import {TextField, FontIcon, RaisedButton, Card, MenuItem,
   IconButton, CardMedia, CardTitle, CardText, List, ListItem, SelectField,
   DatePicker, Toggle, RadioButton, RadioButtonGroup} from 'material-ui';
 
+import config from '../../config'
 import DropZone from 'react-dropzone'
 import defaultCityList from '../../constant/cityList';
 
@@ -84,8 +85,8 @@ export default class SubmitForm extends Component {
     if(!Array.isArray(files)){
       files = [files];
     }else{
-      if(files.length + this.calculateNumber()> 3){
-        files = files.slice(0, 3 - this.calculateNumber())
+      if(files.length + this.calculateNumber()> config.limitImageNumber){
+        files = files.slice(0, config.limitImageNumber - this.calculateNumber())
         this.props.onSetError(strings.maxNumberImageError);
       }
     }
@@ -183,11 +184,11 @@ export default class SubmitForm extends Component {
                       onChange={this.props.onChangeSlide}>
               {entity.images && entity.images.length >= 1 && entity.images.map( address =><div className={styles.imageContainer}><img src={address}/></div>)}
               {cachedImages && cachedImages.length >= 1 && cachedImages.map(file => <div className={styles.imageContainer}><img src={window.URL.createObjectURL(file)}/></div>)}
-              {this.calculateNumber() < 3 &&
+              {this.calculateNumber() < config.limitImageNumber &&
                 <div className={styles.imageContainer}>
                   <DropZone onDrop={this.onDrop}>
                     <div className={styles.inner}>
-                      <div className={styles.innerText}>请点击选择图片或将图片拖动到框中,<font color="#FF6F6F">最多上传<b><font>3</font></b>张图片</font></div>
+                      <div className={styles.innerText}>请点击选择图片或将图片拖动到框中,<font color="#FF6F6F">最多上传<b><font>{config.limitImageNumber}</font></b>张图片</font></div>
                       <div className={styles.innerFont}>
                         <span className="fa fa-plus-circle fa-5x"/>
                       </div>
