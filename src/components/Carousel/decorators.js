@@ -98,12 +98,12 @@ const DefaultDecorators = [
         return {
           border: 0,
           background: 'transparent',
-          color: "black",
+          color: active ? "grey" : "#F0F0F0",
           cursor: 'pointer',
           padding: 5,
           outline: 0,
           fontSize: 24,
-          opacity: active ? 0.06 : 0.19
+          opacity: 0.7,
         }
       }
     }),
