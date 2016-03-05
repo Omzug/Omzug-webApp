@@ -14,6 +14,7 @@ module.exports = {
   //please list the collection names one by one
   userCollectionName : 'user',
   houseCollectionName : 'house',
+  postCollectionName : 'post',
   sessionAge : 1 * 24 * 60 * 60 * 1000,
   pageSize : 9,
   awsFolder : "photos",

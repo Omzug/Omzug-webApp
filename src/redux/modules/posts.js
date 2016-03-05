@@ -21,6 +21,7 @@ const END_EDIT = "omzug/posts/END_EDIT";
 const SET_COLUMN = "omzug/posts/SET_COLUMN"
 
 import strings from '../../constant/strings';
+import {capitalizeFirstLetter} from '../../utils/help';
 
 const initState = {
   list :[],
