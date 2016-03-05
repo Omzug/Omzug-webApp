@@ -10,3 +10,4 @@ export Entity from './Entity/Entity';
 export Submit from './Submit/Submit';
 export Register from './Register/Register';
 export UserAdmin from './UserAdmin/UserAdmin';
+export Requirement from './Requirement/Requirement';
