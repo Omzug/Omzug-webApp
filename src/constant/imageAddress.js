@@ -11,6 +11,7 @@ const addresses = {
   featureImage:"https://41.media.tumblr.com/8ec96e540a32e7f5e47ec212de211571/tumblr_o3oybnlWdg1vn5ujpo1_1280.png",
   technologyImage : "https://s3.eu-central-1.amazonaws.com/omzug.com/gif/technologyImage-omzug.png",
   bulbImage:"https://41.media.tumblr.com/91005ecc75a3ddc9541c68688b5f806c/tumblr_o3owzwfJZX1vn5ujpo1_75sq.png",
+  NotFoundImage:"https://36.media.tumblr.com/67a71607bfe4b581217ab415b7a350fa/tumblr_o3ql7mkDs41vn5ujpo1_250.png",
 }
 
 export default addresses;
