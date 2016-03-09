@@ -243,7 +243,9 @@ export default class List extends Component {
               actionIcon={renderIcon(post, index)}
             >
               <LinkContainer to={`/posts/${post._id}`}>
+                <p>
                 post div {post.description}
+                </p>
               </LinkContainer>
             </GridTile>
           ))
