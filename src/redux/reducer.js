@@ -11,6 +11,7 @@ import submit from './modules/submit'
 import admin from './modules/admin'
 import error from './modules/error'
 import posts from './modules/posts'
+import post from './modules/post'
 
 export default combineReducers({
   router: routerStateReducer,
@@ -22,5 +23,6 @@ export default combineReducers({
   submit,
   admin,
   error,
+  post,
   posts,
 });

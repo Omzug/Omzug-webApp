@@ -1,8 +1,8 @@
 /**
  * Created by hanwencheng on 1/9/16.
  */
-import DB from '../lib/db-interface.js';
-import {logger} from '../lib/logger'
+import DB from '../../lib/db-interface.js';
+import {logger} from '../../lib/logger'
 
 export default function listHause(req, params) {
   const skip = req.query.skip;

@@ -1,5 +1,95 @@
 @import "../../theme/variables.scss";
 @import "../../theme/utils.scss";
+@import "../../theme/color.scss";
+@import "../../theme/media.scss";
+
+.posts {
+  width: 100%;
+  padding-top: 80px;
+}
+
+.dropDown {
+
+}
+.listNav {
+  position: fixed;
+  width:100%;
+  z-index: 5;
+  margin-top: -20px;
+  padding-bottom: 10px;
+  background-color: white;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-end;
+  flex-wrap: wrap;
+}
+
+.listNavBeforeLogin{
+  position: fixed;
+  width:100%;
+  z-index: 5;
+  margin-top: -20px;
+  padding-bottom: 10px;
+  background-color: white;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-end;
+  flex-wrap: wrap;
+}
+
+.select {
+  width: 60%;
+  min-width: 200px;
+  max-width: 400px;
+  margin: 0 30px 0 30px;
+}
+.refreshButton {
+  margin-bottom:0px ;
+
+}
+
+.loading {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin: 0 auto;
+  font-size: large;
+  text-align: center;
+  background-color: $grey50;
+  padding-top: 100px;
+  .loadingText {
+    padding: 0 20px;
+    color: $darkBlack
+  }
+}
+
+.regionNoSource {
+  padding-top: 20px;
+  margin-left: 30px;
+  margin-bottom: 435px;
+  font-size: 20px;
+}
+
+.upArrowContainer{
+  display: none;
+  cursor: pointer;
+  position: fixed;
+  bottom: 40px;
+  right: 15px;
+  z-index: 10;
+  .upArrow{
+    padding: 7px;
+    color: black;
+    box-shadow:  0px 4px 12px 0px rgba(162,162,162,0.50);
+    border-radius: 50%;
+    background-color: #fafafa;
+    opacity: 0.6;
+  }
+}
 
 .listNav {
   position: fixed;
@@ -31,43 +121,41 @@
   //opacity: 0.5;
 }
 
-.gridList{
-  width : 100%;
-  .myList{
-    width: 100%;
-    display : flex;
+.myList{
+  width: 100%;
+  display : flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+.tile{
+  display : flex;
+  align-items:center;
+  justify-content:center;
+  .carousel{
+    height:100%;
+    width:100%;
+    display:flex;
     flex-direction: row;
-    flex-wrap: wrap;
-  }
-  .tile{
-    display : flex;
-    align-items:center;
-    justify-content:center;
-    .carousel{
-      height:100%;
-      width:100%;
-      display:flex;
-      flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    .imageContainer{
+      display: flex;
       align-items: center;
+      flex-direction: row;
       justify-content: center;
-      .imageContainer{
-        display: flex;
-        align-items: center;
-        flex-direction: row;
-        justify-content: center;
-        //max-height:400px;
-        img{
-          cursor:pointer;
-          max-height:300px;
-          max-width:100%;
-        }
+      //max-height:400px;
+      img{
+        cursor:pointer;
+        max-height:300px;
+        max-width:100%;
       }
     }
-    .buttonGroup{
+  }
+  .buttonGroup{
 
-    }
   }
 }
+
 
 .usernameColor{
   color: white;
@@ -75,4 +163,76 @@
 
 .cityColor{
   color: white;
+}
+
+@include max-screen(820px){
+  .loading{
+    padding-top: 50px;
+  }
+  .listNav{
+    margin-top: 20px;
+    .refreshButton{
+
+    }
+  }
+  .listNavBeforeLogin{
+
+  }
+}
+
+@include max-screen(768px){
+    margin-top: 80px;
+    .listNav {
+      position: static;
+      padding-top: 60px;
+      .refreshButton{
+
+      }
+    }
+    .listNavBeforeLogin{
+      position : static;
+      margin-top: -80px;
+    }
+    .gridContainer{
+      margin-top: -20px;
+      padding-top: 0;
+
+    }
+}
+
+@include max-screen(600px){
+    .gridContainer{
+      margin-top: 20px;
+    }
+    .upArrowContainer{
+      display: block;
+
+    }
+}
+
+@include max-screen(474px){
+    .listNavBeforeLogin{
+      margin-bottom: 30px;
+      margin-top: -20px;
+      .refreshButton{
+        margin-top: -30px;
+      }
+
+    }
+    .listNav{
+      margin-bottom: 30px;
+      margin-top: -20px;
+      .refreshButton{
+        margin-top: -30px;
+      }
+    }
+}
+
+@include max-screen(449px){
+    .select {
+      margin: 0 30px 0px 30px;
+    }
+    .gridContainer{
+      margin-top: -30px;
+    }
 }

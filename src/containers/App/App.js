@@ -39,6 +39,8 @@ function fetchData(getState, dispatch) {
     createData : state.entity.createData,
     locationId : state.entities.locationId,
     cityList : state.entities.cityList,
+    postCreateData : state.post.createData,
+    postLocationId : state.posts.locationId,
   }),
   {logout, clearLoginError, pushState, onGetHouseList, onAddData, onGetCityList, onLocationChange, onNewSubmit})
 export default class App extends Component {
@@ -94,6 +96,17 @@ export default class App extends Component {
         this.props.onAddData(nextProps.createData)
       }
     }
+
+    if(!this.props.postCreateData && nextProps.postCreateData){
+      this.props.pushState(null, '/entities/' + nextProps.createData._id)
+
+      this.props.onGetHouseList(this.props.locationId, this.props.cityList)
+
+      //TODO refresh admin list
+      //if(this.props.adminLoaded){
+      //  this.props.onAddData(nextProps.createData)
+      //}
+    }
   }
 
   handleClick = (e) => {
@@ -147,10 +160,13 @@ export default class App extends Component {
               <FlatButton containerElement={<Link to="/about" />}
                           linkButton={true} eventKey={7} label="关于我们"/>
 
-              { !config.isDebug &&
-              user &&
+              {user &&
               <FlatButton eventKey={1} linkButton={true} containerElement={<Link to="/chat" />} label="聊天室"/>
-            }
+              }
+
+              {user &&
+              <FlatButton eventKey={9} linkButton={true} containerElement={<Link to="/posts" />} label="求房信息"/>
+              }
             </div>
 
           </div>

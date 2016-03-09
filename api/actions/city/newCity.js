@@ -2,8 +2,8 @@
  * Created by hanwencheng on 2/26/16.
  */
 
-import DB from '../lib/db-interface.js';
-import {logger} from '../lib/logger'
+import DB from '../../lib/db-interface.js';
+import {logger} from '../../lib/logger'
 const async = require('async')
 
 export default function newCity(req, params) {

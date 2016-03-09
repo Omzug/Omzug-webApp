@@ -2,40 +2,39 @@
  * Created by hanwencheng on 3/5/16.
  */
 
-const OPEN_DIALOG = 'omzug/posts/OPEN_DIALOG';
-const CLOSE_DIALOG = 'omzug/posts/CLOSE_DIALOG';
-const CLEAR = 'omzug/posts/CLEAR';
+const LOAD = 'omzug/postList/LOAD';
+const LOAD_SUCCESS = 'omzug/postList/LOAD_SUCCESS';
+const LOAD_FAIL = 'omzug/postList/LOAD_FAIL';
+const CLEAR = 'omzug/postList/CLEAR'
+const CHANGE_LOCATION = "omzug/postList/CHANGE_LOCATION"
+const DELETE_POST = 'omzug/postList/DELETE_POST'
+const DELETE_POST_SUCCESS = 'omzug/postList/DELETE_POST_SUCCESS'
+const DELETE_POST_FAIL = 'omzug/postList/DELETE_POST_FAIL'
 
-const LOAD = 'omzug/posts/LOAD';
-const LOAD_SUCCESS = 'omzug/posts/LOAD_SUCCESS';
-const LOAD_FAIL = 'omzug/posts/LOAD_FAIL';
-const DELETE_POST = 'omzug/posts/DELETE_POST'
-const DELETE_POST_SUCCESS = 'omzug/posts/DELETE_POST_SUCCESS'
-const DELETE_POST_FAIL = 'omzug/posts/DELETE_POST_FAIL'
-const APPEND_SUCCESS = "omzug/posts/APPEND_SUCCESS"
-const APPEND_FAIL = "omzug/posts/APPEND_FAIL"
-const DISABLE_APPEND = "omzug/posts/DISABLE_APPEND"
+const APPEND_SUCCESS = "omzug/postList/APPEND_SUCCESS"
+const APPEND_FAIL = "omzug/postList/APPEND_FAIL"
+const DISABLE_APPEND = "omzug/postList/DISABLE_APPEND"
 
-const START_EDIT = "omzug/posts/START_EDIT";
-const END_EDIT = "omzug/posts/END_EDIT";
-const SET_COLUMN = "omzug/posts/SET_COLUMN"
+const INIT = "omzug/postList/INIT"
+const INIT_SUCCESS = "omzug/postList/INIT_SUCCESS"
+const INIT_FAIL = "omzug/postList/INIT_FAIL"
+const SET_COLUMN = "omzug/postList/SET_COLUMN"
+const REFRESH_ALL = "omzug/postList/REFRESH_ALL"
+const REFRESH_ALL_SUCCESS = "omzug/postList/REFRESH_ALL_SUCCESS"
+const REFRESH_ALL_FAIL = "omzug/postList/REFRESH_ALL_FAIL"
+const CLEAR_DELETE_FEEDBACK = "omzug/postList/CLEAR_DELETE_FEEDBACK"
 
+var update = require('react-addons-update');
 import strings from '../../constant/strings';
-import {capitalizeFirstLetter} from '../../utils/help';
 
 const initState = {
   list :[],
-  loaded: false,
-  deleteFeedback : null,
-  loading :false,
-  popover : false,
-  toDelete : null,
-
-  editing : false,
-  column : 1,
   locationId : null,
+  loaded: false,
+  loading :false,
   isEnd : false,
-  cityList : [],
+  column : 1,
+  deleteFeedback : null,
 };
 
 export default function reducer(state = initState, action = {}) {
@@ -95,46 +94,137 @@ export default function reducer(state = initState, action = {}) {
         list: [],
         error: action.error
       };
+    case REFRESH_ALL:
+      return {
+        ...state,
+        loading: true,
+        loadingCity : true
+      }
+    case REFRESH_ALL_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        //TODO error here
+        //list: action.result.postList,
+        error: null,
+        isEnd : action.result.isEnd,
+        loadingCity : false,
+        locationId : null,
+      }
+    case REFRESH_ALL_FAIL :
+      return {
+        ...state,
+        loadingCity : false,
+        loading: false,
+        list: [],
+        error: action.error,
+      }
+    case INIT :
+      return {
+        ...state,
+        loading : true,
+        loadingCity : true,
+      }
+    case INIT_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        loaded: true,
+        list: action.result.posts,
+        error: null,
+        isEnd : action.result.isEnd,
+        loadingCity : false,
+      }
+    case INIT_FAIL:
+      return {
+        ...state,
+        loading: false,
+        loaded: false,
+        loadingCity : false,
+        list: [],
+        error: action.error
+      }
+    case CLEAR:
+      return {
+        initState
+      }
     case DISABLE_APPEND:
       return {
         ...state,
         isEnd : true,
       }
-    case OPEN_DIALOG :
+    case CHANGE_LOCATION:
       return {
         ...state,
-        toDelete: {
-          post: action.post,
-          index: action.index,
-        },
-        popover: true,
-      }
-    case CLOSE_DIALOG:
-      return {
-        ...state,
-        popover: false,
-      }
-    case CLEAR:
-      return {
-        initState
+        locationId : action.id
       }
     case SET_COLUMN :
       return {
         ...state,
         column : action.number,
       }
-    case START_EDIT:
+    case CLEAR_DELETE_FEEDBACK:
       return {
         ...state,
-        editing : true
+        deleteFeedback : null,
       }
-    case END_EDIT:
-      return {
-        ...state,
-        editing :false
+    default : return state;
+  }
+}
+
+function processCityList(cityList){
+  var selectList = []
+  cityList.forEach(function(city, index){
+    selectList.push({
+      value : index,
+      label : city
+    })
+  })
+  return selectList;
+}
+
+export function onGetPostList(cityIndex, cityList){
+  var city = null
+  if(cityIndex !== null) {
+    city = cityList[cityIndex].label;
+  }
+  console.log('city is', city);
+  return {
+    types: [LOAD, LOAD_SUCCESS, LOAD_FAIL],
+    promise: (client) => {
+      let url;
+      if(city) {
+        url = '/listPosts/city/' + city
+      }else{
+        url ='/listPosts'
       }
-    default :
-      return state;
+      return client.get(url)
+    } // params not used, just shown as demonstration
+  };
+}
+
+export function onAppendList(cityIndex, cityList, skipNumber){
+  var city = null
+  if(cityIndex !== null) {
+    city = cityList[cityIndex].label;
+  }
+  return {
+    types: [LOAD, APPEND_SUCCESS, LOAD_FAIL],
+    promise: (client) => {
+      let url;
+      if(city) {
+        url = '/listPosts/city/' + city + '?skip=' + skipNumber
+      }else{
+        url ='/listPosts?skip=' + skipNumber
+      }
+      return client.get(url)
+    } // params not used, just shown as demonstration
+  };
+}
+
+export function onDisableAppend(){
+  return {
+    type : DISABLE_APPEND,
   }
 }
 
@@ -156,29 +246,24 @@ export function onSetColumn(number){
   }
 }
 
-export function onStartEdit(){
+export function onClearDeleteFeedback(){
   return {
-    type : START_EDIT
+    type : CLEAR_DELETE_FEEDBACK,
   }
 }
 
-export function onOpenDialog(post, index){
+export function isLoaded(globalState) {
+  return globalState.posts && globalState.posts.loaded;
+}
+
+export function onLocationChange(value){
   return {
-    post : post,
-    index : index,
-    type : OPEN_DIALOG
+    type : CHANGE_LOCATION,
+    id : value,
   }
 }
 
-//it may not be used
-export  function onEndEdit(){
-  return {
-    type : END_EDIT
-  }
-}
+// to be added when we change location
+function filterData(locationValue){
 
-export function onCloseDialog(){
-  return {
-    type : CLOSE_DIALOG
-  }
 }

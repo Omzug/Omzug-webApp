@@ -2,8 +2,8 @@
  * Created by hanwencheng on 2/19/16.
  */
 
-import DB from '../lib/db-interface.js';
-var createId = require('../lib/model.js').createId
+import DB from '../../lib/db-interface.js';
+var createId = require('../../lib/model.js').createId
 var async = require('async');
 
 export default function listInit(req, params) {

@@ -2,17 +2,18 @@
  * Created by hanwencheng on 3/5/16.
  */
 
-import DB from '../lib/db-interface.js';
-import {logger} from '../lib/logger'
+import DB from '../../lib/db-interface.js';
+import {logger} from '../../lib/logger'
 
 export default function listPosts(req, params) {
+  logger.debug('get list post request params is : ', params)
   const skip = req.query.skip;
-  logger.trace("req skip is", skip)
+  logger.debug("req skip is", skip)
   var skipNumber = skip ? parseInt(skip) : 0
-  logger.trace('should skip number is ', skipNumber)
+  logger.debug('should skip number is ', skipNumber)
 
   const getAll = function(){
-    logger.trace('now query all')
+    logger.debug('now query all')
     return new Promise((resolve, reject) => {
       DB.getAll('post', {}, skipNumber, function(result){
         return resolve(result)

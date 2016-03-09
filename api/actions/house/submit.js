@@ -3,15 +3,15 @@
  */
 var formidable = require('formidable');
 const async = require('async')
-import DB from '../lib/db-interface.js';
-var mongoModel = require('../lib/model.js')
+import DB from '../../lib/db-interface.js';
+var mongoModel = require('../../lib/model.js')
 var createId = mongoModel.createId
 var fs = require('fs');
-var aws = require('../lib/aws');
-var tmpPath = require('../lib/config').tmpPath;
-var awsPrefix = require('../lib/config').awsPrefix;
-import {geocode} from '../lib/googleMap';
-import {logger} from '../lib/logger';
+var aws = require('../../lib/aws');
+var tmpPath = require('../../lib/config').tmpPath;
+var awsPrefix = require('../../lib/config').awsPrefix;
+import {geocode} from '../../lib/googleMap';
+import {logger} from '../../lib/logger';
 
 function processImageAddress(path){
   var paths = path.split("/")

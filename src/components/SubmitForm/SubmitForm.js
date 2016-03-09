@@ -226,22 +226,23 @@ export default class SubmitForm extends Component {
             </div>
 
             <div className={styles.rowContainer}>
-              <div><TextField key={20} style={inputStyle} floatingLabelText="标题" errorText={title.touched && title.error ? title.error : null} {...title}/></div>
+              <div className={errorStyle(location)}><i className="fa fa-map-marker"/> 地址 :</div>
+              <div><TextField key={20} style={inputStyle} errorText={location.touched && location.error ? location.error : null} {...location}/></div>
             </div>
 
             <div className={styles.rowContainer}>
               <div className={errorStyle(size)}><i className="fa fa-square"/> 面积 :</div>
-              <div><TextField key={40} style={inputStyle} floatingLabelText="面积" errorText={size.touched && size.error ? size.error : null} {...size}/></div>
+              <div><TextField key={40} style={inputStyle} errorText={size.touched && size.error ? size.error : null} {...size}/></div>
             </div>
 
             <div className={styles.rowContainer}>
               <div className={errorStyle(price)}><i className="fa fa-eur"/> 租金 :</div>
-              <div><TextField key={50} style={inputStyle} floatingLabelText=" " errorText={price.touched && price.error ? price.error : null} {...price}/></div>
+              <div><TextField key={50} style={inputStyle} errorText={price.touched && price.error ? price.error : null} {...price}/></div>
             </div>
 
             <div className={styles.rowContainer}>
               <div className={errorStyle(caution)}><i className="fa fa-lock"/> 押金 :</div>
-              <div><TextField key={60} style={inputStyle} floatingLabelText=" " errorText={caution.touched && caution.error ? caution.error : null} {...caution}/></div>
+              <div><TextField key={60} style={inputStyle} errorText={caution.touched && caution.error ? caution.error : null} {...caution}/></div>
             </div>
 
             {/* the width should be 265px */}
@@ -312,15 +313,15 @@ export default class SubmitForm extends Component {
             </div>
             <div className={styles.rowContainer + " " + styles.buttonGroup}>
               <div className={errorStyle(email)}><i className="fa fa-envelope"/> 邮箱 :</div>
-              <div><TextField key={110} style={inputStyle}  floatingLabelText=" " errorText={email.touched && email.error ? email.error : null} {...email}/></div>
+              <div><TextField key={110} style={inputStyle} errorText={email.touched && email.error ? email.error : null} {...email}/></div>
             </div>
             <div className={styles.rowContainer}>
               <div className={errorStyle(phone)}><i className="fa fa-phone"/> 手机 :</div>
-              <div><TextField key={120} style={inputStyle}  floatingLabelText=" " errorText={phone.touched && phone.error ? phone.error : null} {...phone}/></div>
+              <div><TextField key={120} style={inputStyle} errorText={phone.touched && phone.error ? phone.error : null} {...phone}/></div>
             </div>
             <div className={styles.rowContainer}>
               <div className={errorStyle(wechat)}><i className="fa fa-wechat"/> 微信 :</div>
-              <div><TextField key={130} style={inputStyle}  floatingLabelText=" " errorText={wechat.touched && wechat.error ? wechat.error : null} {...wechat}/></div>
+              <div><TextField key={130} style={inputStyle} errorText={wechat.touched && wechat.error ? wechat.error : null} {...wechat}/></div>
             </div>
             <div className={styles.submit}>
               <RaisedButton style={uiStyles.buttonStyle} key={13} className={styles.editButton} onClick={validateSubmit}><span/> 提交</RaisedButton>

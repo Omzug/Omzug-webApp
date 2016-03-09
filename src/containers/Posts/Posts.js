@@ -1,30 +1,33 @@
 /**
  * Created by hanwencheng on 3/5/16.
  */
-
-/**
- * Created by hanwencheng on 2/10/16.
- */
 import React, {Component, PropTypes} from 'react';
-import {GridList, GridTile, Dialog, IconButton, FlatButton, TextField} from 'material-ui';
+import {GridList, GridTile, Dialog, IconButton, FlatButton, TextField, Snackbar} from 'material-ui';
 import {reduxForm} from 'redux-form';
 import {Carousel} from 'components';
 import { LinkContainer } from 'react-router-bootstrap';
-import {onOpenDialog, onCloseDialog , onSetColumn, onStartEdit, onDeletePost, onCityChange} from 'redux/modules/posts';
+import {isLoaded, onOpenDialog, onCloseDialog , onSetColumn, onStartEdit, onDeletePost, onCityChange,
+  onDisableAppend, onGetPostList, onLocationChange, onAppendList, onClearDeleteFeedback} from 'redux/modules/posts';
 import {connect} from 'react-redux';
 import postValidation from './postValidation'
-
+import connectData from 'helpers/connectData';
+import Select from 'react-select';
+import Helmet from 'react-helmet';
 import uiStyles from '../../theme/uiStyles'
 var config = require('../../config');
 import cityList from '../../constant/cityList'
 import strings from '../../constant/strings'
 
-@reduxForm({
-  form: 'post',
-  //later should delete images in fields
-  fields : [  'city', 'title' , 'description', 'startDate','email','phone','wechat'],
-  validate : postValidation,
-})
+function fetchDataDeferred(getState, dispatch) {
+  console.log('is loaded is', isLoaded(getState()))
+  if (!isLoaded(getState())) {
+    console.log('should ge list now')
+    //console.log("after load we get state:", getState().router)
+    return dispatch(onGetPostList(null, cityList));
+  }
+}
+
+@connectData(null, fetchDataDeferred)
 
 @connect(
   state => ({
@@ -35,15 +38,14 @@ import strings from '../../constant/strings'
     error: state.posts.error,
     loading: state.posts.loading,
     loaded: state.posts.loaded,
-    editing : state.posts.editing,
+    isEnd : state.posts.isEnd,
+    locationId : state.posts.locationId,
+    deleteFeedback : state.posts.deleteFeedback,
 
     user: state.auth.user,
-    isEnd : state.posts.isEnd,
-    loadingCity : state.posts.loadingCity,
-    locationId : state.posts.locationId,
-    deleteFeedback : state.entities.deleteFeedback,
   }),
-  {onOpenDialog, onCloseDialog, onStartEdit, onSetColumn, onCityChange}
+  {onOpenDialog, onCloseDialog, onStartEdit, onSetColumn, onCityChange, onDeletePost,
+    onDisableAppend, onGetPostList, onLocationChange, onAppendList, onClearDeleteFeedback}
 )
 export default class List extends Component {
   static propTypes = {
@@ -51,22 +53,27 @@ export default class List extends Component {
     popover : PropTypes.bool,
     toDelete : PropTypes.object,
     column : PropTypes.number,
-    //from parent
-    editing : PropTypes.bool,
-    user : PropTypes.object,
-    isEnd : PropTypes.bool,
-    loadingCity : PropTypes.bool,
-    locationId : PropTypes.number,
-    deleteFeedback : PropTypes.string,
     error: PropTypes.string,
+    isEnd : PropTypes.bool,
     loading: PropTypes.bool,
     loaded :PropTypes.bool,
+    locationId : PropTypes.number,
+    deleteFeedback : PropTypes.string,
+    //from parent
+    user : PropTypes.object,
 
-    onDeletePost: PropTypes.func.isRequired,
     onOpenDialog : PropTypes.func.isRequired,
     onCloseDialog : PropTypes.func.isRequired,
     onStartEdit :PropTypes.func.isRequired,
     onSetColumn : PropTypes.func.isRequired,
+    onCityChange : PropTypes.func.isRequired,
+    onDeletePost: PropTypes.func.isRequired,
+
+    onDisableAppend : PropTypes.func.isRequired,
+    onGetPostList: PropTypes.func.isRequired,
+    onLocationChange: PropTypes.func.isRequired,
+    onAppendList : PropTypes.func.isRequired,
+    onClearDeleteFeedback : PropTypes.func.isRequired,
   };
 
   handleResize = (event) => {
@@ -92,35 +99,59 @@ export default class List extends Component {
   componentDidMount() {
     this.handleResize();
     window.addEventListener('resize', this.handleResize);
+    window.addEventListener('scroll', this.handleScroll)
   }
 
   componentWillUnmount() {
     window.removeEventListener('resize', this.handleResize);
+    window.removeEventListener('scroll', this.handleScroll)
+  }
+
+  handleScroll = (event) => {
+    var listBody = event.srcElement.body;
+    if(window.innerHeight + listBody.scrollTop >= listBody.scrollHeight - 20){
+      //temporary disable append util we get result
+      if(!this.props.loading && !this.props.isEnd){
+        this.props.onDisableAppend();
+        //console.log('now appending to list')
+        this.props.onAppendList(this.props.locationId, cityList, this.props.posts.length);
+      }
+    }
+  }
+
+  onUpArrowClick = (event) => {
+    if(window){
+      window.scrollTo(0 , 100);
+    }
   }
 
   render(){
+    require('../../theme/react-select.css')
     const margin = 3; //percent
     const marginPercentage = margin.toString() + "%"
     var tileWidth = (Math.floor(100 / this.props.column) - margin * 2).toString() + "%";
     const styles = require('./Posts.scss');
-    const {onDeleteHouse, onOpenDialog, onCloseDialog, toDelete, column} = this.props;
-    const {posts, user,
-      fields: {city,description, email,phone, wechat},
-      } = this.props;
+    const {onDeletePost, onOpenDialog, onCloseDialog, toDelete, loading, deleteFeedback,
+      onStartEdit, locationId, error} = this.props;
+    const {posts, user} = this.props;
 
-    const cities = cityList.map(function(cityObject){
-      return cityObject.label
-    })
-
-    const deleteHouse = (event) => {
-      onCloseDialog(event);
-      if(toDelete){
-        onDeleteHouse(this.props.user._id, toDelete.post._id, toDelete.index)
+    const onCityChange =(value)=>{
+      if(value === ""){
+        value = null
+      }
+      //Change the List
+      if(this.props.locationId != value){
+        this.props.onLocationChange(value);
+        //console.log('now the value of select is',value)
+        this.props.onGetPostList(value, cityList)
       }
     }
 
-    const startEdit = (event) => {
-      this.props.onStartEdit()
+    const deletePost = (event) => {
+      onCloseDialog(event);
+      if(toDelete){
+        onDeletePost(this.props.user._id, toDelete.post._id, toDelete.index)
+      }
     }
 
     const saveIndex = (post, index, event) => {
@@ -132,8 +163,8 @@ export default class List extends Component {
       if(this.props.user && post.owner === this.props.user._id){
         return(
           <span className={styles.buttonGroup}>
-            <LinkContainer to={`/entities/${post._id}`}>
-              <IconButton iconClassName="fa fa-pencil" onClick={startEdit} iconStyle={iconStyle}/>
+            <LinkContainer to={`/posts/${post._id}`}>
+              <IconButton iconClassName="fa fa-pencil" onClick={onStartEdit} iconStyle={iconStyle}/>
             </LinkContainer>
             <IconButton iconClassName="fa fa-trash" onClick={saveIndex.bind(this, post, index)} iconStyle={iconStyle}/>
             <Dialog
@@ -145,7 +176,7 @@ export default class List extends Component {
                 />,
                 <FlatButton
                   label="删除"
-                  onClick={deleteHouse}
+                  onClick={deletePost}
                   labelStyle={uiStyles.dialogConfirmStyle}
                 />,
               ]}
@@ -162,26 +193,18 @@ export default class List extends Component {
       }
     }
 
-    const onCityChange =(value)=>{
-      if(value === ""){
-        return city.onChange(null)
-      }
-      city.onChange(cities[value])
-    }
-
     const listNavClass = this.props.user ? styles.listNav : styles.listNavBeforeLogin;
-    const inputStyle250Width = { width : "250px"}
 
     return (
-      <div className={styles.gridList}>
+      <div className={styles.posts}>
         <Helmet title="求房列表"/>
         <div className={listNavClass}>
           <div className={styles.select}>
             <Select
-              name="selectCity"
-              options={cities}
-              value={locationId === null || !cities.length ? "" : cities[locationId]}
-              onChange={this.onSelectChange}
+              name="selectPostCity"
+              options={cityList}
+              value={locationId === null ? "" : cityList[locationId].label}
+              onChange={onCityChange}
               noResultsText={strings.selectNoResults}
               placeholder={strings.selectPlaceholder}
             />
@@ -192,50 +215,12 @@ export default class List extends Component {
             className={styles.tile}
             key={this.props.user ? user._id : "newPost"}
             style={{
-              "display" : "flex", "alignItems":"center", "justifyContent": "center",
+                "display" : "flex", "alignItems":"center", "justifyContent": "center",
                height: "300px", width : tileWidth, margin : marginPercentage}}
           >
             <div className={styles.dialog}>
-              <Dialog
-                actions={
-                  <div>
-                    <FlatButton onClick={this.props.onContactClose} className={styles.hvrBuzzOut}>
-                      <span className="fa fa-child"/>
-                      <span>  </span>OK
-                    </FlatButton>
-                  </div>
-                  }
-
-                modal={false}
-                open={contactOpen}
-                onRequestClose={this.props.onContactClose}
-              >
-                <div className={styles.rowContainerCity}>
-                  <div className={styles.city}><i className="fa fa-location-arrow"/> 城市 :</div>
-                  <Select
-                    className={styles.select}
-                    name="selectPostCity"
-                    options={cities}
-                    value={city.value === null ? "" : city.value}
-                    onChange={onCityChange}
-                    noResultsText={strings.selectNoResultsSubmit}
-                    placeholder={strings.selectPlaceholderSubmit}
-                    ignoreAccents={false}
-                  />
-                </div>
-
-                <div className={styles.rowContainer}>
-                  <div><TextField key={23} style={inputStyle250Width} hintText="手机" {...phone}/></div>
-                </div>
-                <div className={styles.rowContainer}>
-                  <div><TextField key={24} style={inputStyle250Width} hintText="邮箱" {...email}/></div>
-                </div>
-                <div className={styles.rowContainer}>
-                  <div><TextField key={25} style={inputStyle250Width} hintText="微信" {...wechat}/></div>
-                </div>
-              </Dialog>
+              here should be the add post div
             </div>
-
           </GridTile>
           {posts.map((post, index) => (
             <GridTile
@@ -244,7 +229,7 @@ export default class List extends Component {
               style={{
               "display" : "flex", "alignItems":"center", "justifyContent": "center",
                height: "300px", width : tileWidth, margin : marginPercentage}}
-              title={post.title}
+              title={post.username}
               subtitle={
                 post.username == "weibo"
                 ?
@@ -252,19 +237,46 @@ export default class List extends Component {
                 :
                 <span>
                   by <b className={styles.usernameColor}>{post.username}</b> In <b className={styles.cityColor}>
-                  {post.city}</b>
+                  {post.city ? post.city : ""}</b>
                 </span>
               }
               actionIcon={renderIcon(post, index)}
             >
-              <Carousel key={post._id} className={styles.carousel} width={"100%"}
-                        initialSlideHight={300} initialSlideWidth={500}>
-                {post.description}
-              </Carousel>
+              <LinkContainer to={`/posts/${post._id}`}>
+                post div {post.description}
+              </LinkContainer>
             </GridTile>
           ))
           }
         </div>
+
+
+        {error &&
+        <div className="alert alert-danger" role="alert">
+          <span className="glyphicon glyphicon-exclamation-sign" aria-hidden="true">sorry</span>
+          {' '}
+          {error}
+        </div>}
+
+        {loading &&
+        <div className={styles.loading}>
+          <p className={styles.loadingText}> Loading Now</p>
+          <p><i className="fa fa-spin fa-refresh fa-4x"/></p>
+        </div>}
+
+        <div className={styles.upArrowContainer} onClick={this.onUpArrowClick}>
+          <i className={"fa fa-arrow-up fa-2x " + styles.upArrow}/>
+        </div>
+
+        <Snackbar
+          open={deleteFeedback != null}
+          message={ deleteFeedback != null ? deleteFeedback : ""}
+          autoHideDuration={4000}
+          bodyStyle={uiStyles.snackBarStyleBlue}
+          onRequestClose={(reason) => {
+            this.props.onClearDeleteFeedback()
+          }}
+        />
       </div>
     )
   }

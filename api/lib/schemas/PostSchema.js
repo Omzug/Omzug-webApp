@@ -30,11 +30,13 @@ module.exports = function(Schema, collectionName){
   return new Schema({
     city :  { type : String, required : true, index: true/*, validate : stringValidator*/},
     username : {type : String, required : true},
+    owner : {type : ObjectId, required : true},
     description : { type : String, required : true},
 
     email : { type : String, required : false, validate : emailValidator},
     phone : { type : String, required : false, validate : phoneValidator},
     wechat : {type : String, required : false},
+    images : {type : Array, required : false},
 
   }, { strict : true, collection : collectionName, timestamps: true});
 }
