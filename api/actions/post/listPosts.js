@@ -4,6 +4,7 @@
 
 import DB from '../../lib/db-interface.js';
 import {logger} from '../../lib/logger'
+import urlencode from 'urlencode';
 
 export default function listPosts(req, params) {
   logger.debug('get list post request params is : ', params)
@@ -52,9 +53,9 @@ export default function listPosts(req, params) {
 
   switch(params[0]) {
     case "city" :
-      return params[1] ? getCity(params[1]) : getAll()
+      return params[1] ? getCity(urlencode(params[1])) : getAll()
     case "user" :
-      return params[1] ? getUser(params[1]) : getAll()
+      return params[1] ? getUser(urlencode(params[1])) : getAll()
     default :
       return getAll()
   }
