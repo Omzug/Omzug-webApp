@@ -6,7 +6,7 @@ import {connect} from 'react-redux';
 import uiStyles from '../../theme/uiStyles';
 import {onContactOpen, onContactClose, onStartEdit} from "redux/modules/post";
 import {onSetError} from 'redux/modules/error';
-import {Carousel, Map} from 'components';
+import {Carousel} from 'components';
 import {RaisedButton, FlatButton, FontIcon, Paper, Dialog, Card, CardActions,
   CardHeader, CardMedia, CardTitle, CardText, List, ListItem, Divider, TextField} from 'material-ui';
 import strings from '../../constant/strings';
@@ -159,20 +159,11 @@ export default class PostTemplate extends Component {
             </div>
           </div>
 
-          { post.lat && post.lng &&
-          <div className={styles.mapContainer}>
-            <div className={styles.map}>
-              <Map geometry={[post.lat, post.lng]}/>
-            </div>
-          </div>
-          }
         </div>
         <div className={styles.list}>
           <div className={styles.innerList}>
             <div className={styles.rowContainer}><i className="fa fa-location-arrow"/> 城市 : &nbsp;&nbsp;  {post.city ? post.city : ""}</div>
-            <div className={styles.rowContainer}><i className="fa fa-map-marker"/>地址 : &nbsp;&nbsp;  {post.location}</div>
-            <div className={styles.rowContainer}><i className="fa fa-square"/> 面积 : &nbsp;&nbsp;  {post.size ?  post.size + " m²" : "未指定"}</div>
-            <div className={styles.rowContainer}><i className="fa fa-cube"/> 类型 : &nbsp;&nbsp;  {post.type ? "WG" : "Wohnung/Apartment"}</div>
+            <div className={styles.rowContainer}><i className="fa fa-cube"/> 专业 : &nbsp;&nbsp;  {post.major ? post.major : ""}</div>
             <div className={styles.rowContainer}><i className="fa fa-eur"/> 租金 : &nbsp;&nbsp; {(post.priceType ? "冷租" : "暖租" ) + ' ' + post.price} &nbsp; Eur</div>
             <div className={styles.rowContainer}><i className="fa fa-lock"/> 押金 : &nbsp;&nbsp;  {post.caution ? post.caution + " Eur" : "未指定"} </div>
             <div className={styles.rowContainer}><i className="fa fa-calendar"/> 租期 : &nbsp;&nbsp; {formatDate(post.startDate)} &nbsp;-- &nbsp;{post.endDate ? formatDate(post.endDate) : "无期限"  } </div>

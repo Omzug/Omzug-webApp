@@ -141,7 +141,7 @@ export default function submit(req, params) {
 
 
       deleteFiles.forEach(function(imageAddress){
-        aws.delete(house.username , processImageAddress(imageAddress), function(err, result){
+        aws.delete('house', house.username , processImageAddress(imageAddress), function(err, result){
           logger.trace('finished is ', finished, 'err is', err, 'result is ', result)
           if(err){
             callback(err)
@@ -167,7 +167,7 @@ export default function submit(req, params) {
 
       files.some(function(file){
         logger.debug('start upload with file ', file.name)
-        aws.upload(file, house.username, function (err, data) {
+        aws.upload('house', file, house.username, function (err, data) {
           if (err) {
             callback(err)
             return true

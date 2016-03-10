@@ -54,7 +54,7 @@ export default function deleteHouse(req, params){
       house.images.some(function(imageAddress){
         const address = imageAddress.split("/")
         logger.debug('file name is', address[address.length - 1])
-        return aws.delete(house.username, address[address.length - 1], function(err, result){
+        return aws.delete('house', house.username, address[address.length - 1], function(err, result){
           if(err) {
             callback(err)
             return true;

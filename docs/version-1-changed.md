@@ -2,3 +2,4 @@
 
 2. change type display
 
+3. delete floating text //cause display align error

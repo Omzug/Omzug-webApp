@@ -38,7 +38,7 @@ module.exports = function(Schema, collectionName){
     wechat : {type : String, required : false},
     images : {type : Array, required : false},
 
-    startDate : {type : Date, required : false},
+    startDate : {type : Date, required : true},//TODO
     endDate : { type : Date, required : false},
     major : {type : String, required : false},
 

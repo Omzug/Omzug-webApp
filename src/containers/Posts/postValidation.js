@@ -12,5 +12,8 @@ const postValidation = createValidator({
   email : [email],
   phone : [phoneNumber],
   wechat : [],
+  major : [],
+  startDate : [required],
+  endDate : [],
 });
 export default memoize(10)(postValidation);

@@ -7,7 +7,8 @@ import Helmet from 'react-helmet';
 import { isLoaded as isInfoLoaded, load as loadInfo } from 'redux/modules/info';
 import { isLoaded as isAuthLoaded, load as loadAuth, logout, clearLoginError } from 'redux/modules/auth';
 import { onAddData } from 'redux/modules/admin';
-import { onGetHouseList, onGetCityList, onLocationChange, onNewSubmit} from 'redux/modules/entities'
+import { onGetHouseList, onGetCityList, onNewSubmit} from 'redux/modules/entities'
+import { onGetPostList } from 'redux/modules/posts'
 //import { InfoBar } from 'components';
 import { pushState } from 'redux-router';
 import connectData from 'helpers/connectData';
@@ -16,6 +17,7 @@ import {FlatButton, FontIcon} from 'material-ui';
 import uiStyles from '../../theme/uiStyles';
 import ga from 'react-google-analytics';
 const GAInitiailizer = ga.Initializer;
+import defaultCityList from '../../constant/cityList';
 
 // it must be enabled before react 1.0 for material ui
 
@@ -42,7 +44,7 @@ function fetchData(getState, dispatch) {
     postCreateData : state.post.createData,
     postLocationId : state.posts.locationId,
   }),
-  {logout, clearLoginError, pushState, onGetHouseList, onAddData, onGetCityList, onLocationChange, onNewSubmit})
+  {logout, clearLoginError, pushState, onGetHouseList, onAddData, onGetCityList, onNewSubmit, onGetPostList})
 export default class App extends Component {
   static propTypes = {
     children: PropTypes.object.isRequired,
@@ -56,9 +58,9 @@ export default class App extends Component {
     pushState: PropTypes.func.isRequired,
     clearLoginError: PropTypes.func.isRequired,
     onGetHouseList : PropTypes.func.isRequired,
+    onGetPostList : PropTypes.func.isRequired,
     onGetCityList : PropTypes.func.isRequired,
     onAddData : PropTypes.func.isRequired,
-    onLocationChange : PropTypes.func.isRequired,
     onNewSubmit : PropTypes.func.isRequired,
   };
 
@@ -98,9 +100,9 @@ export default class App extends Component {
     }
 
     if(!this.props.postCreateData && nextProps.postCreateData){
-      this.props.pushState(null, '/entities/' + nextProps.createData._id)
+      this.props.pushState(null, '/posts/' + nextProps.postCreateData._id)
 
-      this.props.onGetHouseList(this.props.locationId, this.props.cityList)
+      this.props.onGetPostList(this.props.postLocationId, defaultCityList)
 
       //TODO refresh admin list
       //if(this.props.adminLoaded){
