@@ -19,6 +19,7 @@ import {
     Post,
     Register,
     Submit,
+    SubmitPost,
     UserAdmin,
   } from 'containers';
 
@@ -107,6 +108,7 @@ export default (store) => {
         <Route path="loginSuccess" component={LoginSuccess}/>
         <Route path="submit" component={Submit}/>
         <Route path="admin" component={UserAdmin}/>
+        <Route path="submitPost" component={SubmitPost}/>
       </Route>
 
       { /* Routes */ }

@@ -39,7 +39,7 @@ import defaultCityList from '../../constant/cityList';
 @reduxForm({
   form: 'post',
   //later should delete images in fields
-  fields : [  'city', 'title' , 'description', 'startDate','email','phone','wechat'],
+  fields : [  'city', 'description', 'startDate','endDate','major','email','phone','wechat'],
   validate : postValidation,
 })
 
@@ -98,8 +98,8 @@ export default class PostForm extends Component {
     require('../../theme/react-select.css')
     const styles = require('./PostForm.scss');
     const {
-      fields: {location,city,size,price,caution,startDate,endDate,
-        description,title,owner,email,phone,type,note,priceType,images, wechat},
+      fields: {location,city,startDate,endDate,
+        description,owner,email,phone, images, wechat},
       post,
       hasLimit,
       currentSlide,
@@ -144,7 +144,7 @@ export default class PostForm extends Component {
       city.onChange(defaultCityList[value].label)
     }
 
-    const inputStyle = { width : "250px"}
+    const inputStyle250Width = { width : "250px"}
 
     const validateSubmit = (data)=> {
       var fields = this.props.fields;
@@ -195,12 +195,6 @@ export default class PostForm extends Component {
               }
             </Carousel>
           </CardMedia>
-          <div className={styles.cardTitle}>
-            <CardTitle>
-              {/* directly display the require error here since it hard to find */}
-              <TextField key={201} hintText="标题" floatingLabelText="标题" errorText={title.touched && title.error ? title.error : null} {...title}/>
-            </CardTitle>
-          </div>
           <CardText style={uiStyles.cardText}>
             <textarea key={202} className={"form-control " + styles.textArea} rows="8" placeholder="填写一些具体介绍吧" {...description}/>
           </CardText>
@@ -214,7 +208,7 @@ export default class PostForm extends Component {
               <Select
                 className={styles.select}
                 name="selectPostCity"
-                options={cities}
+                options={defaultCityList}
                 value={city.value === null ? "" : city.value}
                 onChange={onCityChange}
                 noResultsText={strings.selectNoResultsSubmit}
@@ -227,7 +221,7 @@ export default class PostForm extends Component {
             <div className={styles.rowContainerDate}>
               <DatePicker key={81} autoOk={true} value={new Date(startDate.value)} hintText="开始日期" textFieldStyle={uiStyles.datePicker}
                           onChange={(event, newDate) => startDate.onChange(newDate)} formatDate={this.dateFormat}/>
-              <Toggle label="短期" toggled={hasLimit} labelPosition="right" style={uiStyles.toggle} onToggle={(event, isToggled) => {
+              <Toggle label={hasLimit ? "短期" : "长期"} toggled={hasLimit} labelPosition="right" style={uiStyles.toggle} onToggle={(event, isToggled) => {
                  this.props.onToggleLimit(isToggled)
                  if(isToggled){
                  endDate.onChange(new Date())

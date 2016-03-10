@@ -5,6 +5,7 @@ import React, {Component, PropTypes} from 'react';
 import {GridList, GridTile, Dialog, IconButton, FlatButton, TextField, Snackbar} from 'material-ui';
 import {reduxForm} from 'redux-form';
 import {Carousel} from 'components';
+import { IndexLink, Link } from 'react-router';
 import { LinkContainer } from 'react-router-bootstrap';
 import {isLoaded, onOpenDialog, onCloseDialog , onSetColumn, onStartEdit, onDeletePost, onCityChange,
   onDisableAppend, onGetPostList, onLocationChange, onAppendList, onClearDeleteFeedback} from 'redux/modules/posts';
@@ -219,7 +220,9 @@ export default class List extends Component {
                height: "300px", width : tileWidth, margin : marginPercentage}}
           >
             <div className={styles.dialog}>
+            <Link to={'/submitPost'} onClick={onStartEdit}>
               here should be the add post div
+            </Link>
             </div>
           </GridTile>
           {posts.map((post, index) => (

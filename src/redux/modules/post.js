@@ -25,12 +25,10 @@ const CHANGE_SLIDE = "omzug/post/CHANGE_SLIDE";
 const SUBMIT_NEW_SUCCESS = "omzug/post/SUBMIT_NEW_SUCCESS";
 const CLEAR_MESSAGE = "omzug/post/CLEAR_MESSAGE";
 const LOG_ERROR = "omzug/post/LOG_ERROR";
-const INIT_ENTITY = "omzug/post/INIT_ENTITY";
+const INIT_POST = "omzug/post/INIT_POST";
 const TOGGLE = "omzug/post/TOGGLE";
 const CHANGE_TYPE = "omzug/post/CHANGE_TYPE";
 const CHANGE_PRICE_TYPE = "omzug/post/CHANGE_PRICE_TYPE";
-const CALCULATE_GEOMETRY = "omzug/post/CALCULATE_GEOMETRY";
-const CHANGE_SEARCH_VALUE = "omzug/post/CHANGE_SEARCH_VALUE";
 const SUBMIT_NEW_FAIL = "omzug/post/SUBMIT_NEW_FAIL";
 const CLEAR_LOAD_ERROR = "omzug/post/CLEAR_LOAD_ERROR"
 
@@ -40,30 +38,21 @@ const initState = {
   editing : false,
   contactOpen : false,
   data : {
-    id : null,
+    _id : null, //TODO
     city: "",//which should be a string
-    type : null,
-    priceType : null,
-    price: null,
-    startDate : null,
-    title : null,//TODO need set to null in production
+    description: null,
     owner : null,
     username : null,
+    images:[],
 
-    lat : null,
-    lng : null,
-    wechat: null,
-    location: null,
-    size : null,
-    caution: null,
+    startDate : null,
     endDate : null,
-    description: null,
+    major : null,
+
+    wechat: null,
     email : null,
     phone : null,
-    note : null,
-    images:[],
   },
-  searchValue : "",
   hasLimit : false,
   cachedImages:[],
   currentSlide: 0,
@@ -161,7 +150,7 @@ export default function reducer(state = initState, action){
       }
     case CLEAR:
       return initState;
-    case INIT_ENTITY :
+    case INIT_POST :
       return {
         ...state,
         data : update(state.data, {
@@ -238,23 +227,6 @@ export default function reducer(state = initState, action){
         ...state,
         data : update(state.data, {priceType : {$set : action.value}})
       }
-    case CALCULATE_GEOMETRY:
-      //TODO
-      //gmAPI.geocode({
-      //  "address": address,
-      //  //"components": "components=country:GB",
-      //  //"bounds":     "55,-1|54,1",
-      //  //"language":   "en",
-      //  "region":     "de"
-      //}, callback);
-      return {
-        ...state,
-      }
-    case CHANGE_SEARCH_VALUE:
-      return {
-        ...state,
-        searchValue : action.value
-      }
     case CLEAR_LOAD_ERROR:
       return {
         ...state,
@@ -296,12 +268,6 @@ export function onStartEdit(){
 export  function onEndEdit(){
   return {
     type : END_EDIT
-  }
-}
-
-export function onCalculateGeometry(location, city){
-  return {
-    type : CALCULATE_GEOMETRY,
   }
 }
 
@@ -396,13 +362,13 @@ export function onClearMessage(){
   }
 }
 
-export function onInitEntity(locationId, cityList, ownerId, username){
+export function onInitPost(locationId, cityList, ownerId, username){
   var city = ""
   if(locationId !== null && cityList.length){
     city = cityList[locationId].label
   }
   return {
-    type : INIT_ENTITY,
+    type : INIT_POST,
     city : city,
     owner : ownerId,
     username : username,
@@ -433,13 +399,6 @@ export function onChangePriceType(value){
 export function onChangeType(value){
   return {
     type : CHANGE_TYPE,
-    value : value,
-  }
-}
-
-export function onChangeSearchValue(value){
-  return {
-    type : CHANGE_SEARCH_VALUE,
     value : value,
   }
 }

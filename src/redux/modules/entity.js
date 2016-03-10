@@ -39,7 +39,7 @@ const initState = {
   editing : false,
   contactOpen : false,
   data : {
-    id : null,
+    _id : null,
     city: "",//which should be a string
     type : null,
     priceType : null,
