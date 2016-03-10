@@ -25,7 +25,7 @@ export default function listPosts(req, params) {
   }
 
   const getCity = function(cityName){
-    logger.trace('now query city', cityName)
+    logger.debug('now query city', cityName)
     return new Promise((resolve, reject) => {
       DB.getAll('post', {city : cityName}, skipNumber, function(result){
         return resolve(result)
@@ -53,9 +53,9 @@ export default function listPosts(req, params) {
 
   switch(params[0]) {
     case "city" :
-      return params[1] ? getCity(urlencode(params[1])) : getAll()
+      return params[1] ? getCity(urlencode.decode(params[1])) : getAll()
     case "user" :
-      return params[1] ? getUser(urlencode(params[1])) : getAll()
+      return params[1] ? getUser(urlencode.decode(params[1])) : getAll()
     default :
       return getAll()
   }
