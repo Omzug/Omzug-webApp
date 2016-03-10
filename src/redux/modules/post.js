@@ -294,7 +294,6 @@ export function onLoadInit(){
 
 function generalizeParameter(data, images){
   var submitData;
-  data.city = data.city.toLowerCase();
   if(data.email==""|| (data.email && data.email.trim()=="")) {
     data.email=null
   }

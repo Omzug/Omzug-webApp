@@ -141,6 +141,7 @@ export default class List extends Component {
         value = null
       }
       //Change the List
+      console.log('this location id is', this.props.locationId, 'and value is', value)
       if(this.props.locationId != value){
         this.props.onLocationChange(value);
         //console.log('now the value of select is',value)
