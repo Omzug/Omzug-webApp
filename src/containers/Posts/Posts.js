@@ -195,6 +195,23 @@ export default class List extends Component {
       }
     }
 
+    const renderAddTile = () => {
+
+      return <GridTile
+        className={styles.tile}
+        key={this.props.user ? user._id : "newPost"}
+        style={{
+                "display" : "flex", "alignItems":"center", "justifyContent": "center",
+               height: "300px", width : tileWidth, margin : marginPercentage}}
+      >
+        <div className={styles.addPost}>
+          <Link to={'/submitPost'} onClick={onStartEdit}>
+            here should be the add post div
+          </Link>
+        </div>
+      </GridTile>
+    }
+
     const listNavClass = this.props.user ? styles.listNav : styles.listNavBeforeLogin;
 
     return (
@@ -213,19 +230,7 @@ export default class List extends Component {
           </div>
         </div>
         <div className={styles.myList}>
-          <GridTile
-            className={styles.tile}
-            key={this.props.user ? user._id : "newPost"}
-            style={{
-                "display" : "flex", "alignItems":"center", "justifyContent": "center",
-               height: "300px", width : tileWidth, margin : marginPercentage}}
-          >
-            <div className={styles.dialog}>
-            <Link to={'/submitPost'} onClick={onStartEdit}>
-              here should be the add post div
-            </Link>
-            </div>
-          </GridTile>
+          {renderAddTile()}
           {posts.map((post, index) => (
             <GridTile
               className={styles.tile}
