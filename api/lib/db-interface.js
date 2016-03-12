@@ -287,7 +287,7 @@ DI.getAllInit = function(type, query, page , resolve, reject){
  * @param resolve
  * @param reject
  */
-DI.getAll = function(type, query, skipNumber, resolve, reject){
+DI.getAll = function(type, query, select, skipNumber, resolve, reject){
   let steps = [
     function(callback){
       findSchema(type, callback)
@@ -308,7 +308,7 @@ DI.getAll = function(type, query, skipNumber, resolve, reject){
       // notice that page start from 0
       queryObject
         .sort({'createdAt' : -1})
-        .select({ owner: 1, _id: 1, title :1 , price : 1, city :1 , username : 1,images :1 })
+        .select(select)
         .skip(skipNumber)
         .limit(expectTotalNumber-skipNumber)
         .exec('find', function(err, result){

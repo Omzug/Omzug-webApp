@@ -9,14 +9,14 @@ import urlencode from 'urlencode';
 export default function listPosts(req, params) {
   logger.debug('get list post request params is : ', params)
   const skip = req.query.skip;
-  logger.debug("req skip is", skip)
   var skipNumber = skip ? parseInt(skip) : 0
-  logger.debug('should skip number is ', skipNumber)
+
+  const select = { owner: 1, _id: 1, description :1 , city :1 , username : 1,images :1 };
 
   const getAll = function(){
     logger.debug('now query all')
     return new Promise((resolve, reject) => {
-      DB.getAll('post', {}, skipNumber, function(result){
+      DB.getAll('post', {}, select, skipNumber, function(result){
         return resolve(result)
       }, function(err){
         return reject(err.msg)
@@ -27,7 +27,7 @@ export default function listPosts(req, params) {
   const getCity = function(cityName){
     logger.debug('now query city', cityName)
     return new Promise((resolve, reject) => {
-      DB.getAll('post', {city : cityName}, skipNumber, function(result){
+      DB.getAll('post', {city : cityName}, select, skipNumber, function(result){
         return resolve(result)
       }, function(err){
         return reject(err.msg)

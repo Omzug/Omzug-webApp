@@ -117,7 +117,15 @@
 }
 
 .addPost{
-
+  padding : 20px;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+  border:dashed 2px black;
+  .addFont{
+    text-align: center;
+  }
 }
 
 .red{

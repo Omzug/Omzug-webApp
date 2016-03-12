@@ -204,11 +204,37 @@ export default class List extends Component {
                 "display" : "flex", "alignItems":"center", "justifyContent": "center",
                height: "300px", width : tileWidth, margin : marginPercentage}}
       >
-        <div className={styles.addPost}>
-          <Link to={'/submitPost'} onClick={onStartEdit}>
-            here should be the add post div
-          </Link>
-        </div>
+        <LinkContainer to={'/submitPost'}>
+          <div className={styles.addPost}>
+            <div className={styles.addFont}>
+              <i className="fa fa-5x fa-plus-circle"/>
+            </div>
+            <div>{strings.addPostHint}</div>
+          </div>
+        </LinkContainer>
+      </GridTile>
+    }
+
+    const renderPost = (post, index)=> {
+      return <GridTile
+        className={styles.tile}
+        key={post._id}
+        style={{
+              "display" : "flex", "alignItems":"center", "justifyContent": "center",
+               height: "300px", width : tileWidth, margin : marginPercentage}}
+        title={post.username}
+        subtitle={ post.city }
+        actionIcon={renderIcon(post, index)}
+      >
+        <LinkContainer to={`/posts/${post._id}`}>
+          <div>
+            {post.description}
+            {
+              post.images.length > 0 &&
+              <i className="fa fa-2x fa-picture-o"/>
+            }
+          </div>
+        </LinkContainer>
       </GridTile>
     }
 
@@ -232,31 +258,7 @@ export default class List extends Component {
         <div className={styles.myList}>
           {renderAddTile()}
           {posts.map((post, index) => (
-            <GridTile
-              className={styles.tile}
-              key={post._id}
-              style={{
-              "display" : "flex", "alignItems":"center", "justifyContent": "center",
-               height: "300px", width : tileWidth, margin : marginPercentage}}
-              title={post.username}
-              subtitle={
-                post.username == "weibo"
-                ?
-                <span>from  新浪微博&nbsp;<i className={"fa fa-weibo"}/> in <b className={styles.cityColor}> {post.city}</b> </span>
-                :
-                <span>
-                  by <b className={styles.usernameColor}>{post.username}</b> In <b className={styles.cityColor}>
-                  {post.city ? post.city : ""}</b>
-                </span>
-              }
-              actionIcon={renderIcon(post, index)}
-            >
-              <LinkContainer to={`/posts/${post._id}`}>
-                <p>
-                post div {post.description}
-                </p>
-              </LinkContainer>
-            </GridTile>
+            renderPost(post, index)
           ))
           }
         </div>
