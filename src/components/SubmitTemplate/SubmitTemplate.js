@@ -83,6 +83,27 @@ export default class SubmitTemplate extends Component {
 
     const containerClass = this.props.user ? styles.container : styles.containerBeforeLogin;
 
+    /** ==============only use for developing===============*/
+    var weiboObject = () => {
+      console.log('start get weibo object')
+      if(entity.description){
+        var descriptionArray = entity.description.split("&&")
+        if(descriptionArray.length < 3) {
+          return null;
+        } else{
+          var weiboName = descriptionArray[1]
+          var weiboId = descriptionArray[2]
+          var weiboLink = "http://www.weibo.com/p/" + weiboId
+
+          console.log('now return right weibo object')
+          return {name : weiboName, link : weiboLink, id : weiboId}
+        }
+      }else{
+        return null;
+      }
+    }
+
+
     const renderWeiboName = () => {
       if(entity.description){
         var descriptionArray = entity.description.split("&&")
@@ -103,6 +124,8 @@ export default class SubmitTemplate extends Component {
       }
     }
 
+    /** ==============End===============*/
+
     return (
       <div className={containerClass}>
         <div className={styles.card}>
@@ -118,9 +141,9 @@ export default class SubmitTemplate extends Component {
 
             <div className={styles.cardTitle}>
               <div className={styles.cardTitleTitle}>{entity.title ? entity.title : ""}</div>
-              {entity.username == "weibo"
+              {entity.username == "weibo" && weiboObject() != null
                 ?
-                <div className={styles.cardTitleUsername}>from <a href="http://www.weibo.com/omzug" target="_blank">新浪微博</a>&nbsp;<i className={"fa fa-weibo"}/></div>
+                <div className={styles.cardTitleUsername}>from <a href={weiboObject().link} target="_blank">{weiboObject().name}</a>&nbsp;<i className={"fa fa-weibo"}/></div>
                 :
                 <div className={styles.cardTitleUsername}>by {entity.username ? entity.username : ""}</div>
               }
@@ -134,30 +157,6 @@ export default class SubmitTemplate extends Component {
             <div className={styles.cardActions}>
               <div className={styles.contactHost}>
                 <FlatButton style={uiStyles.actionButton} onClick={onContactClick}><span className="fa fa-envelope"/> 联系房主</FlatButton>
-              </div>
-
-              <div className={styles.dialog}>
-                <Dialog
-                  actions={
-                  <div>
-                    <FlatButton onClick={this.props.onContactClose} className={styles.hvrBuzzOut}>
-                      <span className="fa fa-child"/>
-                      <span>  </span>OK
-                    </FlatButton>
-                  </div>
-                  }
-
-                  modal={false}
-                  open={contactOpen}
-                  onRequestClose={this.props.onContactClose}
-                >
-                  <div className={styles.contactInfo}>
-                    <div className={styles.infoTitle}> {entity.username ? entity.username : ""}的联系方式:</div>
-                    <div className={styles.infoListMail}> <i className="fa fa-envelope-o" />  邮箱: &nbsp; {entity.email ? entity.email : ""} </div>
-                    <div className={styles.infoListWechat}> <i className="fa fa-wechat" />  微信: &nbsp; {entity.wechat ? entity.wechat : ""} </div>
-                    <div className={styles.infoListPhone}> <i className="fa fa-phone" />  手机: &nbsp; {entity.phone ? entity.phone : ""} </div>
-                  </div>
-                </Dialog>
               </div>
             </div>
           </div>
@@ -188,7 +187,7 @@ export default class SubmitTemplate extends Component {
             <div className={styles.rowContainer}><i className="fa fa-location-arrow"/> 城市 : &nbsp;&nbsp;  {entity.city ? capitalizeFirstLetter(entity.city) : ""}</div>
             <div className={styles.rowContainer}><i className="fa fa-map-marker"/>地址 : &nbsp;&nbsp;  {entity.location}</div>
             <div className={styles.rowContainer}><i className="fa fa-square"/> 面积 : &nbsp;&nbsp;  {entity.size ?  entity.size + " m²" : "未指定"}</div>
-            <div className={styles.rowContainer}><i className="fa fa-cube"/> 类型 : &nbsp;&nbsp;  {entity.type ? "WG" : "Wohnung/Apartment"}</div>
+            <div className={styles.rowContainer}><i className="fa fa-cube"/> 类型 : &nbsp;&nbsp;  {entity.type ? "Wohnung/Apartment" : "WG" }</div>
             <div className={styles.rowContainer}><i className="fa fa-eur"/> 租金 : &nbsp;&nbsp; {(entity.priceType ? "冷租" : "暖租" ) + ' ' + entity.price} &nbsp; Eur</div>
             <div className={styles.rowContainer}><i className="fa fa-lock"/> 押金 : &nbsp;&nbsp;  {entity.caution ? entity.caution + " Eur" : "未指定"} </div>
             <div className={styles.rowContainer}><i className="fa fa-calendar"/> 租期 : &nbsp;&nbsp; {formatDate(entity.startDate)} &nbsp;-- &nbsp;{entity.endDate ? formatDate(entity.endDate) : "无期限"  } </div>
@@ -197,6 +196,30 @@ export default class SubmitTemplate extends Component {
               className="fa fa-pencil"/> 编辑</RaisedButton>
             }
           </div>
+        </div>
+
+        <div className={styles.dialog}>
+          <Dialog
+            actions={
+                  <div>
+                    <FlatButton onClick={this.props.onContactClose} className={styles.hvrBuzzOut}>
+                      <span className="fa fa-child"/>
+                      <span>  </span>OK
+                    </FlatButton>
+                  </div>
+                  }
+
+            modal={false}
+            open={contactOpen}
+            onRequestClose={this.props.onContactClose}
+          >
+            <div className={styles.contactInfo}>
+              <div className={styles.infoTitle}> {entity.username ? entity.username : ""}的联系方式:</div>
+              <div className={styles.infoListMail}> <i className="fa fa-envelope-o" />  邮箱: &nbsp; {entity.email ? entity.email : ""} </div>
+              <div className={styles.infoListWechat}> <i className="fa fa-wechat" />  微信: &nbsp; {entity.wechat ? entity.wechat : ""} </div>
+              <div className={styles.infoListPhone}> <i className="fa fa-phone" />  手机: &nbsp; {entity.phone ? entity.phone : ""} </div>
+            </div>
+          </Dialog>
         </div>
       </div>
     );

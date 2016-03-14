@@ -1,9 +1,9 @@
 /**
  * Created by hanwencheng on 2/3/16.
  */
-import DB from '../lib/db-interface.js';
-var createId  = require('../lib/model.js').createId;
-import {logger} from '../lib/logger';
+import DB from '../../lib/db-interface.js';
+var createId  = require('../../lib/model.js').createId;
+import {logger} from '../../lib/logger';
 
 export default function getHouse(req, params) {
   logger.debug('in api house.js params are', params)

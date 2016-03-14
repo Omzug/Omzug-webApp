@@ -1,0 +1,274 @@
+@import "../../theme/variables.scss";
+@import "../../theme/utils.scss";
+@import "../../theme/color.scss";
+@import "../../theme/media.scss";
+
+.posts {
+  width: 100%;
+  padding-top: 80px;
+}
+
+.dropDown {
+
+}
+.listNav {
+  position: fixed;
+  width:100%;
+  z-index: 5;
+  margin-top: -20px;
+  padding-bottom: 10px;
+  background-color: white;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-end;
+  flex-wrap: wrap;
+}
+
+.listNavBeforeLogin{
+  position: fixed;
+  width:100%;
+  z-index: 5;
+  margin-top: -20px;
+  padding-bottom: 10px;
+  background-color: white;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-end;
+  flex-wrap: wrap;
+}
+
+.select {
+  width: 60%;
+  min-width: 200px;
+  max-width: 400px;
+  margin: 0 30px 0 30px;
+}
+.refreshButton {
+  margin-bottom:0px ;
+
+}
+
+.loading {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin: 0 auto;
+  font-size: large;
+  text-align: center;
+  background-color: $grey50;
+  padding-top: 100px;
+  .loadingText {
+    padding: 0 20px;
+    color: $darkBlack
+  }
+}
+
+.regionNoSource {
+  padding-top: 20px;
+  margin-left: 30px;
+  margin-bottom: 435px;
+  font-size: 20px;
+}
+
+.upArrowContainer{
+  display: none;
+  cursor: pointer;
+  position: fixed;
+  bottom: 40px;
+  right: 15px;
+  z-index: 10;
+  .upArrow{
+    padding: 7px;
+    color: black;
+    box-shadow:  0px 4px 12px 0px rgba(162,162,162,0.50);
+    border-radius: 50%;
+    background-color: #fafafa;
+    opacity: 0.6;
+  }
+}
+
+.girdList{
+  width : 100%;
+}
+
+.addPost{
+  padding : 20px;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+  border:dashed 2px black;
+  .addFont{
+    text-align: center;
+  }
+}
+
+.red{
+  color : white;
+  //opacity: 0.5;
+}
+
+.blue {
+  color:#6CC9D5;
+}
+
+.myList{
+  width: 100%;
+  display : flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+.tile{
+  border : 1px solid grey;
+  .tileMain{
+    cursor: pointer;
+    width: 100%;
+    height: 232px;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: space-between;
+    padding : 5% 10%;
+    .leftQuote{
+      color:#6CC9D5;
+    }
+    .rightQuote{
+      color:#6CC9D5;
+      text-align: right;
+    }
+    .content{
+      text-align: center;
+    }
+  }
+  .title{
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    height: 68px;
+    background: rgba(0,0,0,0);
+    display: flex;
+    align-items: center;
+    .titleText{
+      flex-grow: 1;
+      margin-left:32px;
+      margin-right: 0;
+      color: #000;
+      overflow: hidden;
+      .main{
+        font-size: 16px;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space:nowrap;
+        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .sub{
+        font-size:12px;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space:nowrap;
+        text-align: center;
+      }
+    }
+    .titleIcon{
+      order:1;
+    }
+  }
+}
+
+
+.usernameColor{
+  color: white;
+}
+
+.cityColor{
+  color: white;
+}
+
+@include max-screen(820px){
+  .posts {
+    .loading {
+      padding-top: 50px;
+    }
+    .listNav {
+      margin-top: 20px;
+      .refreshButton {
+
+      }
+    }
+    .listNavBeforeLogin {
+
+    }
+  }
+}
+
+@include max-screen(768px){
+  .posts {
+    margin-top: 80px;
+    .listNav {
+      position: static;
+      padding-top: 60px;
+      .refreshButton {
+
+      }
+    }
+    .listNavBeforeLogin {
+      position: static;
+      margin-top: -80px;
+    }
+    .gridContainer {
+      margin-top: -20px;
+      padding-top: 0;
+
+    }
+  }
+}
+
+@include max-screen(600px){
+  .posts {
+    .gridContainer {
+      margin-top: 20px;
+    }
+    .upArrowContainer {
+      display: block;
+
+    }
+  }
+}
+
+@include max-screen(474px){
+  .posts {
+    .listNavBeforeLogin {
+      margin-bottom: 30px;
+      margin-top: -20px;
+      .refreshButton {
+        margin-top: -30px;
+      }
+
+    }
+    .listNav {
+      margin-bottom: 30px;
+      margin-top: -20px;
+      .refreshButton {
+        margin-top: -30px;
+      }
+    }
+  }
+}
+
+@include max-screen(449px){
+  .posts {
+    .select {
+      margin: 0 30px 0px 30px;
+    }
+    .gridContainer {
+      margin-top: -30px;
+    }
+  }
+}

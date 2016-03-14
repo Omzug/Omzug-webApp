@@ -1,13 +1,21 @@
 export loadInfo from './loadInfo';
-export loadAuth from './loadAuth';
-export login from './login';
-export logout from './logout';
-export list from './list';
-export register from './register';
 export check from './check';
-export house from './house';
-export submit from './submit';
-export deleteHouse from './deleteHouse';
-export cityList from './cityList';
-export initList from './initList';
-export newCity from './newCity';
+
+export loadAuth from './auth/loadAuth';
+export login from './auth/login';
+export logout from './auth/logout';
+export register from './auth/register';
+
+export list from './house/list';
+export house from './house/house';
+export submit from './house/submit';
+export deleteHouse from './house/deleteHouse';
+export initList from './house/initList';
+
+export cityList from './city/cityList';
+export newCity from './city/newCity';
+
+export listPosts from './post/listPosts';
+export post from './post/post';
+export deletePost from './post/deletePost';
+export submitPost from './post/submitPost';

@@ -1,15 +1,15 @@
 /**
- * Created by hanwencheng on 1/8/16.
+ * Created by hanwencheng on 3/7/16.
  */
 
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {isLoaded, onLoad, onClear, onSubmit, onClearMessage} from "redux/modules/entity"
+import {isLoaded, onLoad, onClear, onSubmit, onClearMessage} from "redux/modules/post"
 import {onClearAllError} from 'redux/modules/error';
 import connectData from 'helpers/connectData';
-import { SubmitForm } from 'components';
-import { SubmitTemplate } from 'components';
+import { PostForm } from 'components';
+import { PostTemplate } from 'components';
 import { NotFound } from 'containers';
 import uiStyles from "../../theme/uiStyles";
 import {Snackbar} from 'material-ui';
@@ -17,8 +17,8 @@ import Helmet from 'react-helmet';
 
 function fetchDataDeferred(getState, dispatch) {
   if (!isLoaded(getState())) {
-    console.log("nothing load, after load we get state:" + getState().router.params.entityId )
-    return dispatch(onLoad(getState().router.params.entityId));
+    console.log("nothing load, after load we get state:" + getState().router.params.postId )
+    return dispatch(onLoad(getState().router.params.postId));
   }
 }
 
@@ -32,35 +32,30 @@ function checkState(getState, dispatch){
 )
 @connect(
   state => ({
-    loadError : state.entity.loadError,
-    entity: state.entity.data,
-    cachedImages : state.entity.cachedImages,
-    error: state.entity.error,
-    loading: state.entity.loading,
-    editing: state.entity.editing,
-    loadedId : state.entity.loadedId,
-    feedback : state.entity.feedback,
-    entityId : state.router.params.entityId,
+    loadError : state.post.loadError,
+    post: state.post.data,
+    cachedImages : state.post.cachedImages,
+    error: state.post.error,
+    loading: state.post.loading,
+    editing: state.post.editing,
+    loadedId : state.post.loadedId,
+    feedback : state.post.feedback,
+    postId : state.router.params.postId,
     contactError : state.error.error,
   }),
   {onLoad, onClear, onSubmit, onClearMessage, onClearAllError}
 )
-export default class Entity extends Component {
+export default class Post extends Component {
 
-  //componentDidMount() {
-  //  this.setState({
-  //    // route components are rendered with useful information, like URL params
-  //  })
-  //}
   static propTypes = {
-    entity: PropTypes.object,
+    post: PropTypes.object,
     error: PropTypes.string,
     loading: PropTypes.bool,
     editing: PropTypes.bool,
     cachedImages : PropTypes.array,
     loadedId : PropTypes.string,
     feedback : PropTypes.string,
-    entityId : PropTypes.string,
+    postId : PropTypes.string,
     contactError : PropTypes.string,
     loadError : PropTypes.string,
 
@@ -74,41 +69,30 @@ export default class Entity extends Component {
 
   handleSubmit = (data) => {
     /**
-    //validate phone number
-    if(data.phone && data.phone.indexOf("+") >= 0){
+     //validate phone number
+     if(data.phone && data.phone.indexOf("+") >= 0){
       data.phone = data.phone.slice(1)
     }**/
-    // owner is included in entity
-    data.images = this.props.entity.images
+      // owner is included in post
+    data.images = this.props.post.images
     // here we define a _id for update in database
-    data._id = this.props.entityId
+    data._id = this.props.postId
 
-    //TODO complete the entity here
+    //TODO complete the post here
     const images = this.props.cachedImages
-    this.props.onSubmit(data, images, this.props.entityId);
-    console.log("submit now with data:" , data)
-    console.log("submit now with images:", images )
+    this.props.onSubmit(data, images, this.props.postId);
+    console.log("submit post now with data:" , data)
+    console.log("submit post now with images:", images )
   }
-    //save(values)
-    //.then(result => {
-    //  if (result && typeof result.error === 'object') {
-    //    return Promise.reject(result.error);
-    //  }
-    //})
 
   render(){
     const {loading, editing, feedback, contactError} = this.props;
-
-    // for test case
-    const test = false;
-    const invalid = true;
-    const submitting = false;
 
     let refreshClassName = 'fa fa-refresh';
     if (loading) {
       refreshClassName += ' fa-spin';
     }
-    const styles = require('./Entity.scss');
+    const styles = require('./Post.scss');
     const getError = () =>{
       if(feedback != null)
         return feedback
@@ -122,15 +106,15 @@ export default class Entity extends Component {
       if(this.props.loadError){
         return <NotFound/>
       }else if(editing){
-        return <SubmitForm onSubmit={this.handleSubmit} />
+        return <PostForm onSubmit={this.handleSubmit} />
       }else{
-        return <SubmitTemplate />
+        return <PostTemplate />
       }
     }
 
     return (
       <div>
-        <Helmet title="房屋信息"/>
+        <Helmet title="求房信息"/>
 
         {renderMain()}
 

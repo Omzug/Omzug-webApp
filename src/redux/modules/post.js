@@ -1,37 +1,36 @@
 /**
- * Created by hanwencheng on 1/9/16.
+ * Created by hanwencheng on 3/7/16.
  */
+
 var update = require('react-addons-update');
 import {validateImage} from '../../utils/validation';
 import strings from '../../constant/strings';
 var config = require('../../config');
 
-const LOAD = 'omzug/entity/LOAD';
-const LOAD_SUCCESS = 'omzug/entity/LOAD_SUCCESS';
-const LOAD_FAIL = 'omzug/entity/LOAD_FAIL';
-const SUBMIT = 'omzug/entity/SUBMIT';
-const SUBMIT_SUCCESS = 'omzug/entity/SUBMIT_SUCCESS';
-const SUBMIT_FAIL = 'omzug/entity/SUBMIT_FAIL';
-const CLEAR = 'omzug/entity/CLEAR'
-const OPEN_CONTACT = "omzug/entity/OPEN_CONTACT";
-const CLOSE_CONTACT = "omzug/entity/CLOSE_CONTACT";
-const START_EDIT = "omzug/entity/START_EDIT";
-const END_EDIT = "omzug/entity/END_EDIT";
-const CACHE_DATA = "omzug/entity/CACHE_DATA";
-const ADD_IMAGE = "omzug/entity/ADD_IMAGE";
-const DELETE_IMAGE = "omzug/entity/DELETE_IMAGE";
-const CHANGE_SLIDE = "omzug/entity/CHANGE_SLIDE";
-const SUBMIT_NEW_SUCCESS = "omzug/entity/SUBMIT_NEW_SUCCESS";
-const CLEAR_MESSAGE = "omzug/entity/CLEAR_MESSAGE";
-const LOG_ERROR = "omzug/entity/LOG_ERROR";
-const INIT_ENTITY = "omzug/entity/INIT_ENTITY";
-const TOGGLE = "omzug/entity/TOGGLE";
-const CHANGE_TYPE = "omzug/entity/CHANGE_TYPE";
-const CHANGE_PRICE_TYPE = "omzug/entity/CHANGE_PRICE_TYPE";
-const CALCULATE_GEOMETRY = "omzug/entity/CALCULATE_GEOMETRY";
-const CHANGE_SEARCH_VALUE = "omzug/entity/CHANGE_SEARCH_VALUE";
-const SUBMIT_NEW_FAIL = "omzug/entity/SUBMIT_NEW_FAIL";
-const CLEAR_LOAD_ERROR = "omzug/entity/CLEAR_LOAD_ERROR"
+const LOAD = 'omzug/post/LOAD';
+const LOAD_SUCCESS = 'omzug/post/LOAD_SUCCESS';
+const LOAD_FAIL = 'omzug/post/LOAD_FAIL';
+const SUBMIT = 'omzug/post/SUBMIT';
+const SUBMIT_SUCCESS = 'omzug/post/SUBMIT_SUCCESS';
+const SUBMIT_FAIL = 'omzug/post/SUBMIT_FAIL';
+const CLEAR = 'omzug/post/CLEAR'
+const OPEN_CONTACT = "omzug/post/OPEN_CONTACT";
+const CLOSE_CONTACT = "omzug/post/CLOSE_CONTACT";
+const START_EDIT = "omzug/post/START_EDIT";
+const END_EDIT = "omzug/post/END_EDIT";
+const CACHE_DATA = "omzug/post/CACHE_DATA";
+const ADD_IMAGE = "omzug/post/ADD_IMAGE";
+const DELETE_IMAGE = "omzug/post/DELETE_IMAGE";
+const CHANGE_SLIDE = "omzug/post/CHANGE_SLIDE";
+const SUBMIT_NEW_SUCCESS = "omzug/post/SUBMIT_NEW_SUCCESS";
+const CLEAR_MESSAGE = "omzug/post/CLEAR_MESSAGE";
+const LOG_ERROR = "omzug/post/LOG_ERROR";
+const INIT_POST = "omzug/post/INIT_POST";
+const TOGGLE = "omzug/post/TOGGLE";
+const CHANGE_TYPE = "omzug/post/CHANGE_TYPE";
+const CHANGE_PRICE_TYPE = "omzug/post/CHANGE_PRICE_TYPE";
+const SUBMIT_NEW_FAIL = "omzug/post/SUBMIT_NEW_FAIL";
+const CLEAR_LOAD_ERROR = "omzug/post/CLEAR_LOAD_ERROR"
 
 const initState = {
   loaded: false,
@@ -39,30 +38,21 @@ const initState = {
   editing : false,
   contactOpen : false,
   data : {
-    _id : null,
+    _id : null, //TODO
     city: "",//which should be a string
-    type : null,
-    priceType : null,
-    price: null,
-    startDate : null,
-    title : null,//TODO need set to null in production
+    description: null,
     owner : null,
     username : null,
+    images:[],
 
-    lat : null,
-    lng : null,
-    wechat: null,
-    location: null,
-    size : null,
-    caution: null,
+    startDate : null,
     endDate : null,
-    description: null,
+    major : null,
+
+    wechat: null,
     email : null,
     phone : null,
-    note : null,
-    images:[],
   },
-  searchValue : "",
   hasLimit : false,
   cachedImages:[],
   currentSlide: 0,
@@ -108,75 +98,75 @@ export default function reducer(state = initState, action){
         feedback : strings.submitting,
       }
     case SUBMIT_SUCCESS:
-          //state.cachedImages.forEach(function(image){
-          //  if(!image.pushed) {
-          //    update(image, {$merge: {pushed : true}})
-          //    cachedData.images.push(window.URL.createObjectURL(image))
-          //  }
-          //})
-          return {
-            ...state,
-            submitting : false,
-            //data : cachedData,
-            cached : null,
-            feedback : strings.editSuccess,
-          }
+      //state.cachedImages.forEach(function(image){
+      //  if(!image.pushed) {
+      //    update(image, {$merge: {pushed : true}})
+      //    cachedData.images.push(window.URL.createObjectURL(image))
+      //  }
+      //})
+      return {
+        ...state,
+        submitting : false,
+        //data : cachedData,
+        cached : null,
+        feedback : strings.editSuccess,
+      }
     case SUBMIT_NEW_SUCCESS:
       //only add a new createData property here
-          return {
-            ...state,
-            submitting :false,
-            //data : action.result.data,
-            cached : null,
-            feedback : strings.submitSuccess,
-            //this id should be a string
-            createData : action.result.data,
-            loaded: true,
-            loading: false,
-            loadedId: action.result.data._id,
-            error : null,
-          }
+      return {
+        ...state,
+        submitting :false,
+        //data : action.result.data,
+        cached : null,
+        feedback : strings.submitSuccess,
+        //this id should be a string
+        createData : action.result.data,
+        loaded: true,
+        loading: false,
+        loadedId: action.result.data._id,
+        error : null,
+      }
     case SUBMIT_FAIL:
       var originData = Object.assign({}, state.cached);
-          return {
-            ...state,
-            submitting : false,
-            data : originData,
-            cached :null,
-            feedback : action.error,
-            cachedImages : [],
-          }
+      return {
+        ...state,
+        submitting : false,
+        data : originData,
+        cached :null,
+        feedback : action.error,
+        cachedImages : [],
+      }
     case SUBMIT_NEW_FAIL:
-          return {
-            ...state,
-            submitting : false,
-            cached :null,
-            feedback : action.error,
-          }
+      return {
+        ...state,
+        submitting : false,
+        cached :null,
+        feedback : action.error,
+      }
     case LOG_ERROR :
-          return {
-            ...state,
-            feedback : action.error
-          }
+      return {
+        ...state,
+        feedback : action.error
+      }
     case CLEAR:
       return initState;
-    case INIT_ENTITY :
-          return {
-            ...state,
-            data : update(state.data, {
-              city : {$set : action.city},
-              owner : {$set : action.owner},
-              username : {$set : action.username},
-              startDate : {$set : new Date()},
-              price : {$set :  0}
-            }),
-            createData : null,
-          }
+    case INIT_POST :
+      return {
+        ...state,
+        data : update(state.data, {
+          city : {$set : action.city},
+          owner : {$set : action.owner},
+          username : {$set : action.username},
+          startDate : {$set : new Date()},
+          price : {$set :  0}
+        }),
+        createData : null,
+      }
     case CLEAR_MESSAGE:
-          return {
-            ...state,
-            feedback : null
-          }
+      return {
+        ...state,
+        feedback : null
+      }
     case CLOSE_CONTACT:
       return {
         ...state,
@@ -198,10 +188,10 @@ export default function reducer(state = initState, action){
         editing :false
       }
     case TOGGLE:
-          return {
-            ...state,
-            hasLimit : action.value,
-          }
+      return {
+        ...state,
+        hasLimit : action.value,
+      }
     case ADD_IMAGE:
       // once only one image as input
       //console.log('the initial cached images are', state.cachedImages)
@@ -223,49 +213,32 @@ export default function reducer(state = initState, action){
         return
       }
     case CHANGE_SLIDE:
-          return {
-            ...state,
-            currentSlide : action.page,
-          }
+      return {
+        ...state,
+        currentSlide : action.page,
+      }
     case CHANGE_TYPE:
-          return {
-            ...state,
-            data : update(state.data, {type : {$set : action.value}})
-          }
+      return {
+        ...state,
+        data : update(state.data, {type : {$set : action.value}})
+      }
     case CHANGE_PRICE_TYPE:
       return {
         ...state,
         data : update(state.data, {priceType : {$set : action.value}})
       }
-    case CALCULATE_GEOMETRY:
-      //TODO
-      //gmAPI.geocode({
-      //  "address": address,
-      //  //"components": "components=country:GB",
-      //  //"bounds":     "55,-1|54,1",
-      //  //"language":   "en",
-      //  "region":     "de"
-      //}, callback);
-          return {
-            ...state,
-          }
-    case CHANGE_SEARCH_VALUE:
-          return {
-            ...state,
-            searchValue : action.value
-          }
     case CLEAR_LOAD_ERROR:
-          return {
-            ...state,
-            loadError : null,
-          }
+      return {
+        ...state,
+        loadError : null,
+      }
     default :
       return state;
   }
 }
 
 export function isLoaded(globalState) {
-  return globalState.entity && globalState.entity.loaded;
+  return globalState.post && globalState.post.loaded;
 }
 
 export function onClear(){
@@ -298,12 +271,6 @@ export  function onEndEdit(){
   }
 }
 
-export function onCalculateGeometry(location, city){
-  return {
-    type : CALCULATE_GEOMETRY,
-  }
-}
-
 export function onAddImage(images){
   //console.log('in onAddImage images are', image)
   return {
@@ -327,7 +294,6 @@ export function onLoadInit(){
 
 function generalizeParameter(data, images){
   var submitData;
-  data.city = data.city.toLowerCase();
   if(data.email==""|| (data.email && data.email.trim()=="")) {
     data.email=null
   }
@@ -351,7 +317,7 @@ function checkImage(images){
   return validateImage(images)
 }
 
-export function onSubmit(data, images, entityId, ownerId){
+export function onSubmit(data, images, postId, ownerId){
   const imageError = checkImage(images)
   if(imageError){
     return {
@@ -362,7 +328,7 @@ export function onSubmit(data, images, entityId, ownerId){
   return {
     cached : data,
     types: [SUBMIT, SUBMIT_SUCCESS, SUBMIT_FAIL],
-    promise: (client) => client.post('./submit/'+ entityId, generalizeParameter(data, images))
+    promise: (client) => client.post('./submitPost/'+ postId, generalizeParameter(data, images))
   }
 }
 
@@ -378,7 +344,7 @@ export function onSubmitNew(data, images){
   return {
     cached : data,
     types: [SUBMIT, SUBMIT_NEW_SUCCESS, SUBMIT_NEW_FAIL],
-    promise: (client) => client.post('./submit', generalizeParameter(data, images))
+    promise: (client) => client.post('./submitPost', generalizeParameter(data, images))
   }
 }
 
@@ -395,13 +361,13 @@ export function onClearMessage(){
   }
 }
 
-export function onInitEntity(locationId, cityList, ownerId, username){
+export function onInitPost(locationId, cityList, ownerId, username){
   var city = ""
   if(locationId !== null && cityList.length){
     city = cityList[locationId].label
   }
   return {
-    type : INIT_ENTITY,
+    type : INIT_POST,
     city : city,
     owner : ownerId,
     username : username,
@@ -436,13 +402,6 @@ export function onChangeType(value){
   }
 }
 
-export function onChangeSearchValue(value){
-  return {
-    type : CHANGE_SEARCH_VALUE,
-    value : value,
-  }
-}
-
 export function onClearLoadError(){
   return {
     type : CLEAR_LOAD_ERROR,
@@ -453,7 +412,7 @@ export function onLoad(number){
   return {
     types: [LOAD, LOAD_SUCCESS, LOAD_FAIL],
     promise: (client) => {
-      const url = '/house/' + number
+      const url = '/post/' + number
       return client.get(url)
     } // params not used, just shown as demonstration
   };

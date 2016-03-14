@@ -1,17 +1,17 @@
 /**
- * Created by hanwencheng on 1/22/16.
+ * Created by hanwencheng on 3/5/16.
  */
 
 import React, {Component, PropTypes} from 'react';
-import {connect} from 'react-redux';
 import {reduxForm} from 'redux-form';
-import {capitalizeFirstLetter} from '../../utils/help';
+import {connect} from 'react-redux';
+import postValidation from './postValidation'
 
 import {onEndEdit, onAddImage, onChangeSlide,
-  onDeleteImage, onToggleLimit, onChangeType, onChangePriceType, onLogError} from "redux/modules/entity";
+  onDeleteImage, onToggleLimit, onChangeType, onChangePriceType, onLogError} from "redux/modules/post";
 //import Slider from 'nuka-carousel';
 import {Carousel} from 'components';
-import submitValidation from './submitValidation'
+import submitValidation from './postValidation'
 import uiStyles from '../../theme/uiStyles'
 import Select from 'react-select';
 import strings from '../../constant/strings';
@@ -27,28 +27,25 @@ import defaultCityList from '../../constant/cityList';
 
 @connect(
   state => ({
-    entity: state.entity.data,
-    hasLimit : state.entity.hasLimit,
-    initialValues : state.entity.data,
-    cachedImages : state.entity.cachedImages,
-    currentSlide : state.entity.currentSlide,
+    post: state.post.data,
+    hasLimit : state.post.hasLimit,
+    initialValues : state.post.data,
+    cachedImages : state.post.cachedImages,
+    currentSlide : state.post.currentSlide,
   }),
   {onEndEdit, onAddImage, onChangeSlide, onDeleteImage, onToggleLimit, onChangeType, onChangePriceType, onLogError, onSetError}
 )
 
 @reduxForm({
-  form: 'house',
+  form: 'post',
   //later should delete images in fields
-  fields : ['city','location','size','price','caution','startDate','endDate','priceType',
-    'description','title','owner','email','phone', 'type','note', 'images', 'wechat',
-    'username'],
-  validate : submitValidation,
-  //asyncValidate,
-  //asyncBlurFields: ["email", "name"],
+  fields : [  'city', 'description', 'startDate','endDate','major','email','phone','wechat'],
+  validate : postValidation,
 })
-export default class SubmitForm extends Component {
+
+export default class PostForm extends Component {
   static propTypes = {
-    entity: PropTypes.object,
+    post: PropTypes.object,
     onEndEdit: PropTypes.func.isRequired,
     onAddImage : PropTypes.func.isRequired,
     onDeleteImage : PropTypes.func.isRequired,
@@ -78,7 +75,7 @@ export default class SubmitForm extends Component {
   }
 
   calculateNumber = ()=> {
-    return this.props.entity.images.length + this.props.cachedImages.length
+    return this.props.post.images.length + this.props.cachedImages.length
   }
 
   onDrop = (files) => {
@@ -99,11 +96,11 @@ export default class SubmitForm extends Component {
 
   render() {
     require('../../theme/react-select.css')
-    const styles = require('./SubmitForm.scss');
+    const styles = require('./PostForm.scss');
     const {
-      fields: {location,city,size,price,caution,startDate,endDate,
-        description,title,owner,email,phone,type,note,priceType,images, wechat},
-      entity,
+      fields: {location,city,startDate,endDate,
+        description,owner,email,phone, images, wechat},
+      post,
       hasLimit,
       currentSlide,
       //resetForm,
@@ -144,10 +141,10 @@ export default class SubmitForm extends Component {
       if(value === ""){
         return city.onChange(null)
       }
-      city.onChange(capitalizeFirstLetter(defaultCityList[value].label))
+      city.onChange(defaultCityList[value].label)
     }
 
-    const inputStyle = { width : "250px"}
+    const inputStyle250Width = { width : "250px"}
 
     const validateSubmit = (data)=> {
       var fields = this.props.fields;
@@ -182,35 +179,30 @@ export default class SubmitForm extends Component {
                       decorators={Decorators}
                       framePadding="50px" width="100%" slidesToShow={1}
                       onChange={this.props.onChangeSlide}>
-              {entity.images && entity.images.length >= 1 && entity.images.map( address =><div className={styles.imageContainer}><img src={address}/></div>)}
+              {post.images && post.images.length >= 1 && post.images.map( address =><div className={styles.imageContainer}><img src={address}/></div>)}
               {cachedImages && cachedImages.length >= 1 && cachedImages.map(file => <div className={styles.imageContainer}><img src={window.URL.createObjectURL(file)}/></div>)}
               {this.calculateNumber() < config.limitImageNumber &&
-                <div className={styles.imageContainer}>
-                  <DropZone onDrop={this.onDrop}>
-                    <div className={styles.inner}>
-                      <div className={styles.innerText}>请点击选择图片或将图片拖动到框中,<font color="#FF6F6F">最多上传<b><font>{config.limitImageNumber}</font></b>张图片</font></div>
-                      <div className={styles.innerFont}>
-                        <span className="fa fa-plus-circle fa-5x"/>
-                      </div>
+              <div className={styles.imageContainer}>
+                <DropZone onDrop={this.onDrop}>
+                  <div className={styles.inner}>
+                    <div className={styles.innerText}>请点击选择图片或将图片拖动到框中,<font color="#FF6F6F">最多上传<b><font>{config.limitImageNumber}</font></b>张图片</font></div>
+                    <div className={styles.innerFont}>
+                      <span className="fa fa-plus-circle fa-5x"/>
                     </div>
-                  </DropZone>
-                </div>
+                  </div>
+                </DropZone>
+              </div>
               }
             </Carousel>
           </CardMedia>
-          <div className={styles.cardTitle}>
-            <CardTitle>
-                {/* directly display the require error here since it hard to find */}
-              <TextField key={201} hintText="标题" floatingLabelText="标题" errorText={title.touched && title.error ? title.error : null} {...title}/>
-            </CardTitle>
-          </div>
           <CardText style={uiStyles.cardText}>
-              <textarea key={202} className={"form-control " + styles.textArea} rows="8" placeholder="填写一些具体介绍吧" {...description}/>
+            <textarea key={202} className={"form-control " + styles.textArea} rows="8" placeholder="填写一些具体介绍吧" {...description}/>
           </CardText>
         </Card>
 
         <div className={styles.list}>
           <div className={styles.innerList}>
+
             <div className={styles.rowContainerCity}>
               <div className={styles.city}><i className="fa fa-location-arrow"/> 城市 :</div>
               <Select
@@ -225,31 +217,11 @@ export default class SubmitForm extends Component {
               />
             </div>
 
-            <div className={styles.rowContainer}>
-              <div className={errorStyle(location)}><i className="fa fa-map-marker"/> 地址 :</div>
-              <div><TextField key={20} style={inputStyle} errorText={location.touched && location.error ? location.error : null} {...location}/></div>
-            </div>
-
-            <div className={styles.rowContainer}>
-              <div className={errorStyle(size)}><i className="fa fa-square"/> 面积 :</div>
-              <div><TextField key={40} style={inputStyle} errorText={size.touched && size.error ? size.error : null} {...size}/></div>
-            </div>
-
-            <div className={styles.rowContainer}>
-              <div className={errorStyle(price)}><i className="fa fa-eur"/> 租金 :</div>
-              <div><TextField key={50} style={inputStyle} errorText={price.touched && price.error ? price.error : null} {...price}/></div>
-            </div>
-
-            <div className={styles.rowContainer}>
-              <div className={errorStyle(caution)}><i className="fa fa-lock"/> 押金 :</div>
-              <div><TextField key={60} style={inputStyle} errorText={caution.touched && caution.error ? caution.error : null} {...caution}/></div>
-            </div>
-
             {/* the width should be 265px */}
             <div className={styles.rowContainerDate}>
               <DatePicker key={81} autoOk={true} value={new Date(startDate.value)} hintText="开始日期" textFieldStyle={uiStyles.datePicker}
                           onChange={(event, newDate) => startDate.onChange(newDate)} formatDate={this.dateFormat}/>
-              <Toggle label="短期" toggled={hasLimit} labelPosition="right" style={uiStyles.toggle} onToggle={(event, isToggled) => {
+              <Toggle label={hasLimit ? "短期" : "长期"} toggled={hasLimit} labelPosition="right" style={uiStyles.toggle} onToggle={(event, isToggled) => {
                  this.props.onToggleLimit(isToggled)
                  if(isToggled){
                  endDate.onChange(new Date())
@@ -264,64 +236,13 @@ export default class SubmitForm extends Component {
             </div>
 
             <div className={styles.rowContainer}>
-              <div className={styles.radioContainer}>
-              <RadioButtonGroup name="costType" style={uiStyles.buttonGroup}
-                                valueSelected={priceType.value == null ? null : priceType.value.toString()}
-                                onChange={(event, value)=> {
-                 var boolean = value === "true"
-                 console.log('change value is', value)
-                 priceType.onChange(boolean)}}
-               >
-                <RadioButton
-                  value="false"
-                  label="暖租"
-                  style={uiStyles.warmCold}
-                  labelStyle={uiStyles.warmCold}
-                />
-                <RadioButton
-                  value="true"
-                  label="冷租"
-                  style={uiStyles.warmCold}
-                  labelStyle={uiStyles.warmCold}
-                />
-              </RadioButtonGroup>
-              </div>
-            </div>
-
-            <div className={styles.rowContainer}>
-              <div className={styles.radioContainer}>
-              <RadioButtonGroup name="costType" style={uiStyles.buttonGroup}
-                                valueSelected={type.value == null ? null : type.value.toString()}
-                                onChange={(event, value)=> {
-                   var boolean = value === "true"
-                   type.onChange(boolean)}}
-              >
-                <RadioButton
-                  value="false"
-                  label="WG"
-                  style={uiStyles.warmCold}
-                  labelStyle={uiStyles.warmCold}
-                />
-                <RadioButton
-                  value="true"
-                  label="Wohnung/Appartment"
-                  style={uiStyles.warmCold}
-                  labelStyle={uiStyles.warmCold}
-                />
-              </RadioButtonGroup>
-              </div>
-            </div>
-            <div className={styles.rowContainer + " " + styles.buttonGroup}>
-              <div className={errorStyle(email)}><i className="fa fa-envelope"/> 邮箱 :</div>
-              <div><TextField key={110} style={inputStyle} errorText={email.touched && email.error ? email.error : null} {...email}/></div>
+              <div><TextField key={23} style={inputStyle250Width} hintText="手机" {...phone}/></div>
             </div>
             <div className={styles.rowContainer}>
-              <div className={errorStyle(phone)}><i className="fa fa-phone"/> 手机 :</div>
-              <div><TextField key={120} style={inputStyle} errorText={phone.touched && phone.error ? phone.error : null} {...phone}/></div>
+              <div><TextField key={24} style={inputStyle250Width} hintText="邮箱" {...email}/></div>
             </div>
             <div className={styles.rowContainer}>
-              <div className={errorStyle(wechat)}><i className="fa fa-wechat"/> 微信 :</div>
-              <div><TextField key={130} style={inputStyle} errorText={wechat.touched && wechat.error ? wechat.error : null} {...wechat}/></div>
+              <div><TextField key={25} style={inputStyle250Width} hintText="微信" {...wechat}/></div>
             </div>
             <div className={styles.submit}>
               <RaisedButton style={uiStyles.buttonStyle} key={13} className={styles.editButton} onClick={validateSubmit}><span/> 提交</RaisedButton>

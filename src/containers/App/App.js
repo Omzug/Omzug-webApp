@@ -7,7 +7,8 @@ import Helmet from 'react-helmet';
 import { isLoaded as isInfoLoaded, load as loadInfo } from 'redux/modules/info';
 import { isLoaded as isAuthLoaded, load as loadAuth, logout, clearLoginError } from 'redux/modules/auth';
 import { onAddData } from 'redux/modules/admin';
-import { onGetHouseList, onGetCityList, onLocationChange, onNewSubmit} from 'redux/modules/entities'
+import { onGetHouseList, onGetCityList, onNewSubmit} from 'redux/modules/entities'
+import { onGetPostList } from 'redux/modules/posts'
 //import { InfoBar } from 'components';
 import { pushState } from 'redux-router';
 import connectData from 'helpers/connectData';
@@ -16,6 +17,7 @@ import {FlatButton, FontIcon} from 'material-ui';
 import uiStyles from '../../theme/uiStyles';
 import ga from 'react-google-analytics';
 const GAInitiailizer = ga.Initializer;
+import defaultCityList from '../../constant/cityList';
 
 // it must be enabled before react 1.0 for material ui
 
@@ -39,8 +41,10 @@ function fetchData(getState, dispatch) {
     createData : state.entity.createData,
     locationId : state.entities.locationId,
     cityList : state.entities.cityList,
+    postCreateData : state.post.createData,
+    postLocationId : state.posts.locationId,
   }),
-  {logout, clearLoginError, pushState, onGetHouseList, onAddData, onGetCityList, onLocationChange, onNewSubmit})
+  {logout, clearLoginError, pushState, onGetHouseList, onAddData, onGetCityList, onNewSubmit, onGetPostList})
 export default class App extends Component {
   static propTypes = {
     children: PropTypes.object.isRequired,
@@ -54,9 +58,9 @@ export default class App extends Component {
     pushState: PropTypes.func.isRequired,
     clearLoginError: PropTypes.func.isRequired,
     onGetHouseList : PropTypes.func.isRequired,
+    onGetPostList : PropTypes.func.isRequired,
     onGetCityList : PropTypes.func.isRequired,
     onAddData : PropTypes.func.isRequired,
-    onLocationChange : PropTypes.func.isRequired,
     onNewSubmit : PropTypes.func.isRequired,
   };
 
@@ -93,6 +97,17 @@ export default class App extends Component {
       if(this.props.adminLoaded){
         this.props.onAddData(nextProps.createData)
       }
+    }
+
+    if(!this.props.postCreateData && nextProps.postCreateData){
+      this.props.pushState(null, '/posts/' + nextProps.postCreateData._id)
+
+      this.props.onGetPostList(this.props.postLocationId, defaultCityList)
+
+      //TODO refresh admin list
+      //if(this.props.adminLoaded){
+      //  this.props.onAddData(nextProps.createData)
+      //}
     }
   }
 
@@ -147,10 +162,13 @@ export default class App extends Component {
               <FlatButton containerElement={<Link to="/about" />}
                           linkButton={true} eventKey={7} label="关于我们"/>
 
-              { !config.isDebug &&
-              user &&
+              {user &&
               <FlatButton eventKey={1} linkButton={true} containerElement={<Link to="/chat" />} label="聊天室"/>
-            }
+              }
+
+              {user &&
+              <FlatButton eventKey={9} linkButton={true} containerElement={<Link to="/posts" />} label="求房信息"/>
+              }
             </div>
 
           </div>
