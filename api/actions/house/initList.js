@@ -2,18 +2,18 @@
  * Created by hanwencheng on 2/19/16.
  */
 
-import DB from '../lib/db-interface.js';
-var createId = require('../lib/model.js').createId
+import DB from '../../lib/db-interface.js';
+var createId = require('../../lib/model.js').createId
 var async = require('async');
 
 export default function listInit(req, params) {
-
+  const select = { owner: 1, _id: 1, title :1 , price : 1, city :1 , username : 1,images :1 };
   return new Promise((resolve, reject) => {
 
     var steps = [
 
       function(callback){
-        DB.getAll('house', {}, 0, function(houses){
+        DB.getAll('house', {}, select, 0, function(houses){
           return callback(null, houses)
         }, function(err){
           return callback(err.msg)

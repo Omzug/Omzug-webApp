@@ -1,7 +1,7 @@
 /**
  * Created by hanwencheng on 2/10/16.
  */
-import React, {Component, PropTypes, ExecutionEnvironment} from 'react';
+import React, {Component, PropTypes} from 'react';
 import {GridList, GridTile, Dialog, IconButton, FlatButton} from 'material-ui';
 import {Carousel} from 'components';
 import { LinkContainer } from 'react-router-bootstrap';
@@ -101,25 +101,6 @@ export default class List extends Component {
               <IconButton iconClassName="fa fa-pencil" onClick={startEdit} iconStyle={iconStyle}/>
             </LinkContainer>
             <IconButton iconClassName="fa fa-trash" onClick={saveIndex.bind(this, house, index)} iconStyle={iconStyle}/>
-            <Dialog
-              title="确认删除"
-              actions={[
-                <FlatButton
-                  label="取消"
-                  onClick={onCloseDialog}
-                />,
-                <FlatButton
-                  label="删除"
-                  onClick={deleteHouse}
-                  labelStyle={uiStyles.dialogConfirmStyle}
-                />,
-              ]}
-              modal={false}
-              open={this.props.popover}
-              onRequestClose={onCloseDialog}
-            >
-              确认要删除?
-            </Dialog>
           </span>
         )
       }else{
@@ -197,6 +178,25 @@ export default class List extends Component {
           ))
         }
         </div>
+        <Dialog
+          title="确认删除"
+          actions={[
+                <FlatButton
+                  label="取消"
+                  onClick={onCloseDialog}
+                />,
+                <FlatButton
+                  label="删除"
+                  onClick={deleteHouse}
+                  labelStyle={uiStyles.dialogConfirmStyle}
+                />,
+              ]}
+          modal={false}
+          open={this.props.popover}
+          onRequestClose={onCloseDialog}
+        >
+          确认要删除?
+        </Dialog>
       </div>
 
     )

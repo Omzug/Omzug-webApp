@@ -2,21 +2,23 @@
  * Created by hanwencheng on 1/11/16.
  */
 var mongoModel = require('./model.js')
-var House = mongoModel.House
-var User = mongoModel.User
 var createId = mongoModel.createId
 const config = require('./config.js')
 const async = require('async')
 const aws = require('./aws')
 const googleMap = require('./googleMap');
-
-const houseCollectionName = config.houseCollectionName;
-const userCollectionName = config.userCollectionName;
 const Errors = config.errors;
 const LOGTITLE = '[DB] ';
 
-const TYPES = [userCollectionName, houseCollectionName]
-const SCHEMAS = [User, House]
+
+var House = mongoModel.House
+var User = mongoModel.User
+var Post = mongoModel.Post
+const houseCollectionName = config.houseCollectionName;
+const userCollectionName = config.userCollectionName;
+const postCollectionName = config.postCollectionName;
+const TYPES = [userCollectionName, houseCollectionName, postCollectionName]
+const SCHEMAS = [User, House, Post]
 
 import {logger} from './logger';
 
@@ -56,27 +58,31 @@ DI.init = function () {
   //setInterval(self.intervalSaveTxs, batchInsertInterval);
 
   this.initialized = true;
+  insert();
 };
 
 function insert(){
   var objectId = createId("56a2a61b6dcc58c80d18bec5");
-  var house1 = new User({
-    id : 12321,
-  })
-  var house2 = new House({
+  var post = new Post({
     id : 12333,
-      city: "berlin",
-      type : 0,
+      city: "Berlin",
+      //type : 0,
+      username : "heawen2003",
       owner: objectId,
-      title : "anyway it is a bad idea",
-      price : 600,
-      startDate : new Date(),
-
+      description : "anyway it is a bad idea",
+      //price : 600,
+      //startDate : new Date(),
+      email: "heawen.cheng@gmail.com",
       images:[
       "http://media4.popsugar-assets.com/files/2014/08/08/878/n/1922507/caef16ec354ca23b_thumb_temp_cover_file32304521407524949.xxxlarge/i/Funny-Cat-GIFs.jpg",
-    ]
+      ]
   })
 
+  DI.save('post', post, function(result){
+    logger.debug('success insert post with ', result)
+  }, function(err){
+    logger.debug('fail in insert post with err' ,err)
+  })
   //TODO
   logger.info("test the length with string validator")
     logger.info(/d{6,1024}/.test("iamfi"),/d{6,1024}/.test("iamfine"), /d{6,1024}/.test("iamfin"))
@@ -281,7 +287,7 @@ DI.getAllInit = function(type, query, page , resolve, reject){
  * @param resolve
  * @param reject
  */
-DI.getAll = function(type, query, skipNumber, resolve, reject){
+DI.getAll = function(type, query, select, skipNumber, resolve, reject){
   let steps = [
     function(callback){
       findSchema(type, callback)
@@ -302,7 +308,7 @@ DI.getAll = function(type, query, skipNumber, resolve, reject){
       // notice that page start from 0
       queryObject
         .sort({'createdAt' : -1})
-        .select({ owner: 1, _id: 1, title :1 , price : 1, city :1 , username : 1,images :1 })
+        .select(select)
         .skip(skipNumber)
         .limit(expectTotalNumber-skipNumber)
         .exec('find', function(err, result){

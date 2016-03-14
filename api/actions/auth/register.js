@@ -2,9 +2,9 @@
  * Created by hanwencheng on 1/22/16.
  */
 
-import DB from '../lib/db-interface.js';
+import DB from '../../lib/db-interface.js';
 const async = require('async')
-import {logger} from '../lib/logger'
+import {logger} from '../../lib/logger'
 
 export default function register(req) {
   /**

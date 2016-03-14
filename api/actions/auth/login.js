@@ -1,5 +1,5 @@
-import DB from '../lib/db-interface.js';
-import {logger} from '../lib/logger'
+import DB from '../../lib/db-interface.js';
+import {logger} from '../../lib/logger'
 
 export default function login(req) {
 

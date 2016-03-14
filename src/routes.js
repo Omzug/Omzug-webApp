@@ -2,8 +2,8 @@ import React from 'react';
 import {IndexRoute, Route} from 'react-router';
 import {pushState} from 'redux-router'
 import { isLoaded as isAuthLoaded, load as loadAuth } from 'redux/modules/auth';
-import {onClearLoadError} from 'redux/modules/entity'
-import {onClear as clearEntity} from 'redux/modules/entity';
+import {onClearLoadError, onClear as clearEntity} from 'redux/modules/entity'
+import {onClearLoadError as clearPostLoadError, onClear as clearPost} from 'redux/modules/post';
 import config from './config.js'
 import {
     App,
@@ -15,8 +15,11 @@ import {
     NotFound,
     Entities,
     Entity,
+    Posts,
+    Post,
     Register,
     Submit,
+    SubmitPost,
     UserAdmin,
   } from 'containers';
 
@@ -63,17 +66,27 @@ export default (store) => {
 
   const logNextState = (nextState, replaceState, cb) => {
     const entityNow = store.getState().entity;
-    //console.log('environment is', config.isDebug)
-    //console.log('next state is', nextState.params, typeof nextState.params.entityId,
-    //  "\n loadedId :", entityNow.loadedId, typeof entityNow.loadedId)
+    const postNow = store.getState().post;
+
+
     //only clear cache if the id is not the same as before
-    console.log('load error is', entityNow.loadError)
+    //check if the entity is found or is duplicated
+    console.log('load entity error is', entityNow.loadError, 'and post error is', postNow.loadError)
     if(entityNow.loadError){
       store.dispatch(onClearLoadError())
     }
     if(entityNow.loaded && entityNow.loadedId !== nextState.params.entityId) {
-      //console.log('should be cleared')
+      //console.log('post should be cleared')
       store.dispatch(clearEntity())
+    }
+
+    //check if the post is found or is duplicated
+    if(postNow.loadError){
+      store.dispatch(clearPostLoadError())
+    }
+    if(postNow.loaded && postNow.postId !== nextState.params.postId) {
+      //console.log('post should be cleared')
+      store.dispatch(clearPost())
     }
     //console.log('should not be cleared, keep old')
     cb();
@@ -95,9 +108,12 @@ export default (store) => {
         <Route path="loginSuccess" component={LoginSuccess}/>
         <Route path="submit" component={Submit}/>
         <Route path="admin" component={UserAdmin}/>
+        <Route path="submitPost" component={SubmitPost}/>
       </Route>
 
       { /* Routes */ }
+      <Route path="posts/:postId" component={Post} onEnter={logNextState}/>
+      <Route path="posts" component={Posts}/>
       <Route path="entities/:entityId" component={Entity} onEnter={logNextState}/>
       <Route path="main" component={Entities}/>
       <Route path="about" component={About}/>

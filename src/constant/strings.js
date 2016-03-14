@@ -18,6 +18,7 @@ const strings = {
   selectNoResultsSubmit : "暂不支持选择的地区,请选择附近的城市",
   deleteSuccess : "已成功删除",
   deleteError : "删除失败",
+  addPostHint : "我要找房!添加求房信息"
 }
 
 export default strings;
