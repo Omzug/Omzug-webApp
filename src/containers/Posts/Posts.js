@@ -161,7 +161,7 @@ export default class List extends Component {
     }
 
     const renderIcon = (post, index) => {
-      const iconStyle = {"color" : "white"}
+      const iconStyle = {"color" : "black"}
       if(this.props.user && post.owner === this.props.user._id){
         return(
           <span className={styles.buttonGroup}>
@@ -215,26 +215,42 @@ export default class List extends Component {
       </GridTile>
     }
 
+    const renderClassName =(post) => {
+      return post.images.length > 0 ? "fa fa-2x fa-picture-o" : "fa fa-2x fa-picture-o " + styles.blue
+    }
+
     const renderPost = (post, index)=> {
       return <GridTile
         className={styles.tile}
         key={post._id}
         style={{
-              "display" : "flex", "alignItems":"center", "justifyContent": "center",
-               height: "300px", width : tileWidth, margin : marginPercentage}}
-        title={post.username}
-        subtitle={ post.city }
-        actionIcon={renderIcon(post, index)}
+              "display" : "flex", "justifyContent": "center", "color" : "black",
+              height: "300px", width : tileWidth, margin : marginPercentage}}
       >
         <LinkContainer to={`/posts/${post._id}`}>
-          <div>
-            {post.description}
-            {
-              post.images.length > 0 &&
-              <i className="fa fa-2x fa-picture-o"/>
-            }
+          <div className={styles.tileMain}>
+            <div className={styles.leftQuote}>
+              <i className="fa fa-quote-left fa-2x"/>
+            </div>
+            <div className={styles.content}>
+              {post.description}
+            </div>
+            <div className={styles.rightQuote}>
+              <i className="fa fa-quote-right fa-2x"/>
+            </div>
           </div>
         </LinkContainer>
+        <div className={styles.title}>
+          <div className={styles.titleText}>
+            <div className={styles.main}>
+              <i className={renderClassName(post)}/>&nbsp;&nbsp;{post.username}
+            </div>
+            <div className={styles.sub}>{post.city}</div>
+          </div>
+          <div className={styles.titleIcon}>
+            {renderIcon(post, index)}
+          </div>
+        </div>
       </GridTile>
     }
 
