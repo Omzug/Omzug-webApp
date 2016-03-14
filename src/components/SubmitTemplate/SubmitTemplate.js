@@ -164,7 +164,7 @@ export default class SubmitTemplate extends Component {
             <div className={styles.rowContainer}><i className="fa fa-location-arrow"/> 城市 : &nbsp;&nbsp;  {entity.city ? capitalizeFirstLetter(entity.city) : ""}</div>
             <div className={styles.rowContainer}><i className="fa fa-map-marker"/>地址 : &nbsp;&nbsp;  {entity.location}</div>
             <div className={styles.rowContainer}><i className="fa fa-square"/> 面积 : &nbsp;&nbsp;  {entity.size ?  entity.size + " m²" : "未指定"}</div>
-            <div className={styles.rowContainer}><i className="fa fa-cube"/> 类型 : &nbsp;&nbsp;  {entity.type ? "WG" : "Wohnung/Apartment"}</div>
+            <div className={styles.rowContainer}><i className="fa fa-cube"/> 类型 : &nbsp;&nbsp;  {entity.type ? "Wohnung/Apartment" : "WG" }</div>
             <div className={styles.rowContainer}><i className="fa fa-eur"/> 租金 : &nbsp;&nbsp; {(entity.priceType ? "冷租" : "暖租" ) + ' ' + entity.price} &nbsp; Eur</div>
             <div className={styles.rowContainer}><i className="fa fa-lock"/> 押金 : &nbsp;&nbsp;  {entity.caution ? entity.caution + " Eur" : "未指定"} </div>
             <div className={styles.rowContainer}><i className="fa fa-calendar"/> 租期 : &nbsp;&nbsp; {formatDate(entity.startDate)} &nbsp;-- &nbsp;{entity.endDate ? formatDate(entity.endDate) : "无期限"  } </div>
