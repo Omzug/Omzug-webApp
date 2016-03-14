@@ -15,6 +15,9 @@ const APPEND_SUCCESS = "omzug/postList/APPEND_SUCCESS"
 const APPEND_FAIL = "omzug/postList/APPEND_FAIL"
 const DISABLE_APPEND = "omzug/postList/DISABLE_APPEND"
 
+const OPEN_DIALOG = 'omzug/postList/OPEN_DIALOG';
+const CLOSE_DIALOG = 'omzug/postList/CLOSE_DIALOG';
+
 const INIT = "omzug/postList/INIT"
 const INIT_SUCCESS = "omzug/postList/INIT_SUCCESS"
 const INIT_FAIL = "omzug/postList/INIT_FAIL"
@@ -35,6 +38,8 @@ const initState = {
   isEnd : false,
   column : 1,
   deleteFeedback : null,
+  popover : false,
+  toDelete : null,
 };
 
 export default function reducer(state = initState, action = {}) {
@@ -168,6 +173,20 @@ export default function reducer(state = initState, action = {}) {
         ...state,
         deleteFeedback : null,
       }
+    case OPEN_DIALOG :
+      return {
+        ...state,
+        toDelete : {
+          post : action.post,
+          index : action.index,
+        },
+        popover : true,
+      }
+    case CLOSE_DIALOG:
+      return {
+        ...state,
+        popover : false,
+      }
     default : return state;
   }
 }
@@ -260,6 +279,20 @@ export function onLocationChange(value){
   return {
     type : CHANGE_LOCATION,
     id : value,
+  }
+}
+
+export function onOpenDialog(post, index){
+  return {
+    post : post,
+    index : index,
+    type : OPEN_DIALOG
+  }
+}
+
+export function onCloseDialog(){
+  return {
+    type : CLOSE_DIALOG
   }
 }
 

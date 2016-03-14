@@ -7,8 +7,9 @@ import {reduxForm} from 'redux-form';
 import {Carousel} from 'components';
 import { IndexLink, Link } from 'react-router';
 import { LinkContainer } from 'react-router-bootstrap';
-import {isLoaded, onOpenDialog, onCloseDialog , onSetColumn, onStartEdit, onDeletePost, onCityChange,
+import {isLoaded, onOpenDialog, onCloseDialog , onSetColumn, onDeletePost, onCityChange,
   onDisableAppend, onGetPostList, onLocationChange, onAppendList, onClearDeleteFeedback} from 'redux/modules/posts';
+import {onStartEdit} from 'redux/modules/post'
 import {connect} from 'react-redux';
 import postValidation from './postValidation'
 import connectData from 'helpers/connectData';
@@ -156,6 +157,10 @@ export default class List extends Component {
       }
     }
 
+    const onEditButton =() => {
+      this.props.onStartEdit();
+    }
+
     const saveIndex = (post, index, event) => {
       onOpenDialog(post, index)
     }
@@ -166,28 +171,9 @@ export default class List extends Component {
         return(
           <span className={styles.buttonGroup}>
             <LinkContainer to={`/posts/${post._id}`}>
-              <IconButton iconClassName="fa fa-pencil" onClick={onStartEdit} iconStyle={iconStyle}/>
+              <IconButton iconClassName="fa fa-pencil" onClick={onEditButton} iconStyle={iconStyle}/>
             </LinkContainer>
             <IconButton iconClassName="fa fa-trash" onClick={saveIndex.bind(this, post, index)} iconStyle={iconStyle}/>
-            <Dialog
-              title="确认删除"
-              actions={[
-                <FlatButton
-                  label="取消"
-                  onClick={onCloseDialog}
-                />,
-                <FlatButton
-                  label="删除"
-                  onClick={deletePost}
-                  labelStyle={uiStyles.dialogConfirmStyle}
-                />,
-              ]}
-              modal={false}
-              open={this.props.popover}
-              onRequestClose={onCloseDialog}
-            >
-              确认要删除?
-            </Dialog>
           </span>
         )
       }else{
@@ -296,6 +282,26 @@ export default class List extends Component {
         <div className={styles.upArrowContainer} onClick={this.onUpArrowClick}>
           <i className={"fa fa-arrow-up fa-2x " + styles.upArrow}/>
         </div>
+
+        <Dialog
+          title="确认删除"
+          actions={[
+                <FlatButton
+                  label="取消"
+                  onClick={onCloseDialog}
+                />,
+                <FlatButton
+                  label="删除"
+                  onClick={deletePost}
+                  labelStyle={uiStyles.dialogConfirmStyle}
+                />,
+              ]}
+          modal={false}
+          open={this.props.popover}
+          onRequestClose={onCloseDialog}
+        >
+          确认要删除?
+        </Dialog>
 
         <Snackbar
           open={deleteFeedback != null}

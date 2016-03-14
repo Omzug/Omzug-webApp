@@ -132,30 +132,6 @@ export default class PostTemplate extends Component {
               <div className={styles.contactHost}>
                 <FlatButton style={uiStyles.actionButton} onClick={onContactClick}><span className="fa fa-envelope"/> 联系房主</FlatButton>
               </div>
-
-              <div className={styles.dialog}>
-                <Dialog
-                  actions={
-                  <div>
-                    <FlatButton onClick={this.props.onContactClose} className={styles.hvrBuzzOut}>
-                      <span className="fa fa-child"/>
-                      <span>  </span>OK
-                    </FlatButton>
-                  </div>
-                  }
-
-                  modal={false}
-                  open={contactOpen}
-                  onRequestClose={this.props.onContactClose}
-                >
-                  <div className={styles.contactInfo}>
-                    <div className={styles.infoTitle}> {post.username ? post.username : ""}的联系方式:</div>
-                    <div className={styles.infoListMail}> <i className="fa fa-envelope-o" />  邮箱: &nbsp; {post.email ? post.email : ""} </div>
-                    <div className={styles.infoListWechat}> <i className="fa fa-wechat" />  微信: &nbsp; {post.wechat ? post.wechat : ""} </div>
-                    <div className={styles.infoListPhone}> <i className="fa fa-phone" />  手机: &nbsp; {post.phone ? post.phone : ""} </div>
-                  </div>
-                </Dialog>
-              </div>
             </div>
           </div>
 
@@ -172,6 +148,30 @@ export default class PostTemplate extends Component {
               className="fa fa-pencil"/> 编辑</RaisedButton>
             }
           </div>
+        </div>
+
+        <div className={styles.dialog}>
+          <Dialog
+            actions={
+                  <div>
+                    <FlatButton onClick={this.props.onContactClose} className={styles.hvrBuzzOut}>
+                      <span className="fa fa-child"/>
+                      <span>  </span>OK
+                    </FlatButton>
+                  </div>
+                  }
+
+            modal={false}
+            open={contactOpen}
+            onRequestClose={this.props.onContactClose}
+          >
+            <div className={styles.contactInfo}>
+              <div className={styles.infoTitle}> {post.username ? post.username : ""}的联系方式:</div>
+              <div className={styles.infoListMail}> <i className="fa fa-envelope-o" />  邮箱: &nbsp; {post.email ? post.email : ""} </div>
+              <div className={styles.infoListWechat}> <i className="fa fa-wechat" />  微信: &nbsp; {post.wechat ? post.wechat : ""} </div>
+              <div className={styles.infoListPhone}> <i className="fa fa-phone" />  手机: &nbsp; {post.phone ? post.phone : ""} </div>
+            </div>
+          </Dialog>
         </div>
       </div>
     );
