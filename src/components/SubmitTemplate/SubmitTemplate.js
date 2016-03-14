@@ -83,6 +83,27 @@ export default class SubmitTemplate extends Component {
 
     const containerClass = this.props.user ? styles.container : styles.containerBeforeLogin;
 
+    /** ==============only use for developing===============*/
+    var weiboObject = () => {
+      console.log('start get weibo object')
+      if(entity.description){
+        var descriptionArray = entity.description.split("&&")
+        if(descriptionArray.length < 3) {
+          return null;
+        } else{
+          var weiboName = descriptionArray[1]
+          var weiboId = descriptionArray[2]
+          var weiboLink = "http://www.weibo.com/p/" + weiboId
+
+          console.log('now return right weibo object')
+          return {name : weiboName, link : weiboLink, id : weiboId}
+        }
+      }else{
+        return null;
+      }
+    }
+
+
     const renderWeiboName = () => {
       if(entity.description){
         var descriptionArray = entity.description.split("&&")
@@ -103,6 +124,8 @@ export default class SubmitTemplate extends Component {
       }
     }
 
+    /** ==============End===============*/
+
     return (
       <div className={containerClass}>
         <div className={styles.card}>
@@ -118,9 +141,9 @@ export default class SubmitTemplate extends Component {
 
             <div className={styles.cardTitle}>
               <div className={styles.cardTitleTitle}>{entity.title ? entity.title : ""}</div>
-              {entity.username == "weibo"
+              {entity.username == "weibo" && weiboObject() != null
                 ?
-                <div className={styles.cardTitleUsername}>from <a href="http://www.weibo.com/omzug" target="_blank">新浪微博</a>&nbsp;<i className={"fa fa-weibo"}/></div>
+                <div className={styles.cardTitleUsername}>from <a href={weiboObject().link} target="_blank">{weiboObject().name}</a>&nbsp;<i className={"fa fa-weibo"}/></div>
                 :
                 <div className={styles.cardTitleUsername}>by {entity.username ? entity.username : ""}</div>
               }
