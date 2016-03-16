@@ -226,17 +226,19 @@ export default class List extends Component {
             </div>
           </div>
         </LinkContainer>
+        <LinkContainer to={`/posts/${post._id}`}>
         <div className={styles.title}>
           <div className={styles.titleText}>
             <div className={styles.main}>
               <i className={renderClassName(post)}/>&nbsp;&nbsp;{post.username}
             </div>
-            <div className={styles.sub}>{post.city}</div>
+            <div className={styles.sub}>in {post.city}</div>
           </div>
           <div className={styles.titleIcon}>
             {renderIcon(post, index)}
           </div>
         </div>
+        </LinkContainer>
       </GridTile>
     }
 
