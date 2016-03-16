@@ -123,7 +123,8 @@
   flex-wrap: wrap;
 }
 .tile{
-  border : 1px solid grey;
+  border : 1px solid lightgrey;
+  //box-shadow: 0px 1px 6px 2px rgba(225,225,225,0.50);
   .tileMain{
     cursor: pointer;
     width: 100%;
@@ -140,24 +141,30 @@
       text-align: right;
     }
     .content{
-      text-align: center;
+      text-align: left;
+      padding:20px 10px;
+
     }
   }
   .title{
     position: absolute;
     left: 0;
     bottom: 0;
-    right: 0;
+    //right: 0;
     height: 68px;
     background: rgba(0,0,0,0);
     display: flex;
     align-items: center;
     .titleText{
+      cursor: pointer;
       flex-grow: 1;
       margin-left:32px;
       margin-right: 0;
       color: #000;
       overflow: hidden;
+      display: flex;
+      flex-direction: row;
+      align-items:center;
       .main{
         font-size: 16px;
         text-overflow: ellipsis;
@@ -174,6 +181,9 @@
         overflow: hidden;
         white-space:nowrap;
         text-align: center;
+        margin-left: 5px;
+        padding-top: 5px;
+        color:darkgrey;
       }
     }
     .titleIcon{
