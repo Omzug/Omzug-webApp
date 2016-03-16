@@ -114,7 +114,7 @@ export default class Post extends Component {
 
     return (
       <div>
-        <Helmet title="求房信息"/>
+        <Helmet title="求租信息"/>
 
         {renderMain()}
 

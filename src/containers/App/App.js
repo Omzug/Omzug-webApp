@@ -167,7 +167,7 @@ export default class App extends Component {
               }
 
               {user &&
-              <FlatButton eventKey={9} linkButton={true} containerElement={<Link to="/posts" />} label="求房信息"/>
+              <FlatButton eventKey={9} linkButton={true} containerElement={<Link to="/posts" />} label="求租"/>
               }
             </div>
 
