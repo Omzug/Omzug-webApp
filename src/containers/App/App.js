@@ -162,13 +162,18 @@ export default class App extends Component {
               <FlatButton containerElement={<Link to="/about" />}
                           linkButton={true} eventKey={7} label="关于我们"/>
 
-              {user &&
+              {/*{user &&
               <FlatButton eventKey={1} linkButton={true} containerElement={<Link to="/chat" />} label="聊天室"/>
+              }*/}
+
+              {user &&
+              <FlatButton eventKey={10} linkButton={true} containerElement={<Link to="/main" />} label="出租 "/>
               }
 
               {user &&
-              <FlatButton eventKey={9} linkButton={true} containerElement={<Link to="/posts" />} label="求房信息"/>
+              <FlatButton eventKey={9} linkButton={true} containerElement={<Link to="/posts" />} label="求租 "/>
               }
+
             </div>
 
           </div>
