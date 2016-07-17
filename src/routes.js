@@ -84,9 +84,8 @@ export default (store) => {
     if(postNow.loadError){
       store.dispatch(clearPostLoadError())
     }
-    if(postNow.loaded && postNow.loadedId !== nextState.params.postId) {
-      //console.log('now post is', postNow, 'next state params are', nextState.params)
-      console.log('post should be cleared')
+    if(postNow.loaded && postNow.postId !== nextState.params.postId) {
+      //console.log('post should be cleared')
       store.dispatch(clearPost())
     }
     //console.log('should not be cleared, keep old')

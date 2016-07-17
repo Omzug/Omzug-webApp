@@ -6,7 +6,6 @@ import {GridList, GridTile, Dialog, IconButton, FlatButton} from 'material-ui';
 import {Carousel} from 'components';
 import { LinkContainer } from 'react-router-bootstrap';
 import {onOpenDialog, onCloseDialog } from 'redux/modules/admin';
-import {onToggleStar} from 'redux/modules/auth';
 import {onStartEdit} from "redux/modules/entity";
 import {onSetColumn} from 'redux/modules/entities';
 import {capitalizeFirstLetter} from '../../utils/help';
@@ -22,9 +21,8 @@ var config = require('../../config');
     toDelete : state.admin.toDelete,
     column : state.entities.column,
     user: state.auth.user,
-    staring : state.auth.staring,
   }),
-  {onOpenDialog, onCloseDialog, onStartEdit, onSetColumn, onToggleStar}
+  {onOpenDialog, onCloseDialog, onStartEdit, onSetColumn}
 )
 export default class List extends Component {
   static propTypes = {
@@ -34,9 +32,7 @@ export default class List extends Component {
     column : PropTypes.number,
     //from parent
     user : PropTypes.object,
-    staring : PropTypes.bool,
 
-    onToggleStar : PropTypes.func.isRequired,
     onDeleteHouse: PropTypes.func.isRequired,
     onOpenDialog : PropTypes.func.isRequired,
     onCloseDialog : PropTypes.func.isRequired,
@@ -78,13 +74,13 @@ export default class List extends Component {
     const marginPercentage = margin.toString() + "%"
     var tileWidth = (Math.floor(100 / this.props.column) - margin * 2).toString() + "%";
     const styles = require('./List.scss');
-    const {onDeleteHouse, onOpenDialog, onCloseDialog, toDelete, user} = this.props;
+    const {onDeleteHouse, onOpenDialog, onCloseDialog, toDelete, column} = this.props;
     const houses = this.props.houses;
 
     const deleteHouse = (event) => {
-      onCloseDialog();
+      onCloseDialog(event);
       if(toDelete){
-        onDeleteHouse(user._id, toDelete.house._id, toDelete.index)
+        onDeleteHouse(this.props.user._id, toDelete.house._id, toDelete.index)
       }
     }
 
@@ -96,15 +92,9 @@ export default class List extends Component {
       onOpenDialog(house, index)
     }
 
-    const toggleStar = (house, event) => {
-      console.log('user id is', user._id, 'house id is', house._id, 'starList is ', user.starList)
-      if(!this.props.staring)
-      this.props.onToggleStar(user._id, house._id, user.starList)
-    }
-
     const renderIcon = (house, index) => {
       const iconStyle = {"color" : "white"}
-      if(user && house.owner === user._id){
+      if(this.props.user && house.owner === this.props.user._id){
         return(
           <span className={styles.buttonGroup}>
             <LinkContainer to={`/entities/${house._id}`}>
@@ -112,18 +102,6 @@ export default class List extends Component {
             </LinkContainer>
             <IconButton iconClassName="fa fa-trash" onClick={saveIndex.bind(this, house, index)} iconStyle={iconStyle}/>
           </span>
-        )
-      }else if(user){
-        var isStared;
-        if(user.starList && user.starList.length > 0){
-          isStared = user.starList.indexOf(house._id) >= 0;
-        }else{
-          isStared = false;
-        }
-        return(
-        <span className={styles.buttonGroup}>
-            <IconButton iconClassName={isStared ? 'fa fa-star' : 'fa fa-star-o'} onClick={toggleStar.bind(this, house)} iconStyle={iconStyle}/>
-        </span>
         )
       }else{
         return

@@ -202,7 +202,7 @@ export default class List extends Component {
     }
 
     const renderClassName =(post) => {
-      return post.images.length > 0 ? "fa fa-2x fa-picture-o " + styles.blue : "fa fa-2x fa-picture-o"
+      return post.images.length > 0 ? "fa fa-2x fa-picture-o" + styles.blue : "fa fa-2x fa-picture-o "
     }
 
     const renderPost = (post, index)=> {
