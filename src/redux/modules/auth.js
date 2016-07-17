@@ -14,19 +14,12 @@ const CHECK_FAIL = 'omzug/auth/CHECK_FAIL';
 
 const CLEAR_LOGIN_ERROR = 'omzug/auth/CLEAR_LOGIN_ERROR';
 
-const TOGGLE_STAR = "omzug/admin/TOGGLE_STAR";
-const TOGGLE_STAR_SUCCESS = "omzug/admin/TOGGLE_STAR_SUCCESS";
-const TOGGLE_STAR_FAIL = "omzug/admin/TOGGLE_STAR_FAIL";
-
 import strings from '../../constant/strings';
-var update = require('react-addons-update');
 
 const initialState = {
   loaded: false,
   loginError: null,
   loggingIn : false,
-  staring : false,
-  cachedStarList : [],
 };
 
 export default function reducer(state = initialState, action = {}) {
@@ -108,27 +101,6 @@ export default function reducer(state = initialState, action = {}) {
             check : "fail",
             checkError : action.error
           }
-    case TOGGLE_STAR:
-      return {
-        ...state,
-        cachedStarList : action.cached,
-        user : update(state.user, { starList : {$set : action.newList } }),
-        staring : true,
-      }
-    case TOGGLE_STAR_SUCCESS:
-      return {
-        ...state,
-        staring : false,
-        cachedStarList: null,
-      }
-    case TOGGLE_STAR_FAIL:
-      var originList = Object.assign({}, state.cachedStarList)
-      return {
-        ...state,
-        staring : false,
-        user : update(state.user, { starList : {$set : originList }}),
-        cachedStarList : null,
-      }
     default:
       return state;
   }
@@ -186,6 +158,7 @@ export function register(data){
   }
 }
 
+
 export function clearLoginError(){
   return {
     type : CLEAR_LOGIN_ERROR,
@@ -197,20 +170,4 @@ export function logout() {
     types: [LOGOUT, LOGOUT_SUCCESS, LOGOUT_FAIL],
     promise: (client) => client.get('/logout')
   };
-}
-
-export function onToggleStar(userId, houseId, starList){
-  //in case the old database data don't have starList
-  if(starList == null) starList = [];
-  var index = starList.indexOf(houseId)
-  var cached = Object.assign({}, starList);
-  var newList = index == -1
-    ? update(starList, {$push : [houseId]})
-    : update(starList, {$splice : [[index, 1]]});
-  return {
-    cached : cached,
-    newList : newList,
-    types : [TOGGLE_STAR, TOGGLE_STAR_SUCCESS, TOGGLE_STAR_FAIL],
-    promise: (client) => client.post('./toggleStar/'+ userId + '/' + houseId, { data : newList })
-  }
 }

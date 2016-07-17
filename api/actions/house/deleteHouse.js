@@ -7,14 +7,13 @@ import DB from '../../lib/db-interface.js';
 var aws = require('../../lib/aws');
 var createId = require('../../lib/model.js').createId
 import {logger} from '../../lib/logger';
-var config = require('../../lib/config');
 
 export default function deleteHouse(req, params){
   // mongodb id is 24 digits hex code
   var checkForHexRegExp = new RegExp("^[0-9a-fA-F]{24}$");
 
-  const LackParameterError = config.errors.LackParameterError
-  const WrongRequestError = config.errors.WrongRequestError
+  const LackParameterError = 'request error : does not have enough parameter'
+  const WrongRequestError = 'request error : parameter does not qualified'
 
   logger.debug('get request in deleteHouse.js with params: ', params )
   return new Promise((resolve, reject) => {
