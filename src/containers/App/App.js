@@ -143,7 +143,7 @@ export default class App extends Component {
               <LinkContainer to="/">
                 <div className={styles.title}>
                   <div className={styles.headerSchrift}>
-                    {config.app.title}
+                    <p>OMZUG</p>
                   </div>
                 </div>
               </LinkContainer>
