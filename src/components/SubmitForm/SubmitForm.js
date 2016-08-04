@@ -5,11 +5,10 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {reduxForm} from 'redux-form';
-import {capitalizeFirstLetter} from '../../utils/help';
+import {capitalizeFirstLetter, findCityValue} from '../../utils/help';
 
 import {onEndEdit, onAddImage, onChangeSlide,
   onDeleteImage, onToggleLimit, onChangeType, onChangePriceType, onLogError} from "redux/modules/entity";
-//import Slider from 'nuka-carousel';
 import {Carousel} from 'components';
 import submitValidation from './submitValidation'
 import uiStyles from '../../theme/uiStyles'
@@ -134,17 +133,19 @@ export default class SubmitForm extends Component {
       display:'inline'
     }
 
+    //Deprecated
     const errorStyle = (value) =>{
       const withOutError = styles.withOutError
       const withError = " "+ styles.withError
       return value.error && value.touched? withError : withOutError
     }
 
-    const onCityChange =(value)=>{
+    const onCityChange =(selectObject)=>{
+      var value = selectObject ? selectObject.value : null ;
       if(value === ""){
         return city.onChange(null)
       }
-      city.onChange(capitalizeFirstLetter(defaultCityList[value].label))
+      city.onChange(value ? selectObject.label : null) //todo maybe not uppercase
     }
 
     const inputStyle = { width : "250px"}
@@ -217,7 +218,7 @@ export default class SubmitForm extends Component {
                 className={styles.select}
                 name="selectPostCity"
                 options={defaultCityList}
-                value={city.value === null ? "" : city.value}
+                value={city.value === null ? "" : findCityValue(defaultCityList, city.value)}
                 onChange={onCityChange}
                 noResultsText={strings.selectNoResultsSubmit}
                 placeholder={strings.selectPlaceholderSubmit}
@@ -226,22 +227,22 @@ export default class SubmitForm extends Component {
             </div>
 
             <div className={styles.rowContainer}>
-              <div className={errorStyle(location)}><i className="fa fa-map-marker"/> 地址 :</div>
+              <div className={styles.rowTitle}><i className="fa fa-map-marker"/> 地址 :</div>
               <div><TextField key={20} style={inputStyle} errorText={location.touched && location.error ? location.error : null} {...location}/></div>
             </div>
 
             <div className={styles.rowContainer}>
-              <div className={errorStyle(size)}><i className="fa fa-square"/> 面积 :</div>
+              <div className={styles.rowTitle}><i className="fa fa-square"/> 面积 :</div>
               <div><TextField key={40} style={inputStyle} errorText={size.touched && size.error ? size.error : null} {...size}/></div>
             </div>
 
             <div className={styles.rowContainer}>
-              <div className={errorStyle(price)}><i className="fa fa-eur"/> 租金 :</div>
+              <div className={styles.rowTitle}><i className="fa fa-eur"/> 租金 :</div>
               <div><TextField key={50} style={inputStyle} errorText={price.touched && price.error ? price.error : null} {...price}/></div>
             </div>
 
             <div className={styles.rowContainer}>
-              <div className={errorStyle(caution)}><i className="fa fa-lock"/> 押金 :</div>
+              <div className={styles.rowTitle}><i className="fa fa-lock"/> 押金 :</div>
               <div><TextField key={60} style={inputStyle} errorText={caution.touched && caution.error ? caution.error : null} {...caution}/></div>
             </div>
 
@@ -312,15 +313,15 @@ export default class SubmitForm extends Component {
               </div>
             </div>
             <div className={styles.rowContainer + " " + styles.buttonGroup}>
-              <div className={errorStyle(email)}><i className="fa fa-envelope"/> 邮箱 :</div>
+              <div className={styles.rowTitle}><i className="fa fa-envelope"/> 邮箱 :</div>
               <div><TextField key={110} style={inputStyle} errorText={email.touched && email.error ? email.error : null} {...email}/></div>
             </div>
             <div className={styles.rowContainer}>
-              <div className={errorStyle(phone)}><i className="fa fa-phone"/> 手机 :</div>
+              <div className={styles.rowTitle}><i className="fa fa-phone"/> 手机 :</div>
               <div><TextField key={120} style={inputStyle} errorText={phone.touched && phone.error ? phone.error : null} {...phone}/></div>
             </div>
             <div className={styles.rowContainer}>
-              <div className={errorStyle(wechat)}><i className="fa fa-wechat"/> 微信 :</div>
+              <div className={styles.rowTitle}><i className="fa fa-wechat"/> 微信 :</div>
               <div><TextField key={130} style={inputStyle} errorText={wechat.touched && wechat.error ? wechat.error : null} {...wechat}/></div>
             </div>
             <div className={styles.submit}>

@@ -58,7 +58,7 @@ DI.init = function () {
   //setInterval(self.intervalSaveTxs, batchInsertInterval);
 
   this.initialized = true;
-  insert();
+  //insert(); //todo test code
 };
 
 function insert(){

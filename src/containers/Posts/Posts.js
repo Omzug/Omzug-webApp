@@ -5,7 +5,7 @@ import React, {Component, PropTypes} from 'react';
 import {GridList, GridTile, Dialog, IconButton, FlatButton, TextField, Snackbar} from 'material-ui';
 import {reduxForm} from 'redux-form';
 import {Carousel} from 'components';
-import { IndexLink, Link } from 'react-router';
+import { Link } from 'react-router';
 import { LinkContainer } from 'react-router-bootstrap';
 import {isLoaded, onOpenDialog, onCloseDialog , onSetColumn, onDeletePost, onCityChange,
   onDisableAppend, onGetPostList, onLocationChange, onAppendList, onClearDeleteFeedback} from 'redux/modules/posts';
@@ -137,7 +137,8 @@ export default class List extends Component {
       onStartEdit, locationId, error} = this.props;
     const {posts, user} = this.props;
 
-    const onCityChange =(value)=>{
+    const onCityChange =(selectObject)=>{
+      var value = selectObject ? selectObject.value : null ;
       if(value === ""){
         value = null
       }
@@ -252,7 +253,7 @@ export default class List extends Component {
             <Select
               name="selectPostCity"
               options={cityList}
-              value={locationId === null ? "" : cityList[locationId].label}
+              value={locationId === null ? "" : cityList[locationId].value}
               onChange={onCityChange}
               noResultsText={strings.selectNoResults}
               placeholder={strings.selectPlaceholder}

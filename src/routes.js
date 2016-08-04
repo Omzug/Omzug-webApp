@@ -1,6 +1,6 @@
 import React from 'react';
 import {IndexRoute, Route} from 'react-router';
-import {pushState} from 'redux-router'
+import {push} from 'redux-router'
 import { isLoaded as isAuthLoaded, load as loadAuth } from 'redux/modules/auth';
 import {onClearLoadError, onClear as clearEntity} from 'redux/modules/entity'
 import {onClearLoadError as clearPostLoadError, onClear as clearPost} from 'redux/modules/post';
@@ -24,12 +24,12 @@ import {
   } from 'containers';
 
 export default (store) => {
-  const requireLogin = (nextState, replaceState, cb) => {
+  const requireLogin = (nextState, replace, cb) => {
     function checkAuth() {
       const { auth: { user }} = store.getState();
       if (!user) {
         // oops, not logged in, so can't be here!
-        replaceState(null, '/');
+        replace('/');
       }
       cb();
     }
@@ -41,12 +41,12 @@ export default (store) => {
     }
   };
 
-  const checkUser = (nextState, replaceState, cb) => {
+  const checkUser = (nextState, replace, cb) => {
     function checkAuth() {
       const { auth: { user }} = store.getState();
       if (user) {
         // oops, not logged in, so can't be here!
-        replaceState(null, '/main');
+        replace('/main');
       }
       cb();
     }
@@ -58,13 +58,13 @@ export default (store) => {
     }
   }
 
-  const requireDev = (nextState, replaceState, cb) => {
+  const requireDev = (nextState, replace, cb) => {
     if(config.isDebug){
       cb()
     }
   }
 
-  const logNextState = (nextState, replaceState, cb) => {
+  const logNextState = (nextState, replace, cb) => {
     const entityNow = store.getState().entity;
     const postNow = store.getState().post;
 

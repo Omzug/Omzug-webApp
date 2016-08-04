@@ -6,10 +6,10 @@ import React, {Component, PropTypes} from 'react';
 import {reduxForm} from 'redux-form';
 import {connect} from 'react-redux';
 import postValidation from './postValidation'
+import {capitalizeFirstLetter, findCityValue} from '../../utils/help';
 
 import {onEndEdit, onAddImage, onChangeSlide,
   onDeleteImage, onToggleLimit, onChangeType, onChangePriceType, onLogError} from "redux/modules/post";
-//import Slider from 'nuka-carousel';
 import {Carousel} from 'components';
 import submitValidation from './postValidation'
 import uiStyles from '../../theme/uiStyles'
@@ -131,17 +131,19 @@ export default class PostForm extends Component {
       display:'inline'
     }
 
+    //Deprecated
     const errorStyle = (value) =>{
       const withOutError = styles.withOutError
       const withError = " "+ styles.withError
       return value.error && value.touched? withError : withOutError
     }
 
-    const onCityChange =(value)=>{
+    const onCityChange =(selectObject)=>{
+      var value = selectObject ? selectObject.value : null ;
       if(value === ""){
         return city.onChange(null)
       }
-      city.onChange(defaultCityList[value].label)
+      city.onChange(value ? selectObject.label : null)
     }
 
     const inputStyle250Width = { width : "250px"}
@@ -209,7 +211,7 @@ export default class PostForm extends Component {
                 className={styles.select}
                 name="selectPostCity"
                 options={defaultCityList}
-                value={city.value === null ? "" : city.value}
+                value={city.value === null ? "" : findCityValue(defaultCityList, city.value)}
                 onChange={onCityChange}
                 noResultsText={strings.selectNoResultsSubmit}
                 placeholder={strings.selectPlaceholderSubmit}

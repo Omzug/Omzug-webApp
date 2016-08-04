@@ -4,7 +4,7 @@
 
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
-import {isLoaded, onLoad, onLocationChange, onDeleteHouse, onClearDeleteFeedback} from 'redux/modules/admin';
+import {isLoaded, onLoad, onDeleteHouse, onClearDeleteFeedback} from 'redux/modules/admin';
 import {bindActionCreators} from 'redux';
 import connectData from 'helpers/connectData';
 import {List} from "components";
@@ -35,7 +35,7 @@ function fetchDataDeferred(getState, dispatch) {
     locationId : state.admin.locationId,
     deleteFeedback : state.admin.deleteFeedback,
   }),
-  {onLoad, onLocationChange, onDeleteHouse, onClearDeleteFeedback}
+  {onLoad, onDeleteHouse, onClearDeleteFeedback}
 )
 export default class Entities extends Component {
   static propTypes = {
@@ -49,7 +49,6 @@ export default class Entities extends Component {
 
     onDeleteHouse : PropTypes.func.isRequired,
     onLoad: PropTypes.func.isRequired,
-    onLocationChange: PropTypes.func.isRequired,
     onClearDeleteFeedback : PropTypes.func.isRequired,
   };
 
@@ -89,7 +88,7 @@ export default class Entities extends Component {
                 <p>Ooops! 您还没有发布任何房源。</p>
               </div>
               <div className={styles.raisedButton}>
-                <RaisedButton linkButton={true} containerElement={<Link to="/submit" />} label="开始发布我的第一个房屋"/>
+                <RaisedButton containerElement={<Link to="/submit" />} label="开始发布我的第一个房屋"/>
               </div>
             </div>
           }
