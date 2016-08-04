@@ -130,7 +130,7 @@ export default class PostTemplate extends Component {
 
             <div className={styles.cardActions}>
               <div className={styles.contactHost}>
-                <FlatButton style={uiStyles.actionButton} onClick={onContactClick}><span className="fa fa-envelope"/> 联系房主</FlatButton>
+                <FlatButton style={uiStyles.actionButton} onClick={onContactClick}><span className="fa fa-envelope"/> 联系方式</FlatButton>
               </div>
             </div>
           </div>
