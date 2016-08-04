@@ -255,8 +255,8 @@ export default class List extends Component {
               options={cityList}
               value={locationId === null ? "" : cityList[locationId].value}
               onChange={onCityChange}
-              noResultsText={strings.selectNoResults}
-              placeholder={strings.selectPlaceholder}
+              noResultsText={strings.selectNoResultsPost}
+              placeholder={strings.selectPlaceholderPost}
             />
           </div>
         </div>

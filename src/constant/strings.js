@@ -12,8 +12,12 @@ const strings = {
   loginFailError : "登录失败,请检查邮箱或密码",
   deleteImageTooltip : "删除该图片",
   addImageHint : "请点击选择图片或者将图片拖动到框中,最多上传三张图片",
+  // this place holder for submit selector
   selectPlaceholder : "已有房源发布的城市",
   selectNoResults : "暂无该地区的房源",
+  selectPlaceholderPost : "选择城市",
+  selectNoResultsPost : "没有可选城市",
+  // this place holder for the list selector
   selectPlaceholderSubmit :  "选择所在的城市",
   selectNoResultsSubmit : "暂不支持选择的地区,请选择附近的城市",
   deleteSuccess : "已成功删除",
