@@ -41,9 +41,10 @@ export default function toggleStar(req, params){
       var userId = params[0]
       var houseId = params[1]
       DB.update('user', {_id : userId}, {$set : { starList : newList}}, function(result){
-        logger.trace('update starList in our database: ', result.data._doc)
-        req.session.user = result.data._doc;
-        callback(null, filterPassword(result.data._doc))
+        req.session.user.starList = result.data._doc.starList;
+        req.session.user.updatedAt = result.data._doc.updatedAt;
+        logger.debug('session information now changed: ', req.session.user)
+        callback(null, result.data._doc.starList)
       }, function(err){
         callback(err)
       })

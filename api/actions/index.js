@@ -6,6 +6,7 @@ export login from './auth/login';
 export logout from './auth/logout';
 export register from './auth/register';
 export toggleStar from './auth/toggleStar';
+export favorite from './auth/favorite';
 
 export list from './house/list';
 export house from './house/house';

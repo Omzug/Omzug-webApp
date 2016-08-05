@@ -116,6 +116,7 @@ export default function reducer(state = initialState, action = {}) {
         staring : true,
       }
     case TOGGLE_STAR_SUCCESS:
+      //server return an array of stared entities, but do nothing here
       return {
         ...state,
         staring : false,
