@@ -227,7 +227,6 @@ export default class List extends Component {
             </div>
           </div>
         </LinkContainer>
-        <LinkContainer to={`/posts/${post._id}`}>
         <div className={styles.title}>
           <div className={styles.titleText}>
             <div className={styles.main}>
@@ -239,7 +238,6 @@ export default class List extends Component {
             {renderIcon(post, index)}
           </div>
         </div>
-        </LinkContainer>
       </GridTile>
     }
 
@@ -261,7 +259,7 @@ export default class List extends Component {
           </div>
         </div>
         <div className={styles.myList}>
-          {renderAddTile()}
+          { this.props.user && renderAddTile() /**todo**/}
           {posts.map((post, index) => (
             renderPost(post, index)
           ))
