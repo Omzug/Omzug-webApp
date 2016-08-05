@@ -58,7 +58,7 @@ DI.init = function () {
   //setInterval(self.intervalSaveTxs, batchInsertInterval);
 
   this.initialized = true;
-  insert();
+  insert(); //todo test code
 };
 
 function insert(){
@@ -67,11 +67,12 @@ function insert(){
     id : 12333,
       city: "Berlin",
       //type : 0,
+      gender : false,
       username : "heawen2003",
       owner: objectId,
-      description : "anyway it is a bad idea",
+      description : "如题，两口之家，一个在Vaihhingen 工作，一个在fellbach工作。打算在这里个地方租房，或者沿线也行。2人间，1个车位就好。有打算向外出租的请联系谢谢。\r\n最好三月底开始。",
       //price : 600,
-      //startDate : new Date(),
+      startDate : new Date(),
       email: "heawen.cheng@gmail.com",
       images:[
       "http://media4.popsugar-assets.com/files/2014/08/08/878/n/1922507/caef16ec354ca23b_thumb_temp_cover_file32304521407524949.xxxlarge/i/Funny-Cat-GIFs.jpg",

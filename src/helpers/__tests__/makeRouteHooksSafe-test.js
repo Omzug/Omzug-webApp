@@ -83,7 +83,7 @@ describe('makeRouteHooksSafe', () => {
   it('should call callback', (done) => {
     const getRoutes = makeRouteHooksSafe(() => {
       return {
-        onEnter: (nextState, replaceState, cb) => {} // eslint-disable-line no-unused-vars
+        onEnter: (nextState, replace, cb) => {} // eslint-disable-line no-unused-vars
       };
     });
 
@@ -99,7 +99,7 @@ describe('makeRouteHooksSafe', () => {
 
     const getRoutes = makeRouteHooksSafe(() => {
       return {
-        onEnter: (nextState, replaceState) => {} // eslint-disable-line no-unused-vars
+        onEnter: (nextState, replace) => {} // eslint-disable-line no-unused-vars
       };
     });
 

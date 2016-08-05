@@ -23,7 +23,7 @@ export default class SimpleMapPage extends Component {
   }
 
   render() {
-    var apiKey = null;
+    var apiKey = "AIzaSyC4gQqD5iZsmbmknKIYR42sTfjcd8pl4aw";
     if(process.env.NODE_ENV === "production"){
       apiKey = "AIzaSyC4gQqD5iZsmbmknKIYR42sTfjcd8pl4aw";
     }
@@ -45,6 +45,10 @@ export default class SimpleMapPage extends Component {
     var geometry = {lat : this.props.geometry[0], lng : this.props.geometry[1]}
     return (
       <GoogleMap
+        bootstrapURLKeys={{
+          key: apiKey,
+          language: 'en',
+        }}
         defaultCenter={geometry}
         defaultZoom={this.props.zoom}
         onGoogleApiLoaded={({map, maps}) => {

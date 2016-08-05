@@ -5,3 +5,16 @@
 export function capitalizeFirstLetter(string) {
   return string[0].toUpperCase() + string.slice(1);
 }
+
+export function findCityValue(cityArray, label){
+  var ret = null
+  cityArray.some(el => {
+    if(el.label === label){
+      ret = el.value
+      return true
+    }else{
+      return false
+    }
+  })
+  return ret
+}

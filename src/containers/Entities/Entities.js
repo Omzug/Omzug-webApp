@@ -64,7 +64,8 @@ export default class Entities extends Component {
     onGetCityList : PropTypes.func.isRequired,
   };
 
-  onSelectChange = (value) => {
+  onSelectChange = (selectObject) => {
+    var value = selectObject ? selectObject.value : null ;
     //value is number
     if(value === ""){
       value = null
@@ -128,7 +129,7 @@ export default class Entities extends Component {
             <Select
               name="selectCity"
               options={this.props.cityList}
-              value={locationId === null || !this.props.cityList.length ? "" : this.props.cityList[locationId].label}
+              value={locationId === null || !this.props.cityList.length ? "" : locationId}
               onChange={this.onSelectChange}
               noResultsText={strings.selectNoResults}
               placeholder={strings.selectPlaceholder}

@@ -50,7 +50,9 @@ module.exports = {
   context: path.resolve(__dirname, '..'),
   entry: {
     'main': [
+      //'webpack-dev-server/client?http://' + host + ':' + port, // WebpackDevServer host and port
       'webpack-hot-middleware/client?path=http://' + host + ':' + port + '/__webpack_hmr',
+      //'webpack/hot/only-dev-server', // "only" prevents reload on syntax errors
       'bootstrap-sass!./src/theme/bootstrap.config.js',
       'font-awesome-webpack!./src/theme/font-awesome.config.js',
       './src/client.js'

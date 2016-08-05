@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { IndexLink, Link } from 'react-router';
+import { Link } from 'react-router';
 import { LinkContainer } from 'react-router-bootstrap';
 import { Navbar, Nav, div } from 'react-bootstrap';
 import Helmet from 'react-helmet';
@@ -8,12 +8,13 @@ import { isLoaded as isInfoLoaded, load as loadInfo } from 'redux/modules/info';
 import { isLoaded as isAuthLoaded, load as loadAuth, logout, clearLoginError } from 'redux/modules/auth';
 import { onAddData } from 'redux/modules/admin';
 import { onGetHouseList, onGetCityList, onNewSubmit} from 'redux/modules/entities'
-import { onGetPostList } from 'redux/modules/posts'
+import { onGetMyPost } from 'redux/modules/posts'
 //import { InfoBar } from 'components';
-import { pushState } from 'redux-router';
+import { push as pushState } from 'redux-router';
 import connectData from 'helpers/connectData';
 import config from '../../config';
 import {FlatButton, FontIcon} from 'material-ui';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import uiStyles from '../../theme/uiStyles';
 import ga from 'react-google-analytics';
 const GAInitiailizer = ga.Initializer;
@@ -44,7 +45,7 @@ function fetchData(getState, dispatch) {
     postCreateData : state.post.createData,
     postLocationId : state.posts.locationId,
   }),
-  {logout, clearLoginError, pushState, onGetHouseList, onAddData, onGetCityList, onNewSubmit, onGetPostList})
+  {logout, clearLoginError, pushState, onGetHouseList, onAddData, onGetCityList, onNewSubmit, onGetMyPost})
 export default class App extends Component {
   static propTypes = {
     children: PropTypes.object.isRequired,
@@ -58,7 +59,7 @@ export default class App extends Component {
     pushState: PropTypes.func.isRequired,
     clearLoginError: PropTypes.func.isRequired,
     onGetHouseList : PropTypes.func.isRequired,
-    onGetPostList : PropTypes.func.isRequired,
+    onGetMyPost : PropTypes.func.isRequired,
     onGetCityList : PropTypes.func.isRequired,
     onAddData : PropTypes.func.isRequired,
     onNewSubmit : PropTypes.func.isRequired,
@@ -73,14 +74,14 @@ export default class App extends Component {
     if (!this.props.user && nextProps.user) {
       // login
       this.props.clearLoginError();
-      this.props.pushState(null, '/main');
+      this.props.pushState('/main');
     } else if (this.props.user && !nextProps.user) {
       // logout
-      this.props.pushState(null, '/');
+      this.props.pushState('/');
     }
 
     if(!this.props.createData && nextProps.createData){
-      this.props.pushState(null, '/entities/' + nextProps.createData._id)
+      this.props.pushState('/entities/' + nextProps.createData._id)
       // refresh the main list
       //console.log('cityList is', this.props.cityList, 'the searching object is', nextProps.createData.city)
       if(!this.props.cityList.some(function(cityObject){
@@ -100,9 +101,9 @@ export default class App extends Component {
     }
 
     if(!this.props.postCreateData && nextProps.postCreateData){
-      this.props.pushState(null, '/posts/' + nextProps.postCreateData._id)
+      this.props.pushState('/posts/' + nextProps.postCreateData._id)
 
-      this.props.onGetPostList(this.props.postLocationId, defaultCityList)
+      this.props.onGetMyPost(this.props.user._id)
 
       //TODO refresh admin list
       //if(this.props.adminLoaded){
@@ -128,6 +129,7 @@ export default class App extends Component {
     ga('send', 'pageview');
 
     return (
+      <MuiThemeProvider>
       <div className={styles.app}>
         <Helmet {...config.app.head}/>
         <GAInitiailizer />
@@ -151,45 +153,44 @@ export default class App extends Component {
 
             <div className={styles.buttonContainer}>
               {!user &&
-              <FlatButton eventKey={2} linkButton={true} containerElement={<Link to="/login" />} label="登录"/>
+              <FlatButton style={uiStyles.fullHeightButton} containerElement={<Link to="/login" />} label="登录"/>
               }
 
               {!user &&
-              <FlatButton labelStyle={uiStyles.registerButton} eventKey={4} label="注册"
-                          linkButton={true} containerElement={<Link to="/register" />}/>
+              <FlatButton labelStyle={uiStyles.registerButton} label="注册" style={uiStyles.fullHeightButton}
+                          containerElement={<Link to="/register" />}/>
               }
-
-              <FlatButton containerElement={<Link to="/about" />}
-                          linkButton={true} eventKey={7} label="关于我们"/>
 
               {/*{user &&
-              <FlatButton eventKey={1} linkButton={true} containerElement={<Link to="/chat" />} label="聊天室"/>
+              <FlatButton containerElement={<Link to="/chat" />} label="聊天室"/>
               }*/}
 
-              {user &&
-              <FlatButton eventKey={10} linkButton={true} containerElement={<Link to="/main" />} label="出租 "/>
-              }
+              <FlatButton containerElement={<Link to="/main" />}
+                          style={uiStyles.fullHeightButton} label="出租 "/>
 
-              {user &&
-              <FlatButton eventKey={9} linkButton={true} containerElement={<Link to="/posts" />} label="求租 "/>
-              }
+              <FlatButton containerElement={<Link to="/posts" />}
+                          style={uiStyles.fullHeightButton} label="求租 "/>
 
+              <FlatButton containerElement={<Link to="/about" />} style={uiStyles.fullHeightButton}
+                          label="关于我们"/>
             </div>
 
           </div>
           {user &&
           <div className={ user ? styles.right : styles.right + " " + styles.noUserRight}>
             <div className={styles.welcome}><span className={rightLi}><i className="fa fa-child"/> <strong className={styles.username}>{user.username}</strong></span></div>
-            <LinkContainer to="/admin">
-              <FlatButton eventKey={3}><span className={rightLi}><i className="fa fa-truck fa-lg"/>我的出租</span></FlatButton>
-            </LinkContainer>
-            <LinkContainer to="/submit">
-              <FlatButton eventKey={6}><span className={rightLi}><i className="fa fa-pencil fa-lg"/>发布房屋</span></FlatButton>
-            </LinkContainer>
-
-            <LinkContainer to="/logout">
-              <FlatButton eventKey={8} onClick={this.handleLogout}><span className={rightLi}><i className="fa fa-sign-out fa-lg" /> 登出</span></FlatButton>
-            </LinkContainer>
+            <FlatButton style={uiStyles.fullHeightButton} containerElement={<Link to="/admin" />}>
+              <i className="fa fa-truck fa-lg"/>我的出租
+            </FlatButton>
+            <FlatButton style={uiStyles.fullHeightButton} containerElement={<Link to="/submit" />}>
+              <i className="fa fa-pencil fa-lg"/>发布房屋
+            </FlatButton>
+            <FlatButton style={uiStyles.fullHeightButton} containerElement={<Link to="/favorite" />}>
+              <i className="fa fa-pencil fa-lg"/>我的收藏
+            </FlatButton>
+            <FlatButton onClick={this.handleLogout} style={uiStyles.fullHeightButton} containerElement={<Link to="/logout" />}>
+              <i className="fa fa-sign-out fa-lg" /> 登出
+            </FlatButton>
           </div>}
         </div>
 
@@ -205,6 +206,7 @@ export default class App extends Component {
           </p>
         </div>
       </div>
+      </MuiThemeProvider>
     );
   }
 }

@@ -11,6 +11,10 @@ const DELETE_POST = 'omzug/postList/DELETE_POST'
 const DELETE_POST_SUCCESS = 'omzug/postList/DELETE_POST_SUCCESS'
 const DELETE_POST_FAIL = 'omzug/postList/DELETE_POST_FAIL'
 
+const MY_POST = 'omzug/postList/MY_POST'
+const MY_POST_SUCCESS = 'omzug/postList/MY_POST_SUCCESS'
+const MY_POST_FAIL = 'omzug/postList/MY_POST_FAIL'
+
 const APPEND_SUCCESS = "omzug/postList/APPEND_SUCCESS"
 const APPEND_FAIL = "omzug/postList/APPEND_FAIL"
 const DISABLE_APPEND = "omzug/postList/DISABLE_APPEND"
@@ -18,9 +22,6 @@ const DISABLE_APPEND = "omzug/postList/DISABLE_APPEND"
 const OPEN_DIALOG = 'omzug/postList/OPEN_DIALOG';
 const CLOSE_DIALOG = 'omzug/postList/CLOSE_DIALOG';
 
-const INIT = "omzug/postList/INIT"
-const INIT_SUCCESS = "omzug/postList/INIT_SUCCESS"
-const INIT_FAIL = "omzug/postList/INIT_FAIL"
 const SET_COLUMN = "omzug/postList/SET_COLUMN"
 const REFRESH_ALL = "omzug/postList/REFRESH_ALL"
 const REFRESH_ALL_SUCCESS = "omzug/postList/REFRESH_ALL_SUCCESS"
@@ -39,7 +40,7 @@ const initState = {
   column : 1,
   deleteFeedback : null,
   popover : false,
-  toDelete : null,
+  myPost : null,
 };
 
 export default function reducer(state = initState, action = {}) {
@@ -58,6 +59,21 @@ export default function reducer(state = initState, action = {}) {
         error: null,
         isEnd : action.result.isEnd,
       };
+    case MY_POST:
+      return {
+        ...state,
+      };
+    case MY_POST_SUCCESS:
+      console.log("get result is", action.result)
+      return {
+        ...state,
+        myPost: action.result,
+      };
+    case MY_POST_FAIL:
+      return {
+        ...state,
+        myPost: null,
+      };
     case DELETE_POST:
       return {
         ...state,
@@ -67,9 +83,9 @@ export default function reducer(state = initState, action = {}) {
       return {
         ...state,
         deleting : false,
+        myPost : null,
         deleteFeedback : strings.deleteSuccess,
         // index start from 0
-        list : update(state.list, {$splice : [[action.index, 1]]})
       }
     case DELETE_POST_FAIL:
       return {
@@ -124,31 +140,6 @@ export default function reducer(state = initState, action = {}) {
         list: [],
         error: action.error,
       }
-    case INIT :
-      return {
-        ...state,
-        loading : true,
-        loadingCity : true,
-      }
-    case INIT_SUCCESS:
-      return {
-        ...state,
-        loading: false,
-        loaded: true,
-        list: action.result.posts,
-        error: null,
-        isEnd : action.result.isEnd,
-        loadingCity : false,
-      }
-    case INIT_FAIL:
-      return {
-        ...state,
-        loading: false,
-        loaded: false,
-        loadingCity : false,
-        list: [],
-        error: action.error
-      }
     case CLEAR:
       return {
         initState
@@ -159,6 +150,7 @@ export default function reducer(state = initState, action = {}) {
         isEnd : true,
       }
     case CHANGE_LOCATION:
+      console.log("in redux we change the id to ", action.id)
       return {
         ...state,
         locationId : action.id
@@ -176,10 +168,6 @@ export default function reducer(state = initState, action = {}) {
     case OPEN_DIALOG :
       return {
         ...state,
-        toDelete : {
-          post : action.post,
-          index : action.index,
-        },
         popover : true,
       }
     case CLOSE_DIALOG:
@@ -202,27 +190,36 @@ function processCityList(cityList){
   return selectList;
 }
 
-export function onGetPostList(cityIndex, cityList){
+export function onGetPostList(cityIndex, cityList, userId){
   var city = null
   if(cityIndex !== null) {
     city = cityList[cityIndex].label;
   }
-  console.log('city is', city);
+  console.log('city is', city, "city index is", cityIndex);
   return {
     types: [LOAD, LOAD_SUCCESS, LOAD_FAIL],
     promise: (client) => {
-      let url;
-      if(city) {
-        url = '/listPosts/city/' + city
-      }else{
-        url ='/listPosts'
-      }
+      var cityString = city ? "/city/" + city : "/all"
+      var userIdString = userId ? "/" + userId : ""
+      var url = "/listPosts" + cityString + userIdString
       return client.get(url)
     } // params not used, just shown as demonstration
   };
 }
 
-export function onAppendList(cityIndex, cityList, skipNumber){
+
+export function onGetMyPost(userId){
+  console.log('now query my post with id', userId)
+  return {
+    types : [MY_POST, MY_POST_SUCCESS, MY_POST_FAIL],
+    promise : (client) => {
+      let url =  '/myPost/' + userId;
+      return client.get(url)
+    }
+  }
+}
+
+export function onAppendList(cityIndex, cityList, skipNumber, userId){
   var city = null
   if(cityIndex !== null) {
     city = cityList[cityIndex].label;
@@ -230,12 +227,9 @@ export function onAppendList(cityIndex, cityList, skipNumber){
   return {
     types: [LOAD, APPEND_SUCCESS, LOAD_FAIL],
     promise: (client) => {
-      let url;
-      if(city) {
-        url = '/listPosts/city/' + city + '?skip=' + skipNumber
-      }else{
-        url ='/listPosts?skip=' + skipNumber
-      }
+      var cityString = city ? "/city" : "/all"
+      var userIdString = userId ? "/" + userId : ""
+      var url = "/listPosts" + cityString + userIdString + '?skip=' + skipNumber
       return client.get(url)
     } // params not used, just shown as demonstration
   };
@@ -247,9 +241,8 @@ export function onDisableAppend(){
   }
 }
 
-export function onDeletePost(userId, postId, index){
+export function onDeletePost(userId, postId){
   return {
-    index : index,
     types : [DELETE_POST, DELETE_POST_SUCCESS, DELETE_POST_FAIL],
     promise : (client) => {
       var url = '/deletePost/' + userId +  "/" + postId;
@@ -282,10 +275,8 @@ export function onLocationChange(value){
   }
 }
 
-export function onOpenDialog(post, index){
+export function onOpenDialog(post){
   return {
-    post : post,
-    index : index,
     type : OPEN_DIALOG
   }
 }

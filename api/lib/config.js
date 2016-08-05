@@ -27,6 +27,8 @@ module.exports = {
   googleMapKey : 'AIzaSyA7ZTgeyDPxcVEjsa6IuTH41k__n954cU4',
 
   errors : {
+    LackParameterError : 'LackParameterError : Request does not have enough parameter',
+    WrongRequestError : 'WrongRequestError : Request parameter does not qualified',
     SchemaCannotFind : 'SchemaCannotFind: schema can not be find, please check again:',
     DataBaseFailed : 'DataBaseFailed: database meet error:',
     AuthFailed : 'Authentication Error:',

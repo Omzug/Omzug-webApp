@@ -4,7 +4,7 @@
 
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
-import {isLoaded, onLoad, onDeleteHouse, onClearDeleteFeedback} from 'redux/modules/admin';
+import {isLoaded, onLoad, onAppendList, onDisableAppend} from 'redux/modules/favorite';
 import {bindActionCreators} from 'redux';
 import connectData from 'helpers/connectData';
 import {List} from "components";
@@ -18,8 +18,9 @@ import {DropDownMenu, MenuItem,RaisedButton} from 'material-ui';
 
 function fetchDataDeferred(getState, dispatch) {
   if (!isLoaded(getState())) {
+    var user = getState().auth.user
     //console.log("after load we get state:", getState().router)
-    return dispatch(onLoad(getState().auth.user._id));
+    return dispatch(onLoad(user._id, user.starList ? user.starList : []))
   }
 }
 
@@ -27,39 +28,65 @@ function fetchDataDeferred(getState, dispatch) {
 
 @connect(
   state => ({
-    userId : state.auth.user._id,
-    entities: state.admin.list,
-    error: state.admin.error,
-    loading: state.admin.loading,
-    loaded: state.admin.loaded,
-    locationId : state.admin.locationId,
-    deleteFeedback : state.admin.deleteFeedback,
+    user : state.auth.user,
+    entities: state.favorite.list,
+    error: state.favorite.error,
+    loading: state.favorite.loading,
+    loaded: state.favorite.loaded,
+    isEnd : state.favorite.isEnd,
+    deleteFeedback : state.favorite.deleteFeedback,
   }),
-  {onLoad, onDeleteHouse, onClearDeleteFeedback}
+  {onLoad, onAppendList, onDisableAppend}
 )
 export default class Entities extends Component {
   static propTypes = {
     entities : PropTypes.array,
     error: PropTypes.string,
     loading: PropTypes.bool,
-    locationId : PropTypes.number,
     loaded :PropTypes.bool,
-    userId : PropTypes.string,
+    user : PropTypes.object,
+    isEnd : PropTypes.bool,
     deleteFeedback : PropTypes.string,
 
-    onDeleteHouse : PropTypes.func.isRequired,
+    onDisableAppend : PropTypes.func.isRequired,
+    onAppendList : PropTypes.func.isRequired,
     onLoad: PropTypes.func.isRequired,
-    onLocationChange: PropTypes.func.isRequired,
-    onClearDeleteFeedback : PropTypes.func.isRequired,
   };
 
   loadList = (event) => {
-      event.preventDefault();
-      this.props.onLoad(this.props.userId);
+    var starList = this.props.user.starList
+    event.preventDefault();
+    this.props.onLoad(this.props.user._id , starList ? starList : []);
+  }
+
+  handleScroll = (event) => {
+    var starList = this.props.user.starList ? this.props.user.starList : []
+    var listBody = event.srcElement.body;
+    if(window.innerHeight + listBody.scrollTop >= listBody.scrollHeight - 20){
+      //temporary disable append util we get result
+      if(!this.props.loading && !this.props.isEnd){
+        this.props.onDisableAppend();
+        //console.log('now appending to list')
+        this.props.onAppendList(this.props.user._id, starList, this.props.entities.length);
+      }
+    }
+  }
+
+  onUpArrowClick = (event) => {
+    if(window){
+      window.scrollTo(0 , 100);
+    }
+  }
+
+  componentDidMount(){
+    window.addEventListener('scroll', this.handleScroll)
+  }
+  componentWillUnmount(){
+    window.removeEventListener('scroll', this.handleScroll)
   }
 
   render() {
-    const styles = require('./UserAdmin.scss');
+    const styles = require('./UserFavorite.scss');
     const {loaded, error, loading, deleteFeedback} = this.props;
     const houses = this.props.entities;
 
@@ -70,7 +97,7 @@ export default class Entities extends Component {
 
     return (
       <div>
-        <Helmet title="我的发布"/>
+        <Helmet title="我的收藏"/>
         {loaded && houses.length > 0 &&
         <div className={styles.listNav}>
           <RaisedButton onClick={this.loadList} style={{lineHeight: "36px" }}>
@@ -86,10 +113,7 @@ export default class Entities extends Component {
             :
             <div className={styles.noHouseYet}>
               <div className={styles.textHint}>
-                <p>{strings.noUserAdmin}</p>
-              </div>
-              <div className={styles.raisedButton}>
-                <RaisedButton containerElement={<Link to="/submit" />} label="开始发布我的第一个房屋"/>
+                <p>{strings.noUserFavorite}</p>
               </div>
             </div>
           }
@@ -102,6 +126,17 @@ export default class Entities extends Component {
           {' '}
           {error}
         </div>}
+
+        {loading &&
+        <div className={styles.loading}>
+          <p className={styles.loadingText}> Loading Now</p>
+          <p><i className="fa fa-spin fa-refresh fa-4x"/></p>
+        </div>}
+
+        <div className={styles.upArrowContainer} onClick={this.onUpArrowClick}>
+          <i className={"fa fa-arrow-up fa-2x " + styles.upArrow}/>
+        </div>
+
 
         <Snackbar
           open={deleteFeedback != null}

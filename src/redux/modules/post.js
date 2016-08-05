@@ -48,6 +48,7 @@ const initState = {
     startDate : null,
     endDate : null,
     major : null,
+    gender : true,
 
     wechat: null,
     email : null,
@@ -318,6 +319,11 @@ function checkImage(images){
 }
 
 export function onSubmit(data, images, postId, ownerId){
+  // todo delete log
+  console.log("submit data is", data)
+  console.log("submit images is", images)
+  console.log("post id is", postId)
+  console.log("owner id is", ownerId)
   const imageError = checkImage(images)
   if(imageError){
     return {
