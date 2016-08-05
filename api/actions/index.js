@@ -21,3 +21,4 @@ export listPosts from './post/listPosts';
 export post from './post/post';
 export deletePost from './post/deletePost';
 export submitPost from './post/submitPost';
+export myPost from './post/myPost';

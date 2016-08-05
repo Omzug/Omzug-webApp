@@ -8,7 +8,7 @@ import { isLoaded as isInfoLoaded, load as loadInfo } from 'redux/modules/info';
 import { isLoaded as isAuthLoaded, load as loadAuth, logout, clearLoginError } from 'redux/modules/auth';
 import { onAddData } from 'redux/modules/admin';
 import { onGetHouseList, onGetCityList, onNewSubmit} from 'redux/modules/entities'
-import { onGetPostList } from 'redux/modules/posts'
+import { onGetMyPost } from 'redux/modules/posts'
 //import { InfoBar } from 'components';
 import { push as pushState } from 'redux-router';
 import connectData from 'helpers/connectData';
@@ -45,7 +45,7 @@ function fetchData(getState, dispatch) {
     postCreateData : state.post.createData,
     postLocationId : state.posts.locationId,
   }),
-  {logout, clearLoginError, pushState, onGetHouseList, onAddData, onGetCityList, onNewSubmit, onGetPostList})
+  {logout, clearLoginError, pushState, onGetHouseList, onAddData, onGetCityList, onNewSubmit, onGetMyPost})
 export default class App extends Component {
   static propTypes = {
     children: PropTypes.object.isRequired,
@@ -59,7 +59,7 @@ export default class App extends Component {
     pushState: PropTypes.func.isRequired,
     clearLoginError: PropTypes.func.isRequired,
     onGetHouseList : PropTypes.func.isRequired,
-    onGetPostList : PropTypes.func.isRequired,
+    onGetMyPost : PropTypes.func.isRequired,
     onGetCityList : PropTypes.func.isRequired,
     onAddData : PropTypes.func.isRequired,
     onNewSubmit : PropTypes.func.isRequired,
@@ -103,7 +103,7 @@ export default class App extends Component {
     if(!this.props.postCreateData && nextProps.postCreateData){
       this.props.pushState('/posts/' + nextProps.postCreateData._id)
 
-      this.props.onGetPostList(this.props.postLocationId, defaultCityList)
+      this.props.onGetMyPost(this.props.user._id)
 
       //TODO refresh admin list
       //if(this.props.adminLoaded){
