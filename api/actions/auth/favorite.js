@@ -47,16 +47,16 @@ export default function listFavorite(req, params) {
     }
 
     function compareResult(result, callback){
-      logger.debug('compare length', result.data.length,  idList.length)
+      logger.trace('compare length', result.data.length,  idList.length)
       if(result.data.length == idList.length)
         return callback(null, result)
 
       result.newList = idList.filter(function (id) {
         var isContained = result.data.some(function (dataObject) {
-          logger.debug("data object is", dataObject, "and id is", id)
+          logger.trace("data object is", dataObject, "and id is", id)
           return dataObject._id == id;
         })
-        logger.debug("is Contained is", isContained)
+        logger.trace("is Contained is", isContained)
         return isContained
       })
       callback(null, result)
@@ -70,7 +70,7 @@ export default function listFavorite(req, params) {
       DB.update('user', {_id : userId}, {$set : { starList : result.newList}}, function(queryResult){
         req.session.user.starList = queryResult.data._doc.starList;
         req.session.user.updatedAt = queryResult.data._doc.updatedAt;
-        logger.debug('session information now changed: ', req.session.user)
+        logger.trace('session information now changed: ', req.session.user)
         callback(null, result)
       }, function(err){
         callback(err)
