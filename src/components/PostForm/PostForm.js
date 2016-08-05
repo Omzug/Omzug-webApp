@@ -223,7 +223,7 @@ export default class PostForm extends Component {
               <div><TextField key={22} style={inputStyle250Width} hintText="专业" {...major}/></div>
             </div>
 
-            <div className={styles.rowContainer}>
+            <div className={styles.rowContainerDate}>
               <div className={styles.radioContainer}>
                 <RadioButtonGroup name="costType" style={uiStyles.buttonGroup}
                                   valueSelected={gender.value == null ? null : gender.value.toString()}
