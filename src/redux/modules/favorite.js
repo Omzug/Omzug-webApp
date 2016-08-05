@@ -14,8 +14,8 @@ const CLOSE_DIALOG = 'omzug/favorite/CLOSE_DIALOG';
 const ADD_DATA = 'omzug/favorite/ADD_DATA';
 const CLEAR_DELETE_FEEDBACK = "omzug/favorite/CLEAR_DELETE_FEEDBACK"
 
-const APPEND_SUCCESS = "omzug/entityList/APPEND_SUCCESS"
-const DISABLE_APPEND = "omzug/entityList/DISABLE_APPEND"
+const APPEND_SUCCESS = "omzug/favorite/APPEND_SUCCESS"
+const DISABLE_APPEND = "omzug/favorite/DISABLE_APPEND"
 
 var update = require('react-addons-update');
 import strings from '../../constant/strings';
@@ -26,6 +26,7 @@ const initState = {
   deleteFeedback : null,
   loading :false,
   popover : false,
+  isEnd : false,
   toDelete : null,
 };
 
@@ -42,7 +43,8 @@ export default function reducer(state = initState, action = {}) {
         loading: false,
         loaded: true,
         list: action.result.data,
-        error: null
+        error: null,
+        isEnd : action.result.isEnd,
       };
     case LOAD_FAIL:
       return {
@@ -73,12 +75,16 @@ export default function reducer(state = initState, action = {}) {
   }
 }
 
-export function onLoad(userId){
+export function onLoad(starList){
   return {
     types: [LOAD, LOAD_SUCCESS, LOAD_FAIL],
     promise: (client) => {
-      var url = '/'
-      return client.get(url)
+      var url = '/favorite'
+      return client.post(url, {
+        data : {
+          starList : starList
+        }
+      })
     } // params not used, just shown as demonstration
   };
 }
@@ -104,17 +110,16 @@ export function onDisableAppend(){
   }
 }
 
-export function onAppendList(cityIndex, cityList, skipNumber){
+export function onAppendList(starList, skipNumber){
   return {
     types: [LOAD, APPEND_SUCCESS, LOAD_FAIL],
     promise: (client) => {
-      let url;
-      if(city) {
-        url = '/list/city/' + city + '?skip=' + skipNumber
-      }else{
-        url ='/list?skip=' + skipNumber
-      }
-      return client.get(url)
+      let url = '/favorite' + '?skip=' + skipNumber
+      return client.post(url, {
+        data : {
+          starList : starList
+        }
+      })
     } // params not used, just shown as demonstration
   };
 }

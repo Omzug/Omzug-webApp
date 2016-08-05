@@ -1,0 +1,99 @@
+@import "../../theme/media.scss";
+
+.gridContainer{
+  padding: 80px 0px 50px 0px;
+}
+
+.listNav{
+  position : fixed;
+  z-index: 5;
+  display:flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  padding-top: 20px;
+  top: 60px;
+  width: 100%;
+  background-color: white;
+}
+
+.noHouseYet{
+  margin-top: 140px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  .textHint{
+    font-size: 20px;
+  }
+  .raisedButton{
+    margin-top: 30px;
+    margin-bottom: 250px;
+  }
+
+  //margin-left: 70px;
+  //font-size: 20px;
+  //margin-top: 90px;
+  //padding-top: 20px;
+  //margin-bottom: 440px;
+}
+
+.upArrowContainer{
+  display: none;
+  cursor: pointer;
+  position: fixed;
+  bottom: 40px;
+  right: 15px;
+  z-index: 10;
+  .upArrow{
+    padding: 7px;
+    color: black;
+    box-shadow:  0px 4px 12px 0px rgba(162,162,162,0.50);
+    border-radius: 50%;
+    background-color: #fafafa;
+    opacity: 0.6;
+  }
+}
+
+@include max-screen(768px){
+  .listNav {
+    position: static;
+    padding-top: 120px;
+  }
+  .gridContainer{
+    padding-top: 0;
+    .noHouseYet{
+    }
+  }
+}
+
+@include max-screen(414px){
+  .gridContainer{
+    .noHouseYet{
+      .raisedButton{
+        margin-bottom: 200px;
+      }
+    }
+  }
+}
+
+@include max-screen(375px){
+  .gridContainer{
+    .noHouseYet{
+      .textHint{
+        font-size: 18px;
+      }
+    }
+  }
+}
+
+@include max-screen(370px){
+  .gridContainer{
+    .noHouseYet{
+      .textHint{
+        font-size: 15px;
+      }
+      .raisedButton{
+        margin-bottom: 100px;
+      }
+    }
+  }
+}
