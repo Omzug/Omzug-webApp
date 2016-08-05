@@ -75,11 +75,11 @@ export default function reducer(state = initState, action = {}) {
   }
 }
 
-export function onLoad(starList){
+export function onLoad(userId, starList){
   return {
     types: [LOAD, LOAD_SUCCESS, LOAD_FAIL],
     promise: (client) => {
-      var url = '/favorite'
+      var url = '/favorite/' + userId
       return client.post(url, {
         data : {
           starList : starList
@@ -110,11 +110,11 @@ export function onDisableAppend(){
   }
 }
 
-export function onAppendList(starList, skipNumber){
+export function onAppendList(userId, starList, skipNumber){
   return {
     types: [LOAD, APPEND_SUCCESS, LOAD_FAIL],
     promise: (client) => {
-      let url = '/favorite' + '?skip=' + skipNumber
+      let url = '/favorite/' + userId + '?skip=' + skipNumber
       return client.post(url, {
         data : {
           starList : starList

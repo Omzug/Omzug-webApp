@@ -18,9 +18,9 @@ import {DropDownMenu, MenuItem,RaisedButton} from 'material-ui';
 
 function fetchDataDeferred(getState, dispatch) {
   if (!isLoaded(getState())) {
-    var starList = getState().auth.user.starList
+    var user = getState().auth.user
     //console.log("after load we get state:", getState().router)
-    return dispatch(onLoad(starList ? starList : []))
+    return dispatch(onLoad(user._id, user.starList ? user.starList : []))
   }
 }
 
@@ -56,7 +56,7 @@ export default class Entities extends Component {
   loadList = (event) => {
     var starList = this.props.user.starList
     event.preventDefault();
-    this.props.onLoad(starList ? starList : []);
+    this.props.onLoad(user._id , starList ? starList : []);
   }
 
   handleScroll = (event) => {
@@ -67,7 +67,7 @@ export default class Entities extends Component {
       if(!this.props.loading && !this.props.isEnd){
         this.props.onDisableAppend();
         //console.log('now appending to list')
-        this.props.onAppendList(starList, this.props.entities.length);
+        this.props.onAppendList(this.props.user._id, starList, this.props.entities.length);
       }
     }
   }
