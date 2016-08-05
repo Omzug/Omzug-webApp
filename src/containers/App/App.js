@@ -161,23 +161,18 @@ export default class App extends Component {
                           containerElement={<Link to="/register" />}/>
               }
 
-              <FlatButton containerElement={<Link to="/about" />} style={uiStyles.fullHeightButton}
-                          label="关于我们"/>
-
               {/*{user &&
               <FlatButton containerElement={<Link to="/chat" />} label="聊天室"/>
               }*/}
 
-              {user &&
               <FlatButton containerElement={<Link to="/main" />}
                           style={uiStyles.fullHeightButton} label="出租 "/>
-              }
 
-              {user &&
               <FlatButton containerElement={<Link to="/posts" />}
                           style={uiStyles.fullHeightButton} label="求租 "/>
-              }
 
+              <FlatButton containerElement={<Link to="/about" />} style={uiStyles.fullHeightButton}
+                          label="关于我们"/>
             </div>
 
           </div>
