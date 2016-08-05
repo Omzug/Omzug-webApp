@@ -7,6 +7,7 @@ import DB from '../../lib/db-interface.js';
 var createId = require('../../lib/model.js').createId
 import {logger} from '../../lib/logger';
 var config = require('../../lib/config');
+import {filterPassword} from '../../utils/url'
 
 export default function toggleStar(req, params){
   // mongodb id is 24 digits hex code
@@ -40,8 +41,9 @@ export default function toggleStar(req, params){
       var userId = params[0]
       var houseId = params[1]
       DB.update('user', {_id : userId}, {$set : { starList : newList}}, function(result){
-        logger.trace('update starList in our database: ', result.data)
-        callback(null, result.data)
+        logger.trace('update starList in our database: ', result.data._doc)
+        req.session.user = result.data._doc;
+        callback(null, filterPassword(result.data._doc))
       }, function(err){
         callback(err)
       })
