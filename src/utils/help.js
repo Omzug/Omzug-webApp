@@ -16,8 +16,5 @@ export function findCityValue(cityArray, label){
       return false
     }
   })
-
-  console.log("return value is" , ret)
-
   return ret
 }

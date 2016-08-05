@@ -42,6 +42,23 @@ export default (store) => {
     }
   };
 
+  const requireLogout = (nextState, replace, cb) => {
+    function checkAuth() {
+      const { auth: { user }} = store.getState();
+      if (user) {
+        // oops, not logged in, so can't be here!
+        replace('/main');
+      }
+      cb();
+    }
+
+    if (!isAuthLoaded(store.getState())) {
+      store.dispatch(loadAuth()).then(checkAuth);
+    } else {
+      checkAuth();
+    }
+  };
+
   const checkUser = (nextState, replace, cb) => {
     function checkAuth() {
       const { auth: { user }} = store.getState();
@@ -120,8 +137,11 @@ export default (store) => {
       <Route path="entities/:entityId" component={Entity} onEnter={logNextState}/>
       <Route path="main" component={Entities}/>
       <Route path="about" component={About}/>
-      <Route path="login" component={Login}/>
-      <Route path="register" component={Register}/>
+
+      <Route onEnter={requireLogout}>
+        <Route path="login" component={Login}/>
+        <Route path="register" component={Register}/>
+      </Route>
 
 
       { /* Catch all route */ }

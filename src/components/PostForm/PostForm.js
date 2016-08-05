@@ -39,7 +39,7 @@ import defaultCityList from '../../constant/cityList';
 @reduxForm({
   form: 'post',
   //later should delete images in fields
-  fields : [  'city', 'description', 'startDate','endDate','major','email','phone','wechat'],
+  fields : [  'city', 'description', 'startDate','endDate','major','gender','email','phone','wechat'],
   validate : postValidation,
 })
 
@@ -99,7 +99,7 @@ export default class PostForm extends Component {
     const styles = require('./PostForm.scss');
     const {
       fields: {location,city,startDate,endDate,
-        description,owner,email,phone, images, wechat},
+        description,owner,email,phone, images,  major, gender, wechat},
       post,
       hasLimit,
       currentSlide,
@@ -181,8 +181,8 @@ export default class PostForm extends Component {
                       decorators={Decorators}
                       framePadding="50px" width="100%" slidesToShow={1}
                       onChange={this.props.onChangeSlide}>
-              {post.images && post.images.length >= 1 && post.images.map( address =><div className={styles.imageContainer}><img src={address}/></div>)}
-              {cachedImages && cachedImages.length >= 1 && cachedImages.map(file => <div className={styles.imageContainer}><img src={window.URL.createObjectURL(file)}/></div>)}
+              {post.images && post.images.length >= 1 && post.images.map( address =><div className={styles.imageContainer} key={address + "show"}><img src={address}/></div>)}
+              {cachedImages && cachedImages.length >= 1 && cachedImages.map(file => <div className={styles.imageContainer} key={address + "cache"}><img src={window.URL.createObjectURL(file)}/></div>)}
               {this.calculateNumber() < config.limitImageNumber &&
               <div className={styles.imageContainer}>
                 <DropZone onDrop={this.onDrop}>
@@ -217,6 +217,35 @@ export default class PostForm extends Component {
                 placeholder={strings.selectPlaceholderSubmit}
                 ignoreAccents={false}
               />
+            </div>
+
+            <div className={styles.rowContainer}>
+              <div><TextField key={22} style={inputStyle250Width} hintText="专业" {...major}/></div>
+            </div>
+
+            <div className={styles.rowContainer}>
+              <div className={styles.radioContainer}>
+                <RadioButtonGroup name="costType" style={uiStyles.buttonGroup}
+                                  valueSelected={gender.value == null ? null : gender.value.toString()}
+                                  onChange={(event, value)=> {
+                 var boolean = value === "true"
+                 console.log('change value is', value)
+                 gender.onChange(boolean)}}
+                >
+                  <RadioButton
+                    value="true"
+                    label="女"
+                    style={uiStyles.warmCold}
+                    labelStyle={uiStyles.warmCold}
+                  />
+                  <RadioButton
+                    value="false"
+                    label="男"
+                    style={uiStyles.warmCold}
+                    labelStyle={uiStyles.warmCold}
+                  />
+                </RadioButtonGroup>
+              </div>
             </div>
 
             {/* the width should be 265px */}

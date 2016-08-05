@@ -159,6 +159,7 @@ export default function reducer(state = initState, action = {}) {
         isEnd : true,
       }
     case CHANGE_LOCATION:
+      console.log("in redux we change the id to ", action.id)
       return {
         ...state,
         locationId : action.id
@@ -207,7 +208,7 @@ export function onGetPostList(cityIndex, cityList){
   if(cityIndex !== null) {
     city = cityList[cityIndex].label;
   }
-  console.log('city is', city);
+  console.log('city is', city, "", cityIndex);
   return {
     types: [LOAD, LOAD_SUCCESS, LOAD_FAIL],
     promise: (client) => {

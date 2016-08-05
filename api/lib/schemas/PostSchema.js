@@ -39,8 +39,9 @@ module.exports = function(Schema, collectionName){
     images : {type : Array, required : false},
 
     startDate : {type : Date, required : true},//TODO
-    endDate : { type : Date, required : false},
+    endDate : {type : Date, required : false},
     major : {type : String, required : false},
+    gender : {type : Boolean, required : true},
 
   }, { strict : true, collection : collectionName, timestamps: true});
 }

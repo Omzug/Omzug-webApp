@@ -82,6 +82,8 @@ export default class Entity extends Component {
     data.images = this.props.entity.images
     // here we define a _id for update in database
     data._id = this.props.entityId
+    data.owner = this.props.entity.owner
+    data.username = this.props.entity.username
 
     //TODO complete the entity here
     const images = this.props.cachedImages

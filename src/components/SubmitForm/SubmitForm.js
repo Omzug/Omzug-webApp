@@ -183,8 +183,8 @@ export default class SubmitForm extends Component {
                       decorators={Decorators}
                       framePadding="50px" width="100%" slidesToShow={1}
                       onChange={this.props.onChangeSlide}>
-              {entity.images && entity.images.length >= 1 && entity.images.map( address =><div className={styles.imageContainer}><img src={address}/></div>)}
-              {cachedImages && cachedImages.length >= 1 && cachedImages.map(file => <div className={styles.imageContainer}><img src={window.URL.createObjectURL(file)}/></div>)}
+              {entity.images && entity.images.length >= 1 && entity.images.map( address =><div className={styles.imageContainer} key={address + "show"}><img src={address}/></div>)}
+              {cachedImages && cachedImages.length >= 1 && cachedImages.map(file => <div className={styles.imageContainer} key={address + "cache"}><img src={window.URL.createObjectURL(file)}/></div>)}
               {this.calculateNumber() < config.limitImageNumber &&
                 <div className={styles.imageContainer}>
                   <DropZone onDrop={this.onDrop}>

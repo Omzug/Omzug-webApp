@@ -7,7 +7,7 @@ import {reduxForm} from 'redux-form';
 import {Carousel} from 'components';
 import { Link } from 'react-router';
 import { LinkContainer } from 'react-router-bootstrap';
-import {isLoaded, onOpenDialog, onCloseDialog , onSetColumn, onDeletePost, onCityChange,
+import {isLoaded, onOpenDialog, onCloseDialog , onSetColumn, onDeletePost,
   onDisableAppend, onGetPostList, onLocationChange, onAppendList, onClearDeleteFeedback} from 'redux/modules/posts';
 import {onStartEdit} from 'redux/modules/post'
 import {connect} from 'react-redux';
@@ -46,7 +46,7 @@ function fetchDataDeferred(getState, dispatch) {
 
     user: state.auth.user,
   }),
-  {onOpenDialog, onCloseDialog, onStartEdit, onSetColumn, onCityChange, onDeletePost,
+  {onOpenDialog, onCloseDialog, onStartEdit, onSetColumn, onDeletePost,
     onDisableAppend, onGetPostList, onLocationChange, onAppendList, onClearDeleteFeedback}
 )
 export default class List extends Component {
@@ -68,7 +68,6 @@ export default class List extends Component {
     onCloseDialog : PropTypes.func.isRequired,
     onStartEdit :PropTypes.func.isRequired,
     onSetColumn : PropTypes.func.isRequired,
-    onCityChange : PropTypes.func.isRequired,
     onDeletePost: PropTypes.func.isRequired,
 
     onDisableAppend : PropTypes.func.isRequired,
@@ -138,7 +137,8 @@ export default class List extends Component {
     const {posts, user} = this.props;
 
     const onCityChange =(selectObject)=>{
-      var value = selectObject ? selectObject.value : null ;
+      console.log("select object is", selectObject)
+      var value = selectObject !== null ? selectObject.value : null ;
       if(value === ""){
         value = null
       }
