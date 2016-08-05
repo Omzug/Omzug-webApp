@@ -34,7 +34,7 @@ export default class Home extends Component {
 
         <div className={styles.secondContainer}>
           <div className={styles.foto1}>
-            <img src={imageAddress.featureImage}/>
+            <img src={imageAddress.timetable}/>
           </div>
           <div className={styles.text1}>
               <div>

@@ -71,11 +71,18 @@
     margin-top: 60px;
     margin-bottom:70px;
   }
+
+  .berlin{
+    margin-top: 100px;
+  }
 }
 
 @include max-screen(530px){
   .text{
     width:87%;
+  }
+  .berlin{
+    margin-top: 100px;
   }
 }
 
@@ -85,14 +92,23 @@
     margin-top: 80px;
     margin-bottom: 30px;
   }
+  .berlin{
+    margin-top: 100px;
+  }
 }
 @include max-screen(375px){
   .text{
     margin-top: 80px;
   }
+  .berlin{
+    margin-top: 100px;
+  }
 }
 @include max-screen(320px){
   .text{
     margin-top: 80px;
+  }
+  .berlin{
+    margin-top: 100px;
   }
 }

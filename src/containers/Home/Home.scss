@@ -70,15 +70,15 @@ $paddingTop : 50px;
     flex-direction: row;
     justify-content: center;
     padding-bottom: 130px;
-    padding-top: 200px;
-    margin-top: 60px;
+    padding-top: 90px;
+    margin-top: 50px;
     .foto1{
       flex: 1 0 $secondFotoSize;
       width: 53%;
       max-width: 100%;
       padding-left: 50px;
       img{
-        max-width:100%;
+        max-width:115%;
         max-height: 100%;
       }
     }
