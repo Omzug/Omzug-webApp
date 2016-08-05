@@ -145,7 +145,7 @@ export default class SubmitForm extends Component {
       if(value === ""){
         return city.onChange(null)
       }
-      city.onChange(value ? selectObject.label : null) //todo maybe not uppercase
+      city.onChange(value !== null ? selectObject.label : null) 
     }
 
     const inputStyle = { width : "250px"}

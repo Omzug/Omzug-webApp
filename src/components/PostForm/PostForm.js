@@ -143,7 +143,7 @@ export default class PostForm extends Component {
       if(value === ""){
         return city.onChange(null)
       }
-      city.onChange(value ? selectObject.label : null)
+      city.onChange(value !== null ? selectObject.label : null)
     }
 
     const inputStyle250Width = { width : "250px"}
