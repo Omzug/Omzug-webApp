@@ -56,7 +56,7 @@ export default class Entities extends Component {
   loadList = (event) => {
     var starList = this.props.user.starList
     event.preventDefault();
-    this.props.onLoad(user._id , starList ? starList : []);
+    this.props.onLoad(this.props.user._id , starList ? starList : []);
   }
 
   handleScroll = (event) => {
