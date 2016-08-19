@@ -190,7 +190,8 @@ function processCityList(cityList){
   return selectList;
 }
 
-export function onGetPostList(cityIndex, cityList, userId){
+export function onGetPostList(cityIndex, cityList, user){
+  var userId = user != null ? user : null
   var city = null
   if(cityIndex !== null) {
     city = cityList[cityIndex].label;
@@ -202,6 +203,7 @@ export function onGetPostList(cityIndex, cityList, userId){
       var cityString = city ? "/city/" + city : "/all"
       var userIdString = userId ? "/" + userId : ""
       var url = "/listPosts" + cityString + userIdString
+      console.log('request url is', url)
       return client.get(url)
     } // params not used, just shown as demonstration
   };

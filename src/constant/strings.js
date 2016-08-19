@@ -23,6 +23,7 @@ const strings = {
   deleteSuccess : "已成功删除",
   deleteError : "删除失败",
   addPostHint : "我要找房!添加求房信息",
+  noPost : "这里暂时还没有找房信息哟",
   noUserAdmin : "Ooops! 您还没有发布任何房源。",
   noUserFavorite : "Ooops! 您还没有添加任何收藏。"
 }

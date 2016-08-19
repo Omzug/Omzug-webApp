@@ -35,7 +35,7 @@ function fetchDataDeferred(getState, dispatch) {
       );
     }
     promises.push(
-      dispatch(onGetPostList(null, cityList, user._id))
+      dispatch(onGetPostList(null, cityList, user))
     )
   }
   return Promise.all(promises);
@@ -159,7 +159,7 @@ export default class List extends Component {
       if(this.props.locationId != value){
         this.props.onLocationChange(value);
         //console.log('now the value of select is',value)
-        this.props.onGetPostList(value, cityList, this.props.user._id)
+        this.props.onGetPostList(value, cityList, this.props.user)
       }
     }
 
@@ -268,9 +268,12 @@ export default class List extends Component {
         </div>
         <div className={styles.myList}>
           { this.props.user && renderAddTile()}
-          {posts.map((post, index) => (
+          { posts.length ? posts.map((post, index) => (
             renderPost(post, false)
-          ))
+          )) :
+            <div className={styles.noPost}>
+              {strings.noPost}
+            </div>
           }
         </div>
 
