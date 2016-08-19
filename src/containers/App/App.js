@@ -69,6 +69,11 @@ export default class App extends Component {
     store: PropTypes.object.isRequired
   };
 
+  //init global variable window
+  componentDidMount(){
+
+  }
+
   //automatically redirect
   componentWillReceiveProps(nextProps) {
     if (!this.props.user && nextProps.user) {
