@@ -208,24 +208,7 @@
   color: white;
 }
 
-@include max-screen(820px){
-  .posts {
-    .loading {
-      padding-top: 50px;
-    }
-    .listNav {
-      margin-top: 20px;
-      .refreshButton {
-
-      }
-    }
-    .listNavBeforeLogin {
-
-    }
-  }
-}
-
-@include max-screen(768px){
+@include max-screen(840px){
   .posts {
     margin-top: 80px;
     .listNav {
