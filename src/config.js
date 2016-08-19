@@ -33,10 +33,10 @@ module.exports = Object.assign({
       meta: [
         {name: 'description', content: '找到心仪的家'},
         {charset: 'utf-8'},
-        {property: 'og:site_name', content: 'Omzug'},
+        {property: 'og:site_name', content: 'OMZUG'},
         {property: 'og:image', content: 'https://s3.eu-central-1.amazonaws.com/omzug.com/favicon/apple-icon.png'},
         {property: 'og:locale', content: 'zh_CN'},
-        {property: 'og:title', content: 'Omzug'},
+        {property: 'og:title', content: 'OMZUG'},
         {property: 'og:description', content: '为在德国的中国留学生提供简易美观的租房平台。'},
         {property: 'og:card', content: 'summary'},
         {property: 'og:site', content: '@hanwencheng'},

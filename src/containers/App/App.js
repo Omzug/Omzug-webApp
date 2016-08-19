@@ -145,7 +145,7 @@ export default class App extends Component {
               <LinkContainer to="/">
                 <div className={styles.title}>
                   <div className={styles.headerSchrift}>
-                    {config.app.title}
+                    {config.app.title.toUpperCase()}
                   </div>
                 </div>
               </LinkContainer>

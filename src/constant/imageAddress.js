@@ -11,6 +11,9 @@ const addresses = {
   technologyImage : "https://s3.eu-central-1.amazonaws.com/omzug.com/gif/technologyImage-omzug.png",
   bulbImage:"https://s3.eu-central-1.amazonaws.com/omzug.com/gif/bulbImage.png",
   NotFoundImage:"https://s3.eu-central-1.amazonaws.com/omzug.com/gif/NotFoundImage.png",
+  berlinImage:"https://s3.eu-central-1.amazonaws.com/omzug.com/gif/berlinImage.png",
+  table:"https://s3.eu-central-1.amazonaws.com/omzug.com/gif/table.png",
+  timetable:"https://s3.eu-central-1.amazonaws.com/omzug.com/gif/timetable.gif"
 }
 
 export default addresses;
