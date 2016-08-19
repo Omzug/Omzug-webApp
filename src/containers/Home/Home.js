@@ -8,6 +8,16 @@ import imageAddress from '../../constant/imageAddress'
 
 export default class Home extends Component {
   componentDidMount(){
+    const config0 = {
+      origin: 'left',
+      duration: 1000,
+      delay: 300,
+      opacity : 0.0,
+      distance: '10px',
+      scale: 1,
+      easing: 'ease',
+    }
+
     const config1 = {
       origin: 'right',
       duration: 1000,
@@ -18,7 +28,7 @@ export default class Home extends Component {
     }
 
     const config2 = {
-      origin: 'right',
+      origin: 'bottom',
       duration: 1000,
       delay: 300,
       distance: '500px',
@@ -27,6 +37,7 @@ export default class Home extends Component {
     }
     var scrollReveal = require('scrollreveal')
     window.sr = scrollReveal()
+    window.sr.reveal(this.refs.reveal0, config0)
     window.sr.reveal(this.refs.reveal1, config1)
     window.sr.reveal(this.refs.reveal2, config2)
   }
@@ -42,8 +53,9 @@ export default class Home extends Component {
         <div className={styles.container}>
           <div className={styles.description}>
             {/*<div className={styles.title}><h4></h4></div>*/}
-            <div className={styles.introduction}><h4>{config.app.introduction}<br /><br />
-              {config.app.introductionEn}</h4></div>
+            <div className={styles.introduction} ref="reveal0">
+              <h4>{config.app.introduction}<br /><br />{config.app.introductionEn}</h4>
+            </div>
 
           </div>
           <div className={styles.fotoContainer}>
