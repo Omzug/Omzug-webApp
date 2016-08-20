@@ -176,8 +176,6 @@ export default class App extends Component {
               <FlatButton containerElement={<Link to="/posts" />}
                           style={uiStyles.fullHeightButton} label="求租 "/>
 
-              <FlatButton containerElement={<Link to="/about" />} style={uiStyles.fullHeightButton}
-                          label="关于我们"/>
             </div>
 
           </div>
@@ -205,6 +203,7 @@ export default class App extends Component {
 
         <div className={styles.bottomText}>
           <p>
+            <Link to={"/about"}> About Us </Link><br />
             Please feel free to give us some <a href="mailto: softlipaschara@gmail.com">Feedback</a>.<br />
 
         All rights reserved &copy; 2016 Omzug
