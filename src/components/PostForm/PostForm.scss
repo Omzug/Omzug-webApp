@@ -37,7 +37,6 @@
         margin-bottom: 10px;
         .radioContainer{
           width: 315px;
-          padding-left: 20px;
         }
       }
       .rowContainerCity{
@@ -47,6 +46,7 @@
         justify-content: center;
         align-items: center;
         margin-top: 35px;
+        margin-bottom: 10px;
       }
       .rowContainerDate{
         width:100%;
@@ -154,6 +154,11 @@
   padding-right: 10px;
 }
 
+.rowTitle{
+  align-self: center;
+  padding-right: 10px;
+}
+
 .select{
   width: 250px;
 }
@@ -193,7 +198,7 @@
   }
 }
 
-@include max-screen(768px){
+@include max-screen(840px){
   .container{
     .card{
       .cardTitle{

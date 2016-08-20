@@ -5,10 +5,11 @@ import React, {Component, PropTypes} from 'react';
 import {GridList, GridTile, Dialog, IconButton, FlatButton, TextField, Snackbar} from 'material-ui';
 import {reduxForm} from 'redux-form';
 import {Carousel} from 'components';
-import { IndexLink, Link } from 'react-router';
+import { Link } from 'react-router';
 import { LinkContainer } from 'react-router-bootstrap';
-import {isLoaded, onOpenDialog, onCloseDialog , onSetColumn, onDeletePost, onCityChange,
-  onDisableAppend, onGetPostList, onLocationChange, onAppendList, onClearDeleteFeedback} from 'redux/modules/posts';
+import {isLoaded, onOpenDialog, onCloseDialog , onSetColumn, onDeletePost,
+  onDisableAppend, onGetPostList, onLocationChange, onAppendList,
+  onClearDeleteFeedback, onGetMyPost} from 'redux/modules/posts';
 import {onStartEdit} from 'redux/modules/post'
 import {connect} from 'react-redux';
 import postValidation from './postValidation'
@@ -21,12 +22,23 @@ import cityList from '../../constant/cityList'
 import strings from '../../constant/strings'
 
 function fetchDataDeferred(getState, dispatch) {
-  console.log('is loaded is', isLoaded(getState()))
-  if (!isLoaded(getState())) {
+  var globalState = getState()
+  var user = globalState.auth.user
+  const promises = [];
+  console.log('is loaded is', isLoaded(globalState))
+  if (!isLoaded(globalState)) {
     console.log('should ge list now')
     //console.log("after load we get state:", getState().router)
-    return dispatch(onGetPostList(null, cityList));
+    if(user && user._id) {
+      promises.push(
+        dispatch(onGetMyPost(user._id))
+      );
+    }
+    promises.push(
+      dispatch(onGetPostList(null, cityList, user))
+    )
   }
+  return Promise.all(promises);
 }
 
 @connectData(null, fetchDataDeferred)
@@ -34,8 +46,8 @@ function fetchDataDeferred(getState, dispatch) {
 @connect(
   state => ({
     posts: state.posts.list,
+    myPost : state.posts.myPost,
     popover : state.posts.popover,
-    toDelete : state.posts.toDelete,
     column : state.posts.column,
     error: state.posts.error,
     loading: state.posts.loading,
@@ -46,14 +58,14 @@ function fetchDataDeferred(getState, dispatch) {
 
     user: state.auth.user,
   }),
-  {onOpenDialog, onCloseDialog, onStartEdit, onSetColumn, onCityChange, onDeletePost,
+  {onOpenDialog, onCloseDialog, onStartEdit, onSetColumn, onDeletePost,
     onDisableAppend, onGetPostList, onLocationChange, onAppendList, onClearDeleteFeedback}
 )
 export default class List extends Component {
   static propTypes = {
     posts : PropTypes.array,
     popover : PropTypes.bool,
-    toDelete : PropTypes.object,
+    myPost : PropTypes.object,
     column : PropTypes.number,
     error: PropTypes.string,
     isEnd : PropTypes.bool,
@@ -68,7 +80,6 @@ export default class List extends Component {
     onCloseDialog : PropTypes.func.isRequired,
     onStartEdit :PropTypes.func.isRequired,
     onSetColumn : PropTypes.func.isRequired,
-    onCityChange : PropTypes.func.isRequired,
     onDeletePost: PropTypes.func.isRequired,
 
     onDisableAppend : PropTypes.func.isRequired,
@@ -116,7 +127,7 @@ export default class List extends Component {
       if(!this.props.loading && !this.props.isEnd){
         this.props.onDisableAppend();
         //console.log('now appending to list')
-        this.props.onAppendList(this.props.locationId, cityList, this.props.posts.length);
+        this.props.onAppendList(this.props.locationId, cityList, this.props.posts.length, this.props.user._id);
       }
     }
   }
@@ -133,11 +144,13 @@ export default class List extends Component {
     const marginPercentage = margin.toString() + "%"
     var tileWidth = (Math.floor(100 / this.props.column) - margin * 2).toString() + "%";
     const styles = require('./Posts.scss');
-    const {onDeletePost, onOpenDialog, onCloseDialog, toDelete, loading, deleteFeedback,
+    const {onDeletePost, onOpenDialog, onCloseDialog, loading, deleteFeedback,
       onStartEdit, locationId, error} = this.props;
     const {posts, user} = this.props;
 
-    const onCityChange =(value)=>{
+    const onCityChange =(selectObject)=>{
+      console.log("select object is", selectObject)
+      var value = selectObject !== null ? selectObject.value : null ;
       if(value === ""){
         value = null
       }
@@ -146,26 +159,20 @@ export default class List extends Component {
       if(this.props.locationId != value){
         this.props.onLocationChange(value);
         //console.log('now the value of select is',value)
-        this.props.onGetPostList(value, cityList)
+        this.props.onGetPostList(value, cityList, this.props.user)
       }
     }
 
     const deletePost = (event) => {
       onCloseDialog(event);
-      if(toDelete){
-        onDeletePost(this.props.user._id, toDelete.post._id, toDelete.index)
-      }
+      onDeletePost(this.props.user._id, this.props.myPost._id)
     }
 
     const onEditButton =() => {
       this.props.onStartEdit();
     }
 
-    const saveIndex = (post, index, event) => {
-      onOpenDialog(post, index)
-    }
-
-    const renderIcon = (post, index) => {
+    const renderIcon = (post) => {
       const iconStyle = {"color" : "black"}
       if(this.props.user && post.owner === this.props.user._id){
         return(
@@ -173,7 +180,7 @@ export default class List extends Component {
             <LinkContainer to={`/posts/${post._id}`}>
               <IconButton iconClassName="fa fa-pencil" onClick={onEditButton} iconStyle={iconStyle}/>
             </LinkContainer>
-            <IconButton iconClassName="fa fa-trash" onClick={saveIndex.bind(this, post, index)} iconStyle={iconStyle}/>
+            <IconButton iconClassName="fa fa-trash" onClick={onOpenDialog} iconStyle={iconStyle}/>
           </span>
         )
       }else{
@@ -183,29 +190,31 @@ export default class List extends Component {
 
     const renderAddTile = () => {
 
-      return <GridTile
-        className={styles.tile}
-        key={this.props.user ? user._id : "newPost"}
-        style={{
+      return this.props.myPost == null ?
+        <GridTile
+          className={styles.tile}
+          key={this.props.user ? user._id : "newPost"}
+          style={{
                 "display" : "flex", "alignItems":"center", "justifyContent": "center",
                height: "300px", width : tileWidth, margin : marginPercentage}}
-      >
-        <LinkContainer to={'/submitPost'}>
-          <div className={styles.addPost}>
-            <div className={styles.addFont}>
-              <i className="fa fa-5x fa-plus-circle"/>
+        >
+          <LinkContainer to={'/submitPost'}>
+            <div className={styles.addPost}>
+              <div className={styles.addFont}>
+                <i className="fa fa-5x fa-plus-circle"/>
+              </div>
+              <div>{strings.addPostHint}</div>
             </div>
-            <div>{strings.addPostHint}</div>
-          </div>
-        </LinkContainer>
-      </GridTile>
+          </LinkContainer>
+        </GridTile>
+        : renderPost(this.props.myPost, true)
     }
 
     const renderClassName =(post) => {
-      return post.images.length > 0 ? "fa fa-2x fa-picture-o" + styles.blue : "fa fa-2x fa-picture-o "
+      return post.images.length > 0 ? "fa fa-2x fa-picture-o " + styles.blue : "fa fa-2x fa-picture-o"
     }
 
-    const renderPost = (post, index)=> {
+    const renderPost = (post, isMyPost)=> {
       return <GridTile
         className={styles.tile}
         key={post._id}
@@ -226,7 +235,6 @@ export default class List extends Component {
             </div>
           </div>
         </LinkContainer>
-        <LinkContainer to={`/posts/${post._id}`}>
         <div className={styles.title}>
           <div className={styles.titleText}>
             <div className={styles.main}>
@@ -235,10 +243,9 @@ export default class List extends Component {
             <div className={styles.sub}>in {post.city}</div>
           </div>
           <div className={styles.titleIcon}>
-            {renderIcon(post, index)}
+            {isMyPost && renderIcon(post)}
           </div>
         </div>
-        </LinkContainer>
       </GridTile>
     }
 
@@ -252,18 +259,21 @@ export default class List extends Component {
             <Select
               name="selectPostCity"
               options={cityList}
-              value={locationId === null ? "" : cityList[locationId].label}
+              value={locationId === null ? "" : cityList[locationId].value}
               onChange={onCityChange}
-              noResultsText={strings.selectNoResults}
-              placeholder={strings.selectPlaceholder}
+              noResultsText={strings.selectNoResultsPost}
+              placeholder={strings.selectPlaceholderPost}
             />
           </div>
         </div>
         <div className={styles.myList}>
-          {renderAddTile()}
-          {posts.map((post, index) => (
-            renderPost(post, index)
-          ))
+          { this.props.user && renderAddTile()}
+          { posts.length ? posts.map((post, index) => (
+            renderPost(post, false)
+          )) :
+            <div className={styles.noPost}>
+              {strings.noPost}
+            </div>
           }
         </div>
 

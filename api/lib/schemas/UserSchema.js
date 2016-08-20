@@ -39,6 +39,7 @@ module.exports =  function(Schema, collectionName){
     email : {type:String, required:true, index : {unique: true}, validator : emailValidator},
     username: { type: String, required: true, index: { unique: true } , validate: nameValidator},
     password: { type: String, required: true, validate: nameValidator },
+    starList : {type : Array},
   },{ strict : true, collection : collectionName, timestamps: true});
 
   UserSchema.pre('save', function(next) {

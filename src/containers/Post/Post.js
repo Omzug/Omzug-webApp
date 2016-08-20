@@ -77,6 +77,8 @@ export default class Post extends Component {
     data.images = this.props.post.images
     // here we define a _id for update in database
     data._id = this.props.postId
+    data.owner = this.props.post.owner
+    data.username = this.props.post.username
 
     //TODO complete the post here
     const images = this.props.cachedImages

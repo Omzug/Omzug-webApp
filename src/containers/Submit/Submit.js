@@ -62,8 +62,8 @@ export default class Submit extends Component{
     data.username = this.props.user.username
     const images = this.props.cachedImages
     this.props.onSubmitNew(data, images);
-    console.log("submit now with data:" , data)
-    console.log("submit now with images:", images )
+    console.log("submit new post with data:" , data)
+    console.log("submit new post with images:", images )
     //this.props.initialize('register', {})
     //window.alert('Data submitted! ' + JSON.stringify(data));
   }

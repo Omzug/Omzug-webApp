@@ -23,19 +23,34 @@
   align-items: center;
   .textHint{
     font-size: 20px;
-    }
+  }
   .raisedButton{
     margin-top: 30px;
     margin-bottom: 250px;
   }
-
-
 
   //margin-left: 70px;
   //font-size: 20px;
   //margin-top: 90px;
   //padding-top: 20px;
   //margin-bottom: 440px;
+}
+
+.upArrowContainer{
+  display: none;
+  cursor: pointer;
+  position: fixed;
+  bottom: 40px;
+  right: 15px;
+  z-index: 10;
+  .upArrow{
+    padding: 7px;
+    color: black;
+    box-shadow:  0px 4px 12px 0px rgba(162,162,162,0.50);
+    border-radius: 50%;
+    background-color: #fafafa;
+    opacity: 0.6;
+  }
 }
 
 @include max-screen(840px){

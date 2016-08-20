@@ -19,7 +19,7 @@ module.exports = {
   pageSize : 9,
   awsFolder : "photos",
   awsPostFolder : "posts",
-  awsExpire : 60,
+  awsExpire : 360,
   awsBucket : awsBucketName,
   awsPostPrefix : 'https://s3.eu-central-1.amazonaws.com/' + awsBucketName + '/posts/',
   awsPrefix : 'https://s3.eu-central-1.amazonaws.com/' + awsBucketName + '/photos/',
@@ -27,6 +27,8 @@ module.exports = {
   googleMapKey : 'AIzaSyA7ZTgeyDPxcVEjsa6IuTH41k__n954cU4',
 
   errors : {
+    LackParameterError : 'LackParameterError : Request does not have enough parameter',
+    WrongRequestError : 'WrongRequestError : Request parameter does not qualified',
     SchemaCannotFind : 'SchemaCannotFind: schema can not be find, please check again:',
     DataBaseFailed : 'DataBaseFailed: database meet error:',
     AuthFailed : 'Authentication Error:',

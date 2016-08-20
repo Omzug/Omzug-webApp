@@ -47,11 +47,13 @@ export default function submit(req, params) {
 
     var steps = [
       parseRequest,
+      checkPosted,
       compareImages,
       deleteImages,
       uploadImage,
       deleteLocalTemp,
       updateDatabase,
+      updateUser,
     ]
 
     function parseRequest(callback) {
@@ -75,6 +77,19 @@ export default function submit(req, params) {
           }
           callback(null, post, filesArray)
         }
+      })
+    }
+
+    function checkPosted( post,files, callback){
+      if(params.length > 0)
+        return callback(null, post, files)
+
+      DB.get('post', {owner : createId(post.owner)}, function (result) {
+        callback({msg : "each user only have one post"})
+      }, function (err) {
+        if(err.type == 1)
+          return callback(null, post, files)
+        callback(err)
       })
     }
 
@@ -189,6 +204,17 @@ export default function submit(req, params) {
         })
       }
 
+    }
+
+    function updateUser(result, callback){
+      var userId = post.owner;
+      DB.update('user', {_id : createId(userId)}, {$set : { posted : true}}, function(queryResult){
+        req.session.user.posted = true;
+        logger.trace('session information now changed: ', req.session.user)
+        callback(null, result)
+      }, function(err){
+        callback(err)
+      })
     }
 
     async.waterfall(steps, function(err, result){

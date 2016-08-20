@@ -15,13 +15,13 @@
   position: fixed;
   width:100%;
   z-index: 5;
-  margin-top: -20px;
-  padding-bottom: 10px;
+  margin-top: -70px;
+  padding: 20px 0;
   background-color: white;
   display: flex;
   flex-direction: row;
   justify-content: center;
-  align-items: flex-end;
+  align-items: center;
   flex-wrap: wrap;
 }
 
@@ -122,6 +122,13 @@
   flex-direction: row;
   flex-wrap: wrap;
 }
+.noPost{
+  height : 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width : 100%;
+}
 .tile{
   border : 1px solid lightgrey;
   //box-shadow: 0px 1px 6px 2px rgba(225,225,225,0.50);
@@ -201,24 +208,7 @@
   color: white;
 }
 
-@include max-screen(820px){
-  .posts {
-    .loading {
-      padding-top: 50px;
-    }
-    .listNav {
-      margin-top: 20px;
-      .refreshButton {
-
-      }
-    }
-    .listNavBeforeLogin {
-
-    }
-  }
-}
-
-@include max-screen(768px){
+@include max-screen(840px){
   .posts {
     margin-top: 80px;
     .listNav {

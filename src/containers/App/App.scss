@@ -69,9 +69,13 @@
       justify-content: center;
       height:$size;
       line-height: $size;
-      margin: 0 10px;
-      font-size: medium;
+      //margin: 0 10px;
+      //font-size: medium;
       text-align: right;
+      //important !!
+      div{
+        line-height: $size;
+      }
       .links{
         font-size: 14px;
         margin : 0 5px;
@@ -109,7 +113,7 @@
   padding-right: 40px;
 }
 
-@include max-screen(768px){
+@include max-screen(840px){
   .app{
     .navbar{
       position:static;
@@ -147,12 +151,13 @@
           display: flex;
           flex-direction: row;
           justify-content: center;
-          width:100%;
         }
       }
       .right{
-        float:none;
-        width:100%;
+        width : 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
         //margin-top: 60px;
         .welcome{
           display:none;
@@ -170,7 +175,7 @@
 
 }
 
-@include screen(768px, 820px){
+@include screen(840px, 980px){
   .app {
     .navbar {
       .right{

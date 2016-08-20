@@ -23,3 +23,14 @@ export function mapUrl(availableActions = {}, url = []) {
 
   return (typeof actionAndParams.action === 'function') ? actionAndParams : notFound;
 }
+
+export function filterPassword (sessionObject){
+  for(var property in sessionObject){
+    if(sessionObject.hasOwnProperty(property)){
+      if(property == "password"){
+        delete sessionObject.password
+      }
+    }
+  }
+  return sessionObject
+}

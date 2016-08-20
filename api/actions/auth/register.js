@@ -21,6 +21,7 @@ export default function register(req) {
 
     const email = req.body.email
     const username = req.body.username
+    req.body.starList = []
 
     const steps = [
       //checking register email.

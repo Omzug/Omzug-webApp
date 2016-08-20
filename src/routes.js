@@ -1,6 +1,6 @@
 import React from 'react';
 import {IndexRoute, Route} from 'react-router';
-import {pushState} from 'redux-router'
+import {push} from 'redux-router'
 import { isLoaded as isAuthLoaded, load as loadAuth } from 'redux/modules/auth';
 import {onClearLoadError, onClear as clearEntity} from 'redux/modules/entity'
 import {onClearLoadError as clearPostLoadError, onClear as clearPost} from 'redux/modules/post';
@@ -21,15 +21,16 @@ import {
     Submit,
     SubmitPost,
     UserAdmin,
+    UserFavorite,
   } from 'containers';
 
 export default (store) => {
-  const requireLogin = (nextState, replaceState, cb) => {
+  const requireLogin = (nextState, replace, cb) => {
     function checkAuth() {
       const { auth: { user }} = store.getState();
       if (!user) {
         // oops, not logged in, so can't be here!
-        replaceState(null, '/');
+        replace('/');
       }
       cb();
     }
@@ -41,12 +42,29 @@ export default (store) => {
     }
   };
 
-  const checkUser = (nextState, replaceState, cb) => {
+  const requireLogout = (nextState, replace, cb) => {
     function checkAuth() {
       const { auth: { user }} = store.getState();
       if (user) {
         // oops, not logged in, so can't be here!
-        replaceState(null, '/main');
+        replace('/main');
+      }
+      cb();
+    }
+
+    if (!isAuthLoaded(store.getState())) {
+      store.dispatch(loadAuth()).then(checkAuth);
+    } else {
+      checkAuth();
+    }
+  };
+
+  const checkUser = (nextState, replace, cb) => {
+    function checkAuth() {
+      const { auth: { user }} = store.getState();
+      if (user) {
+        // oops, not logged in, so can't be here!
+        replace('/main');
       }
       cb();
     }
@@ -58,13 +76,13 @@ export default (store) => {
     }
   }
 
-  const requireDev = (nextState, replaceState, cb) => {
+  const requireDev = (nextState, replace, cb) => {
     if(config.isDebug){
       cb()
     }
   }
 
-  const logNextState = (nextState, replaceState, cb) => {
+  const logNextState = (nextState, replace, cb) => {
     const entityNow = store.getState().entity;
     const postNow = store.getState().post;
 
@@ -84,8 +102,9 @@ export default (store) => {
     if(postNow.loadError){
       store.dispatch(clearPostLoadError())
     }
-    if(postNow.loaded && postNow.postId !== nextState.params.postId) {
-      //console.log('post should be cleared')
+    if(postNow.loaded && postNow.loadedId !== nextState.params.postId) {
+      //console.log('now post is', postNow, 'next state params are', nextState.params)
+      console.log('post should be cleared')
       store.dispatch(clearPost())
     }
     //console.log('should not be cleared, keep old')
@@ -108,6 +127,7 @@ export default (store) => {
         <Route path="loginSuccess" component={LoginSuccess}/>
         <Route path="submit" component={Submit}/>
         <Route path="admin" component={UserAdmin}/>
+        <Route path="favorite" component={UserFavorite}/>
         <Route path="submitPost" component={SubmitPost}/>
       </Route>
 
@@ -117,8 +137,11 @@ export default (store) => {
       <Route path="entities/:entityId" component={Entity} onEnter={logNextState}/>
       <Route path="main" component={Entities}/>
       <Route path="about" component={About}/>
-      <Route path="login" component={Login}/>
-      <Route path="register" component={Register}/>
+
+      <Route onEnter={requireLogout}>
+        <Route path="login" component={Login}/>
+        <Route path="register" component={Register}/>
+      </Route>
 
 
       { /* Catch all route */ }

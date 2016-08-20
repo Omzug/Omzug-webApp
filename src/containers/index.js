@@ -13,3 +13,4 @@ export UserAdmin from './UserAdmin/UserAdmin';
 export Post from './Post/Post';
 export Posts from './Posts/Posts';
 export SubmitPost from './SubmitPost/SubmitPost';
+export UserFavorite from './UserFavorite/UserFavorite';

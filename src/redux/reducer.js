@@ -12,6 +12,7 @@ import admin from './modules/admin'
 import error from './modules/error'
 import posts from './modules/posts'
 import post from './modules/post'
+import favorite from './modules/favorite'
 
 export default combineReducers({
   router: routerStateReducer,
@@ -25,4 +26,5 @@ export default combineReducers({
   error,
   post,
   posts,
+  favorite,
 });
