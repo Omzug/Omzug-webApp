@@ -19,7 +19,7 @@ module.exports = {
   pageSize : 9,
   awsFolder : "photos",
   awsPostFolder : "posts",
-  awsExpire : 60,
+  awsExpire : 360,
   awsBucket : awsBucketName,
   awsPostPrefix : 'https://s3.eu-central-1.amazonaws.com/' + awsBucketName + '/posts/',
   awsPrefix : 'https://s3.eu-central-1.amazonaws.com/' + awsBucketName + '/photos/',

@@ -191,7 +191,7 @@ function processCityList(cityList){
 }
 
 export function onGetPostList(cityIndex, cityList, user){
-  var userId = user != null ? user : null
+  var userId = user != null ? user._id : null
   var city = null
   if(cityIndex !== null) {
     city = cityList[cityIndex].label;
