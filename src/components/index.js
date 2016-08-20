@@ -16,3 +16,4 @@ export List from './List/List';
 export Map from './Map/Map'
 export PostForm from './PostForm/PostForm';
 export PostTemplate from './PostTemplate/PostTemplate';
+export MyEditor from './Editor/Editor';
