@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import Helmet from 'react-helmet';
 import imageAddress from '../../constant/imageAddress';
+import strings from '../../constant/strings';
 
 export default class About extends Component {
 
@@ -17,24 +18,22 @@ export default class About extends Component {
           <Helmet title="关于我们"/>
           <div className={styles.text}>
             <div>
-              <p className={styles.cnText}>Omzug由来自斯图加特大学和柏林白湖艺术学院的学生于2016年在德国柏林创建。
-                网站名字来源于德文"搬家"这个单词"Umzug".
+              <p className={styles.cnText}>我们是在柏林的程序员和设计师, 有感于留学生在德国租房的艰难, 工作之余制作了这个网站,
               </p>
             </div>
             <div>
-               <p className={styles.cnText}> 更多的功能正在开发中,尽请期待。</p>
+               <p className={styles.cnText}></p>
             </div>
             <div className={styles.enText}>
               <p>
-              Omzug is a web application created in 2016 by students from Uni Stuttgart
-              and Kunsthochschule Berlin-Weissensee.
+              Omzug is a web application created in 2016 by a Software Engineer and a Designer.
               It aims to provide a renting platform for Chinese students in Germany.
             </p>
             </div>
-            <div>
-              <img className={styles.berlin} src={imageAddress.berlinImage}/>
-            </div>
           </div>
+        <div className={styles.imageContainer}>
+          <img className={styles.berlin} src={imageAddress.berlinImage}/>
+        </div>
       </div>
 
     );
