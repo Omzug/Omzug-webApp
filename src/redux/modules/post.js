@@ -5,6 +5,7 @@
 var update = require('react-addons-update');
 import {validateImage} from '../../utils/validation';
 import strings from '../../constant/strings';
+import {EditorState} from 'draft-js';
 var config = require('../../config');
 
 const LOAD = 'omzug/post/LOAD';
@@ -31,7 +32,10 @@ const CHANGE_TYPE = "omzug/post/CHANGE_TYPE";
 const CHANGE_PRICE_TYPE = "omzug/post/CHANGE_PRICE_TYPE";
 const SUBMIT_NEW_FAIL = "omzug/post/SUBMIT_NEW_FAIL";
 const CLEAR_LOAD_ERROR = "omzug/post/CLEAR_LOAD_ERROR"
+const SET_EDITOR_STATE = "omzug/post/SET_EDITOR_STATE"
 
+const initEditorState = EditorState.createEmpty()
+console.log("======create new", initEditorState.getCurrentContent)
 const initState = {
   loaded: false,
   loadError: null,
@@ -54,6 +58,7 @@ const initState = {
     email : null,
     phone : null,
   },
+  editorState : initEditorState,
   hasLimit : false,
   cachedImages:[],
   currentSlide: 0,
@@ -233,6 +238,12 @@ export default function reducer(state = initState, action){
         ...state,
         loadError : null,
       }
+    case SET_EDITOR_STATE:
+      console.log("change state in post,", action.state)
+          return {
+            ...state,
+            editorState : action.state
+          }
     default :
       return state;
   }
@@ -422,4 +433,11 @@ export function onLoad(number){
       return client.get(url)
     } // params not used, just shown as demonstration
   };
+}
+
+export function setEditorState(editorState){
+  return {
+    type : SET_EDITOR_STATE,
+    state : editorState
+  }
 }

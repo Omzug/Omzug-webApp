@@ -127,6 +127,7 @@
     "react-redux": "^4.4.5",
     "react-router": "2.6.1",
     "react-router-bootstrap": "^0.23.1",
+    "react-rte": "^0.5.0",
     "react-select": "^1.0.0-beta14",
     "react-tap-event-plugin": "^1.0.0",
     "react-tween-state": "^0.1.5",

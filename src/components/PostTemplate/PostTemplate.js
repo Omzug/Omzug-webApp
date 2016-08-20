@@ -4,7 +4,7 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import uiStyles from '../../theme/uiStyles';
-import {onContactOpen, onContactClose, onStartEdit} from "redux/modules/post";
+import {onContactOpen, onContactClose, onStartEdit, setEditorState} from "redux/modules/post";
 import {onSetError} from 'redux/modules/error';
 import {Carousel} from 'components';
 import {RaisedButton, FlatButton, FontIcon, Paper, Dialog, Card, CardActions,
@@ -12,15 +12,18 @@ import {RaisedButton, FlatButton, FontIcon, Paper, Dialog, Card, CardActions,
 import strings from '../../constant/strings';
 var config = require('../../config');
 
+import {Editor, EditorState} from 'draft-js';
+
 @connect(
   state => ({
     post: state.post.data,
+    editorState : state.post.editorState,
     contactOpen : state.post.contactOpen,
     cachedImages : state.post.cachedImages,
     user : state.auth.user,
     searchValue : state.post.searchValue,
   }),
-  {onContactOpen, onContactClose, onStartEdit, onSetError}
+  {onContactOpen, onContactClose, onStartEdit, onSetError, setEditorState}
 )
 export default class PostTemplate extends Component {
   static propTypes = {
@@ -29,11 +32,13 @@ export default class PostTemplate extends Component {
     cachedImages: PropTypes.array,
     user : PropTypes.object,
     searchValue :PropTypes.string,
+    editorState : PropTypes.object,
 
     onSetError : PropTypes.func.isRequired,
     onContactOpen : PropTypes.func.isRequired,
     onContactClose : PropTypes.func.isRequired,
     onStartEdit : PropTypes.func.isRequired,
+    setEditorState : PropTypes.func.isRequired,
 
     nextSlide :PropTypes.func,
     previousSlide : PropTypes.func,
@@ -42,6 +47,7 @@ export default class PostTemplate extends Component {
   render() {
     const styles = require('./PostTemplate.scss');
     const {post, contactOpen, cachedImages, user, searchValue} = this.props;
+    console.log("====init editor state", EditorState.createEmpty(), " and " , this.props.editorState.getCurrentContent)
 
     var Decorators = [
       {component: React.createClass({render() {
@@ -147,6 +153,10 @@ export default class PostTemplate extends Component {
               className="fa fa-pencil"/> 编辑</RaisedButton>
             }
           </div>
+        </div>
+
+        <div className={styles.editor}>
+        <Editor editorState={this.props.editorState} onChange={this.props.setEditorState}/>
         </div>
 
         <div className={styles.dialog}>
