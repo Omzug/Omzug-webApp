@@ -4,7 +4,7 @@
 
 export default {
   inputStyle : {width: "100%"},
-  fullHeightButton : {height : "100%"},
+  fullHeightButton : {height : "100%", minWidth : "80px"},
   buttonStyle : {height: "50px", "lineHeight": "50px", width:"60px", margin:"30px"},
   buttonStyleGetStarted : {height: "50px", "lineHeight": "50px", width:"160px", margin:"30px",textAlign:"center",borderRadius:"10px"},
   buttonStyleEdit : {marginTop:"-27px",marginLeft:"-6px",height: "50px", "lineHeight": "50px", width:"60px"},
