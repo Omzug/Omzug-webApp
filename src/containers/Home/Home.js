@@ -10,7 +10,7 @@ import strings from '../../constant/strings';
 export default class Home extends Component {
   componentDidMount(){
     const config0 = {
-      origin: 'left',
+      origin: 'bottom',
       duration: 1000,
       delay: 300,
       opacity : 0.0,
@@ -20,7 +20,7 @@ export default class Home extends Component {
     }
 
     const config1 = {
-      origin: 'right',
+      origin: 'bottom',
       duration: 1000,
       delay: 300,
       distance: '20px',
