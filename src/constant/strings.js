@@ -28,7 +28,7 @@ const strings = {
   noUserFavorite : "Ooops! 您还没有添加任何收藏。",
   introduction0 : "德国留学生自己的租房平台",
   introductionEn: "A convenient renting platform for Chinese student in Germany.",
-  introduction1 : "一切以实用性出发,解决大家身边的难题",
+  introduction1 : "有感于德国租房的困难, 一切从实用性出发,解决大家的租房难题",
   introduction2 : "采用最新的互联网技术,从零开始搭建,打造一个纯净、简单、易用的信息平台。",
   //aboutCN: 'Omzug由来自斯图加特大学和柏林白湖艺术学院的学生于2016年在德国柏林创建。网站名字来源于德文"搬家"这个单词"Umzug".',
 }
