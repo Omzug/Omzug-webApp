@@ -18,7 +18,7 @@ export default class About extends Component {
           <Helmet title="关于我们"/>
           <div className={styles.text}>
             <div>
-              <p className={styles.cnText}>我们是在柏林的程序员和设计师, 有感于留学生在德国租房的艰难, 工作之余制作了这个网站,
+              <p className={styles.cnText}>我们是在柏林的程序员和设计师, 有感于留学生在德国租房的艰难, 工作之余制作了这个网站, 希望可以帮到大家
               </p>
             </div>
             <div>
