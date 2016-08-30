@@ -145,7 +145,7 @@ export default class SubmitForm extends Component {
       if(value === ""){
         return city.onChange(null)
       }
-      city.onChange(value !== null ? selectObject.label : null) 
+      city.onChange(value !== null ? selectObject.label : null)
     }
 
     const inputStyle = { width : "250px"}
@@ -184,7 +184,7 @@ export default class SubmitForm extends Component {
                       framePadding="50px" width="100%" slidesToShow={1}
                       onChange={this.props.onChangeSlide}>
               {entity.images && entity.images.length >= 1 && entity.images.map( address =><div className={styles.imageContainer} key={address + "show"}><img src={address}/></div>)}
-              {cachedImages && cachedImages.length >= 1 && cachedImages.map(file => <div className={styles.imageContainer} key={address + "cache"}><img src={window.URL.createObjectURL(file)}/></div>)}
+              {cachedImages && cachedImages.length >= 1 && cachedImages.map(file => <div className={styles.imageContainer} key={file.name + "cache"}><img src={window.URL.createObjectURL(file)}/></div>)}
               {this.calculateNumber() < config.limitImageNumber &&
                 <div className={styles.imageContainer}>
                   <DropZone onDrop={this.onDrop}>
@@ -213,7 +213,7 @@ export default class SubmitForm extends Component {
         <div className={styles.list}>
           <div className={styles.innerList}>
             <div className={styles.rowContainerCity}>
-              <div className={styles.city}><i className="fa fa-location-arrow"/> 城市 :</div>
+              <div className={styles.city}><i className="fa fa-location-arrow"/> 城市 </div>
               <Select
                 className={styles.select}
                 name="selectPostCity"
@@ -227,22 +227,22 @@ export default class SubmitForm extends Component {
             </div>
 
             <div className={styles.rowContainer}>
-              <div className={styles.rowTitle}><i className="fa fa-map-marker"/> 地址 :</div>
+              <div className={styles.rowTitle}><i className="fa fa-map-marker"/> 地址 </div>
               <div><TextField key={20} style={inputStyle} errorText={location.touched && location.error ? location.error : null} {...location}/></div>
             </div>
 
             <div className={styles.rowContainer}>
-              <div className={styles.rowTitle}><i className="fa fa-square"/> 面积 :</div>
+              <div className={styles.rowTitle}><i className="fa fa-square"/> 面积 </div>
               <div><TextField key={40} style={inputStyle} errorText={size.touched && size.error ? size.error : null} {...size}/></div>
             </div>
 
             <div className={styles.rowContainer}>
-              <div className={styles.rowTitle}><i className="fa fa-eur"/> 租金 :</div>
+              <div className={styles.rowTitle}><i className="fa fa-eur"/> 租金 </div>
               <div><TextField key={50} style={inputStyle} errorText={price.touched && price.error ? price.error : null} {...price}/></div>
             </div>
 
             <div className={styles.rowContainer}>
-              <div className={styles.rowTitle}><i className="fa fa-lock"/> 押金 :</div>
+              <div className={styles.rowTitle}><i className="fa fa-lock"/> 押金 </div>
               <div><TextField key={60} style={inputStyle} errorText={caution.touched && caution.error ? caution.error : null} {...caution}/></div>
             </div>
 
@@ -313,15 +313,15 @@ export default class SubmitForm extends Component {
               </div>
             </div>
             <div className={styles.rowContainer + " " + styles.buttonGroup}>
-              <div className={styles.rowTitle}><i className="fa fa-envelope"/> 邮箱 :</div>
+              <div className={styles.rowTitle}><i className="fa fa-envelope"/> 邮箱 </div>
               <div><TextField key={110} style={inputStyle} errorText={email.touched && email.error ? email.error : null} {...email}/></div>
             </div>
             <div className={styles.rowContainer}>
-              <div className={styles.rowTitle}><i className="fa fa-phone"/> 手机 :</div>
+              <div className={styles.rowTitle}><i className="fa fa-phone"/> 手机 </div>
               <div><TextField key={120} style={inputStyle} errorText={phone.touched && phone.error ? phone.error : null} {...phone}/></div>
             </div>
             <div className={styles.rowContainer}>
-              <div className={styles.rowTitle}><i className="fa fa-wechat"/> 微信 :</div>
+              <div className={styles.rowTitle}><i className="fa fa-wechat"/> 微信 </div>
               <div><TextField key={130} style={inputStyle} errorText={wechat.touched && wechat.error ? wechat.error : null} {...wechat}/></div>
             </div>
             <div className={styles.submit}>
