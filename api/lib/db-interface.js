@@ -5,7 +5,6 @@ var mongoModel = require('./model.js')
 var createId = mongoModel.createId
 const config = require('./config.js')
 const async = require('async')
-const aws = require('./aws')
 const googleMap = require('./googleMap');
 const Errors = config.errors;
 const LOGTITLE = '[DB] ';
