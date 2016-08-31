@@ -33,8 +33,8 @@ var proxy, targetUrl;
 
 if(process.env.NODE_ENV === "production"){
   targetUrl =  config.apiHost + ':' + config.apiPort; //maybe not add to it
-  var keypath  = path.join(__dirname, '..', '..', 'aws', 'omzug.pem')
-  var certPath = path.join(__dirname, '..', '..', 'aws', 'omzug.pem')
+  var keypath  = path.join(__dirname, '..', '..', 'aws', 'omzugssh.pem')
+  var certPath = path.join(__dirname, '..', '..', 'aws', 'server.crt')
   proxy = httpProxy.createProxyServer({
     target: targetUrl,
     ws: true,
