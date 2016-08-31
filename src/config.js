@@ -14,6 +14,7 @@ module.exports = Object.assign({
   host: process.env.HOST || 'localhost',
   port: process.env.PORT,
   apiHost: process.env.APIHOST || 'http://localhost',
+  apiPort: process.env.APIPORT ,
   googleMapKey : 'AIzaSyC4gQqD5iZsmbmknKIYR42sTfjcd8pl4aw',
   limitImageNumber : 5,
   limitImageSize : 5,

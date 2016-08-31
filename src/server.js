@@ -36,8 +36,8 @@ if(process.env.NODE_ENV === "production"){
     target: targetUrl,
     ws: true,
     ssl: {
-      key: fs.readFileSync('~/aws/omzugssh.pem', 'utf8'),
-      cert: fs.readFileSync('~/aws/server.crt', 'utf8')
+      key: fs.readFileSync('../../aws/omzugssh.pem', 'utf8'),
+      cert: fs.readFileSync('../../aws/server.crt', 'utf8')
     },
     secure: true
   });
