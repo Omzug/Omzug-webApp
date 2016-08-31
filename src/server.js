@@ -30,14 +30,17 @@ const app = new Express();
 const server = new http.Server(app);
 
 var proxy, targetUrl;
+
 if(process.env.NODE_ENV === "production"){
   targetUrl =  config.apiHost + ':' + config.apiPort; //maybe not add to it
+  var keypath  = path.join(__dirname, '..', '..', 'aws', 'omzug.pem')
+  var certPath = path.join(__dirname, '..', '..', 'aws', 'omzug.pem')
   proxy = httpProxy.createProxyServer({
     target: targetUrl,
     ws: true,
     ssl: {
-      key: fs.readFileSync('../../aws/omzugssh.pem', 'utf8'),
-      cert: fs.readFileSync('../../aws/server.crt', 'utf8')
+      key: fs.readFileSync(keypath, 'utf8'),
+      cert: fs.readFileSync(certPath, 'utf8')
     },
     secure: true
   });
