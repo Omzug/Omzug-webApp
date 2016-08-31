@@ -58,6 +58,7 @@ export default function submit(req, params) {
 
     var steps = [
       parseRequest,
+      validateUser,
       calculateLocation,
       compareImages,
       deleteImages,
@@ -88,6 +89,12 @@ export default function submit(req, params) {
           callback(null, house, filesArray)
         }
       })
+    }
+
+
+    //need validate user function
+    function validateUser(house, filesArray, callback){
+      callback(null, house, filesArray)
     }
 
     function calculateLocation(house, files, callback){

@@ -15,6 +15,7 @@ import ApiClient from './helpers/ApiClient';
 import Html from './helpers/Html';
 import PrettyError from 'pretty-error';
 import http from 'http';
+import https from 'https';
 
 import {ReduxRouter} from 'redux-router';
 import createHistory from 'history/lib/createMemoryHistory';
@@ -27,7 +28,17 @@ import getStatusFromRoutes from './helpers/getStatusFromRoutes';
 const targetUrl = 'http://' + config.apiHost + ':' + config.apiPort;
 const pretty = new PrettyError();
 const app = new Express();
-const server = new http.Server(app);
+
+var keypath  = path.join(__dirname, '..', '..', 'aws', 'omzugssh.pem')
+var certPath = path.join(__dirname, '..', '..', 'aws', 'server.crt')
+
+const server = https.createServer({
+  key: fs.readFileSync(keypath),
+  cert: fs.readFileSync(certPath)
+}, app);
+
+
+
 const proxy = httpProxy.createProxyServer({
   target: targetUrl,
   ws: true
