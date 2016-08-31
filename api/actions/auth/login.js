@@ -12,12 +12,13 @@ export default function login(req) {
    * }
    */
   return new Promise((resolve, reject)=>{
+    console.log("password is", req.body.password)
     DB.userLogin(req.body.email, req.body.password,
       function(data){
         req.session.user = data.data;
         logger.trace('the user session information is', req.session)
         // data is the message
-        return resolve(filterPassword(data.data._doc));
+        return resolve(data.data);
       },
       function(err){
         req.session.user = "";

@@ -45,7 +45,8 @@
         "NODE_PATH": "./src",
         "NODE_ENV": "production",
         "PORT": 8080,
-        "APIPORT": 3030
+        "APIHOST" : "https://localhost",
+        "APIPORT": 443
       }
     },
     "start-prod-api": {
@@ -53,7 +54,8 @@
       "env": {
         "NODE_PATH": "./api",
         "NODE_ENV": "production",
-        "APIPORT": 3030
+        "APIHOST" : "https://localhost",
+        "APIPORT": 443
       }
     },
     "start-dev": {
@@ -61,6 +63,7 @@
       "env": {
         "NODE_PATH": "./src",
         "NODE_ENV": "development",
+        "APIHOST" : "http://localhost",
         "PORT": 3000,
         "APIPORT": 3030
       }
@@ -70,6 +73,7 @@
       "env": {
         "NODE_PATH": "./api",
         "NODE_ENV": "development",
+        "APIHOST" : "http://localhost",
         "APIPORT": 3030
       }
     },

@@ -84,7 +84,7 @@ if (config.apiPort) {
       logger.error(err);
     }
     logger.info('----\n==> 🌎  API is running on port %s', config.apiPort);
-    logger.info('==> 💻  Send requests to http://%s:%s', config.apiHost, config.apiPort);
+    logger.info('==> 💻  Send requests to %s:%s', config.apiHost, config.apiPort);
   });
 
   io.on('connection', (socket) => {

@@ -1,12 +1,16 @@
 # Switching to a real API
 
-Chances are, once you get comfortable with this setup, you'll want to hook into some existing API rather than use the simple one that comes with this project. Here's how:
+Chances are, once you get comfortable with this setup, you'll want to hook into some existing API rather than use the
+ simple one that comes with this project. Here's how:
 
 ## Update `package.json`
 
-First things first, you need to add `APIHOST` settings in `package.json`. If you look in `src/config.js`, you'll see that it's already configured to read this `APIHOST` setting if it's present.
+First things first, you need to add `APIHOST` settings in `package.json`. If you look in `src/config.js`, you'll see 
+that it's already configured to read this `APIHOST` setting if it's present.
 
-If the port you use differs between your dev & prod API hosts, you may want to get rid of the `APIPORT` setting, including it right in `APIHOST`. Same with the protocol – if you use HTTP in dev but HTTPS in prod, you may want to include the protocol right in `APIHOST`, and then get rid of the explicit `"http://"` found in the next section.
+If the port you use differs between your dev & prod API hosts, you may want to get rid of the `APIPORT` setting,
+ including it right in `APIHOST`. Same with the protocol – if you use HTTP in dev but HTTPS in prod, you may want to 
+ include the protocol right in `APIHOST`, and then get rid of the explicit `"http://"` found in the next section.
 
 ## Update `ApiClient`
 
@@ -21,9 +25,15 @@ Open up `src/helpers/ApiClient.js`. You'll see this line:
 
 If you added `http://` or `https://` to your APIHOST setting, then you need to remove it here.
 
-In this file, you'll also see that there's a `/api` that gets prepended to the URL when on the client side. That gets routed through a proxy that's configured in server.js, which we'll get to next.
+In this file, you'll also see that there's a `/api` that gets prepended to the URL when on the client side. 
+That gets routed through a proxy that's configured in server.js, which we'll get to next.
 
-Why do you need a proxy? So that the `APIHOST` can be set as part of the Node environment, and your client side code can still work. A user's browser doesn't have access to your server's Node environment, so instead the client-side code makes all API calls to this `/api` proxy, which the server configures to hit your real API. That way you can control everything sanely, through environment variables, and set different API endpoints for your different environments.
+Why do you need a proxy? 
+So that the `APIHOST` can be set as part of the Node environment, 
+and your client side code can still work. A user's browser doesn't have access to your server's Node environment,
+ so instead the client-side code makes all API calls to this `/api` proxy, which the server configures to hit your
+  real API. That way you can control everything sanely, through environment variables, and set different API endpoints 
+  for your different environments.
 
 ## Update `server.js`
 

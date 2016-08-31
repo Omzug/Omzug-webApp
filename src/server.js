@@ -24,14 +24,30 @@ import qs from 'query-string';
 import getRoutes from './routes';
 import getStatusFromRoutes from './helpers/getStatusFromRoutes';
 
-const targetUrl = 'http://' + config.apiHost + ':' + config.apiPort;
 const pretty = new PrettyError();
 const app = new Express();
 const server = new http.Server(app);
-const proxy = httpProxy.createProxyServer({
-  target: targetUrl,
-  ws: true
-});
+
+var proxy, targetUrl;
+if(process.env.NODE_ENV === "production"){
+  targetUrl =  config.apiHost + ':' + config.apiPort; //maybe not add to it
+  proxy = httpProxy.createProxyServer({
+    target: targetUrl,
+    ws: true,
+    ssl: {
+      key: fs.readFileSync('~/aws/omzugssh.pem', 'utf8'),
+      cert: fs.readFileSync('~/aws/server.crt', 'utf8')
+    },
+    secure: true
+  });
+}else{
+  targetUrl =  config.apiHost + ':' + config.apiPort;
+  proxy = httpProxy.createProxyServer({
+    target: targetUrl,
+    ws: true
+  });
+}
+
 
 app.use(compression());
 app.use(favicon(path.join(__dirname, '..', 'static', 'favicon32.png')));
