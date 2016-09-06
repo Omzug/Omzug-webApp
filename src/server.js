@@ -49,16 +49,16 @@ if (process.env.NODE_ENV == 'production') {
   }, app);
 
   // set up plain http server
-  var httpServer = express.createServer();
+  var httpApp = Express.createServer();
 
   // set up a route to redirect http to https
-  httpServer.get('*',function(req,res){
+  httpApp.get('*',function(req, res){
     console.log("receive request!" + 'https://www.omzug.com'+req.url )
     res.redirect('https://www.omzug.com'+req.url)
   })
 
 // have it listen on 8080
-  httpServer.listen(8080);
+  httpApp.listen(8080);
 
 }else{
   server = new http.Server(app);
