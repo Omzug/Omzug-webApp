@@ -48,9 +48,8 @@ if (process.env.NODE_ENV == 'production') {
     secureOptions: constants.SSL_OP_NO_SSLv3 | constants.SSL_OP_NO_SSLv2
   }, app);
 
-  // set up plain http server
-  var httpApp = Express.createServer();
-
+  // set up plain http server, no need to use http
+  var httpApp = new Express()
   // set up a route to redirect http to https
   httpApp.get('*',function(req, res){
     console.log("receive request!" + 'https://www.omzug.com'+req.url )
