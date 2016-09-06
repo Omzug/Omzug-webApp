@@ -16,6 +16,7 @@ import Html from './helpers/Html';
 import PrettyError from 'pretty-error';
 import http from 'http';
 import https from 'https';
+import constants from 'constants';
 
 import {ReduxRouter} from 'redux-router';
 import createHistory from 'history/lib/createMemoryHistory';
@@ -31,11 +32,16 @@ const pretty = new PrettyError();
 const app = new Express();
 
 var keypath  = path.join(__dirname, '..', '..', 'aws', 'omzugssh.pem')
-var certPath = path.join(__dirname, '..', '..', 'aws', 'server.crt')
+var certPath = path.join(__dirname, '..', '..', 'aws', 'root.crt')
+var caPath = path.join(__dirname, '..', '..', 'aws', 'ca.crt')
 
 const server = https.createServer({
   key: fs.readFileSync(keypath),
-  cert: fs.readFileSync(certPath)
+  ca : fs.readFileSync(caPath),
+  cert: fs.readFileSync(certPath),
+  secureProtocol: 'SSLv23_method',
+  honorCipherOrder: true,
+  secureOptions: constants.SSL_OP_NO_SSLv3 | constants.SSL_OP_NO_SSLv2
 }, app);
 
 
