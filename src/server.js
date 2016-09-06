@@ -32,17 +32,36 @@ const pretty = new PrettyError();
 const app = new Express();
 
 var keypath  = path.join(__dirname, '..', '..', 'aws', 'omzugssh.pem')
-var certPath = path.join(__dirname, '..', '..', 'aws', 'root.crt')
+var certPath = path.join(__dirname, '..', '..', 'aws', 'www.crt')
 var caPath = path.join(__dirname, '..', '..', 'aws', 'ca.crt')
 
-const server = https.createServer({
-  key: fs.readFileSync(keypath),
-  ca : fs.readFileSync(caPath),
-  cert: fs.readFileSync(certPath),
-  secureProtocol: 'SSLv23_method',
-  honorCipherOrder: true,
-  secureOptions: constants.SSL_OP_NO_SSLv3 | constants.SSL_OP_NO_SSLv2
-}, app);
+var server;
+
+if (process.env.NODE_ENV !== 'production') {
+
+  server = https.createServer({
+    key: fs.readFileSync(keypath),
+    ca : fs.readFileSync(caPath),
+    cert: fs.readFileSync(certPath),
+    secureProtocol: 'SSLv23_method',
+    honorCipherOrder: true,
+    secureOptions: constants.SSL_OP_NO_SSLv3 | constants.SSL_OP_NO_SSLv2
+  }, app);
+
+  // set up plain http server
+  var httpServer = express.createServer();
+
+  // set up a route to redirect http to https
+  httpServer.get('*',function(req,res){
+    res.redirect('https://www.omzug.com'+req.url)
+  })
+
+// have it listen on 8080
+  httpServer.listen(8080);
+
+}else{
+  server = new http.Server(app);
+}
 
 
 
