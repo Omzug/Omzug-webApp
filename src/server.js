@@ -37,7 +37,7 @@ var caPath = path.join(__dirname, '..', '..', 'aws', 'ca.crt')
 
 var server;
 
-if (process.env.NODE_ENV !== 'production') {
+if (process.env.NODE_ENV == 'production') {
 
   server = https.createServer({
     key: fs.readFileSync(keypath),
@@ -53,12 +53,12 @@ if (process.env.NODE_ENV !== 'production') {
 
   // set up a route to redirect http to https
   httpServer.get('*',function(req,res){
-    console.log("receive request!" )
+    console.log("receive request!" + 'https://www.omzug.com'+req.url )
     res.redirect('https://www.omzug.com'+req.url)
   })
 
 // have it listen on 8080
-  httpServer.listen(80);
+  httpServer.listen(8080);
 
 }else{
   server = new http.Server(app);
