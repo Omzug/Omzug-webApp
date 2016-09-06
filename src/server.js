@@ -52,7 +52,6 @@ if (process.env.NODE_ENV == 'production') {
   var httpApp = new Express()
   // set up a route to redirect http to https
   httpApp.get('*',function(req, res){
-    console.log("receive request!" + 'https://www.omzug.com'+req.url )
     res.redirect('https://www.omzug.com'+req.url)
   })
 
