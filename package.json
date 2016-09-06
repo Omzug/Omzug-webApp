@@ -44,7 +44,7 @@
       "env": {
         "NODE_PATH": "./src",
         "NODE_ENV": "production",
-        "PORT": 443,
+        "PORT": 3000,
         "APIPORT": 3030
       }
     },
