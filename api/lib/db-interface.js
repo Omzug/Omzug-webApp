@@ -69,7 +69,7 @@ function insert(){
       gender : false,
       username : "heawen2003",
       owner: objectId,
-      description : "如题，两口之家，一个在Vaihhingen 工作，一个在fellbach工作。打算在这里个地方租房，或者沿线也行。2人间，1个车位就好。有打算向外出租的请联系谢谢。\r\n最好三月底开始。",
+      description : "如题，两口之家，一个在Vahingen 工作，一个在fellbach工作。打算在这里个地方租房，或者沿线也行。2人间，1个车位就好。有打算向外出租的请联系谢谢。\r\n最好三月底开始。",
       //price : 600,
       startDate : new Date(),
       email: "heawen.cheng@gmail.com",
