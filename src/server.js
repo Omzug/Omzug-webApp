@@ -53,6 +53,7 @@ if (process.env.NODE_ENV == 'production') {
   // set up a route to redirect http to https
   httpApp.get('*',function(req, res){
     res.redirect('https://www.omzug.com'+req.url)
+    console.log("receive request " + req.url)
   })
 
 // have it listen on 8080
