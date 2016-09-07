@@ -133,6 +133,7 @@
     "redux": "^3.0.4",
     "redux-form": "^5.3.2",
     "redux-router": "^2.1.2",
+    "robots.txt": "^1.1.0",
     "sass-mediaqueries": "^1.6.1",
     "scroll-behavior": "^0.3.0",
     "scrollreveal": "^3.3.1",

@@ -11,7 +11,7 @@ import DB from './lib/db-interface.js';
 import sitemap from './lib/sitemap.js';
 const MongoStore = require('connect-mongo')(session);
 import {logger} from './lib/logger';
-
+import robots from 'robots.txt'
 
 var mongoModel = require('./lib/model.js')
 var mongoConnection = mongoModel.initMongoDb()
@@ -45,6 +45,9 @@ app.get('/sitemap', function(req, res) {
     res.send( xml );
   });
 });
+
+//use robots txt file
+app.use(robots(__dirname + '/robots.txt'))
 
 app.use((req, res) => {
   logger.info("get request :", req.url)
