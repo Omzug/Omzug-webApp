@@ -5,7 +5,7 @@
 var sm = require('sitemap');
 
 var sitemap = sm.createSitemap ({
-  hostname: 'http://omzug.com',
+  hostname: 'https://www.omzug.com',
   cacheTime: 600000,        // 600 sec - cache purge period
   urls: [
     { url: '/',  changefreq: 'daily', priority: 0.4 },
