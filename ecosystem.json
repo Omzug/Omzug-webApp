@@ -10,7 +10,7 @@
       "log_date_format" : "YYYY-MM-DD HH:mm ZZ",
       "env": {
         "NODE_ENV": "production",
-        "PORT": 8080,
+        "PORT": 3000,
         "APIPORT": 3030,
         "NODE_PATH": "./src"
       }
