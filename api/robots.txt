@@ -1,3 +1,5 @@
+//which is now rewrite in api.js
+
 User-agent: *
 Disallow: /api/
 Disallow: /entities/

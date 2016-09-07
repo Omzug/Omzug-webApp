@@ -11,7 +11,6 @@ import DB from './lib/db-interface.js';
 import sitemap from './lib/sitemap.js';
 const MongoStore = require('connect-mongo')(session);
 import {logger} from './lib/logger';
-import robots from 'robots.txt'
 
 var mongoModel = require('./lib/model.js')
 var mongoConnection = mongoModel.initMongoDb()
@@ -46,8 +45,13 @@ app.get('/sitemap', function(req, res) {
   });
 });
 
-//use robots txt file
-app.use(robots(__dirname + '/robots.txt'))
+app.get('/robots.txt', function (req, res) {
+  res.type('text/plain');
+  res.send("User-agent: *" +
+    "\nDisallow: /api/" +
+    "\nDisallow: /posts/" +
+    "\nDisallow: /entities/");
+});
 
 app.use((req, res) => {
   logger.info("get request :", req.url)

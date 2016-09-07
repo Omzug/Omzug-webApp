@@ -1,5 +1,5 @@
 import React from 'react';
-import {IndexRoute, Route} from 'react-router';
+import {IndexRoute, Route, Redirect} from 'react-router';
 import {push} from 'redux-router'
 import { isLoaded as isAuthLoaded, load as loadAuth } from 'redux/modules/auth';
 import {onClearLoadError, onClear as clearEntity} from 'redux/modules/entity'
@@ -143,7 +143,8 @@ export default (store) => {
         <Route path="register" component={Register}/>
       </Route>
 
-
+      <Redirect from="/sitemap" to="/api/sitemap" />
+      <Redirect from="/robots.txt" to="/api/robots.txt" />
       { /* Catch all route */ }
       <Route path="*" component={NotFound} status={404} />
     </Route>
