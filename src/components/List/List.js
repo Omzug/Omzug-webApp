@@ -130,6 +130,18 @@ export default class List extends Component {
       }
     }
 
+    const renderDate =  (house) => {
+      if(house.updatedAt){
+        var date = new Date(house.updatedAt);
+        var year = date.getFullYear() ,
+          month  = date.getMonth() + 1,
+          day = date.getDate();
+        return (
+          <span>{year} / {month} / {day}</span>
+        )
+      }
+    }
+
     //title={house.title}
     //subtitle={<span>by <b className={styles.usernameColor}>{house.username}</b> In
     //          <b className={styles.cityColor}> {house.city}</b></span>}
@@ -169,11 +181,13 @@ export default class List extends Component {
               subtitle={
                 house.username == "weibo"
                 ?
-                <span>from  新浪微博&nbsp;<i className={"fa fa-weibo"}/> in <b className={styles.cityColor}> {capitalizeFirstLetter(house.city)}</b> </span>
+                <span>from  新浪微博&nbsp;<i className={"fa fa-weibo"}/> in
+                <b className={styles.cityColor}> {capitalizeFirstLetter(house.city)}</b>
+                </span>
                 :
                 <span>
                   by <b className={styles.usernameColor}>{house.username}</b> In <b className={styles.cityColor}>
-                  {capitalizeFirstLetter(house.city)}</b>
+                  {capitalizeFirstLetter(house.city)}</b> {renderDate(house)}
                 </span>
               }
               actionIcon={renderIcon(house, index)}

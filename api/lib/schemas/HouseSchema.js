@@ -32,10 +32,11 @@ module.exports = function(Schema, collectionName){
   var ObjectId = Schema.ObjectId;
   return new Schema({
     city :  { type : String, required : true, index: true/*, validate : stringValidator*/},
-    type : {type : Boolean, required : true},
+    type : {type : Boolean, required : false}, //TODO has changed
     priceType : {type : Boolean, required : true},
-    price : {type: Number, required : true},
-    startDate : {type : Date, required : true},
+    price : Schema.Types.Mixed,
+    /** price : {type: Number, required : true},**/
+    startDate : {type : Date, required : false}, //TODO has changed
     title : {type : String, required : true},
     owner : {type : ObjectId, required : true},
     username : {type : String, required : true},
@@ -43,7 +44,8 @@ module.exports = function(Schema, collectionName){
     location : {type : String, required : false},
     lat : { type : Number, required : false /*, validate : stringValidator*/},
     lng : { type : Number , required : false},
-    size : { type :Number , required : false},
+    size : Schema.Types.Mixed,
+    /** size : { type :Number , required : false},**/
     //roomNumber : {type :Number, required : false},
     caution : { type : Number , required: false},
     endDate : { type : Date, required : false},

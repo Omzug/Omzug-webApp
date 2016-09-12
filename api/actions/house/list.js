@@ -12,7 +12,7 @@ export default function listHause(req, params) {
   var skipNumber = skip ? parseInt(skip) : 0
   logger.trace('should skip number is ', skipNumber)
 
-  const select = { owner: 1, _id: 1, title :1 , price : 1, city :1 , username : 1,images :1, updatedAt: 1,};
+  const select = { owner: 1, _id: 1, title :1 , price : 1, city :1 , username : 1,images :1, updatedAt: 1};
 
   const getAll = function(){
     logger.trace('now query all')
