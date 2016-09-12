@@ -186,7 +186,7 @@ export default class List extends Component {
                 </span>
                 :
                 <span>
-                  by <b className={styles.usernameColor}>{house.username}</b> In <b className={styles.cityColor}>
+                  by <b className={styles.usernameColor}>{house.fakeName ? house.fakeName : house.username}</b> In <b className={styles.cityColor}>
                   {capitalizeFirstLetter(house.city)}</b> {renderDate(house)}
                 </span>
               }

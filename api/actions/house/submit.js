@@ -86,6 +86,13 @@ export default function submit(req, params) {
           }else {
             house.images = house.images.split(',')
           }
+
+          if(house.hasOwnProperty("fakeName")){
+            delete house["fakeName"]
+          }
+          if(house.hasOwnProperty("contactName")){
+            delete house["contactName"]
+          }
           callback(null, house, filesArray)
         }
       })
@@ -182,7 +189,7 @@ export default function submit(req, params) {
             logger.trace("here we get data is", data)
             // TODO should process it into address
             const path = awsPrefix + house.username + '/' + file.name;
-            logger.trace('the adding images path is ', path)
+            logger.trace('remote images path is ', path)
             house.images = house.images.concat(path)
             finished ++
             if(finished == files.length) {

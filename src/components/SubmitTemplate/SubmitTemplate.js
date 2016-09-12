@@ -145,7 +145,7 @@ export default class SubmitTemplate extends Component {
                 ?
                 <div className={styles.cardTitleUsername}>from <a href={weiboObject().link} target="_blank">{weiboObject().name}</a>&nbsp;<i className={"fa fa-weibo"}/></div>
                 :
-                <div className={styles.cardTitleUsername}>by {entity.username ? entity.username : ""}</div>
+                <div className={styles.cardTitleUsername}>by {entity.fakeName ? entity.fakeName : (entity.username ? entity.username : "")}</div>
               }
             </div>
 
@@ -190,7 +190,7 @@ export default class SubmitTemplate extends Component {
             <div className={styles.rowContainer}><i className="fa fa-cube"/> 类型 : &nbsp;&nbsp;  {entity.type ? "Wohnung/Apartment" : "WG" }</div>
             <div className={styles.rowContainer}><i className="fa fa-eur"/> 租金 : &nbsp;&nbsp; {(entity.priceType ? "冷租" : "暖租" ) + ' ' + entity.price} &nbsp; Eur</div>
             <div className={styles.rowContainer}><i className="fa fa-lock"/> 押金 : &nbsp;&nbsp;  {entity.caution ? entity.caution + " Eur" : "未指定"} </div>
-            <div className={styles.rowContainer}><i className="fa fa-calendar"/> 租期 : &nbsp;&nbsp; {formatDate(entity.startDate)} &nbsp;-- &nbsp;{entity.endDate ? formatDate(entity.endDate) : "无期限"  } </div>
+            {entity.startDate && <div className={styles.rowContainer}><i className="fa fa-calendar"/> 租期 : &nbsp;&nbsp; {formatDate(entity.startDate)} &nbsp;-- &nbsp;{entity.endDate ? formatDate(entity.endDate) : "无期限"  } </div>}
             {user && user._id && user._id == entity.owner &&
             <RaisedButton style={uiStyles.buttonStyleEdit} key={12} className={styles.editButton} onClick={this.props.onStartEdit}><span
               className="fa fa-pencil"/> 编辑</RaisedButton>
@@ -214,7 +214,7 @@ export default class SubmitTemplate extends Component {
             onRequestClose={this.props.onContactClose}
           >
             <div className={styles.contactInfo}>
-              <div className={styles.infoTitle}> {entity.username ? entity.username : ""}的联系方式:</div>
+              <div className={styles.infoTitle}> {entity.contactName ? entity.contactName : (entity.username ? entity.username : "")}的联系方式:</div>
               <div className={styles.infoListMail}> <i className="fa fa-envelope-o" />  邮箱: &nbsp; {entity.email ? entity.email : ""} </div>
               <div className={styles.infoListWechat}> <i className="fa fa-wechat" />  微信: &nbsp; {entity.wechat ? entity.wechat : ""} </div>
               <div className={styles.infoListPhone}> <i className="fa fa-phone" />  手机: &nbsp; {entity.phone ? entity.phone : ""} </div>
