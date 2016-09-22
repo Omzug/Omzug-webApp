@@ -189,7 +189,7 @@ export default class App extends Component {
               <i className="fa fa-pencil fa-lg"/>发布房屋
             </FlatButton>
             <FlatButton style={uiStyles.fullHeightButton} containerElement={<Link to="/favorite" />}>
-              <i className="fa fa-pencil fa-lg"/>我的收藏
+              <i className="fa fa-star fa-lg"/>我的收藏
             </FlatButton>
             <FlatButton onClick={this.handleLogout} style={uiStyles.fullHeightButton} containerElement={<Link to="/logout" />}>
               <i className="fa fa-sign-out fa-lg" /> 登出

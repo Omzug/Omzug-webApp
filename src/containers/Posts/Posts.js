@@ -210,6 +210,25 @@ export default class List extends Component {
         : renderPost(this.props.myPost, true)
     }
 
+    const renderAddHint = () => (
+      <GridTile
+        className={styles.tile}
+        key={"newPostHint"}
+        style={{
+                "display" : "flex", "alignItems":"center", "justifyContent": "center",
+               height: "300px", width : tileWidth, margin : marginPercentage}}
+      >
+        <LinkContainer to={'/login'}>
+          <div className={styles.addPost}>
+            <div className={styles.addFont}>
+              <i className="fa fa-5x fa-plus-circle"/>
+            </div>
+            <div>{strings.addPostHintNoAuth}</div>
+          </div>
+        </LinkContainer>
+      </GridTile>
+    )
+
     const renderClassName =(post) => {
       return post.images.length > 0 ? "fa fa-2x fa-picture-o " + styles.blue : "fa fa-2x fa-picture-o"
     }
@@ -267,7 +286,7 @@ export default class List extends Component {
           </div>
         </div>
         <div className={styles.myList}>
-          { this.props.user && renderAddTile()}
+          { this.props.user ? renderAddTile() : renderAddHint()}
           { posts.length ? posts.map((post, index) => (
             renderPost(post, false)
           )) :
