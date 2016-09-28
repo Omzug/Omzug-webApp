@@ -134,7 +134,7 @@ export default class SubmitTemplate extends Component {
             <div className={styles.cardPhoto}>
               <Carousel className={styles.carousel} decorators={Decorators} framePadding="32px" width="100%" slidesToShow={1}>
                 {entity.images.length >= 1 && entity.images.map(address => (<div className={styles.imageContainer} key={address + "show"}><img src={address}/></div>))}
-                {cachedImages.length >= 1 && cachedImages.map(file => <div className={styles.imageContainer}> key={address + "cache" }<img src={window.URL.createObjectURL(file)}/></div>)}
+                {cachedImages.length >= 1 && cachedImages.map(file => <div className={styles.imageContainer}> key={file.name + "cache" }<img src={window.URL.createObjectURL(file)}/></div>)}
                 {entity.images.length == 0 && cachedImages.length == 0 &&  <div className={styles.imageContainer}><img src={config.noImagePath}/></div>}
               </Carousel>
             </div>

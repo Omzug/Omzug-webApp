@@ -182,7 +182,7 @@ export default class PostForm extends Component {
                       framePadding="50px" width="100%" slidesToShow={1}
                       onChange={this.props.onChangeSlide}>
               {post.images && post.images.length >= 1 && post.images.map( address =><div className={styles.imageContainer} key={address + "show"}><img src={address}/></div>)}
-              {cachedImages && cachedImages.length >= 1 && cachedImages.map(file => <div className={styles.imageContainer} key={address + "cache"}><img src={window.URL.createObjectURL(file)}/></div>)}
+              {cachedImages && cachedImages.length >= 1 && cachedImages.map(file => <div className={styles.imageContainer} key={file.name + "cache"}><img src={window.URL.createObjectURL(file)}/></div>)}
               {this.calculateNumber() < config.limitImageNumber &&
               <div className={styles.imageContainer}>
                 <DropZone onDrop={this.onDrop}>
