@@ -95,7 +95,6 @@ export default class Entities extends Component {
 
   handleScroll = (event) => {
     var listBody = event.srcElement.body;
-    console.log("display is " , window.innerHeight + listBody.scrollTop, this.props.arrowDisplayed)
     if(window.innerHeight + listBody.scrollTop >= config.arrowDisplayHeight){
       if(!this.props.arrowDisplayed) this.props.displayArrow()
     }else{
