@@ -139,8 +139,8 @@ export default class PostTemplate extends Component {
         <div className={styles.list}>
           <div className={styles.innerList}>
             <div className={styles.rowContainer}><i className="fa fa-location-arrow"/> 城市 : &nbsp;&nbsp;  {post.city ? post.city : ""}</div>
-            <div className={styles.rowContainer}><i className="fa fa-cube"/> 专业 : &nbsp;&nbsp;  {post.major ? post.major : ""}</div>
-            <div className={styles.rowContainer}><i className="fa fa-eur"/> 性别 : &nbsp;&nbsp; {(post.gender ? "女" : "男" )}</div>
+            <div className={styles.rowContainer}><i className="fa fa-book"/> 专业 : &nbsp;&nbsp;  {post.major ? post.major : ""}</div>
+            <div className={styles.rowContainer}><i className="fa fa-neuter"/> 性别 : &nbsp;&nbsp; {(post.gender ? "女" : "男" )}</div>
             <div className={styles.rowContainer}><i className="fa fa-calendar"/> 租期 : &nbsp;&nbsp; {formatDate(post.startDate)} &nbsp;-- &nbsp;{post.endDate ? formatDate(post.endDate) : "无期限"  } </div>
             {user && user._id && user._id == post.owner &&
             <RaisedButton style={uiStyles.buttonStyleEdit} key={12} className={styles.editButton} onClick={this.props.onStartEdit}><span
