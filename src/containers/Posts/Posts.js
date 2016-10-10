@@ -9,7 +9,7 @@ import { Link } from 'react-router';
 import { LinkContainer } from 'react-router-bootstrap';
 import {isLoaded, onOpenDialog, onCloseDialog , onSetColumn, onDeletePost,
   onDisableAppend, onGetPostList, onLocationChange, onAppendList,
-  onClearDeleteFeedback, onGetMyPost} from 'redux/modules/posts';
+  onClearDeleteFeedback, onGetMyPost,displayArrow, hideArrow} from 'redux/modules/posts';
 import {onStartEdit} from 'redux/modules/post'
 import {connect} from 'react-redux';
 import postValidation from './postValidation'
@@ -55,11 +55,12 @@ function fetchDataDeferred(getState, dispatch) {
     isEnd : state.posts.isEnd,
     locationId : state.posts.locationId,
     deleteFeedback : state.posts.deleteFeedback,
-
     user: state.auth.user,
+    arrowDisplayed : state.posts.arrowDisplay,
   }),
   {onOpenDialog, onCloseDialog, onStartEdit, onSetColumn, onDeletePost,
-    onDisableAppend, onGetPostList, onLocationChange, onAppendList, onClearDeleteFeedback}
+    onDisableAppend, onGetPostList, onLocationChange, onAppendList, onClearDeleteFeedback
+    ,displayArrow, hideArrow}
 )
 export default class List extends Component {
   static propTypes = {
@@ -87,6 +88,8 @@ export default class List extends Component {
     onLocationChange: PropTypes.func.isRequired,
     onAppendList : PropTypes.func.isRequired,
     onClearDeleteFeedback : PropTypes.func.isRequired,
+    displayArrow :PropTypes.func.isRequired,
+    hideArrow : PropTypes.func.isRequired,
   };
 
   handleResize = (event) => {
@@ -122,6 +125,12 @@ export default class List extends Component {
 
   handleScroll = (event) => {
     var listBody = event.srcElement.body;
+
+    if(window.innerHeight + listBody.scrollTop >= config.arrowDisplayHeight){
+      if(!this.props.arrowDisplayed) this.props.displayArrow()
+    }else{
+      if(this.props.arrowDisplayed) this.props.hideArrow()
+    }
     if(window.innerHeight + listBody.scrollTop >= listBody.scrollHeight - 20){
       //temporary disable append util we get result
       if(!this.props.loading && !this.props.isEnd){
@@ -313,10 +322,10 @@ export default class List extends Component {
           <p className={styles.loadingText}> Loading Now</p>
           <p><i className="fa fa-spin fa-refresh fa-4x"/></p>
         </div>}
-
+        {this.props.arrowDisplayed &&
         <div className={styles.upArrowContainer} onClick={this.onUpArrowClick}>
           <i className={"fa fa-arrow-up fa-2x " + styles.upArrow}/>
-        </div>
+        </div>}
 
         <Dialog
           title="确认删除"

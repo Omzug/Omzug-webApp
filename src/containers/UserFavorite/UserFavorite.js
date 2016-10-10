@@ -4,11 +4,12 @@
 
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
-import {isLoaded, onLoad, onAppendList, onDisableAppend} from 'redux/modules/favorite';
+import {isLoaded, onLoad, onAppendList, onDisableAppend,displayArrow, hideArrow} from 'redux/modules/favorite';
 import {bindActionCreators} from 'redux';
 import connectData from 'helpers/connectData';
 import {List} from "components";
 import Helmet from 'react-helmet';
+var config = require('../../config');
 import uiStyles from '../../theme/uiStyles';
 import { Link } from 'react-router';
 import {FlatButton, FontIcon, Snackbar} from 'material-ui';
@@ -34,9 +35,10 @@ function fetchDataDeferred(getState, dispatch) {
     loading: state.favorite.loading,
     loaded: state.favorite.loaded,
     isEnd : state.favorite.isEnd,
+    arrowDisplayed : state.favorite.arrowDisplay,
     deleteFeedback : state.favorite.deleteFeedback,
   }),
-  {onLoad, onAppendList, onDisableAppend}
+  {onLoad, onAppendList, onDisableAppend,displayArrow, hideArrow}
 )
 export default class Entities extends Component {
   static propTypes = {
@@ -51,6 +53,8 @@ export default class Entities extends Component {
     onDisableAppend : PropTypes.func.isRequired,
     onAppendList : PropTypes.func.isRequired,
     onLoad: PropTypes.func.isRequired,
+    displayArrow :PropTypes.func.isRequired,
+    hideArrow : PropTypes.func.isRequired,
   };
 
   loadList = (event) => {
@@ -62,6 +66,13 @@ export default class Entities extends Component {
   handleScroll = (event) => {
     var starList = this.props.user.starList ? this.props.user.starList : []
     var listBody = event.srcElement.body;
+
+    if(window.innerHeight + listBody.scrollTop >= config.arrowDisplayHeight){
+      if(!this.props.arrowDisplayed) this.props.displayArrow()
+    }else{
+      if(this.props.arrowDisplayed) this.props.hideArrow()
+    }
+
     if(window.innerHeight + listBody.scrollTop >= listBody.scrollHeight - 20){
       //temporary disable append util we get result
       if(!this.props.loading && !this.props.isEnd){
@@ -132,10 +143,10 @@ export default class Entities extends Component {
           <p className={styles.loadingText}> Loading Now</p>
           <p><i className="fa fa-spin fa-refresh fa-4x"/></p>
         </div>}
-
+        {this.props.arrowDisplayed &&
         <div className={styles.upArrowContainer} onClick={this.onUpArrowClick}>
           <i className={"fa fa-arrow-up fa-2x " + styles.upArrow}/>
-        </div>
+        </div>}
 
 
         <Snackbar
