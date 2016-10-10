@@ -127,7 +127,11 @@ export default class List extends Component {
       if(!this.props.loading && !this.props.isEnd){
         this.props.onDisableAppend();
         //console.log('now appending to list')
-        this.props.onAppendList(this.props.locationId, cityList, this.props.posts.length, this.props.user._id);
+        if(this.props.user) {
+          this.props.onAppendList(this.props.locationId, cityList, this.props.posts.length, this.props.user._id);
+        }else{
+          this.props.onAppendList(this.props.locationId, cityList, this.props.posts.length, null);
+        }
       }
     }
   }
