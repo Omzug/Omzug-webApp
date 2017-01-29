@@ -1,5 +1,6 @@
 import React from 'react';
-import {IndexRoute, Route, Redirect} from 'react-router';
+import {IndexRoute, Route, Redirect, browserHistory, applyRouterMiddleware} from 'react-router';
+import { useScroll } from 'react-router-scroll';
 import {push} from 'redux-router'
 import { isLoaded as isAuthLoaded, load as loadAuth } from 'redux/modules/auth';
 import {onClearLoadError, onClear as clearEntity} from 'redux/modules/entity'
@@ -116,7 +117,10 @@ export default (store) => {
    * Please keep routes in alphabetical order
    */
   return (
-    <Route path="/" component={App}>
+    <Route path="/"
+           component={App}
+           history={browserHistory}
+           render={applyRouterMiddleware(useScroll)}>
       { /* Home (main) route */ }
       <IndexRoute component={Home} onEnter={checkUser}/>
 
