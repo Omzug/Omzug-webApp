@@ -32,9 +32,13 @@ $paddingTop : 50px;
       text-align: left;
       margin-top: 0px;
       .introduction{
+        font-family: "Avenir Next", "Lantinghei SC", Arial, sans-serif;
         font-size: 20px;
         padding-left: 20px;
         margin-top: -70px;
+        h4{
+          line-height: 1.5;
+        }
       }
     }
     .fotoContainer{
@@ -103,7 +107,18 @@ $paddingTop : 50px;
       }
     }
   }
+.twoAndHalfContainer{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin-top: 100px;
+  margin-bottom: -80px;
+  .gearImage{
+    width:15%;
+    height:30%;
+  }
 
+}
   //=================third container===============
   .thirdContainer{
     display: flex;
