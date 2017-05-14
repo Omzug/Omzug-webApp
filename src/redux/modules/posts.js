@@ -28,6 +28,9 @@ const REFRESH_ALL_SUCCESS = "omzug/postList/REFRESH_ALL_SUCCESS"
 const REFRESH_ALL_FAIL = "omzug/postList/REFRESH_ALL_FAIL"
 const CLEAR_DELETE_FEEDBACK = "omzug/postList/CLEAR_DELETE_FEEDBACK"
 
+const DISPLAY_ARROW = "omzug/postList/DISPLAY_ARROW"
+const HIDE_ARROW = "omzug/postList/HIDE_ARROW"
+
 var update = require('react-addons-update');
 import strings from '../../constant/strings';
 
@@ -41,6 +44,7 @@ const initState = {
   deleteFeedback : null,
   popover : false,
   myPost : null,
+  arrowDisplay : false,
 };
 
 export default function reducer(state = initState, action = {}) {
@@ -175,6 +179,16 @@ export default function reducer(state = initState, action = {}) {
         ...state,
         popover : false,
       }
+    case DISPLAY_ARROW:
+          return{
+            ...state,
+            arrowDisplay : true
+          }
+    case HIDE_ARROW :
+          return{
+            ...state,
+            arrowDisplay:false
+          }
     default : return state;
   }
 }
@@ -292,4 +306,16 @@ export function onCloseDialog(){
 // to be added when we change location
 function filterData(locationValue){
 
+}
+
+export function displayArrow(){
+  return{
+    type : DISPLAY_ARROW
+  }
+}
+
+export function hideArrow(){
+  return {
+    type : HIDE_ARROW
+  }
 }

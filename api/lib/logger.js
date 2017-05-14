@@ -31,6 +31,23 @@ var timestampFn = function() {
 };
 
 var logOptions = config.logOptions;
+var levelMap = {
+  'error': 0,
+  'warn': 1,
+  'verbose': 2,
+  'info': 3,
+  'debug': 4,
+  'trace' : 5,
+}
+
+var levelColors = {
+  'error': 'red',
+  'warn': 'orange',
+  'verbose': 'yellow',
+  'info': 'green',
+  'debug': 'blue',
+  'trace' : 'grey',
+}
 
 var level = process.env.NODE_ENV === "production" ? logOptions.level : logOptions.debugLevel;
 var consoleLevel = process.env.NODE_ENV === "production" ? "warn" : "debug"
@@ -40,6 +57,7 @@ var fileCount = logOptions.filecount;
 //var noLogFlag = logOptions.noLogFlag;
 
 var logger = new winston.Logger({
+  levels:levelMap,
   transports: [
     new winston.transports.Console({
       level : consoleLevel,
@@ -61,18 +79,12 @@ var logger = new winston.Logger({
   ]
 });
 
+// Make winston aware of these colors
+winston.addColors(levelColors);
+
 var loggerStream = {write: function (data) {
   logger.info(data.replace(/\n$/, ''));
 }};
-
-var levelMap = {
-  'error': 0,
-  'warn': 1,
-  'verbose': 2,
-  'info': 3,
-  'debug': 4,
-  'trace' : 5,
-}
 
 var levelNumber = levelMap[level];
 

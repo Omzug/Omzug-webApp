@@ -19,6 +19,7 @@ module.exports = Object.assign({
   limitImageNumber : 5,
   limitImageSize : 5,
   pageSize : 9,
+  arrowDisplayHeight : 1500,
   iconPath : 'https://s3.eu-central-1.amazonaws.com/omzug.com/favicon/apple-icon.png',
   noImagePath : 'https://s3.eu-central-1.amazonaws.com/omzug.com/favicon/no-image.jpg',
   mainGifPath : "https://s3.eu-central-1.amazonaws.com/omzug.com/gif/main.gif",

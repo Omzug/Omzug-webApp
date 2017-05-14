@@ -28,6 +28,10 @@ const REFRESH_ALL_SUCCESS = "omzug/entityList/REFRESH_ALL_SUCCESS"
 const REFRESH_ALL_FAIL = "omzug/entityList/REFRESH_ALL_FAIL"
 const CLEAR_DELETE_FEEDBACK = "omzug/entityList/CLEAR_DELETE_FEEDBACK"
 
+const DISPLAY_ARROW = "omzug/entityList/DISPLAY_ARROW"
+const HIDE_ARROW = "omzug/entityList/HIDE_ARROW"
+
+
 var update = require('react-addons-update');
 import {capitalizeFirstLetter} from '../../utils/help';
 import strings from '../../constant/strings';
@@ -41,6 +45,7 @@ const initState = {
   cityList : [],
   column : 1,
   deleteFeedback : null,
+  arrowDisplay : false,
 };
 
 export default function reducer(state = initState, action = {}) {
@@ -192,6 +197,16 @@ export default function reducer(state = initState, action = {}) {
             ...state,
             deleteFeedback : null,
           }
+    case DISPLAY_ARROW:
+      return{
+        ...state,
+        arrowDisplay : true
+      }
+    case HIDE_ARROW :
+      return{
+        ...state,
+        arrowDisplay:false
+      }
     default : return state;
   }
 }
@@ -320,4 +335,17 @@ export function onLocationChange(value){
 function filterData(locationValue){
 
 }
+
+export function displayArrow(){
+  return{
+    type : DISPLAY_ARROW
+  }
+}
+
+export function hideArrow(){
+  return {
+    type : HIDE_ARROW
+  }
+}
+
 

@@ -108,7 +108,7 @@ export default class PostTemplate extends Component {
             <div className={styles.cardPhoto}>
               <Carousel className={styles.carousel} decorators={Decorators} framePadding="32px" width="100%" slidesToShow={1}>
                 {post.images.length >= 1 && post.images.map(address => (<div className={styles.imageContainer} key={address + "show"}><img src={address}/></div>))}
-                {cachedImages.length >= 1 && cachedImages.map(file => <div className={styles.imageContainer} key={address + "cache"}><img src={window.URL.createObjectURL(file)}/></div>)}
+                {cachedImages.length >= 1 && cachedImages.map(file => <div className={styles.imageContainer} key={file.name + "cache"}><img src={window.URL.createObjectURL(file)}/></div>)}
                 {post.images.length == 0 && cachedImages.length == 0 &&  <div className={styles.imageContainer}><img src={config.noImagePath}/></div>}
               </Carousel>
             </div>
@@ -139,8 +139,8 @@ export default class PostTemplate extends Component {
         <div className={styles.list}>
           <div className={styles.innerList}>
             <div className={styles.rowContainer}><i className="fa fa-location-arrow"/> 城市 : &nbsp;&nbsp;  {post.city ? post.city : ""}</div>
-            <div className={styles.rowContainer}><i className="fa fa-cube"/> 专业 : &nbsp;&nbsp;  {post.major ? post.major : ""}</div>
-            <div className={styles.rowContainer}><i className="fa fa-eur"/> 性别 : &nbsp;&nbsp; {(post.gender ? "女" : "男" )}</div>
+            <div className={styles.rowContainer}><i className="fa fa-book"/> 专业 : &nbsp;&nbsp;  {post.major ? post.major : ""}</div>
+            <div className={styles.rowContainer}><i className="fa fa-neuter"/> 性别 : &nbsp;&nbsp; {(post.gender ? "女" : "男" )}</div>
             <div className={styles.rowContainer}><i className="fa fa-calendar"/> 租期 : &nbsp;&nbsp; {formatDate(post.startDate)} &nbsp;-- &nbsp;{post.endDate ? formatDate(post.endDate) : "无期限"  } </div>
             {user && user._id && user._id == post.owner &&
             <RaisedButton style={uiStyles.buttonStyleEdit} key={12} className={styles.editButton} onClick={this.props.onStartEdit}><span

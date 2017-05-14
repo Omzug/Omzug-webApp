@@ -17,6 +17,9 @@ const CLEAR_DELETE_FEEDBACK = "omzug/favorite/CLEAR_DELETE_FEEDBACK"
 const APPEND_SUCCESS = "omzug/favorite/APPEND_SUCCESS"
 const DISABLE_APPEND = "omzug/favorite/DISABLE_APPEND"
 
+const DISPLAY_ARROW = "omzug/favorite/DISPLAY_ARROW"
+const HIDE_ARROW = "omzug/favorite/HIDE_ARROW"
+
 var update = require('react-addons-update');
 import strings from '../../constant/strings';
 
@@ -28,6 +31,7 @@ const initState = {
   popover : false,
   isEnd : false,
   toDelete : null,
+  arrowDisplay : false,
 };
 
 export default function reducer(state = initState, action = {}) {
@@ -70,6 +74,16 @@ export default function reducer(state = initState, action = {}) {
     case CLEAR:
       return {
         initState
+      }
+    case DISPLAY_ARROW:
+      return{
+        ...state,
+        arrowDisplay : true
+      }
+    case HIDE_ARROW :
+      return{
+        ...state,
+        arrowDisplay:false
       }
     default : return state;
   }
@@ -122,5 +136,17 @@ export function onAppendList(userId, starList, skipNumber){
       })
     } // params not used, just shown as demonstration
   };
+}
+
+export function displayArrow(){
+  return{
+    type : DISPLAY_ARROW
+  }
+}
+
+export function hideArrow(){
+  return {
+    type : HIDE_ARROW
+  }
 }
 

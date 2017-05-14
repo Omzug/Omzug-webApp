@@ -18,7 +18,7 @@ export default class About extends Component {
           <Helmet title="关于我们"/>
           <div className={styles.text}>
             <div>
-              <p className={styles.cnText}>我们是在柏林的程序员和设计师, 有感于留学生在德国租房的艰难, 工作之余制作了这个网站, 希望可以帮到大家
+              <p className={styles.cnText}>基于区块链技术的去中心化房屋短租平台
               </p>
             </div>
             <div>
@@ -26,8 +26,7 @@ export default class About extends Component {
             </div>
             <div className={styles.enText}>
               <p>
-              Omzug is a web application created in 2016 by a Software Engineer and a Designer.
-              It aims to provide a renting platform for Chinese students in Germany.
+                A convenient renting platform based on Blockchain technology
             </p>
             </div>
           </div>

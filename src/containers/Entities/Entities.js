@@ -4,7 +4,7 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {isLoaded, onGetHouseList, onLocationChange, onClearDeleteFeedback,
-  onAppendList, onDeleteHouse,onDisableAppend, onGetCityList, onInit} from 'redux/modules/entities';
+  onAppendList, onDeleteHouse,onDisableAppend, onGetCityList, onInit, displayArrow, hideArrow} from 'redux/modules/entities';
 import {bindActionCreators} from 'redux';
 import connectData from 'helpers/connectData';
 import {List} from "components";
@@ -38,8 +38,10 @@ function fetchDataDeferred(getState, dispatch) {
     column : state.entities.column,
     user : state.auth.user,
     deleteFeedback : state.entities.deleteFeedback,
+    arrowDisplayed : state.entities.arrowDisplay,
   }),
-  {onGetHouseList, onLocationChange, onAppendList, onDeleteHouse, onDisableAppend, onGetCityList, onClearDeleteFeedback}
+  {onGetHouseList, onLocationChange, onAppendList, onDeleteHouse, onDisableAppend, onGetCityList, onClearDeleteFeedback
+  ,displayArrow, hideArrow}
   //dispatch => bindActionCreators({onGetHouseList}, dispatch)
 )
 export default class Entities extends Component {
@@ -62,7 +64,15 @@ export default class Entities extends Component {
     onLocationChange: PropTypes.func.isRequired,
     onAppendList : PropTypes.func.isRequired,
     onGetCityList : PropTypes.func.isRequired,
+    displayArrow :PropTypes.func.isRequired,
+    hideArrow : PropTypes.func.isRequired,
   };
+
+
+  constructor(props) {
+    super(props);
+    this.state = {display : false};
+  }
 
   onSelectChange = (selectObject) => {
     var value = selectObject ? selectObject.value : null ;
@@ -85,6 +95,11 @@ export default class Entities extends Component {
 
   handleScroll = (event) => {
     var listBody = event.srcElement.body;
+    if(window.innerHeight + listBody.scrollTop >= config.arrowDisplayHeight){
+      if(!this.props.arrowDisplayed) this.props.displayArrow()
+    }else{
+      if(this.props.arrowDisplayed) this.props.hideArrow()
+    }
     if(window.innerHeight + listBody.scrollTop >= listBody.scrollHeight - 20){
       //temporary disable append util we get result
       if(!this.props.loading && !this.props.isEnd){
@@ -164,9 +179,10 @@ export default class Entities extends Component {
           <p><i className="fa fa-spin fa-refresh fa-4x"/></p>
         </div>}
 
+        {this.props.arrowDisplayed &&
         <div className={styles.upArrowContainer} onClick={this.onUpArrowClick}>
           <i className={"fa fa-arrow-up fa-2x " + styles.upArrow}/>
-        </div>
+        </div>}
 
         <Snackbar
           open={deleteFeedback != null}
