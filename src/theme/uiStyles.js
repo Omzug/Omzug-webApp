@@ -6,7 +6,7 @@ export default {
   inputStyle : {width: "100%"},
   fullHeightButton : {height : "100%", minWidth : "80px"},
   buttonStyle : {height: "50px", "lineHeight": "50px", width:"60px", margin:"30px"},
-  buttonStyleGetStarted : {height: "50px", "lineHeight": "50px", width:"160px", margin:"30px",textAlign:"center",borderRadius:"10px"},
+  buttonStyleGetStarted : {height: "50px", "lineHeight": "50px", "fontFamily":"Avenir Next","fontWeight":"800",width:"160px", margin:"30px",textAlign:"center",borderRadius:"10px"},
   buttonStyleEdit : {marginTop:"-27px",marginLeft:"-6px",height: "50px", "lineHeight": "50px", width:"60px"},
   buttonStyleRenewCityList: {width:"130px", lineHeight: "36px" , height:"36px", margin : "60px 0 0 0", textAlign: "center"},
   snackBarStyleRed : {backgroundColor : "#FF6F6F", width:"20px", textAlign:"center", borderRadius:"20px",marginBottom:"30px"},

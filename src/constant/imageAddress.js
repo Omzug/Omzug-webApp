@@ -13,7 +13,8 @@ const addresses = {
   NotFoundImage:"https://s3.eu-central-1.amazonaws.com/omzug.com/gif/NotFoundImage.png",
   berlinImage:"https://s3.eu-central-1.amazonaws.com/omzug.com/gif/berlinImage.png",
   table:"https://s3.eu-central-1.amazonaws.com/omzug.com/gif/table.png",
-  timetable:"https://s3.eu-central-1.amazonaws.com/omzug.com/gif/timetable.gif"
+  timetable:"https://s3.eu-central-1.amazonaws.com/omzug.com/gif/tablefinal.gif",
+  gearImage:"https://s3.eu-central-1.amazonaws.com/omzug.com/gif/gearImage.gif"
 }
 
 export default addresses;

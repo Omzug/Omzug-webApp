@@ -69,7 +69,7 @@ export default class Home extends Component {
               </a>
             </div>
             <div className={styles.startButton}>
-              <RaisedButton style={uiStyles.buttonStyleGetStarted} containerElement={<Link to="/main" />} label="Get started"/>
+              <RaisedButton style={uiStyles.buttonStyleGetStarted} containerElement={<Link to="/main" />} label="开始租房"/>
             </div>
           </div>
         </div>
@@ -90,10 +90,13 @@ export default class Home extends Component {
             </div>
           </div>
         </div>
+        <div className={styles.twoAndHalfContainer}>
+            <img className={styles.gearImage} src={imageAddress.gearImage}/>
+        </div>
         <div className={styles.thirdContainer}>
           <div className={styles.text2} ref='reveal2'>
             <div>
-              <h4><img src={imageAddress.bulbImage}/> Advanced Technology</h4>
+              <h4> Advanced Technology</h4>
             </div>
             <div>
               <p className={styles.tech} >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
