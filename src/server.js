@@ -37,31 +37,31 @@ var caPath = path.join(__dirname, '..', '..', 'aws', 'ca.crt')
 
 var server;
 
-if (process.env.NODE_ENV == 'production') {
-
-  server = https.createServer({
-    key: fs.readFileSync(keypath),
-    ca : fs.readFileSync(caPath),
-    cert: fs.readFileSync(certPath),
-    secureProtocol: 'SSLv23_method',
-    honorCipherOrder: true,
-    secureOptions: constants.SSL_OP_NO_SSLv3 | constants.SSL_OP_NO_SSLv2
-  }, app);
-
-  // set up plain http server, no need to use http
-  var httpApp = new Express()
-  // set up a route to redirect http to https
-  httpApp.get('*',function(req, res){
-    res.redirect('https://www.omzug.com'+req.url)
-    console.log("receive request " + req.url)
-  })
-
-// have it listen on 8080
-  httpApp.listen(8080);
-
-}else{
+// if (process.env.NODE_ENV == 'production') {
+//
+//   server = https.createServer({
+//     key: fs.readFileSync(keypath),
+//     ca : fs.readFileSync(caPath),
+//     cert: fs.readFileSync(certPath),
+//     secureProtocol: 'SSLv23_method',
+//     honorCipherOrder: true,
+//     secureOptions: constants.SSL_OP_NO_SSLv3 | constants.SSL_OP_NO_SSLv2
+//   }, app);
+//
+//   // set up plain http server, no need to use http
+//   var httpApp = new Express()
+//   // set up a route to redirect http to https
+//   httpApp.get('*',function(req, res){
+//     res.redirect('https://www.omzug.com'+req.url)
+//     console.log("receive request " + req.url)
+//   })
+//
+// // have it listen on 8080
+//   httpApp.listen(8080);
+//
+// }else{
   server = new http.Server(app);
-}
+// }
 
 
 
