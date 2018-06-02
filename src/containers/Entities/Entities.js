@@ -95,12 +95,12 @@ export default class Entities extends Component {
 
   handleScroll = (event) => {
     var listBody = event.srcElement.body;
-    if(window.innerHeight + listBody.scrollTop >= config.arrowDisplayHeight){
+    if(window.innerHeight + document.scrollingElement.scrollTop >= config.arrowDisplayHeight){
       if(!this.props.arrowDisplayed) this.props.displayArrow()
     }else{
       if(this.props.arrowDisplayed) this.props.hideArrow()
     }
-    if(window.innerHeight + listBody.scrollTop >= listBody.scrollHeight - 20){
+    if(window.innerHeight + document.scrollingElement.scrollTop >= listBody.scrollHeight - 20){
       //temporary disable append util we get result
       if(!this.props.loading && !this.props.isEnd){
         this.props.onDisableAppend();
