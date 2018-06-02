@@ -1,5 +1,6 @@
 import React from 'react';
 import {IndexRoute, Route, Redirect, browserHistory, applyRouterMiddleware} from 'react-router';
+import { useScroll } from 'react-router-scroll';
 import {push} from 'redux-router'
 import { isLoaded as isAuthLoaded, load as loadAuth } from 'redux/modules/auth';
 import {onClearLoadError, onClear as clearEntity} from 'redux/modules/entity'
