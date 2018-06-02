@@ -117,7 +117,8 @@ export default (store) => {
    */
   return (
     <Route path="/"
-           component={App}>
+           component={App}
+           history={browserHistory}>
       { /* Home (main) route */ }
       <IndexRoute component={Home} onEnter={checkUser}/>
 
