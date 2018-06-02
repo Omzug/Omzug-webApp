@@ -119,8 +119,7 @@ export default (store) => {
   return (
     <Route path="/"
            component={App}
-           history={browserHistory}
-           render={applyRouterMiddleware(useScroll)}>
+           history={browserHistory}>
       { /* Home (main) route */ }
       <IndexRoute component={Home} onEnter={checkUser}/>
 
